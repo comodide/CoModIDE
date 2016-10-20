@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Eclipse
+.settings
+.project
+.classpath
+
+# Maven
+target/
+
+# Other Java stuff
+*.jar
+*.class

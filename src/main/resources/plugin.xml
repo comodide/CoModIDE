@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+	<!-- Tabs -->
+	
+	<extension id="DesignPatternsTab" point="org.protege.editor.core.application.WorkspaceTab">
+		<label value="Design Patterns"/>
+		<class value="com.karlhammar.xdp.tabs.DesignPatternsTab"/>
+		<index value="X"/>
+		<editorKitId value="OWLEditorKit"/>
+		<defaultViewConfigFileName value="viewconfig-DesignPatternsTab.xml"/>
+   </extension>
+
+	<!-- Views -->
+
+	<extension id="OdpSelectorView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="ODP Selector" />
+		<class value="com.karlhammar.xdp.views.OdpSelectorView" />
+		<headerColor value="@org.protege.ontologycolor"/>
+	</extension>
+	
+	<extension id="OdpDetailsView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="ODP Details" />
+		<class value="com.karlhammar.xdp.views.OdpDetailsView" />
+		<headerColor value="@org.protege.ontologycolor"/>
+	</extension>
+    
+</plugin>
