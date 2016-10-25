@@ -7,7 +7,7 @@
 	
 	<extension id="DesignPatternsTab" point="org.protege.editor.core.application.WorkspaceTab">
 		<label value="Design Patterns"/>
-		<class value="com.karlhammar.xdp.tabs.DesignPatternsTab"/>
+		<class value="org.protege.editor.owl.ui.OWLWorkspaceViewsTab"/>
 		<index value="X"/>
 		<editorKitId value="OWLEditorKit"/>
 		<defaultViewConfigFileName value="viewconfig-DesignPatternsTab.xml"/>
@@ -15,15 +15,15 @@
 
 	<!-- Views -->
 
-	<extension id="OdpSelectorView" point="org.protege.editor.core.application.ViewComponent">
-		<label value="ODP Selector" />
-		<class value="com.karlhammar.xdp.views.OdpSelectorView" />
+	<extension id="CodpSelectorView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="CODP Selector" />
+		<class value="com.karlhammar.xdp.views.CodpSelectorView" />
 		<headerColor value="@org.protege.ontologycolor"/>
 	</extension>
 	
-	<extension id="OdpDetailsView" point="org.protege.editor.core.application.ViewComponent">
-		<label value="ODP Details" />
-		<class value="com.karlhammar.xdp.views.OdpDetailsView" />
+	<extension id="CodpDetailsView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="CODP Details" />
+		<class value="com.karlhammar.xdp.views.CodpDetailsView" />
 		<headerColor value="@org.protege.ontologycolor"/>
 	</extension>
     
