@@ -52,4 +52,8 @@ public class Metrics extends JPanel {
         }
         textComponent.setText("Total classes = " + count);
     }
+    
+    public void setValue(String inputValue) {
+    	textComponent.setText(inputValue);
+    }
 }

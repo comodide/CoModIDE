@@ -24,4 +24,8 @@ public class OdpDetailsView extends AbstractOWLViewComponent {
 	protected void disposeOWLView() {
 		metricsComponent.dispose();
 	}
+	
+	public void setText(String inputText) {
+		metricsComponent.setValue(inputText);
+	}
 }

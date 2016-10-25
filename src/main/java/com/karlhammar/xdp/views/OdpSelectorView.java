@@ -1,6 +1,8 @@
 package com.karlhammar.xdp.views;
 
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -11,6 +13,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.protege.editor.core.ui.view.View;
+import org.protege.editor.core.ui.view.ViewComponent;
+import org.protege.editor.owl.ui.OWLWorkspaceViewsTab;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +27,7 @@ public class OdpSelectorView extends AbstractOWLViewComponent {
 	private static final long serialVersionUID = 6258186472581035105L;
 	private static final Logger log = LoggerFactory.getLogger(OdpSelectorView.class);
 	
+	private OWLWorkspaceViewsTab parentTab;
 	private OdpDetailsView detailsView;
 
     private String[] categories = {
@@ -118,6 +124,16 @@ public class OdpSelectorView extends AbstractOWLViewComponent {
         JPanel searchButtonsPane = new JPanel();
         searchButtonsPane.setLayout(new BoxLayout(searchButtonsPane, BoxLayout.X_AXIS));
         JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				detailsView = getDetailsView(parentTab);
+				log.info("Details view = " + detailsView.getToolTipText());
+				detailsView.setText("Click from selector view triggered!");
+				// TODO Auto-generated method stub
+				
+			}
+        });
         searchButtonsPane.add(searchButton);
         JButton resetButton = new JButton("Reset");
         searchButtonsPane.add(resetButton);
@@ -143,9 +159,37 @@ public class OdpSelectorView extends AbstractOWLViewComponent {
         resultsTable.setFillsViewportHeight(true);
         add(resultsTableScrollPane);
         
-        log.info("ODP Selector View initialized");
+        parentTab = getParentTab(this);
+        log.info("ODP Selector View initialized. Parent tab = " + parentTab.getLabel());
     }
 
+    private OdpDetailsView getDetailsView(OWLWorkspaceViewsTab parentTab) {
+    	for (View childView: parentTab.getViewsPane().getViews()) {
+    		ViewComponent vc = childView.getViewComponent();
+    		if (vc != null) {
+    			if (vc instanceof OdpDetailsView) {
+    				return (OdpDetailsView)vc;
+    			}
+    		}
+    	}
+    	return null;
+    }
+    
+    private OWLWorkspaceViewsTab getParentTab(Container childContainer) throws Exception {
+    	Container parentContainer = childContainer.getParent();
+    	if (parentContainer != null) {
+    		if (parentContainer instanceof DesignPatternsTab) {
+    			return (OWLWorkspaceViewsTab)parentContainer;
+    		}
+    		else {
+    			return getParentTab(parentContainer);
+    		}
+    	}
+		throw new Exception("No parent tab found!");
+    }
+    
+    
+    
 	@Override
 	protected void disposeOWLView() {
 		log.info("ODP Selector View disposed");
