@@ -1,13 +1,20 @@
 package com.karlhammar.xdp.views;
 
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.net.URL;
+import java.net.URLEncoder;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,7 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.protege.editor.core.ui.view.View;
 import org.protege.editor.core.ui.view.ViewComponent;
 import org.protege.editor.owl.ui.OWLWorkspaceViewsTab;
@@ -23,7 +34,10 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CodpSelectorView extends AbstractOWLViewComponent {
+public class CodpSelectorView extends AbstractOWLViewComponent implements ActionListener {
+	
+	private DefaultTableModel resultsTableModel = new DefaultTableModel(new String[]{"Name","Confidence","IRI"},0);
+	private JTextField queryField = new JTextField();
 
 	public class NoParentTabException extends Exception {
 		private static final long serialVersionUID = -8844706421403164734L;
@@ -116,14 +130,15 @@ public class CodpSelectorView extends AbstractOWLViewComponent {
         searchPane.setLayout(new BoxLayout(searchPane, BoxLayout.X_AXIS));
         JLabel queryLabel = new JLabel("Query:");
         searchPane.add(queryLabel);
-        JTextField queryField = new JTextField();
-        searchPane.add(queryField);
+        searchPane.add(this.queryField);
         add(searchPane);
         
         // Search buttons
         JPanel searchButtonsPane = new JPanel();
         searchButtonsPane.setLayout(new BoxLayout(searchButtonsPane, BoxLayout.X_AXIS));
         JButton searchButton = new JButton("Search");
+        searchButton.setActionCommand("search");
+        searchButton.addActionListener(this);
         searchButtonsPane.add(searchButton);
         JButton resetButton = new JButton("Reset");
         searchButtonsPane.add(resetButton);
@@ -132,8 +147,8 @@ public class CodpSelectorView extends AbstractOWLViewComponent {
         // Results list
         JLabel resultsHeading = new JLabel("Results list");
         add(resultsHeading);
-        
-        String[] resultsTableColumnNames = {"Name","Confidence","IRI"};
+
+        /*String[] resultsTableColumnNames = {"Name","Confidence","IRI"};
         String[][] resultsTablePlaceholderData = {
         		{"Action","1.0","http://www.ontologydesignpatterns.org/cp/owl/action.owl"},
         		{"Description","1.0","http://www.ontologydesignpatterns.org/cp/owl/description.owl"},
@@ -144,7 +159,8 @@ public class CodpSelectorView extends AbstractOWLViewComponent {
         		{"Event Core","0.7","http://www.ontologydesignpatterns.org/cp/owl/eventcore.owl"},
         		{"Information Realization","0.5","http://www.ontologydesignpatterns.org/cp/owl/informationrealization.owl"},
         };
-        JTable resultsTable = new JTable(resultsTablePlaceholderData, resultsTableColumnNames);
+        JTable resultsTable = new JTable(resultsTablePlaceholderData, resultsTableColumnNames);*/
+        JTable resultsTable = new JTable(resultsTableModel);
         JScrollPane resultsTableScrollPane = new JScrollPane(resultsTable);
         resultsTable.setFillsViewportHeight(true);
         resultsTable.setColumnSelectionAllowed(false);
@@ -201,5 +217,54 @@ public class CodpSelectorView extends AbstractOWLViewComponent {
 	@Override
 	protected void disposeOWLView() {
 		log.info("ODP Selector View disposed");
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO: Figure out why table isn't being properly reloaded
+		// TODO: Handle other clicks than search clicks, based on e.getActionCommand 
+		// TODO: Make REST endpoint used configurable
+		// Construct search engine query URL
+		String query = this.queryField.getText();
+		String queryUrl = "";
+		try {
+			queryUrl = String.format("http://wp.xd-protege.com:7777/search/odpSearch?queryString=%s", URLEncoder.encode(query, "UTF-8"));
+		} catch (UnsupportedEncodingException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		// Try to get JSON string from search engine query URL
+		String jsonText = "[]";
+		try {
+			InputStream is = new URL(queryUrl).openStream();
+			jsonText = IOUtils.toString(is, "UTF-8");
+			is.close();
+		} 
+		catch (IOException e1) {
+			// TODO Implement proper exception handling and logging
+			JOptionPane.showMessageDialog(null, "Query failed: " + e1.toString());
+			e1.printStackTrace();
+		}
+		
+		// Clear out existing results from table model before proceeding
+		for (int i = 0; i < this.resultsTableModel.getRowCount(); i++ )
+		{
+			this.resultsTableModel.removeRow(i);
+		}
+		
+		// Parse JSON results and add to table model
+		JSONArray json = new JSONArray(jsonText);
+		for (int i = 0; i < json.length(); i++) {
+			JSONObject odpSearchResult = json.getJSONObject(i);
+			float confidence = odpSearchResult.getFloat("confidence");
+			JSONObject odp = odpSearchResult.getJSONObject("odp");
+			String name = odp.getString("name");
+			String iri = odp.getString("iri");
+			this.resultsTableModel.addRow(new String[] {name, Float.toString(confidence), iri});
+		}
+		
+		// Refresh table
+		this.resultsTableModel.fireTableDataChanged();
 	}
 }

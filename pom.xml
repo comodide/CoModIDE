@@ -19,6 +19,16 @@
             <artifactId>protege-editor-owl</artifactId>
 			<version>5.0.0</version>
         </dependency>
+        <dependency>
+        	<groupId>commons-io</groupId>
+        	<artifactId>commons-io</artifactId>
+        	<version>2.6</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.json</groupId>
+        	<artifactId>json</artifactId>
+        	<version>20180130</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -57,6 +67,10 @@
 							org.protege.editor.owl.*;version="5.0.0", <!-- equivalent to [4.3,infinity) -->
 							*
 						</Import-Package>
+						<Embed-Dependency>
+							json,
+							commons-io
+						</Embed-Dependency>
 					</instructions>
 				</configuration>
             </plugin>
