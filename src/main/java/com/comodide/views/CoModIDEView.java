@@ -17,7 +17,7 @@ public class CoModIDEView extends AbstractOWLViewComponent {
 	private static final Logger log = LoggerFactory.getLogger(CoModIDEView.class);
 
 	private JLabel helloWorldLabel;
-	private PatternsPanel modlPanel;
+	private PatternsPanel patternsPanel;
 
     @Override
     protected void initialiseOWLView() throws Exception {
@@ -26,9 +26,9 @@ public class CoModIDEView extends AbstractOWLViewComponent {
         helloWorldLabel = new JLabel("Hello, world.");
         add(helloWorldLabel, BorderLayout.CENTER);
         
-        modlPanel = new PatternsPanel();
-        modlPanel.setPreferredSize(new Dimension(300, modlPanel.getPreferredSize().height));
-        add(modlPanel, BorderLayout.EAST);
+        patternsPanel = new PatternsPanel();
+        patternsPanel.setPreferredSize(new Dimension(300, patternsPanel.getPreferredSize().height));
+        add(patternsPanel, BorderLayout.EAST);
         
         log.info("CoModIDE view initialized");
     }

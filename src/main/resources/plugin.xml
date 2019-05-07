@@ -7,7 +7,7 @@
 	
 	<extension id="CoModIDETab" point="org.protege.editor.core.application.WorkspaceTab">
 		<label value="CoModIDE"/>
-		<class value="com.comodide.views.CoModIDETab"/>
+		<class value="org.protege.editor.owl.ui.OWLWorkspaceViewsTab"/>
 		<index value="X"/>
 		<editorKitId value="OWLEditorKit"/>
 		<defaultViewConfigFileName value="viewconfig-CoModIDETab.xml"/>
