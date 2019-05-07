@@ -2,8 +2,8 @@
 <layout>
     <VSNode splits="1.0">
         <CNode>
-            <Component label="CoMoDIDE View">
-                <Property id="pluginId" value="CoMoDIDE.CoMoDIDEView"/>
+            <Component label="CoModIDE View">
+                <Property id="pluginId" value="CoModIDE.CoModIDEView"/>
             </Component>
         </CNode>
     </VSNode>

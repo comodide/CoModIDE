@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.comodide</groupId>
-	<artifactId>CoMoDIDE</artifactId>
+	<artifactId>CoModIDE</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
@@ -84,6 +84,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	<name>CoMoDIDE</name>
+	<name>CoModIDE</name>
 	<url>https://github.com/hammar/comodide</url>
 </project>

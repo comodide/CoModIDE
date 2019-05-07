@@ -1,4 +1,4 @@
-package com.karlhammar.xdp.modl;
+package com.comodide.patterns;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,7 +12,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-public class ModlPanel extends JPanel {
+public class PatternsPanel extends JPanel {
 
 	private static final long serialVersionUID = 3623229347059347252L;
 	
@@ -44,7 +44,7 @@ public class ModlPanel extends JPanel {
 	      }
 	};
 
-	public ModlPanel() {
+	public PatternsPanel() {
 		super();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		

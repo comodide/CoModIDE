@@ -5,19 +5,19 @@
 
 	<!-- Tabs -->
 	
-	<extension id="CoMoDIDETab" point="org.protege.editor.core.application.WorkspaceTab">
-		<label value="CoMoDIDE"/>
-		<class value="com.karlhammar.xdp.views.CoMoDIDETab"/>
+	<extension id="CoModIDETab" point="org.protege.editor.core.application.WorkspaceTab">
+		<label value="CoModIDE"/>
+		<class value="com.comodide.views.CoModIDETab"/>
 		<index value="X"/>
 		<editorKitId value="OWLEditorKit"/>
-		<defaultViewConfigFileName value="viewconfig-CoMoDIDETab.xml"/>
+		<defaultViewConfigFileName value="viewconfig-CoModIDETab.xml"/>
    </extension>
 
 	<!-- Views -->
 	
-	<extension id="CoMoDIDEView" point="org.protege.editor.core.application.ViewComponent">
-		<label value="CoMoDIDE View" />
-		<class value="com.karlhammar.xdp.views.CoMoDIDEView" />
+	<extension id="CoModIDEView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="CoModIDE View" />
+		<class value="com.comodide.views.CoModIDEView" />
 		<headerColor value="@org.protege.ontologycolor"/>
 	</extension>
     
