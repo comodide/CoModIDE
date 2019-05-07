@@ -5,25 +5,19 @@
 
 	<!-- Tabs -->
 	
-	<extension id="DesignPatternsTab" point="org.protege.editor.core.application.WorkspaceTab">
-		<label value="Design Patterns"/>
-		<class value="org.protege.editor.owl.ui.OWLWorkspaceViewsTab"/>
+	<extension id="CoMoDIDETab" point="org.protege.editor.core.application.WorkspaceTab">
+		<label value="CoMoDIDE"/>
+		<class value="org.protege.editor.core.ui.workspace.WorkspaceViewsTab"/>
 		<index value="X"/>
 		<editorKitId value="OWLEditorKit"/>
-		<defaultViewConfigFileName value="viewconfig-DesignPatternsTab.xml"/>
+		<defaultViewConfigFileName value="viewconfig-CoMoDIDETab.xml"/>
    </extension>
 
 	<!-- Views -->
 
-	<extension id="CodpSelectorView" point="org.protege.editor.core.application.ViewComponent">
-		<label value="CODP Selector" />
-		<class value="com.karlhammar.xdp.views.CodpSelectorView" />
-		<headerColor value="@org.protege.ontologycolor"/>
-	</extension>
-	
-	<extension id="CodpDetailsView" point="org.protege.editor.core.application.ViewComponent">
-		<label value="CODP Details" />
-		<class value="com.karlhammar.xdp.views.CodpDetailsView" />
+	<extension id="CoMoDIDEView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="CoMoDIDE View" />
+		<class value="com.comodide.views.CoMoDIDEView" />
 		<headerColor value="@org.protege.ontologycolor"/>
 	</extension>
     

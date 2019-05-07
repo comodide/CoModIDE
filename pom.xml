@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>com.karlhammar</groupId>
-	<artifactId>xdp</artifactId>
+	<groupId>com.comodide</groupId>
+	<artifactId>CoMoDIDE</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
-	<description>Plugin for Protégé supporting the eXtreme Design workflow.</description>
+	<description>Plugin for Protégé supporting graphical pattern-based modelling.</description>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -84,6 +84,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	<name>eXtreme Design for Protégé</name>
-	<url>http://xd-protege.com</url>
+	<name>CoMoDIDE</name>
+	<url>https://github.com/hammar/comodide</url>
 </project>

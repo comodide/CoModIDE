@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <VSNode splits="0.3 0.7">
+        <CNode>
+            <Component label="CoMoDIDE">
+                <Property id="pluginId" value="com.comodide.views.CoMoDIDEView"/>
+            </Component>
+        </CNode>
+    </VSNode>
+</layout>
