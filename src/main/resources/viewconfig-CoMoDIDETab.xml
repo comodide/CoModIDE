@@ -3,12 +3,12 @@
     <VSNode splits="0.3 0.7">
         <CNode>
             <Component label="CODP Selector">
-                <Property id="pluginId" value="xdp.CodpSelectorView"/>
+                <Property id="pluginId" value="CoMoDIDE.CoMoDIDEView"/>
             </Component>
         </CNode>
         <CNode>
             <Component label="CODP Details">
-                <Property id="pluginId" value="xdp.CodpDetailsView"/>
+                <Property id="pluginId" value="CoMoDIDE.CoMoDIDEView"/>
             </Component>
         </CNode>
     </VSNode>

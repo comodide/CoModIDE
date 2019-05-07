@@ -181,8 +181,8 @@ public class CodpSelectorView extends AbstractOWLViewComponent implements Action
 					for (View childView: parentTab.getViewsPane().getViews()) {
 			    		ViewComponent vc = childView.getViewComponent();
 			    		if (vc != null) {
-			    			if (vc instanceof CodpDetailsView) {
-			    				((CodpDetailsView)vc).selectionChanged(selectedCodpUri);;
+			    			if (vc instanceof CoMoDIDEView) {
+			    				//((CoMoDIDEView)vc).selectionChanged(selectedCodpUri);;
 			    			}
 			    		}
 			    	}
