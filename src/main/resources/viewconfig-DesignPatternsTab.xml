@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <VSNode splits="0.3 0.7">
+        <CNode>
+            <Component label="CODP Selector">
+                <Property id="pluginId" value="xdp.CodpSelectorView"/>
+            </Component>
+        </CNode>
+        <CNode>
+            <Component label="CODP Details">
+                <Property id="pluginId" value="xdp.CodpDetailsView"/>
+            </Component>
+        </CNode>
+    </VSNode>
+</layout>
