@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
-    <VSNode splits="0.3 0.7">
+    <VSNode splits="1.0">
         <CNode>
-            <Component label="CODP Selector">
-                <Property id="pluginId" value="CoMoDIDE.CoMoDIDEView"/>
-            </Component>
-        </CNode>
-        <CNode>
-            <Component label="CODP Details">
+            <Component label="CoMoDIDE View">
                 <Property id="pluginId" value="CoMoDIDE.CoMoDIDEView"/>
             </Component>
         </CNode>

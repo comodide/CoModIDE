@@ -14,12 +14,6 @@
    </extension>
 
 	<!-- Views -->
-
-	<!--<extension id="CodpSelectorView" point="org.protege.editor.core.application.ViewComponent">
-		<label value="CODP Selector" />
-		<class value="com.karlhammar.xdp.views.CodpSelectorView" />
-		<headerColor value="@org.protege.ontologycolor"/>
-	</extension>-->
 	
 	<extension id="CoMoDIDEView" point="org.protege.editor.core.application.ViewComponent">
 		<label value="CoMoDIDE View" />
