@@ -81,7 +81,8 @@
 						</Import-Package>
 						<Embed-Dependency>
 							json,
-							commons-io
+							commons-io,
+							mxgraph
 						</Embed-Dependency>
 					</instructions>
 				</configuration>
