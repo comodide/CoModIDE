@@ -1,4 +1,4 @@
-package com.comodide.patterns;
+package com.comodide.views;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -6,16 +6,20 @@ import java.awt.Font;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-public class PatternsPanel extends JPanel {
+import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	private static final long serialVersionUID = 3623229347059347252L;
-	
+public class PatternSelectorView extends AbstractOWLViewComponent {
+
+	private static final long serialVersionUID = 6258186472581035105L;
+	private static final Logger log = LoggerFactory.getLogger(PatternSelectorView.class);
+
 	private String[] patternCategories = {
     		"Academy",
     		"Agriculture",
@@ -44,9 +48,10 @@ public class PatternsPanel extends JPanel {
 	      }
 	};
 
-	public PatternsPanel() {
-		super();
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    @Override
+    protected void initialiseOWLView() throws Exception {
+    	
+    	this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JLabel patternLibraryHeading = new JLabel("Pattern Library");
 		Font f = patternLibraryHeading.getFont();
@@ -78,5 +83,12 @@ public class PatternsPanel extends JPanel {
 		ListSelectionModel selectionModel = patternsTable.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.add(patternsTableScrollPane);
+        
+        log.info("Pattern Selector view initialized");
+    }
+
+	@Override
+	protected void disposeOWLView() {
+		log.info("Pattern Selector view disposed");
 	}
 }
