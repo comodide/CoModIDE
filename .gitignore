@@ -12,3 +12,6 @@ target/
 # Other Java stuff
 *.jar
 *.class
+
+# run script
+run.sh
