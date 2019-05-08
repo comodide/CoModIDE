@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
-    <VSNode splits="1.0">
-        <CNode>
-            <Component label="CoModIDE View">
-                <Property id="pluginId" value="CoModIDE.CoModIDEView"/>
-            </Component>
-        </CNode>
-    </VSNode>
+	<VSNode splits="0.5 0.5">
+		<CNode>
+			<Component label="CoModIDE View">
+				<Property id="pluginId" value="CoModIDE.CoModIDEView" />
+			</Component>
+		</CNode>
+
+		<CNode>
+			<Component label="Renderer View">
+				<Property id="pluginId" value="CoModIDE.RendererView" />
+			</Component>
+		</CNode>
+	</VSNode>
 </layout>
