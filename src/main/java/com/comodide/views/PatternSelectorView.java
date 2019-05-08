@@ -15,6 +15,7 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.patterns.Category;
 import com.comodide.patterns.PatternLibrary;
 
 public class PatternSelectorView extends AbstractOWLViewComponent {
@@ -26,14 +27,14 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 	
 	private PatternLibrary patternLibrary = PatternLibrary.getInstance();
 	private JTable patternsTable;
-	private DefaultTableModel patternsTableModel = new DefaultTableModel(patternLibrary.getPatterns(), new String[]{"Name","IRI"}) {
+	private DefaultTableModel patternsTableModel = new DefaultTableModel(patternLibrary.getPatternsForCategory(patternLibrary.ANY_CATEGORY), new String[]{"Name","IRI"}) {
 		private static final long serialVersionUID = 8811235031396256734L;
 		@Override
 		public boolean isCellEditable(int row, int column){  
 	          return false;  
 	      }
 	};
-
+	
     @Override
     protected void initialiseOWLView() throws Exception {
     	this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -46,8 +47,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 		JLabel categorySelectorLabel = new JLabel("Pattern Category Selector:");
         this.add(categorySelectorLabel);
         // This is a hack due to JComboBox misbehaving; see https://stackoverflow.com/questions/7581846/swing-boxlayout-problem-with-jcombobox-without-using-setxxxsize
-        
-        JComboBox<String> categoryList = new JComboBox<String>(patternLibrary.getPatternCategories()) {
+        JComboBox<Category> categoryList = new JComboBox<Category>(patternLibrary.getPatternCategories()) {
 			private static final long serialVersionUID = 4795749883863962239L;
 			@Override
             public Dimension getMaximumSize() {

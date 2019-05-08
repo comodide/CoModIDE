@@ -5,21 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.reasoner.NodeSet;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
-import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
+import org.semanticweb.owlapi.search.EntitySearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Lists;
 
 public class PatternLibrary {
 	
@@ -29,7 +29,8 @@ public class PatternLibrary {
     
     OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
     
-    private static final IRI CATEGORY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#Category"); 
+    private final IRI CATEGORY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#Category"); 
+    public final Category ANY_CATEGORY = new Category("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
     
     public static synchronized PatternLibrary getInstance() {
         if(instance == null){
@@ -39,27 +40,32 @@ public class PatternLibrary {
     }
 	
 	
-	OWLOntologyManager manager;
+	OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+	OWLDataFactory factory = manager.getOWLDataFactory();
 	OWLOntology index;
 	
 	private PatternLibrary() {
 		
-		
-		patternCategories = new ArrayList<String>();
-		manager = OWLManager.createOWLOntologyManager();
-		OWLDataFactory df = manager.getOWLDataFactory();
-		//OWLAnnotationProperty label = df.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI());
 		try {
 			ClassLoader classloader = this.getClass().getClassLoader();
 			InputStream is = classloader.getResourceAsStream("modl/ModlIndex.owl");
 			index = manager.loadOntologyFromOntologyDocument(is);
-			OWLReasoner reasoner = reasonerFactory.createReasoner(index);
-			OWLClass categoryClass = df.getOWLClass(CATEGORY_IRI);
-
-			NodeSet<OWLNamedIndividual> categoriesSet =  reasoner.getInstances(categoryClass, true);
-			for (OWLNamedIndividual category: categoriesSet.getFlattened()) {
-				patternCategories.add(category.toString());
-				log.error(category.toString());
+			patternCategories.add(ANY_CATEGORY);
+			OWLClass categoryClass = factory.getOWLClass(CATEGORY_IRI);
+			for (OWLIndividual category: EntitySearcher.getIndividuals(categoryClass, index)) {
+				if (category.isNamed()) {
+					OWLNamedIndividual namedCategory = (OWLNamedIndividual)category;
+					List<String> categoryLabels = getLabels(namedCategory, index);
+					String categoryLabel;
+					if (categoryLabels.size() > 0) {
+						categoryLabel = categoryLabels.get(0);
+					}
+					else {
+						categoryLabel = namedCategory.getIRI().toString();
+					}
+					Category newCategory = new Category(categoryLabel, namedCategory.getIRI());
+					patternCategories.add(newCategory);
+				}
 			}
 		} 
 		catch (Exception e) {
@@ -68,11 +74,19 @@ public class PatternLibrary {
 		}
 	}
 	
-	private List<String> patternCategories = Lists.newArrayList("Academy",
-    		"Agriculture",
-    		"Biology",
-    		"Building and Construction",
-    		"Business");
+	private List<String> getLabels(OWLEntity entity, OWLOntology ontology) {
+		List<String> retVal = new ArrayList<String>();
+		for(OWLAnnotation annotation: EntitySearcher.getAnnotations(entity, ontology, factory.getRDFSLabel())) {
+		    OWLAnnotationValue value = annotation.getValue();
+		    if(value instanceof OWLLiteral) {
+		    	retVal.add(((OWLLiteral) value).getLiteral());
+		    }
+		}
+		return retVal;
+	}
+	
+	private List<Category> patternCategories = new ArrayList<Category>();
+	
 	
 	private String[][] patternsTablePlaceholderData = {
     		{"Action","http://www.ontologydesignpatterns.org/cp/owl/action.owl"},
@@ -85,11 +99,17 @@ public class PatternLibrary {
     		{"Information Realization","http://www.ontologydesignpatterns.org/cp/owl/informationrealization.owl"},
     };
 
-	public String[] getPatternCategories() {
-		return patternCategories.toArray(new String[patternCategories.size()]);
+	public Category[] getPatternCategories() {
+		return patternCategories.toArray(new Category[patternCategories.size()]);
 	}
 	
-	public String[][] getPatterns() {
-		return this.patternsTablePlaceholderData;
+	public String[][] getPatternsForCategory(Category category) {
+		// TODO: Implement actual selection of suitable patterns from categories
+		if (category == ANY_CATEGORY) {
+			return this.patternsTablePlaceholderData;
+		}
+		else {
+			return this.patternsTablePlaceholderData;
+		}
 	}
 }
