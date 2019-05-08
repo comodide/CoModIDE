@@ -15,32 +15,18 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.patterns.PatternLibrary;
+
 public class PatternSelectorView extends AbstractOWLViewComponent {
 
 	private static final long serialVersionUID = 6258186472581035105L;
 	private static final Logger log = LoggerFactory.getLogger(PatternSelectorView.class);
+	
 
-	private String[] patternCategories = {
-    		"Academy",
-    		"Agriculture",
-    		"Biology",
-    		"Building and Construction",
-    		"Business"
-	};
 	
-	private String[][] patternsTablePlaceholderData = {
-    		{"Action","http://www.ontologydesignpatterns.org/cp/owl/action.owl"},
-    		{"Description","http://www.ontologydesignpatterns.org/cp/owl/description.owl"},
-    		{"Nary Relation","http://www.ontologydesignpatterns.org/cp/owl/naryrelation.owl"},
-    		{"Participation","http://www.ontologydesignpatterns.org/cp/owl/participation.owl"},
-    		{"Object Record","http://www.ontologydesignpatterns.org/cp/owl/objectrecord.owl"},
-    		{"Communication Event","http://www.ontologydesignpatterns.org/cp/owl/communicationevent.owl"},
-    		{"Event Core","http://www.ontologydesignpatterns.org/cp/owl/eventcore.owl"},
-    		{"Information Realization","http://www.ontologydesignpatterns.org/cp/owl/informationrealization.owl"},
-    };
-	
+	private PatternLibrary patternLibrary = PatternLibrary.getInstance();
 	private JTable patternsTable;
-	private DefaultTableModel patternsTableModel = new DefaultTableModel(patternsTablePlaceholderData, new String[]{"Name","IRI"}) {
+	private DefaultTableModel patternsTableModel = new DefaultTableModel(patternLibrary.getPatterns(), new String[]{"Name","IRI"}) {
 		private static final long serialVersionUID = 8811235031396256734L;
 		@Override
 		public boolean isCellEditable(int row, int column){  
@@ -50,7 +36,6 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 
     @Override
     protected void initialiseOWLView() throws Exception {
-    	
     	this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JLabel patternLibraryHeading = new JLabel("Pattern Library");
@@ -61,7 +46,8 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 		JLabel categorySelectorLabel = new JLabel("Pattern Category Selector:");
         this.add(categorySelectorLabel);
         // This is a hack due to JComboBox misbehaving; see https://stackoverflow.com/questions/7581846/swing-boxlayout-problem-with-jcombobox-without-using-setxxxsize
-        JComboBox<String> categoryList = new JComboBox<String>(this.patternCategories) {
+        
+        JComboBox<String> categoryList = new JComboBox<String>(patternLibrary.getPatternCategories()) {
 			private static final long serialVersionUID = 4795749883863962239L;
 			@Override
             public Dimension getMaximumSize() {

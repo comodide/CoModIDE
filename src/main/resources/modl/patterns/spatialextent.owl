@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent">
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/sequence</Literal>
+    </Annotation>
+    <Declaration>
+        <ObjectProperty IRI="#hasLast"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PIS-SequenceElement"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Interior"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ReferenceSystem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Value"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PIS-Sequence"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#constitudtedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFirst"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasNext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#contains"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PointInSpace"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasReferenceSystem"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasValue"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDefinedBy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SpatialExtent"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Interior"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDefinedBy"/>
+            <Class IRI="#PIS-Sequence"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PIS-Sequence"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasFirst"/>
+            <Class IRI="#PIS-SequenceElement"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PIS-Sequence"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasLast"/>
+            <Class IRI="#PIS-SequenceElement"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PIS-SequenceElement"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#constitudtedBy"/>
+            <Class IRI="#PointInSpace"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PIS-SequenceElement"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasNext"/>
+            <Class IRI="#PIS-SequenceElement"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PointInSpace"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasReferenceSystem"/>
+            <Class IRI="#ReferenceSystem"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PointInSpace"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasValue"/>
+            <Class IRI="#Value"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpatialExtent"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#Interior"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Interior</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#PIS-Sequence</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#PIS-SequenceElement</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#PointInSpace</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#ReferenceSystem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#SpatialExtent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Value</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#constitudtedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#contains</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasFirst</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasLast</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasNext</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasReferenceSystem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasValue</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#isDefinedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
