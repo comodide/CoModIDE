@@ -2,7 +2,11 @@ package com.comodide.patterns;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
@@ -50,7 +54,7 @@ public class PatternLibrary {
 			ClassLoader classloader = this.getClass().getClassLoader();
 			InputStream is = classloader.getResourceAsStream("modl/ModlIndex.owl");
 			index = manager.loadOntologyFromOntologyDocument(is);
-			patternCategories.add(ANY_CATEGORY);
+			patternCategories.put(ANY_CATEGORY, new ArrayList<Pattern>());
 			OWLClass categoryClass = factory.getOWLClass(CATEGORY_IRI);
 			for (OWLIndividual category: EntitySearcher.getIndividuals(categoryClass, index)) {
 				if (category.isNamed()) {
@@ -64,7 +68,7 @@ public class PatternLibrary {
 						categoryLabel = namedCategory.getIRI().toString();
 					}
 					Category newCategory = new Category(categoryLabel, namedCategory.getIRI());
-					patternCategories.add(newCategory);
+					patternCategories.put(newCategory, new ArrayList<Pattern>());
 				}
 			}
 		} 
@@ -85,7 +89,7 @@ public class PatternLibrary {
 		return retVal;
 	}
 	
-	private List<Category> patternCategories = new ArrayList<Category>();
+	private Map<Category,List<Pattern>> patternCategories = new HashMap<Category,List<Pattern>>();
 	
 	
 	private String[][] patternsTablePlaceholderData = {
@@ -100,7 +104,8 @@ public class PatternLibrary {
     };
 
 	public Category[] getPatternCategories() {
-		return patternCategories.toArray(new Category[patternCategories.size()]);
+		Set<Category> categorySet = patternCategories.keySet();
+		return categorySet.toArray(new Category[categorySet.size()]);
 	}
 	
 	public String[][] getPatternsForCategory(Category category) {
