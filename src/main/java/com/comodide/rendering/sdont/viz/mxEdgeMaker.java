@@ -60,13 +60,11 @@ public class mxEdgeMaker implements EdgeMaker<Object>
 		Object edge = null;
 		if(sdedge.isSubclass())
 		{
-		    // FIXME remove comment
-//			edge = this.graph.insertEdge(parent, id, value, source, target, subclassStyle);
+			edge = this.graph.insertEdge(parent, id, value, source, target, subclassStyle);
 		}
 		else
 		{
-		    // FIXME remove comment
-//			edge = this.graph.insertEdge(parent, id, value, source, target, standardStyle);			
+			edge = this.graph.insertEdge(parent, id, value, source, target, standardStyle);			
 		}
 		return edge;
 	}

@@ -15,7 +15,7 @@ import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.rendering.owlax.GraphEditor;
+import com.comodide.rendering.editor.GraphEditor;
 import com.comodide.rendering.sdont.ui.UpdateFailureException;
 import com.comodide.rendering.sdont.viz.SDManager;
 
@@ -44,7 +44,7 @@ public class RendererView extends AbstractOWLViewComponent
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.manager = getOWLModelManager();
         
-        if(manager != null)
+        if(this.manager != null)
         {
             // Add Listener to the model manager
             this.renderingViewOntologyListener = new RenderingViewOntologyListener();
@@ -54,7 +54,7 @@ public class RendererView extends AbstractOWLViewComponent
             // Renderer Panel
             this.sdManager = new SDManager(manager);
 //            this.rendererPanel = new SDontViewPanel(this.manager, this.sdManager);
-            this.rendererPanel = new GraphEditor(this.manager);
+            this.rendererPanel = new GraphEditor();
             add(rendererPanel);
             
             // Create Horizontal glue
