@@ -38,7 +38,6 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/jgraphx.jar</systemPath>
 		</dependency>
-
 	</dependencies>
 
 	<build>
