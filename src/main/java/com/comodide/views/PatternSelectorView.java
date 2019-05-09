@@ -2,6 +2,8 @@ package com.comodide.views;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -9,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import com.comodide.patterns.Category;
 import com.comodide.patterns.PatternLibrary;
+import com.comodide.patterns.PatternTableModel;
 
 public class PatternSelectorView extends AbstractOWLViewComponent {
 
@@ -27,7 +29,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 	
 	private PatternLibrary patternLibrary = PatternLibrary.getInstance();
 	private JTable patternsTable;
-	private DefaultTableModel patternsTableModel = new DefaultTableModel(patternLibrary.getPatternsForCategory(patternLibrary.ANY_CATEGORY), new String[]{"Name","IRI"}) {
+	private PatternTableModel patternsTableModel = new PatternTableModel(patternLibrary.getPatternsForCategory(patternLibrary.ANY_CATEGORY)) {
 		private static final long serialVersionUID = 8811235031396256734L;
 		@Override
 		public boolean isCellEditable(int row, int column){  
@@ -56,6 +58,13 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
                 return max;
             }
         };
+        categoryList.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				Category selectedCategory = (Category)categoryList.getSelectedItem();
+				patternsTableModel.update(patternLibrary.getPatternsForCategory(selectedCategory));				
+			}
+        });
         this.add(categoryList);
 		
         JLabel patternsTableHeading = new JLabel("Patterns:");

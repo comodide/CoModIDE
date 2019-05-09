@@ -94,6 +94,16 @@
     
 
 
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/aggregation -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/aggregation">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
+        <rdfs:label xml:lang="en">Aggregation, Bag, Collection</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/explicittyping -->
 
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/explicittyping">
@@ -116,6 +126,36 @@
     
 
 
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/sequence -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/sequence">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
+        <rdfs:label xml:lang="en">Sequence, List</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
+        <rdfs:label xml:lang="en">Spatial Extent</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
+        <rdfs:label xml:lang="en">Spatiotemporal Extent</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/stub -->
 
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/stub">
@@ -123,6 +163,16 @@
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#Metapattern"/>
         <opla:renderedSchemaDiagram>diagrams/stubs.pdf</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Stubs</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/tree -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/tree">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
+        <rdfs:label xml:lang="en">Tree</rdfs:label>
     </owl:NamedIndividual>
     
 
