@@ -2,6 +2,11 @@ package com.comodide.patterns;
 
 import org.semanticweb.owlapi.model.IRI;
 
+/**
+ * POJO representing a category of OPLa patterns.
+ * @author Karl Hammar <karl@karlhammar.com>
+ *
+ */
 public class Category {
 
 	private String label;

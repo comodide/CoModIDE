@@ -20,26 +20,33 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
-import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
 import org.semanticweb.owlapi.search.EntitySearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Singleton class for accessing a pre-indexed OPLa-compliant ontology pattern library.
+ * @author Karl Hammar <karl@karlhammar.com>
+ *
+ */
 public class PatternLibrary {
 	
+	// Infrastructure
     private static PatternLibrary instance;
-    
     private static final Logger log = LoggerFactory.getLogger(PatternLibrary.class);
     
-    OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
-    
+    // Configuration fields
     private final IRI PATTERN_CLASS_IRI = IRI.create("http://ontologydesignpatterns.org/opla#Pattern"); 
-    private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#categorization"); 
-    
-    
+    private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#categorization");    
     public final Category ANY_CATEGORY = new Category("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
     
+    // Instance fields
+    OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+	OWLDataFactory factory = manager.getOWLDataFactory();
+	OWLOntology index;
+	private Map<Category,List<Pattern>> patternCategories = new HashMap<Category,List<Pattern>>();
+    
+    // Singleton access method
     public static synchronized PatternLibrary getInstance() {
         if(instance == null){
             instance = new PatternLibrary();
@@ -47,10 +54,17 @@ public class PatternLibrary {
         return instance;
     }
 	
+    // Parse index on instance creation
+	private PatternLibrary() {
+		parseIndex();
+	}
 	
-    public void reIndex() {
+	/**
+	 * Parses a pattern index and updates the data structures that are needed to feed other classes.
+	 */
+    public void parseIndex() {
 		try {
-			// Set up index file (TODO: support for external pattern library)
+			// Set up index file (TODO: add support for an external pattern library)
 			ClassLoader classloader = this.getClass().getClassLoader();
 			InputStream is = classloader.getResourceAsStream("modl/ModlIndex.owl");
 			index = manager.loadOntologyFromOntologyDocument(is);
@@ -119,14 +133,13 @@ public class PatternLibrary {
 		}
     }
     
-	OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	OWLDataFactory factory = manager.getOWLDataFactory();
-	OWLOntology index;
-	
-	private PatternLibrary() {
-		reIndex();
-	}
-	
+	/**
+	 * Convenience method that returns the string values of all rdfs:label annotations on
+	 * a given entity in a given ontology.
+	 * @param entity 
+	 * @param ontology
+	 * @return
+	 */
 	private List<String> getLabels(OWLEntity entity, OWLOntology ontology) {
 		List<String> retVal = new ArrayList<String>();
 		for(OWLAnnotation annotation: EntitySearcher.getAnnotations(entity, ontology, factory.getRDFSLabel())) {
@@ -138,8 +151,10 @@ public class PatternLibrary {
 		return retVal;
 	}
 	
-	private Map<Category,List<Pattern>> patternCategories = new HashMap<Category,List<Pattern>>();
-
+	/**
+	 * Returns a list of all categories (that have one or more patterns) in this library.
+	 * @return
+	 */
 	public Category[] getPatternCategories() {
 		Set<Category> categorySet = patternCategories.keySet();
 		// Put the Any category first in the list, for usability purposes
@@ -150,6 +165,11 @@ public class PatternLibrary {
 		return categoryList.toArray(new Category[categoryList.size()]);
 	}
 	
+	/**
+	 * Returns all the patterns for a given category.
+	 * @param category
+	 * @return
+	 */
 	public List<Pattern> getPatternsForCategory(Category category) {
 		return patternCategories.get(category);
 	}

@@ -20,13 +20,18 @@ import com.comodide.patterns.Category;
 import com.comodide.patterns.PatternLibrary;
 import com.comodide.patterns.PatternTableModel;
 
+/**
+ * CoModIDE Pattern Selector view. Lists and displays indexed ontology patterns, and provides hooks to initiate pattern instantiation into an ontology.
+ * @author Karl Hammar <karl@karlhammar.com>
+ *
+ */
 public class PatternSelectorView extends AbstractOWLViewComponent {
 
+	// Infrastructure
 	private static final long serialVersionUID = 6258186472581035105L;
 	private static final Logger log = LoggerFactory.getLogger(PatternSelectorView.class);
 	
-
-	
+	// Private members
 	private PatternLibrary patternLibrary = PatternLibrary.getInstance();
 	private JTable patternsTable;
 	private PatternTableModel patternsTableModel = new PatternTableModel(patternLibrary.getPatternsForCategory(patternLibrary.ANY_CATEGORY)) {
@@ -58,6 +63,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
                 return max;
             }
         };
+        // Listener for when user selects a new category, redraws the pattern table based on chosen category
         categoryList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {

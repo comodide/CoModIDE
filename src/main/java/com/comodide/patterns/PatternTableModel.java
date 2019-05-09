@@ -4,6 +4,11 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * Custom AbstractTableModel implementation that holds Pattern objects.
+ * @author Karl Hammar <karl@karlhammar.com>
+ *
+ */
 public class PatternTableModel extends AbstractTableModel {
 	
 	public static final String[] COLUMN_NAMES = { "Name", "IRI" };
