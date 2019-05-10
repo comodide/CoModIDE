@@ -1,5 +1,6 @@
 package com.comodide.patterns;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
@@ -37,7 +39,9 @@ public class PatternLibrary {
     
     // Configuration fields
     private final IRI PATTERN_CLASS_IRI = IRI.create("http://ontologydesignpatterns.org/opla#Pattern"); 
-    private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#categorization");    
+    private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#categorization");
+    private final IRI SCHEMADIAGRAM_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#renderedSchemaDiagram");
+    private final IRI HTMLDOC_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#htmlDocumentation");
     public final Category ANY_CATEGORY = new Category("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
     
     // Instance fields
@@ -75,10 +79,13 @@ public class PatternLibrary {
 			// Find all the pattern instances in the index
 			OWLClass patternClass = factory.getOWLClass(PATTERN_CLASS_IRI);
 			OWLObjectProperty categorizationProperty = factory.getOWLObjectProperty(CATEGORIZATION_PROPERTY_IRI);
+			OWLDataProperty schemaDiagram = factory.getOWLDataProperty(SCHEMADIAGRAM_PROPERTY_IRI);
+			OWLDataProperty htmlDocumentation = factory.getOWLDataProperty(HTMLDOC_PROPERTY_IRI);
 			for (OWLIndividual pattern: EntitySearcher.getIndividuals(patternClass, index)) {
 				if (pattern.isNamed()) {
 					
 					// We've found a pattern; turn it into a Java object.
+					// TODO: is label mandatory or optional? Consider..
 					OWLNamedIndividual namedPattern = (OWLNamedIndividual)pattern;
 					List<String> patternLabels = getLabels(namedPattern, index);
 					String patternLabel;
@@ -89,6 +96,17 @@ public class PatternLibrary {
 						patternLabel = namedPattern.getIRI().toString();
 					}
 					Pattern newPattern = new Pattern(patternLabel, namedPattern.getIRI());
+					
+					List<String> schemaDiagrams = getDataProperty(namedPattern, schemaDiagram, index);
+					if (schemaDiagrams.size() > 0) {
+						newPattern.setRenderedSchemaDiagram(new File(schemaDiagrams.get(0)));
+					}
+					
+					List<String> htmlDocs = getDataProperty(namedPattern, htmlDocumentation, index);
+					if (htmlDocs.size() > 0) {
+						newPattern.setHtmlDocumentation(htmlDocs.get(0));
+					}
+					
 					
 					// Find all the categories for this pattern. All patterns are assigned to at least the Any category by default
 					List<Category> categoriesForPattern = new ArrayList<Category>();
@@ -149,6 +167,16 @@ public class PatternLibrary {
 		    }
 		}
 		return retVal;
+	}
+	
+	private List<String> getDataProperty(OWLIndividual i, OWLDataProperty p, OWLOntology ontology) {
+		List<String> retVal = new ArrayList<String>();
+		for(OWLLiteral literal: EntitySearcher.getDataPropertyValues(i, p, ontology)) {
+			retVal.add(literal.getLiteral());
+		}
+		return retVal;
+		
+		
 	}
 	
 	/**
