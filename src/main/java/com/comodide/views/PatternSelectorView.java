@@ -9,7 +9,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,12 +69,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
         this.add(patternsTableHeading);
 		patternsTable = new PatternTable(patternsTableModel);
 		JScrollPane patternsTableScrollPane = new JScrollPane(patternsTable);
-		
 		patternsTable.setFillsViewportHeight(true);
-		patternsTable.setColumnSelectionAllowed(false);
-		patternsTable.setRowSelectionAllowed(true);
-		ListSelectionModel selectionModel = patternsTable.getSelectionModel();
-        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.add(patternsTableScrollPane);
         
         log.info("Pattern Selector view initialized");

@@ -8,6 +8,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
@@ -24,6 +25,10 @@ public class PatternTable extends JTable {
 
 	public PatternTable(PatternTableModel patternTableModel) {
 		super(patternTableModel);
+		setColumnSelectionAllowed(false);
+		setRowSelectionAllowed(true);
+		getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		columnModel.getColumn(2).setCellRenderer(new ButtonRenderer());
 		columnModel.getColumn(2).setCellEditor(new ButtonEditor(new JCheckBox()));
 	}
