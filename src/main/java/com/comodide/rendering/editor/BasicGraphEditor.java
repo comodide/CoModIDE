@@ -28,7 +28,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -48,25 +47,20 @@ import com.mxgraph.swing.handler.mxRubberband;
 import com.mxgraph.swing.util.mxMorphing;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
+import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxRectangle;
 import com.mxgraph.util.mxResources;
 import com.mxgraph.util.mxUndoManager;
 import com.mxgraph.util.mxUndoableEdit;
-import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxUndoableEdit.mxUndoableChange;
 import com.mxgraph.view.mxGraph;
 
 public class BasicGraphEditor extends JPanel
 {
-
-	/**
-	 * 
-	 */
+	/** Bookkeeping */
 	private static final long serialVersionUID = -6561623072112577140L;
 
-	/**
-	 * Adds required resources for i18n
-	 */
+	/** Adds required resources for i18n */
 	static
 	{
 		try
@@ -76,6 +70,7 @@ public class BasicGraphEditor extends JPanel
 		catch (Exception e)
 		{
 			// ignore
+		    e.printStackTrace();
 		}
 	}
 

@@ -76,6 +76,7 @@
 						<Import-Package>
 							org.protege.editor.owl.*;version="5.0.0", <!-- equivalent to [4.3,infinity) -->
 							org.protege.editor.owl.ui,
+							com.mxgraph.swing.util,
 							*
 						</Import-Package>
 						<excludeDependencies>*;scope=provided|runtime</excludeDependencies>
