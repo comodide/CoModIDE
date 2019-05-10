@@ -1,32 +1,22 @@
 package com.comodide.views;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
-import javax.swing.table.TableCellRenderer;
-
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.patterns.Category;
-import com.comodide.patterns.Pattern;
-import com.comodide.patterns.PatternDocumentationFrame;
 import com.comodide.patterns.PatternLibrary;
+import com.comodide.patterns.PatternTable;
 import com.comodide.patterns.PatternTableModel;
 
 /**
@@ -42,17 +32,8 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 	
 	// Private members
 	private PatternLibrary patternLibrary = PatternLibrary.getInstance();
-	private JTable patternsTable;
-	private PatternTableModel patternsTableModel = new PatternTableModel(patternLibrary.getPatternsForCategory(patternLibrary.ANY_CATEGORY)) {
-		private static final long serialVersionUID = 8811235031396256734L;
-		@Override
-		public boolean isCellEditable(int row, int column){
-			if (column == 2)
-				return true;
-			else
-	          return false;  
-	    }
-	};
+	private PatternTable patternsTable;
+	private PatternTableModel patternsTableModel = new PatternTableModel(patternLibrary.getPatternsForCategory(patternLibrary.ANY_CATEGORY));
 	
     @Override
     protected void initialiseOWLView() throws Exception {
@@ -87,9 +68,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 		
         JLabel patternsTableHeading = new JLabel("Patterns:");
         this.add(patternsTableHeading);
-		patternsTable = new JTable(patternsTableModel);
-		patternsTable.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
-		patternsTable.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JCheckBox()));
+		patternsTable = new PatternTable(patternsTableModel);
 		JScrollPane patternsTableScrollPane = new JScrollPane(patternsTable);
 		
 		patternsTable.setFillsViewportHeight(true);
@@ -106,86 +85,4 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 	protected void disposeOWLView() {
 		log.info("Pattern Selector view disposed");
 	}
-	
-	class ButtonRenderer extends JButton implements TableCellRenderer {
-
-		private static final long serialVersionUID = 6502525250976663915L;
-
-		public ButtonRenderer() {
-		    setOpaque(true);
-		  }
-
-		  public Component getTableCellRendererComponent(JTable table, Object value,
-		      boolean isSelected, boolean hasFocus, int row, int column) {
-		    if (isSelected) {
-		      setForeground(table.getSelectionForeground());
-		      setBackground(table.getSelectionBackground());
-		    } else {
-		      setForeground(table.getForeground());
-		      setBackground(UIManager.getColor("Button.background"));
-		    }
-		    setText((value == null) ? "" : value.toString());
-		    return this;
-		  }
-		}
-	
-	class ButtonEditor extends DefaultCellEditor {
-		 
-		private static final long serialVersionUID = -4417701226982861490L;
-
-		protected JButton button;
-
-		  private String label;
-
-		  private boolean isPushed;
-
-		  public ButtonEditor(JCheckBox checkBox) {
-		    super(checkBox);
-		    button = new JButton();
-		    button.setOpaque(true);
-		    button.addActionListener(new ActionListener() {
-		      public void actionPerformed(ActionEvent e) {
-		        fireEditingStopped();
-		      }
-		    });
-		  }
-
-		  public Component getTableCellEditorComponent(JTable table, Object value,
-		      boolean isSelected, int row, int column) {
-		    if (isSelected) {
-		      button.setForeground(table.getSelectionForeground());
-		      button.setBackground(table.getSelectionBackground());
-		    } else {
-		      button.setForeground(table.getForeground());
-		      button.setBackground(table.getBackground());
-		    }
-		    label = (value == null) ? "" : value.toString();
-		    button.setText(label);
-		    isPushed = true;
-		    return button;
-		  }
-
-		  public Object getCellEditorValue() {
-		    if (isPushed) {
-		    	Pattern pattern = patternsTableModel.getPatternAtRow(patternsTable.getSelectedRow());
-		    	PatternDocumentationFrame docFrame = new PatternDocumentationFrame(pattern);
-		    	docFrame.setVisible(true);
-		      // 
-		      // 
-		      //JOptionPane.showMessageDialog(button, "Pattern label: " + pattern.getLabel() + ", pattern IRI: " + pattern.getIri().toString());
-		      // System.out.println(label + ": Ouch!");
-		    }
-		    isPushed = false;
-		    return new String(label);
-		  }
-
-		  public boolean stopCellEditing() {
-		    isPushed = false;
-		    return super.stopCellEditing();
-		  }
-
-		  protected void fireEditingStopped() {
-		    super.fireEditingStopped();
-		  }
-		}
 }
