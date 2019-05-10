@@ -55,4 +55,8 @@ public class PatternTableModel extends AbstractTableModel {
 		this.patterns = newPatterns;
 		fireTableDataChanged();
 	}
+	
+	public Pattern getPatternAtRow(int rowIndex) {
+		return patterns.get(rowIndex);
+	}
 }

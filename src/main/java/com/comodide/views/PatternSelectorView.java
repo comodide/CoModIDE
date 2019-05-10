@@ -7,9 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -21,6 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.patterns.Category;
+import com.comodide.patterns.Pattern;
+import com.comodide.patterns.PatternDocumentationFrame;
 import com.comodide.patterns.PatternLibrary;
 import com.comodide.patterns.PatternTableModel;
 
@@ -41,7 +46,10 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 	private PatternTableModel patternsTableModel = new PatternTableModel(patternLibrary.getPatternsForCategory(patternLibrary.ANY_CATEGORY)) {
 		private static final long serialVersionUID = 8811235031396256734L;
 		@Override
-		public boolean isCellEditable(int row, int column){  
+		public boolean isCellEditable(int row, int column){
+			if (column == 2)
+				return true;
+			else
 	          return false;  
 	    }
 	};
@@ -81,6 +89,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
         this.add(patternsTableHeading);
 		patternsTable = new JTable(patternsTableModel);
 		patternsTable.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
+		patternsTable.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JCheckBox()));
 		JScrollPane patternsTableScrollPane = new JScrollPane(patternsTable);
 		
 		patternsTable.setFillsViewportHeight(true);
@@ -117,6 +126,66 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 		    }
 		    setText((value == null) ? "" : value.toString());
 		    return this;
+		  }
+		}
+	
+	class ButtonEditor extends DefaultCellEditor {
+		 
+		private static final long serialVersionUID = -4417701226982861490L;
+
+		protected JButton button;
+
+		  private String label;
+
+		  private boolean isPushed;
+
+		  public ButtonEditor(JCheckBox checkBox) {
+		    super(checkBox);
+		    button = new JButton();
+		    button.setOpaque(true);
+		    button.addActionListener(new ActionListener() {
+		      public void actionPerformed(ActionEvent e) {
+		        fireEditingStopped();
+		      }
+		    });
+		  }
+
+		  public Component getTableCellEditorComponent(JTable table, Object value,
+		      boolean isSelected, int row, int column) {
+		    if (isSelected) {
+		      button.setForeground(table.getSelectionForeground());
+		      button.setBackground(table.getSelectionBackground());
+		    } else {
+		      button.setForeground(table.getForeground());
+		      button.setBackground(table.getBackground());
+		    }
+		    label = (value == null) ? "" : value.toString();
+		    button.setText(label);
+		    isPushed = true;
+		    return button;
+		  }
+
+		  public Object getCellEditorValue() {
+		    if (isPushed) {
+		    	Pattern pattern = patternsTableModel.getPatternAtRow(patternsTable.getSelectedRow());
+		    	PatternDocumentationFrame docFrame = new PatternDocumentationFrame(pattern);
+		    	docFrame.setVisible(true);
+		      // 
+		      // 
+		      //JOptionPane.showMessageDialog(button, "Pattern label: " + pattern.getLabel() + ", pattern IRI: " + pattern.getIri().toString());
+		      // System.out.println(label + ": Ouch!");
+		    }
+		    isPushed = false;
+		    return new String(label);
+		  }
+
+		  public boolean stopCellEditing() {
+		    isPushed = false;
+		    return super.stopCellEditing();
+		  }
+
+		  protected void fireEditingStopped() {
+		    super.fireEditingStopped();
 		  }
 		}
 }
