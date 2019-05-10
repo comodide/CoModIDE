@@ -2,9 +2,7 @@ package com.comodide.views;
 
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.protege.editor.owl.model.OWLModelManager;
@@ -28,50 +26,38 @@ public class RendererView extends AbstractOWLViewComponent
     /* managers */
     private OWLModelManager manager;
     private SDManager sdManager;
-    
+
     /* some sort of listener needs to be added here */
     private RenderingViewOntologyListener renderingViewOntologyListener;
-    
-    /* ui objects */
-//    private SDontViewPanel rendererPanel;
+
+    /* UI objects */
     private JPanel rendererPanel;
-    private JLabel tempRight;
 
     @Override
     protected void initialiseOWLView()
     {
-        // Initialise stuff
+        // Initialize stuff
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.manager = getOWLModelManager();
-        
-        if(this.manager != null)
+
+        if (this.manager != null)
         {
             // Add Listener to the model manager
             this.renderingViewOntologyListener = new RenderingViewOntologyListener();
             this.manager.addOntologyChangeListener(renderingViewOntologyListener);
-            
-            /* Set up Structure */
+
             // Renderer Panel
             this.sdManager = new SDManager(manager);
-//            this.rendererPanel = new SDontViewPanel(this.manager, this.sdManager);
             this.rendererPanel = new GraphEditor();
             add(rendererPanel);
-            
-            // Create Horizontal glue
-            add(Box.createHorizontalGlue());
-
-            // Palette Panel
-            this.tempRight = new JLabel("I am the Schema Diagram Rendering View Right.");
-            add(this.tempRight);
 
             // Finish and Log
             log.info("[CoModIDE:RenderingView] Initialized");
-        }
-        else
+        } else
         {
             log.error("[CoModIDE:RenderingView] Manager does not exist.");
         }
-        
+
     }
 
     public void update() throws UpdateFailureException
@@ -88,15 +74,11 @@ public class RendererView extends AbstractOWLViewComponent
 
     private class RenderingViewOntologyListener implements OWLOntologyChangeListener
     {
-
         @Override
         public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException
         {
-            // TODO Auto-generated method stub
             log.info("[CoModIDE:RenderingView] Change in Ontology detected.");
             changes.forEach(c -> sdManager.updateNaive());
-            
         }
-        
     }
 }
