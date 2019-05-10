@@ -39,7 +39,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 		@Override
 		public boolean isCellEditable(int row, int column){  
 	          return false;  
-	      }
+	    }
 	};
 	
     @Override
