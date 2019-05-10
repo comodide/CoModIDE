@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/tree"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/tree">
+    <Prefix name="" IRI="https://archive.org/services/purl/domain/modular_ontology_design_library/tree"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#LeafNode"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RootNode"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TreeNode"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasAncestor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasChild"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDescendant"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasParent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSibling"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasOutDegree"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#LeafNode"/>
+        <Class IRI="#TreeNode"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LeafNode"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#TreeNode"/>
+            <ObjectComplementOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#hasChild"/>
+                    <Class abbreviatedIRI="owl:Thing"/>
+                </ObjectSomeValuesFrom>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LeafNode"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#TreeNode"/>
+            <DataAllValuesFrom>
+                <DataProperty IRI="#hasOutDegree"/>
+                <DataOneOf>
+                    <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">0</Literal>
+                </DataOneOf>
+            </DataAllValuesFrom>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RootNode"/>
+        <Class IRI="#TreeNode"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RootNode"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#TreeNode"/>
+            <ObjectComplementOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#hasParent"/>
+                    <Class abbreviatedIRI="owl:Thing"/>
+                </ObjectSomeValuesFrom>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TreeNode"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasAncestor"/>
+            <Class IRI="#TreeNode"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TreeNode"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasChild"/>
+            <Class IRI="#TreeNode"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TreeNode"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasDescendant"/>
+            <Class IRI="#TreeNode"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TreeNode"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasParent"/>
+            <Class IRI="#TreeNode"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TreeNode"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasSibling"/>
+            <Class IRI="#TreeNode"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TreeNode"/>
+        <DataAllValuesFrom>
+            <DataProperty IRI="#hasOutDegree"/>
+            <Datatype abbreviatedIRI="xsd:positiveInteger"/>
+        </DataAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TreeNode"/>
+        <DataExactCardinality cardinality="1">
+            <DataProperty IRI="#hasOutDegree"/>
+            <Datatype abbreviatedIRI="xsd:positiveInteger"/>
+        </DataExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#TreeNode"/>
+            <ObjectComplementOf>
+                <Class IRI="#LeafNode"/>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#TreeNode"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasChild"/>
+                <Class IRI="#TreeNode"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#TreeNode"/>
+            <ObjectComplementOf>
+                <Class IRI="#RootNode"/>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#TreeNode"/>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectProperty IRI="#hasParent"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasChild"/>
+        <ObjectProperty IRI="#hasDescendant"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasAncestor"/>
+        <ObjectProperty IRI="#hasDescendant"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasChild"/>
+        <ObjectProperty IRI="#hasParent"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasSibling"/>
+        <ObjectProperty IRI="#hasSibling"/>
+    </InverseObjectProperties>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasAncestor"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasChild"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasDescendant"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasParent"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasSibling"/>
+    </IrreflexiveObjectProperty>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#hasDescendant"/>
+            <ObjectProperty IRI="#hasDescendant"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#hasDescendant"/>
+    </SubObjectPropertyOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#LeafNode</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#RootNode</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#TreeNode</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasAncestor</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasChild</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasDescendant</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasOutDegree</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasParent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasSibling</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+

@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/stub"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/stub">
+    <Prefix name="" IRI="http://www.semanticweb.org/demon_munchies/ontologies/2019/3/untitled-ontology-17"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#Stub"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasValue"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+    </Declaration>
+    <SubClassOf>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <DataAllValuesFrom>
+            <DataProperty IRI="#hasValue"/>
+            <DataUnionOf>
+                <Datatype abbreviatedIRI="rdf:PlainLiteral"/>
+                <Datatype abbreviatedIRI="rdf:XMLLiteral"/>
+                <Datatype abbreviatedIRI="rdfs:Literal"/>
+                <Datatype abbreviatedIRI="xsd:NCName"/>
+                <Datatype abbreviatedIRI="xsd:NMTOKEN"/>
+                <Datatype abbreviatedIRI="xsd:Name"/>
+                <Datatype abbreviatedIRI="xsd:anyURI"/>
+                <Datatype abbreviatedIRI="xsd:base64Binary"/>
+                <Datatype abbreviatedIRI="xsd:boolean"/>
+                <Datatype abbreviatedIRI="xsd:byte"/>
+                <Datatype abbreviatedIRI="xsd:dateTime"/>
+                <Datatype abbreviatedIRI="xsd:dateTimeStamp"/>
+                <Datatype abbreviatedIRI="xsd:decimal"/>
+                <Datatype abbreviatedIRI="xsd:double"/>
+                <Datatype abbreviatedIRI="xsd:float"/>
+                <Datatype abbreviatedIRI="xsd:hexBinary"/>
+                <Datatype abbreviatedIRI="xsd:int"/>
+                <Datatype abbreviatedIRI="xsd:integer"/>
+                <Datatype abbreviatedIRI="xsd:language"/>
+                <Datatype abbreviatedIRI="xsd:long"/>
+                <Datatype abbreviatedIRI="xsd:negativeInteger"/>
+                <Datatype abbreviatedIRI="xsd:nonNegativeInteger"/>
+                <Datatype abbreviatedIRI="xsd:nonPositiveInteger"/>
+                <Datatype abbreviatedIRI="xsd:normalizedString"/>
+                <Datatype abbreviatedIRI="xsd:positiveInteger"/>
+                <Datatype abbreviatedIRI="xsd:short"/>
+                <Datatype abbreviatedIRI="xsd:string"/>
+                <Datatype abbreviatedIRI="xsd:token"/>
+                <Datatype abbreviatedIRI="xsd:unsignedByte"/>
+                <Datatype abbreviatedIRI="xsd:unsignedInt"/>
+                <Datatype abbreviatedIRI="xsd:unsignedLong"/>
+                <Datatype abbreviatedIRI="xsd:unsignedShort"/>
+                <Datatype abbreviatedIRI="owl:rational"/>
+                <Datatype abbreviatedIRI="owl:real"/>
+            </DataUnionOf>
+        </DataAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Stub"/>
+        <DataSomeValuesFrom>
+            <DataProperty IRI="#hasValue"/>
+            <DataUnionOf>
+                <Datatype abbreviatedIRI="rdf:PlainLiteral"/>
+                <Datatype abbreviatedIRI="rdf:XMLLiteral"/>
+                <Datatype abbreviatedIRI="rdfs:Literal"/>
+                <Datatype abbreviatedIRI="xsd:NCName"/>
+                <Datatype abbreviatedIRI="xsd:NMTOKEN"/>
+                <Datatype abbreviatedIRI="xsd:Name"/>
+                <Datatype abbreviatedIRI="xsd:anyURI"/>
+                <Datatype abbreviatedIRI="xsd:base64Binary"/>
+                <Datatype abbreviatedIRI="xsd:boolean"/>
+                <Datatype abbreviatedIRI="xsd:byte"/>
+                <Datatype abbreviatedIRI="xsd:dateTime"/>
+                <Datatype abbreviatedIRI="xsd:dateTimeStamp"/>
+                <Datatype abbreviatedIRI="xsd:decimal"/>
+                <Datatype abbreviatedIRI="xsd:double"/>
+                <Datatype abbreviatedIRI="xsd:float"/>
+                <Datatype abbreviatedIRI="xsd:hexBinary"/>
+                <Datatype abbreviatedIRI="xsd:int"/>
+                <Datatype abbreviatedIRI="xsd:integer"/>
+                <Datatype abbreviatedIRI="xsd:language"/>
+                <Datatype abbreviatedIRI="xsd:long"/>
+                <Datatype abbreviatedIRI="xsd:negativeInteger"/>
+                <Datatype abbreviatedIRI="xsd:nonNegativeInteger"/>
+                <Datatype abbreviatedIRI="xsd:nonPositiveInteger"/>
+                <Datatype abbreviatedIRI="xsd:normalizedString"/>
+                <Datatype abbreviatedIRI="xsd:positiveInteger"/>
+                <Datatype abbreviatedIRI="xsd:short"/>
+                <Datatype abbreviatedIRI="xsd:string"/>
+                <Datatype abbreviatedIRI="xsd:token"/>
+                <Datatype abbreviatedIRI="xsd:unsignedByte"/>
+                <Datatype abbreviatedIRI="xsd:unsignedInt"/>
+                <Datatype abbreviatedIRI="xsd:unsignedLong"/>
+                <Datatype abbreviatedIRI="xsd:unsignedShort"/>
+                <Datatype abbreviatedIRI="owl:rational"/>
+                <Datatype abbreviatedIRI="owl:real"/>
+            </DataUnionOf>
+        </DataSomeValuesFrom>
+    </SubClassOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Stub</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/stub</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasValue</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/stub</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+

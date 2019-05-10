@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="https://w3id.org/comodide/ModlIndex#"
+     xml:base="https://w3id.org/comodide/ModlIndex"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:modl="https://archive.org/services/purl/domain/modular_ontology_design_library/"
+     xmlns:opla="http://ontologydesignpatterns.org/opla#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="https://w3id.org/comodide/ModlIndex#"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#categorization -->
+
+    <owl:ObjectProperty rdf:about="http://ontologydesignpatterns.org/opla#categorization">
+        <rdfs:domain rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <rdfs:range rdf:resource="http://ontologydesignpatterns.org/opla#Category"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#owlRepresentation -->
+
+    <owl:ObjectProperty rdf:about="http://ontologydesignpatterns.org/opla#owlRepresentation">
+        <rdfs:domain rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#renderedSchemaDiagram -->
+
+    <owl:DatatypeProperty rdf:about="http://ontologydesignpatterns.org/opla#renderedSchemaDiagram">
+        <rdfs:domain rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#Category -->
+
+    <owl:Class rdf:about="http://ontologydesignpatterns.org/opla#Category"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#Pattern -->
+
+    <owl:Class rdf:about="http://ontologydesignpatterns.org/opla#Pattern"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/aggregation -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/aggregation">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
+        <rdfs:label xml:lang="en">Aggregation, Bag, Collection</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/explicittyping -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/explicittyping">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#Metapattern"/>
+        <opla:renderedSchemaDiagram>diagrams/explicit.pdf</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Explicit Typing</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/reification -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/reification">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#Metapattern"/>
+        <opla:renderedSchemaDiagram>diagrams/reification.pdf</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Property Reification</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/sequence -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/sequence">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
+        <rdfs:label xml:lang="en">Sequence, List</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
+        <rdfs:label xml:lang="en">Spatial Extent</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
+        <rdfs:label xml:lang="en">Spatiotemporal Extent</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/stub -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/stub">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#Metapattern"/>
+        <opla:renderedSchemaDiagram>diagrams/stubs.pdf</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Stubs</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/tree -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/tree">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
+        <rdfs:label xml:lang="en">Tree</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/comodide/ModlIndex#AgentsRoles -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/comodide/ModlIndex#AgentsRoles">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Category"/>
+        <rdfs:label xml:lang="en">Agents and Roles</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/comodide/ModlIndex#DescriptionDetails -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/comodide/ModlIndex#DescriptionDetails">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Category"/>
+        <rdfs:label xml:lang="en">Description and Details</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/comodide/ModlIndex#Metapattern -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/comodide/ModlIndex#Metapattern">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Category"/>
+        <rdfs:label xml:lang="en">Metapatterns</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/comodide/ModlIndex#OrganizationOfData -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/comodide/ModlIndex#OrganizationOfData">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Category"/>
+        <rdfs:label xml:lang="en">Organization of Data</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/comodide/ModlIndex#SpaceTimeMovement -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Category"/>
+        <rdfs:label xml:lang="en">Space, Time, and Movement</rdfs:label>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

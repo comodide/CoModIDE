@@ -4,21 +4,19 @@
 <plugin>
 
 	<!-- Tabs -->
-	<extension id="CoModIDETab"
-		point="org.protege.editor.core.application.WorkspaceTab">
+	<extension id="CoModIDETab" point="org.protege.editor.core.application.WorkspaceTab">
 		<label value="CoModIDE" />
 		<class value="org.protege.editor.owl.ui.OWLWorkspaceViewsTab" />
 		<index value="X" />
 		<editorKitId value="OWLEditorKit" />
-		<defaultViewConfigFileName
-			value="viewconfig-CoModIDETab.xml" />
+		<defaultViewConfigFileName value="viewconfig-CoModIDETab.xml" />
 	</extension>
 
 	<!-- Views -->
-	<extension id="CoModIDEView"
+	<extension id="PatternSelectorView"
 		point="org.protege.editor.core.application.ViewComponent">
-		<label value="CoModIDE View" />
-		<class value="com.comodide.views.CoModIDEView" />
+		<label value="Pattern Selector View" />
+		<class value="com.comodide.views.PatternSelectorView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
 	<extension id="RendererView"
