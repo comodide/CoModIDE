@@ -1,17 +1,19 @@
 package com.comodide.views;
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.TransferHandler;
 
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.sdont.model.SDGraph;
-import com.comodide.sdont.parsing.OntologyParser;
-import com.comodide.sdont.ui.SDontViewFrame;
-import com.comodide.sdont.viz.SDMaker;
+import com.comodide.patterns.Pattern;
 
 public class RendererView extends AbstractOWLViewComponent
 {
@@ -25,6 +27,7 @@ public class RendererView extends AbstractOWLViewComponent
     /* ui objects */
     private JLabel tempLeft;
     private JLabel tempRight;
+    private JTextArea testDropArea;
 
     @Override
     protected void initialiseOWLView()
@@ -50,6 +53,35 @@ public class RendererView extends AbstractOWLViewComponent
         // Palette Frame
         tempRight = new JLabel("I am the Schema Diagram Rendering View Right.");
         add(tempRight);
+        
+        add(Box.createHorizontalGlue());
+        testDropArea = new JTextArea();
+        testDropArea.setTransferHandler(new TransferHandler() {
+			private static final long serialVersionUID = 1324913211688855771L;
+			private DataFlavor patternFlavor = new DataFlavor(Pattern.class, "Ontology Design Pattern");
+			
+			public boolean canImport(TransferHandler.TransferSupport info) {
+				if (info.isDataFlavorSupported(patternFlavor)) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			
+			public boolean importData(TransferHandler.TransferSupport info) {
+				try {
+					Transferable transfer = info.getTransferable();
+					Pattern pattern = (Pattern)transfer.getTransferData(patternFlavor);
+					testDropArea.setText(String.format("Pattern %s was dropped.", pattern.getLabel()));
+					return true;
+				}
+				catch (Exception e) {
+					return false;
+				}
+			}
+        });
+        add(testDropArea);
 
         // Finish and Log
         log.info("Rendering View initialized");

@@ -1,14 +1,17 @@
 package com.comodide.patterns;
 
 import java.awt.Component;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
@@ -28,6 +31,22 @@ public class PatternTable extends JTable {
 		setColumnSelectionAllowed(false);
 		setRowSelectionAllowed(true);
 		getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setDragEnabled(true);
+		this.setTransferHandler(new TransferHandler() {
+			private static final long serialVersionUID = -4277997093361110983L;
+			
+			@Override
+			public int getSourceActions(JComponent c) {
+			    return COPY;
+			}
+
+			@Override
+			public Transferable createTransferable(JComponent c) {
+				Pattern selectedPattern = ((PatternTableModel) dataModel).getPatternAtRow(getSelectedRow());
+				return new PatternTransferable(selectedPattern);
+			}
+			
+		});
 		
 		columnModel.getColumn(1).setCellRenderer(new ButtonRenderer());
 		columnModel.getColumn(1).setCellEditor(new ButtonEditor(new JCheckBox()));
