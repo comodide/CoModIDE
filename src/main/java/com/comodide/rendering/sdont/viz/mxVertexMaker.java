@@ -41,17 +41,16 @@ public class mxVertexMaker implements NodeMaker<Object>
 	{
 		// Extract the data from the node
 		String id = node.getLabel();
-		String value = node.getLabel();
 
 		// Create the vertex
 		Object vertex = null;
 		if(node.isDatatype())
 		{
-			vertex = this.graph.createVertex(parent, id, value, 0, 0, 75, 30, datatypeStyle);
+			vertex = this.graph.createVertex(parent, id, node, 0, 0, 75, 30, datatypeStyle);
 		}
 		else
 		{
-			vertex = this.graph.createVertex(parent, id, value, 0, 0, 75, 30, standardStyle);
+			vertex = this.graph.createVertex(parent, id, node, 0, 0, 75, 30, standardStyle);
 		}
 
 		return vertex;

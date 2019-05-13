@@ -47,24 +47,23 @@ public class mxEdgeMaker implements EdgeMaker<Object>
 		return edges;
 	}
 	
-	public Object makeEdge(SDEdge sdedge, Map<String, Object> vertices)
+	public Object makeEdge(SDEdge sdEdge, Map<String, Object> vertices)
 	{
 		// Extract the data from the edge
-		String id = sdedge.getLabel();
-		String value = sdedge.getLabel();
+		String id = sdEdge.getLabel();
 		
-		Object source = vertices.get(sdedge.getSource().getLabel());
-		Object target = vertices.get(sdedge.getTarget().getLabel());
+		Object source = vertices.get(sdEdge.getSource().getLabel());
+		Object target = vertices.get(sdEdge.getTarget().getLabel());
 		
 		// Create the mxEdge
 		Object edge = null;
-		if(sdedge.isSubclass())
+		if(sdEdge.isSubclass())
 		{
-			edge = this.graph.insertEdge(parent, id, value, source, target, subclassStyle);
+			edge = this.graph.insertEdge(parent, id, sdEdge, source, target, subclassStyle);
 		}
 		else
 		{
-			edge = this.graph.insertEdge(parent, id, value, source, target, standardStyle);			
+			edge = this.graph.insertEdge(parent, id, sdEdge, source, target, standardStyle);			
 		}
 		return edge;
 	}

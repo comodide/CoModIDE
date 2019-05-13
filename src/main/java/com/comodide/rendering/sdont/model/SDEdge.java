@@ -1,5 +1,7 @@
 package com.comodide.rendering.sdont.model;
 
+import org.semanticweb.owlapi.model.OWLAxiom;
+
 public class SDEdge
 {
 	private String label;
@@ -8,15 +10,33 @@ public class SDEdge
 	private SDNode source;
 	private SDNode target;
 	
-	public SDEdge(String label, boolean isSubClass, SDNode source, SDNode target)
+	private OWLAxiom owlAxiom;
+	
+	public SDEdge(String label, boolean isSubClass, SDNode source, SDNode target, OWLAxiom owlAxiom)
 	{
 		this.label = label;
 		this.isSubclass = isSubClass;
 		this.source = source;
 		this.target = target;
+		this.owlAxiom = owlAxiom;
 	}
+	
+	public String toString()
+	{
+	    return this.label;
+	}
+	
+	public OWLAxiom getOwlAxiom()
+    {
+        return owlAxiom;
+    }
 
-	public String getLabel()
+    public void setOwlAxiom(OWLAxiom owlAxiom)
+    {
+        this.owlAxiom = owlAxiom;
+    }
+
+    public String getLabel()
 	{
 		return label;
 	}

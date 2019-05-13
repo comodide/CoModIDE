@@ -9,6 +9,7 @@ import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.ClassExpressionType;
 import org.semanticweb.owlapi.model.HasFiller;
 import org.semanticweb.owlapi.model.HasProperty;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -169,19 +170,19 @@ public class AxiomParser
 				String src = shortFormProvider.getShortForm((OWLEntity) sub);
 				String tar = shortFormProvider.getShortForm((OWLEntity) sup);
 
-				Triple t = new Triple(src, tar);
+				Triple t = new Triple(src, tar, ax);
 				addEdge(t);
 			}
 			// Complex \sqsubseteq Class
 			else if(sub instanceof HasFiller<?> && isClass(supt))
 			{
-				Triple t = handleComplexAndClass(sub, sup);
+				Triple t = handleComplexAndClass(sub, sup, ax);
 				addEdge(t);
 			}
 			// Class \sqsubseteq Complex
 			else if(isClass(subt) && sup instanceof HasFiller<?>)
 			{
-				Triple t = handleClassAndComplex(sub, sup);
+				Triple t = handleClassAndComplex(sub, sup, ax);
 				addEdge(t);
 			}
 			else if(sub instanceof HasFiller<?> && sup instanceof OWLObjectUnionOf)
@@ -238,7 +239,7 @@ public class AxiomParser
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	public Triple handleClassAndComplex(OWLClassExpression sub, OWLClassExpression sup) throws UnparseableAxiomException
+	public Triple handleClassAndComplex(OWLClassExpression sub, OWLClassExpression sup, OWLAxiom ax) throws UnparseableAxiomException
 	{
 		String domStr;
 		String codStr;
@@ -316,11 +317,11 @@ public class AxiomParser
 		// Get Property shortform
 		rolStr = shortFormProvider.getShortForm((OWLEntity) ((HasProperty<?>) sup).getProperty());
 
-		return new Triple(domStr, codStr, rolStr);
+		return new Triple(domStr, codStr, rolStr, ax);
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	public Triple handleComplexAndClass(OWLClassExpression sub, OWLClassExpression sup) throws UnparseableAxiomException
+	public Triple handleComplexAndClass(OWLClassExpression sub, OWLClassExpression sup, OWLAxiom ax) throws UnparseableAxiomException
 	{
 		String domStr;
 		String codStr;
@@ -390,7 +391,7 @@ public class AxiomParser
 		// Get Property shortform
 		rolStr = shortFormProvider.getShortForm((OWLEntity) ((HasProperty<?>) sub).getProperty());
 
-		return new Triple(domStr, codStr, rolStr);
+		return new Triple(domStr, codStr, rolStr, ax);
 	}
 
 	/////////////////

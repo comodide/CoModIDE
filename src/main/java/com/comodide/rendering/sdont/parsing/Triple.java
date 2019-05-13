@@ -1,5 +1,7 @@
 package com.comodide.rendering.sdont.parsing;
 
+import org.semanticweb.owlapi.model.OWLAxiom;
+
 /**
  * 
  * @author Cogs
@@ -15,23 +17,39 @@ public class Triple
 
 	private boolean isSubClass;
 	
-	public Triple(String fr, String to, String pr)
+	private OWLAxiom owlAxiom;
+	
+	public Triple(String fr, String to, String pr, OWLAxiom owlAxiom)
 	{
 		this.fr = fr;
 		this.to = to;
 		this.pr = pr;
 		this.isSubClass = false;
+		this.owlAxiom = owlAxiom;
 	}
 	
-	public Triple(String fr, String to)
+	public Triple(String fr, String to, OWLAxiom owlAxiom)
 	{
-		this.fr = fr;
-		this.to= to;
-		this.pr = "SUBCLASS";
+	    this(fr, to, "SUBCLASS", owlAxiom);
 		this.isSubClass = true;
 	}
 	
-	public boolean isSubClass()
+	public OWLAxiom wraps()
+	{
+	    return this.getOwlAxiom();
+	}
+	
+	public OWLAxiom getOwlAxiom()
+    {
+        return owlAxiom;
+    }
+
+    public void setOwlAxiom(OWLAxiom owlAxiom)
+    {
+        this.owlAxiom = owlAxiom;
+    }
+
+    public boolean isSubClass()
 	{
 		return isSubClass;
 	}

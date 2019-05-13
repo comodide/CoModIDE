@@ -42,7 +42,7 @@ public class ConceptParser
 		Set<SDNode> conceptNodes = new HashSet<>();
 		concepts.forEach(concept ->{
 			String label = shortFormProvider.getShortForm(concept);
-			conceptNodes.add(new SDNode(label, false));
+			conceptNodes.add(new SDNode(label, false, concept));
 		});
 
 		return conceptNodes;
@@ -56,7 +56,7 @@ public class ConceptParser
 		Set<SDNode> datatypeNodes = new HashSet<>();
 		datatypes.forEach(datatype -> {
 			String label = shortFormProvider.getShortForm(datatype);
-			datatypeNodes.add(new SDNode(label, true));
+			datatypeNodes.add(new SDNode(label, true, datatype));
 		});
 
 		return datatypeNodes;
