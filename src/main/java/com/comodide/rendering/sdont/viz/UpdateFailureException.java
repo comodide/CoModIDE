@@ -1,4 +1,4 @@
-package com.comodide.rendering.sdont.ui;
+package com.comodide.rendering.sdont.viz;
 
 public class UpdateFailureException extends Exception
 {

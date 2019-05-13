@@ -14,8 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.rendering.editor.GraphEditor;
-import com.comodide.rendering.sdont.ui.UpdateFailureException;
 import com.comodide.rendering.sdont.viz.SDManager;
+import com.comodide.rendering.sdont.viz.UpdateFailureException;
 
 public class RendererView extends AbstractOWLViewComponent
 {
@@ -48,7 +48,7 @@ public class RendererView extends AbstractOWLViewComponent
 
             // Renderer Panel
             this.sdManager = new SDManager(manager);
-            this.rendererPanel = new GraphEditor();
+            this.rendererPanel = new GraphEditor(this.sdManager.initialSchemaDiagram(), manager);
             add(rendererPanel);
 
             // Finish and Log

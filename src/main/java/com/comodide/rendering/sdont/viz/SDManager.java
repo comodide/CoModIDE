@@ -2,6 +2,7 @@ package com.comodide.rendering.sdont.viz;
 
 import org.protege.editor.owl.model.OWLModelManager;
 
+import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.model.SDGraph;
 import com.comodide.rendering.sdont.parsing.OntologyParser;
 import com.mxgraph.swing.mxGraphComponent;
@@ -29,7 +30,7 @@ public class SDManager
     }
 
     /** To be called initially */
-    public mxGraphComponent initialize()
+    public SchemaDiagram initialSchemaDiagram()
     {
         this.ontologyParser = new OntologyParser(this.modelManager);
         this.graph = ontologyParser.parseOntology();
@@ -44,8 +45,8 @@ public class SDManager
         return null;
     }
     
-    public mxGraphComponent updateNaive()
+    public SchemaDiagram updateNaive()
     {
-        return initialize();
+        return initialSchemaDiagram();
     }
 }
