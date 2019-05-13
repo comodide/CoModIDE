@@ -16,7 +16,7 @@ import javax.swing.table.TableCellRenderer;
  * A specialization of JTable specifically intended to list ontology design
  * patterns in the CoModIDE pattern selector view.
  * 
- * @author karlh
+ * @author Karl Hammar <karl@karlhammar.com>
  *
  */
 public class PatternTable extends JTable {
@@ -29,8 +29,8 @@ public class PatternTable extends JTable {
 		setRowSelectionAllowed(true);
 		getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		columnModel.getColumn(2).setCellRenderer(new ButtonRenderer());
-		columnModel.getColumn(2).setCellEditor(new ButtonEditor(new JCheckBox()));
+		columnModel.getColumn(1).setCellRenderer(new ButtonRenderer());
+		columnModel.getColumn(1).setCellEditor(new ButtonEditor(new JCheckBox()));
 	}
 
 	/**

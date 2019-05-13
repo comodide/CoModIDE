@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class PatternTableModel extends AbstractTableModel {
 
-	public static final String[] COLUMN_NAMES = { "Name", "IRI", "" };
+	public static final String[] COLUMN_NAMES = { "Name", "" };
 
 	private static final long serialVersionUID = 5911927324627593760L;
 	private List<Pattern> patterns;
@@ -25,7 +25,7 @@ public class PatternTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		if (column == 2) {
+		if (column == 1) {
 			return true;
 		} else {
 			return false;
@@ -54,8 +54,6 @@ public class PatternTableModel extends AbstractTableModel {
 		case 0:
 			return pattern.getLabel();
 		case 1:
-			return pattern.getIri().toString();
-		case 2:
 			return "Documentation";
 		default:
 			return pattern.getIri().toString();
