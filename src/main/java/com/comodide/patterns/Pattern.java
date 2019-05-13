@@ -1,6 +1,5 @@
 package com.comodide.patterns;
 
-import java.io.File;
 import java.util.Optional;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -13,7 +12,7 @@ import org.semanticweb.owlapi.model.IRI;
 public class Pattern {
 	private String label;
 	private IRI iri;
-	private File renderedSchemaDiagram;
+	private String schemaDiagramPath;
 	private String htmlDocumentation;
 	
 	public Pattern(String label, IRI iri) {
@@ -34,12 +33,12 @@ public class Pattern {
 		return label;
 	}
 
-	public Optional<File> getRenderedSchemaDiagram() {
-		return Optional.ofNullable(renderedSchemaDiagram);
+	public Optional<String> getSchemaDiagramPath() {
+		return Optional.ofNullable(schemaDiagramPath);
 	}
 
-	public void setRenderedSchemaDiagram(File renderedSchemaDiagram) {
-		this.renderedSchemaDiagram = renderedSchemaDiagram;
+	public void setSchemaDiagramPath(String renderedSchemaDiagram) {
+		this.schemaDiagramPath = renderedSchemaDiagram;
 	}
 
 	public Optional<String> getHtmlDocumentation() {

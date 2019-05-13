@@ -1,6 +1,5 @@
 package com.comodide.patterns;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,7 +98,7 @@ public class PatternLibrary {
 					
 					List<String> schemaDiagrams = getDataProperty(namedPattern, schemaDiagram, index);
 					if (schemaDiagrams.size() > 0) {
-						newPattern.setRenderedSchemaDiagram(new File(schemaDiagrams.get(0)));
+						newPattern.setSchemaDiagramPath(schemaDiagrams.get(0));
 					}
 					
 					List<String> htmlDocs = getDataProperty(namedPattern, htmlDocumentation, index);
