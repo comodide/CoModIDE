@@ -9,7 +9,7 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Karl Hammar <karl@karlhammar.com>
  *
  */
-public class Pattern {
+public class Pattern implements Comparable<Pattern> {
 	private String label;
 	private IRI iri;
 	private String schemaDiagramPath;
@@ -72,5 +72,10 @@ public class Pattern {
 		} else if (!iri.equals(other.iri))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Pattern other) {
+		return label.compareTo(other.label);
 	}
 }

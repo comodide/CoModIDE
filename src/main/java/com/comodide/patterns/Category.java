@@ -7,7 +7,7 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Karl Hammar <karl@karlhammar.com>
  *
  */
-public class Category {
+public class Category implements Comparable<Category> {
 
 	private String label;
 	private IRI iri;
@@ -53,5 +53,10 @@ public class Category {
 		} else if (!iri.equals(other.iri))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Category other) {
+		return label.compareTo(other.label);
 	}
 }

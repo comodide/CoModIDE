@@ -2,6 +2,7 @@ package com.comodide.patterns;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -183,9 +184,11 @@ public class PatternLibrary {
 	 * @return
 	 */
 	public Category[] getPatternCategories() {
+		// Get and sort all categories
 		Set<Category> categorySet = patternCategories.keySet();
-		// Put the Any category first in the list, for usability purposes
 		List<Category> categoryList = new ArrayList<Category>(categorySet);
+		Collections.sort(categoryList);
+		// Put the Any category first in the list, for usability purposes
 		categoryList.remove(ANY_CATEGORY);
 		categoryList.add(0, ANY_CATEGORY);
 		// Return as array
@@ -198,6 +201,8 @@ public class PatternLibrary {
 	 * @return
 	 */
 	public List<Pattern> getPatternsForCategory(Category category) {
-		return patternCategories.get(category);
+		List<Pattern> returnedPatterns = patternCategories.get(category);
+		Collections.sort(returnedPatterns);
+		return returnedPatterns;
 	}
 }
