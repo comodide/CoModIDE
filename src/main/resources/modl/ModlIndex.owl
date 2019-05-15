@@ -32,14 +32,6 @@
     
 
 
-    <!-- http://ontologydesignpatterns.org/opla#owlRepresentation -->
-
-    <owl:ObjectProperty rdf:about="http://ontologydesignpatterns.org/opla#owlRepresentation">
-        <rdfs:domain rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
-    </owl:ObjectProperty>
-    
-
-
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -51,11 +43,32 @@
     
 
 
+    <!-- http://ontologydesignpatterns.org/opla#htmlDocumentation -->
+
+    <owl:DatatypeProperty rdf:about="http://ontologydesignpatterns.org/opla#htmlDocumentation">
+        <rdfs:domain rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="en">HTML documentation</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#owlRepresentation -->
+
+    <owl:DatatypeProperty rdf:about="http://ontologydesignpatterns.org/opla#owlRepresentation">
+        <rdfs:domain rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="en">OWL representation</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://ontologydesignpatterns.org/opla#renderedSchemaDiagram -->
 
     <owl:DatatypeProperty rdf:about="http://ontologydesignpatterns.org/opla#renderedSchemaDiagram">
         <rdfs:domain rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="en">rendered schema diagram</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -94,12 +107,38 @@
     
 
 
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#AgentsRoles"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/agentrole.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/agentrole.png</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Agent Role</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/aggregation -->
 
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/aggregation">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/aggregation.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/aggregation.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Aggregation, Bag, Collection</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/event.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/event.png</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Event</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -109,8 +148,119 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/explicittyping">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#Metapattern"/>
-        <opla:renderedSchemaDiagram>diagrams/explicit.pdf</opla:renderedSchemaDiagram>
+        <opla:htmlDocumentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">&lt;html&gt;
+&lt;body&gt;
+&lt;h3 class=&quot;sectionHead&quot;&gt;&lt;a id=&quot;x1-2000&quot;&gt;&lt;/a&gt;Explicit Typing&lt;/h3&gt;
+&lt;h4 class=&quot;subsectionHead&quot;&gt;&lt;a id=&quot;x1-3000&quot;&gt;&lt;/a&gt;Summary&lt;/h4&gt;
+&lt;a id=&quot;x1-3000doc&quot;&gt;&lt;/a&gt;
+&lt;!--l. 14--&gt;&lt;p class=&quot;noindent&quot; &gt;The pattern for explicit typing is very straightforward. Indeed, it is merely a representation
+of what we consider to be a &quot;best practice.&quot; This pattern is used when there is a finite, but
+mutable number of types of a thing. We find this easier to maintain than a series of subclass
+relationships.
+&lt;!--l. 17--&gt;&lt;p class=&quot;noindent&quot; &gt; &lt;h4 class=&quot;subsectionHead&quot;&gt;&lt;a id=&quot;x1-4000&quot;&gt;&lt;/a&gt;Axiomatization&lt;/h4&gt;
+&lt;a id=&quot;x1-4000doc&quot;&gt;&lt;/a&gt;
+&lt;!--l. 20--&gt;&lt;p class=&quot;noindent&quot; &gt;
+&lt;table
+class=&quot;align&quot;&gt;
+                                  &lt;tr&gt;&lt;td
+class=&quot;align-odd&quot;&gt;&lt;span
+class=&quot;cmsy-10x-x-109&quot;&gt;&amp;#x22A4;&lt;/span&gt;&lt;/td&gt;                                    &lt;td
+class=&quot;align-even&quot;&gt;&lt;span
+class=&quot;cmsy-10x-x-109&quot;&gt;&amp;#x2291;&amp;#x2200;&lt;/span&gt;&lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;hasType.Type&lt;/span&gt;&lt;/td&gt;                                                                        &lt;td
+class=&quot;align-label&quot;&gt;&lt;a
+ id=&quot;x1-4001r1&quot;&gt;&lt;/a&gt;(1)                                    &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;!--l. 25--&gt;&lt;p class=&quot;noindent&quot; &gt;
+   &lt;h4 class=&quot;subsectionHead&quot;&gt;&lt;a
+ id=&quot;x1-5000&quot;&gt;&lt;/a&gt;Explanations&lt;/h4&gt;
+&lt;a
+ id=&quot;x1-5000doc&quot;&gt;&lt;/a&gt;
+&lt;!--l. 29--&gt;&lt;p class=&quot;noindent&quot; &gt;
+        &lt;dl class=&quot;enumerate&quot;&gt;&lt;dt class=&quot;enumerate&quot;&gt;
+   1. &lt;/dt&gt;&lt;dd
+class=&quot;enumerate&quot;&gt;Range: the range of &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;hasType &lt;/span&gt;is &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;Type&lt;/span&gt;.&lt;/dd&gt;&lt;/dl&gt;
+
+
+&lt;!--l. 33--&gt;&lt;p class=&quot;noindent&quot; &gt;
+   &lt;h4 class=&quot;subsectionHead&quot;&gt;&lt;a
+ id=&quot;x1-6000&quot;&gt;&lt;/a&gt;Competency Questions&lt;/h4&gt;
+&lt;a
+ id=&quot;x1-6000doc&quot;&gt;&lt;/a&gt;
+&lt;!--l. 37--&gt;&lt;p class=&quot;noindent&quot; &gt;
+         &lt;dl class=&quot;enumerate&quot;&gt;&lt;dt class=&quot;enumerate&quot;&gt;
+CQ1. &lt;/dt&gt;&lt;dd
+class=&quot;enumerate&quot;&gt;What is the type of Event?
+         &lt;/dd&gt;&lt;dt class=&quot;enumerate&quot;&gt;
+CQ2. &lt;/dt&gt;&lt;dd
+class=&quot;enumerate&quot;&gt;Which type of apparatus is that?&lt;/dd&gt;&lt;/dl&gt;
+&lt;!--l. 41--&gt;&lt;p class=&quot;noindent&quot; &gt;
+&lt;/body&gt;
+&lt;/html&gt;</opla:htmlDocumentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/explicittyping.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/explicittyping.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Explicit Typing</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/identifier -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#DescriptionDetails"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/identifier.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/identifier.png</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Identifier</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/name -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/name">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#AgentsRoles"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/name.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/name.png</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Name Stub</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#AgentsRoles"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/participantrole.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/participantrole.png</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Participant Role</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/provenance -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/provenance">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#DescriptionDetails"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/provenance.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/provenance.png</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Provenance</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/quantities -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/quantities">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#DescriptionDetails"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/quantities.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/quantities.png</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Quantities and Units</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -120,7 +270,125 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/reification">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#Metapattern"/>
-        <opla:renderedSchemaDiagram>diagrams/reification.pdf</opla:renderedSchemaDiagram>
+        <opla:htmlDocumentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">&lt;html&gt;
+&lt;body&gt;
+&lt;h3 class=&quot;sectionHead&quot;&gt;&lt;a
+ id=&quot;x1-7000&quot;&gt;&lt;/a&gt;Property Reification&lt;/h3&gt;
+&lt;a
+ id=&quot;x1-7000doc&quot;&gt;&lt;/a&gt;
+&lt;!--l. 4--&gt;&lt;p class=&quot;noindent&quot; &gt;
+   &lt;h4 class=&quot;subsectionHead&quot;&gt;&lt;a
+ id=&quot;x1-8000&quot;&gt;&lt;/a&gt;Summary&lt;/h4&gt;
+&lt;a
+ id=&quot;x1-8000doc&quot;&gt;&lt;/a&gt;
+&lt;!--l. 7--&gt;&lt;p class=&quot;noindent&quot; &gt;In OWL, unfortunately, it is not possible to directly represent &lt;span
+class=&quot;cmmi-10x-x-109&quot;&gt;n&lt;/span&gt;-ary relationships. However, it is still
+possible to capture that information. This notion is called reification. The &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;Property Reification &lt;/span&gt;pattern is
+essentially a metapattern; it could be better considered to be a modelling practice. Here, though, we
+present a set of axioms that will allow a developer to quickly reify a concept by specializing the
+framework.
+&lt;!--l. 9--&gt;&lt;p class=&quot;indent&quot; &gt;   Consider that we would like to relate two &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;Things &lt;/span&gt;together via some &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;propertyToBeReified &lt;/span&gt;given some
+&lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;Context &lt;/span&gt;information that also needs to be captured. To do so, we create a &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;ReifiedProperty &lt;/span&gt;and attach the
+information to this concept. A more concrete example of this can be seen in the &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;AgentRole &lt;/span&gt;and
+&lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;ParticipantRole &lt;/span&gt;patterns (Sections &lt;span
+class=&quot;pplb8t-x-x-109&quot;&gt;??&lt;/span&gt; and &lt;span
+class=&quot;pplb8t-x-x-109&quot;&gt;??&lt;/span&gt;).
+&lt;!--l. 11--&gt;&lt;p class=&quot;indent&quot; &gt;   The axioms below are minimalistic, because it is hard to make claims about the domain and range at
+the most general case. It should be safe to say that there is certain some connection between the first
+object of interest and the reified property itself. But, perhaps, the second reified property is
+reused from some other pattern or part of the ontology&amp;#8212;we cannot make any statements
+about it at this level. Furthermore, concept of &amp;#8220;context&amp;#8221; is loose and open to interpretation by
+the developer. Could it be subclassed during specialization or use of this pattern, perhaps?
+Is it necessary, perhaps not. It does, however, suffice to show &lt;span
+class=&quot;pplri8t-x-x-109&quot;&gt;how &lt;/span&gt;reification with context
+works.
+   &lt;h4 class=&quot;subsectionHead&quot;&gt;&lt;a
+ id=&quot;x1-9000&quot;&gt;&lt;/a&gt;Axiomatization&lt;/h4&gt;
+&lt;a
+ id=&quot;x1-9000doc&quot;&gt;&lt;/a&gt;
+&lt;!--l. 16--&gt;&lt;p class=&quot;noindent&quot; &gt;
+
+
+&lt;table
+class=&quot;align&quot;&gt;
+                           &lt;tr&gt;&lt;td
+class=&quot;align-odd&quot;&gt;&lt;span
+class=&quot;cmsy-10x-x-109&quot;&gt;&amp;#x22A4;&lt;/span&gt;&lt;/td&gt;                           &lt;td
+class=&quot;align-even&quot;&gt;&lt;span
+class=&quot;cmsy-10x-x-109&quot;&gt;&amp;#x2291;&amp;#x2200;&lt;/span&gt;&lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;reifiedProperty1.ReifiedProperty&lt;/span&gt;&lt;/td&gt;                                                      &lt;td
+class=&quot;align-label&quot;&gt;&lt;a
+ id=&quot;x1-9001r2&quot;&gt;&lt;/a&gt;(2)
+                           &lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td
+class=&quot;align-odd&quot;&gt;&lt;span
+class=&quot;cmsy-10x-x-109&quot;&gt;&amp;#x22A4;&lt;/span&gt;&lt;/td&gt;                           &lt;td
+class=&quot;align-even&quot;&gt;&lt;span
+class=&quot;cmsy-10x-x-109&quot;&gt;&amp;#x2291;&amp;#x2200;&lt;/span&gt;&lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;hasContext.Context&lt;/span&gt;&lt;/td&gt;                                                                  &lt;td
+class=&quot;align-label&quot;&gt;&lt;a
+ id=&quot;x1-9002r3&quot;&gt;&lt;/a&gt;(3)
+                           &lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td
+class=&quot;align-odd&quot;&gt;&lt;span
+class=&quot;cmsy-10x-x-109&quot;&gt;&amp;#x22A4;&lt;/span&gt;&lt;/td&gt;                           &lt;td
+class=&quot;align-even&quot;&gt;&lt;span
+class=&quot;cmsy-10x-x-109&quot;&gt;&amp;#x2291;&amp;#x2203;&lt;/span&gt;&lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;hasContext.Context&lt;/span&gt;&lt;/td&gt;                                                                  &lt;td
+class=&quot;align-label&quot;&gt;&lt;a
+ id=&quot;x1-9003r4&quot;&gt;&lt;/a&gt;(4)
+                           &lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td
+class=&quot;align-odd&quot;&gt;&lt;/td&gt;                             &lt;td
+class=&quot;align-even&quot;&gt;&lt;/td&gt;                                                             &lt;td
+class=&quot;align-label&quot;&gt;&lt;a
+ id=&quot;x1-9004r5&quot;&gt;&lt;/a&gt;(5)                                                      &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;!--l. 23--&gt;&lt;p class=&quot;noindent&quot; &gt;
+   &lt;h4 class=&quot;subsectionHead&quot;&gt;&lt;a
+ id=&quot;x1-10000&quot;&gt;&lt;/a&gt;Explanations&lt;/h4&gt;
+&lt;a
+ id=&quot;x1-10000doc&quot;&gt;&lt;/a&gt;
+&lt;!--l. 27--&gt;&lt;p class=&quot;noindent&quot; &gt;
+        &lt;dl class=&quot;enumerate&quot;&gt;&lt;dt class=&quot;enumerate&quot;&gt;
+   1. &lt;/dt&gt;&lt;dd
+class=&quot;enumerate&quot;&gt;Range: the range of &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;reifiedProperty1 &lt;/span&gt;is &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;ReifiedProperty&lt;/span&gt;.
+        &lt;/dd&gt;&lt;dt class=&quot;enumerate&quot;&gt;
+   2. &lt;/dt&gt;&lt;dd
+class=&quot;enumerate&quot;&gt;Range: the range of &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;hasContext &lt;/span&gt;is &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;Context&lt;/span&gt;.
+        &lt;/dd&gt;&lt;dt class=&quot;enumerate&quot;&gt;
+   3. &lt;/dt&gt;&lt;dd
+class=&quot;enumerate&quot;&gt;Existential: a &lt;span
+class=&quot;phvr8t-x-x-109&quot;&gt;ReifiedProperty &lt;/span&gt;should have at least some contextual information, otherwise,
+     it wouldn&amp;#8217;t need to be reified.
+        &lt;/dd&gt;&lt;/dl&gt;
+&lt;!--l. 34--&gt;&lt;p class=&quot;noindent&quot; &gt;
+   &lt;h4 class=&quot;subsectionHead&quot;&gt;&lt;a
+ id=&quot;x1-11000&quot;&gt;&lt;/a&gt;Competency Questions&lt;/h4&gt;
+&lt;a
+ id=&quot;x1-11000doc&quot;&gt;&lt;/a&gt;
+&lt;!--l. 38--&gt;&lt;p class=&quot;noindent&quot; &gt;
+         &lt;dl class=&quot;enumerate&quot;&gt;&lt;dt class=&quot;enumerate&quot;&gt;
+CQ1. &lt;/dt&gt;&lt;dd
+class=&quot;enumerate&quot;&gt;What was the street named during the Great Depression?
+         &lt;/dd&gt;&lt;dt class=&quot;enumerate&quot;&gt;
+CQ2. &lt;/dt&gt;&lt;dd
+class=&quot;enumerate&quot;&gt;From what years was Al Gore Vice President?
+         &lt;/dd&gt;&lt;dt class=&quot;enumerate&quot;&gt;
+CQ3. &lt;/dt&gt;&lt;dd
+class=&quot;enumerate&quot;&gt;What is the unit of measurement was used to weigh the elephant?&lt;/dd&gt;&lt;/dl&gt;
+&lt;!--l. 43--&gt;&lt;p class=&quot;noindent&quot; &gt;
+&lt;/body&gt;
+&lt;/html&gt;</opla:htmlDocumentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/reification.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/reification.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Property Reification</rdfs:label>
     </owl:NamedIndividual>
     
@@ -131,6 +399,8 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/sequence">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/sequence.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/sequence.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Sequence, List</rdfs:label>
     </owl:NamedIndividual>
     
@@ -141,6 +411,8 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/spatialextent.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/spatialextent.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Spatial Extent</rdfs:label>
     </owl:NamedIndividual>
     
@@ -151,6 +423,8 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/spatiotemporalextent.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/spatiotemporalextent.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Spatiotemporal Extent</rdfs:label>
     </owl:NamedIndividual>
     
@@ -161,8 +435,33 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/stub">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#Metapattern"/>
-        <opla:renderedSchemaDiagram>diagrams/stubs.pdf</opla:renderedSchemaDiagram>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/stub.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/stub.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Stubs</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/temporalextent.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/temporalextent.png</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Temporal Extent</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/trajectory -->
+
+    <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/trajectory">
+        <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
+        <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/trajectory.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/trajectory.png</opla:renderedSchemaDiagram>
+        <rdfs:label xml:lang="en">Trajectory</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -172,6 +471,8 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/tree">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/tree.owl</opla:owlRepresentation>
+        <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/tree.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Tree</rdfs:label>
     </owl:NamedIndividual>
     

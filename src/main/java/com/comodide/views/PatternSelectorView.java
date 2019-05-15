@@ -9,15 +9,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.patterns.Category;
 import com.comodide.patterns.PatternLibrary;
+import com.comodide.patterns.PatternTable;
 import com.comodide.patterns.PatternTableModel;
 
 /**
@@ -33,14 +31,8 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 	
 	// Private members
 	private PatternLibrary patternLibrary = PatternLibrary.getInstance();
-	private JTable patternsTable;
-	private PatternTableModel patternsTableModel = new PatternTableModel(patternLibrary.getPatternsForCategory(patternLibrary.ANY_CATEGORY)) {
-		private static final long serialVersionUID = 8811235031396256734L;
-		@Override
-		public boolean isCellEditable(int row, int column){  
-	          return false;  
-	      }
-	};
+	private PatternTable patternsTable;
+	private PatternTableModel patternsTableModel = new PatternTableModel(patternLibrary.getPatternsForCategory(patternLibrary.ANY_CATEGORY));
 	
     @Override
     protected void initialiseOWLView() throws Exception {
@@ -75,14 +67,9 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 		
         JLabel patternsTableHeading = new JLabel("Patterns:");
         this.add(patternsTableHeading);
-		patternsTable = new JTable(patternsTableModel);
+		patternsTable = new PatternTable(patternsTableModel);
 		JScrollPane patternsTableScrollPane = new JScrollPane(patternsTable);
-		
 		patternsTable.setFillsViewportHeight(true);
-		patternsTable.setColumnSelectionAllowed(false);
-		patternsTable.setRowSelectionAllowed(true);
-		ListSelectionModel selectionModel = patternsTable.getSelectionModel();
-        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.add(patternsTableScrollPane);
         
         log.info("Pattern Selector view initialized");

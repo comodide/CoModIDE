@@ -1,5 +1,7 @@
 package com.comodide.patterns;
 
+import java.util.Optional;
+
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -7,9 +9,11 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Karl Hammar <karl@karlhammar.com>
  *
  */
-public class Pattern {
+public class Pattern implements Comparable<Pattern> {
 	private String label;
 	private IRI iri;
+	private String schemaDiagramPath;
+	private String htmlDocumentation;
 	
 	public Pattern(String label, IRI iri) {
 		super();
@@ -27,6 +31,22 @@ public class Pattern {
 	
 	public String toString() {
 		return label;
+	}
+
+	public Optional<String> getSchemaDiagramPath() {
+		return Optional.ofNullable(schemaDiagramPath);
+	}
+
+	public void setSchemaDiagramPath(String renderedSchemaDiagram) {
+		this.schemaDiagramPath = renderedSchemaDiagram;
+	}
+
+	public Optional<String> getHtmlDocumentation() {
+		return Optional.ofNullable(htmlDocumentation);
+	}
+
+	public void setHtmlDocumentation(String htmlDocumentation) {
+		this.htmlDocumentation = htmlDocumentation;
 	}
 
 	@Override
@@ -52,5 +72,10 @@ public class Pattern {
 		} else if (!iri.equals(other.iri))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Pattern other) {
+		return label.compareTo(other.label);
 	}
 }
