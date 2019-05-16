@@ -32,11 +32,11 @@
 			<version>20180130</version>
 		</dependency>
 		<dependency>
-			<groupId>comodide</groupId>
-			<artifactId>mxgraph</artifactId>
-			<version>4</version>
+			<groupId>com.comodide</groupId>
+			<artifactId>jgraphx</artifactId>
+			<version>4.0.1</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/lib/jgraphx.jar</systemPath>
+			<systemPath>${basedir}/lib/jgraphx-4.0.1.jar</systemPath>
 		</dependency>
 	</dependencies>
 
@@ -76,14 +76,13 @@
 						<Import-Package>
 							org.protege.editor.owl.*;version="5.0.0", <!-- equivalent to [4.3,infinity) -->
 							org.protege.editor.owl.ui,
-							com.mxgraph.swing.util,
 							*
 						</Import-Package>
 						<excludeDependencies>*;scope=provided|runtime</excludeDependencies>
 						<Embed-Dependency>
 							json,
 							commons-io,
-							mxgraph
+							jgraphx
 						</Embed-Dependency>
 					</instructions>
 				</configuration>
