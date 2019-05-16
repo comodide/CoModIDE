@@ -4,6 +4,9 @@ import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.util.mxPoint;
@@ -11,140 +14,162 @@ import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraph;
 
 /**
- * A graph that creates new edges from a given template edge.
- * Modified from jGraphx example code.
+ * A graph that creates new edges from a given template edge. Modified from
+ * jGraphx example code.
  */
 public class SchemaDiagram extends mxGraph
 {
-    /** Holds the shared number formatter */
-    public static final NumberFormat numberFormat = NumberFormat.getInstance();
-    
-    /**
-     * Holds the edge to be used as a template for inserting new edges.
-     */
-    protected Object edgeTemplate;
+	/** Holds the shared number formatter */
+	public static final NumberFormat numberFormat = NumberFormat.getInstance();
 
-    /**
-     * Custom graph that defines the alternate edge style to be used when the middle
-     * control point of edges is double clicked (flipped).
-     */
-    public SchemaDiagram()
-    {
-        setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
-    }
+	/** Logging */
+	private static final Logger log = LoggerFactory.getLogger(SchemaDiagram.class);
+	
+	/**
+	 * Holds the edge to be used as a template for inserting new edges.
+	 */
+	protected Object edgeTemplate;
 
-    /**
-     * Sets the edge template to be used to inserting edges.
-     */
-    public void setEdgeTemplate(Object template)
-    {
-        edgeTemplate = template;
-    }
+	/**
+	 * Custom graph that defines the alternate edge style to be used when the middle
+	 * control point of edges is double clicked (flipped).
+	 */
+	public SchemaDiagram()
+	{
+		setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
+	}
 
-    /**
-     * Prints out some useful information about the cell in the tooltip.
-     */
-    public String getToolTipForCell(Object cell)
-    {
-        String tip = "<html>";
-        mxGeometry geo = getModel().getGeometry(cell);
-        mxCellState state = getView().getState(cell);
+	@Override
+	public void cellLabelChanged(Object cell, Object value, boolean autoSize)
+	{
+		model.beginUpdate();
 
-        if (getModel().isEdge(cell))
-        {
-            tip += "points={";
+		try
+		{
+			log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
+			getModel().setValue(cell, value);
+			if(autoSize)
+			{
+				cellSizeUpdated(cell, false);
+			}
+		}
+		finally
+		{
+			model.endUpdate();
+		}
+	}
 
-            if (geo != null)
-            {
-                List<mxPoint> points = geo.getPoints();
+	/**
+	 * Sets the edge template to be used to inserting edges.
+	 */
+	public void setEdgeTemplate(Object template)
+	{
+		edgeTemplate = template;
+	}
 
-                if (points != null)
-                {
-                    Iterator<mxPoint> it = points.iterator();
+	/**
+	 * Prints out some useful information about the cell in the tooltip.
+	 */
+	public String getToolTipForCell(Object cell)
+	{
+		String      tip   = "<html>";
+		mxGeometry  geo   = getModel().getGeometry(cell);
+		mxCellState state = getView().getState(cell);
 
-                    while (it.hasNext())
-                    {
-                        mxPoint point = it.next();
-                        tip += "[x=" + numberFormat.format(point.getX()) + ",y=" + numberFormat.format(point.getY())
-                                + "],";
-                    }
+		if (getModel().isEdge(cell))
+		{
+			tip += "points={";
 
-                    tip = tip.substring(0, tip.length() - 1);
-                }
-            }
+			if (geo != null)
+			{
+				List<mxPoint> points = geo.getPoints();
 
-            tip += "}<br>";
-            tip += "absPoints={";
+				if (points != null)
+				{
+					Iterator<mxPoint> it = points.iterator();
 
-            if (state != null)
-            {
+					while (it.hasNext())
+					{
+						mxPoint point = it.next();
+						tip += "[x=" + numberFormat.format(point.getX()) + ",y=" + numberFormat.format(point.getY())
+								+ "],";
+					}
 
-                for (int i = 0; i < state.getAbsolutePointCount(); i++)
-                {
-                    mxPoint point = state.getAbsolutePoint(i);
-                    tip += "[x=" + numberFormat.format(point.getX()) + ",y=" + numberFormat.format(point.getY())
-                            + "],";
-                }
+					tip = tip.substring(0, tip.length() - 1);
+				}
+			}
 
-                tip = tip.substring(0, tip.length() - 1);
-            }
+			tip += "}<br>";
+			tip += "absPoints={";
 
-            tip += "}";
-        } else
-        {
-            tip += "geo=[";
+			if (state != null)
+			{
 
-            if (geo != null)
-            {
-                tip += "x=" + numberFormat.format(geo.getX()) + ",y=" + numberFormat.format(geo.getY()) + ",width="
-                        + numberFormat.format(geo.getWidth()) + ",height=" + numberFormat.format(geo.getHeight());
-            }
+				for (int i = 0; i < state.getAbsolutePointCount(); i++)
+				{
+					mxPoint point = state.getAbsolutePoint(i);
+					tip += "[x=" + numberFormat.format(point.getX()) + ",y=" + numberFormat.format(point.getY()) + "],";
+				}
 
-            tip += "]<br>";
-            tip += "state=[";
+				tip = tip.substring(0, tip.length() - 1);
+			}
 
-            if (state != null)
-            {
-                tip += "x=" + numberFormat.format(state.getX()) + ",y=" + numberFormat.format(state.getY())
-                        + ",width=" + numberFormat.format(state.getWidth()) + ",height="
-                        + numberFormat.format(state.getHeight());
-            }
+			tip += "}";
+		}
+		else
+		{
+			tip += "geo=[";
 
-            tip += "]";
-        }
+			if (geo != null)
+			{
+				tip += "x=" + numberFormat.format(geo.getX()) + ",y=" + numberFormat.format(geo.getY()) + ",width="
+						+ numberFormat.format(geo.getWidth()) + ",height=" + numberFormat.format(geo.getHeight());
+			}
 
-        mxPoint trans = getView().getTranslate();
+			tip += "]<br>";
+			tip += "state=[";
 
-        tip += "<br>scale=" + numberFormat.format(getView().getScale()) + ", translate=[x="
-                + numberFormat.format(trans.getX()) + ",y=" + numberFormat.format(trans.getY()) + "]";
-        tip += "</html>";
+			if (state != null)
+			{
+				tip += "x=" + numberFormat.format(state.getX()) + ",y=" + numberFormat.format(state.getY()) + ",width="
+						+ numberFormat.format(state.getWidth()) + ",height=" + numberFormat.format(state.getHeight());
+			}
 
-        return tip;
-    }
+			tip += "]";
+		}
 
-    /**
-     * Overrides the method to use the currently selected edge template for new
-     * edges.
-     * 
-     * @param graph
-     * @param parent
-     * @param id
-     * @param value
-     * @param source
-     * @param target
-     * @param style
-     * @return
-     */
-    public Object createEdge(Object parent, String id, Object value, Object source, Object target, String style)
-    {
-        if (edgeTemplate != null)
-        {
-            mxCell edge = (mxCell) cloneCells(new Object[] { edgeTemplate })[0];
-            edge.setId(id);
+		mxPoint trans = getView().getTranslate();
 
-            return edge;
-        }
+		tip += "<br>scale=" + numberFormat.format(getView().getScale()) + ", translate=[x="
+				+ numberFormat.format(trans.getX()) + ",y=" + numberFormat.format(trans.getY()) + "]";
+		tip += "</html>";
 
-        return super.createEdge(parent, id, value, source, target, style);
-    }
+		return tip;
+	}
+
+	/**
+	 * Overrides the method to use the currently selected edge template for new
+	 * edges.
+	 * 
+	 * @param graph
+	 * @param parent
+	 * @param id
+	 * @param value
+	 * @param source
+	 * @param target
+	 * @param style
+	 * @return
+	 */
+	public Object createEdge(Object parent, String id, Object value, Object source, Object target, String style)
+	{
+		if (edgeTemplate != null)
+		{
+			mxCell edge = (mxCell) cloneCells(new Object[] { edgeTemplate })[0];
+			edge.setId(id);
+
+			return edge;
+		}
+
+		return super.createEdge(parent, id, value, source, target, style);
+	}
 }

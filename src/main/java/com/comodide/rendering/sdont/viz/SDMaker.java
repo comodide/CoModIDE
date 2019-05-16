@@ -8,6 +8,7 @@ import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDGraph;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.layout.mxFastOrganicLayout;
+import com.mxgraph.model.mxGraphModel;
 
 public class SDMaker
 {
@@ -34,6 +35,7 @@ public class SDMaker
         makeGraph();
         // set the layout for the graph
         executeLayout();
+        
         // Return the created Schema Diagram
         return this.schemaDiagram;
         
