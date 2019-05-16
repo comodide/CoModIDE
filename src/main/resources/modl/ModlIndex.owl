@@ -112,7 +112,7 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#AgentsRoles"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/agentrole.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/agentrole.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/agentrole.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Agent Role</rdfs:label>
     </owl:NamedIndividual>
@@ -124,7 +124,7 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/aggregation">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/aggregation.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/aggregation.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/aggregation.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Aggregation, Bag, Collection</rdfs:label>
     </owl:NamedIndividual>
@@ -136,7 +136,7 @@
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/event.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/event.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/event.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Event</rdfs:label>
     </owl:NamedIndividual>
@@ -198,7 +198,7 @@ class=&quot;enumerate&quot;&gt;Which type of apparatus is that?&lt;/dd&gt;&lt;/d
 &lt;!--l. 41--&gt;&lt;p class=&quot;noindent&quot; &gt;
 &lt;/body&gt;
 &lt;/html&gt;</opla:htmlDocumentation>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/explicittyping.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/explicittyping.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/explicittyping.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Explicit Typing</rdfs:label>
     </owl:NamedIndividual>
@@ -210,7 +210,7 @@ class=&quot;enumerate&quot;&gt;Which type of apparatus is that?&lt;/dd&gt;&lt;/d
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#DescriptionDetails"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/identifier.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/identifier.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/identifier.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Identifier</rdfs:label>
     </owl:NamedIndividual>
@@ -222,7 +222,7 @@ class=&quot;enumerate&quot;&gt;Which type of apparatus is that?&lt;/dd&gt;&lt;/d
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/name">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#AgentsRoles"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/name.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/name.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/name.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Name Stub</rdfs:label>
     </owl:NamedIndividual>
@@ -234,7 +234,7 @@ class=&quot;enumerate&quot;&gt;Which type of apparatus is that?&lt;/dd&gt;&lt;/d
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#AgentsRoles"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/participantrole.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/participantrole.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/participantrole.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Participant Role</rdfs:label>
     </owl:NamedIndividual>
@@ -246,7 +246,7 @@ class=&quot;enumerate&quot;&gt;Which type of apparatus is that?&lt;/dd&gt;&lt;/d
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/provenance">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#DescriptionDetails"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/provenance.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/provenance.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/provenance.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Provenance</rdfs:label>
     </owl:NamedIndividual>
@@ -258,7 +258,7 @@ class=&quot;enumerate&quot;&gt;Which type of apparatus is that?&lt;/dd&gt;&lt;/d
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/quantities">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#DescriptionDetails"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/quantities.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/quantities.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/quantities.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Quantities and Units</rdfs:label>
     </owl:NamedIndividual>
@@ -387,7 +387,7 @@ class=&quot;enumerate&quot;&gt;What is the unit of measurement was used to weigh
 &lt;!--l. 43--&gt;&lt;p class=&quot;noindent&quot; &gt;
 &lt;/body&gt;
 &lt;/html&gt;</opla:htmlDocumentation>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/reification.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/reification.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/reification.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Property Reification</rdfs:label>
     </owl:NamedIndividual>
@@ -399,7 +399,7 @@ class=&quot;enumerate&quot;&gt;What is the unit of measurement was used to weigh
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/sequence">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/sequence.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/sequence.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/sequence.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Sequence, List</rdfs:label>
     </owl:NamedIndividual>
@@ -411,7 +411,7 @@ class=&quot;enumerate&quot;&gt;What is the unit of measurement was used to weigh
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/spatialextent">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/spatialextent.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/spatialextent.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/spatialextent.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Spatial Extent</rdfs:label>
     </owl:NamedIndividual>
@@ -423,7 +423,7 @@ class=&quot;enumerate&quot;&gt;What is the unit of measurement was used to weigh
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/spatiotemporalextent.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/spatiotemporalextent.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/spatiotemporalextent.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Spatiotemporal Extent</rdfs:label>
     </owl:NamedIndividual>
@@ -435,7 +435,7 @@ class=&quot;enumerate&quot;&gt;What is the unit of measurement was used to weigh
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/stub">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#Metapattern"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/stub.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/stub.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/stub.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Stubs</rdfs:label>
     </owl:NamedIndividual>
@@ -447,7 +447,7 @@ class=&quot;enumerate&quot;&gt;What is the unit of measurement was used to weigh
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/temporalextent.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/temporalextent.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/temporalextent.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Temporal Extent</rdfs:label>
     </owl:NamedIndividual>
@@ -459,7 +459,7 @@ class=&quot;enumerate&quot;&gt;What is the unit of measurement was used to weigh
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/trajectory">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#SpaceTimeMovement"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/trajectory.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/trajectory.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/trajectory.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Trajectory</rdfs:label>
     </owl:NamedIndividual>
@@ -471,7 +471,7 @@ class=&quot;enumerate&quot;&gt;What is the unit of measurement was used to weigh
     <owl:NamedIndividual rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/tree">
         <rdf:type rdf:resource="http://ontologydesignpatterns.org/opla#Pattern"/>
         <opla:categorization rdf:resource="https://w3id.org/comodide/ModlIndex#OrganizationOfData"/>
-        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">patterns/tree.owl</opla:owlRepresentation>
+        <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/tree.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/tree.png</opla:renderedSchemaDiagram>
         <rdfs:label xml:lang="en">Tree</rdfs:label>
     </owl:NamedIndividual>
