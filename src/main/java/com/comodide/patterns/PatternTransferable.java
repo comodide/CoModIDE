@@ -9,17 +9,16 @@ public class PatternTransferable implements Transferable {
 
 	// TODO: Actually package a suitable OWLAPI construct, not just our metadata pattern class
 	private Pattern pattern;
-	private DataFlavor flavor;
+	public static DataFlavor dataFlavor;
 	
 	public PatternTransferable(Pattern pattern) {
 		super();
 		this.pattern = pattern;
-		this.flavor = new DataFlavor(Pattern.class, "Ontology Design Pattern");
 	}
 
 	@Override
 	public Object getTransferData(DataFlavor df) throws UnsupportedFlavorException, IOException {
-		if (df.equals(this.flavor)) {
+		if (df.equals(dataFlavor)) {
 			return this.pattern;
 		}
 		else {
@@ -29,16 +28,25 @@ public class PatternTransferable implements Transferable {
 
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
-		return new DataFlavor[] {this.flavor};
+		return new DataFlavor[] {dataFlavor};
 	}
 
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor df) {
-		if (df.equals(this.flavor)) {
+		if (df.equals(dataFlavor)) {
 			return true;
 		}
 		else {
 			return false;
 		}
+	}
+	
+	public Pattern getPattern() {
+		return pattern;
+	}
+
+	static
+	{
+		dataFlavor = new DataFlavor(Pattern.class, "Ontology Design Pattern");
 	}
 }

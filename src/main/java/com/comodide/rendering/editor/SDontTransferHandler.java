@@ -1,5 +1,6 @@
 package com.comodide.rendering.editor;
 
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 
 import javax.swing.JComponent;
@@ -8,6 +9,8 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.patterns.Pattern;
+import com.comodide.patterns.PatternTransferable;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.handler.mxGraphTransferHandler;
 import com.mxgraph.swing.util.mxGraphTransferable;
@@ -26,6 +29,25 @@ public class SDontTransferHandler extends mxGraphTransferHandler
         super();
         this.modelManager = modelManager;
     }
+    
+    /**
+     * Overrides {@link mxGraphTransferHandler#canImport(JComponent, DataFlavor[])}, adding support for 
+     * {@link PatternTransferable#dataFlavor}.
+     */
+    @Override
+	public boolean canImport(JComponent comp, DataFlavor[] flavors) {
+		for (int i = 0; i < flavors.length; i++)
+		{
+			if (flavors[i] != null
+					&& (flavors[i].equals(mxGraphTransferable.dataFlavor)) 
+					|| (flavors[i].equals(PatternTransferable.dataFlavor)))
+			{
+				return true;
+			}
+		}
+	
+		return false;
+	}
 
     /**
      * Checks if the mxGraphTransferable data flavour is supported and calls
@@ -40,7 +62,17 @@ public class SDontTransferHandler extends mxGraphTransferHandler
         {
             // Enables visual feedback on the Mac
             result = true;
-        } else
+        } 
+        else if (t.isDataFlavorSupported(PatternTransferable.dataFlavor)) {
+        	try {
+        		Pattern pattern = (Pattern)t.getTransferData(PatternTransferable.dataFlavor);
+        		System.out.println(String.format("The pattern '%s' was dropped.", pattern.getLabel()));
+        	}
+        	catch (Exception ex) {
+        		log.error("Failed to import pattern.");
+        	}
+        }
+        else 
         {
             try
             {
