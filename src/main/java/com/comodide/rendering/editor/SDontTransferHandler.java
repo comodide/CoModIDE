@@ -2,10 +2,17 @@ package com.comodide.rendering.editor;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JComponent;
 
 import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,11 +72,24 @@ public class SDontTransferHandler extends mxGraphTransferHandler
         } 
         else if (t.isDataFlavorSupported(PatternTransferable.dataFlavor)) {
         	try {
-        		Pattern pattern = (Pattern)t.getTransferData(PatternTransferable.dataFlavor);
-        		System.out.println(String.format("The pattern '%s' was dropped.", pattern.getLabel()));
+        		PatternTransferable pt = (PatternTransferable)t.getTransferData(PatternTransferable.dataFlavor);
+        		Pattern pattern = pt.getPattern();
+        		OWLOntology patternOntology = pt.getPatternOntology();
+        		log.debug(String.format("The pattern '%s' with OWL ontology '%s' was dropped.", pattern.getLabel(), patternOntology.getOntologyID().getOntologyIRI().orNull()));
+
+        		// Clone pattern axioms into active ontology. 
+        		// This is probably ugly and could be done in a more OWLAPI-ish way
+        		OWLOntology activeOntology = modelManager.getActiveOntology();
+        		List<AddAxiom> newAxioms = new ArrayList<AddAxiom>();
+        		for (OWLAxiom patternAxiom: patternOntology.getAxioms()) {
+        			newAxioms.add(new AddAxiom(activeOntology, patternAxiom));
+        		}
+        		modelManager.applyChanges(newAxioms);
+        		log.debug(String.format("%s axioms from the pattern '%s' were added to ontology '%s'.", newAxioms.size(), patternOntology.getOntologyID().getOntologyIRI().orNull(), activeOntology.getOntologyID().getOntologyIRI().orNull()));        		
         	}
         	catch (Exception ex) {
         		log.error("Failed to import pattern.");
+        		ex.printStackTrace();
         	}
         }
         else 
