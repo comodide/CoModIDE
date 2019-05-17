@@ -77,7 +77,7 @@ public class AxiomManager
 	{
 		/* Construct the Declaration Axiom */
 		// Create the IRI for the class using the active namespace
-		IRI classIRI = IRI.create(this.iri.getNamespace() + str);
+		IRI classIRI = IRI.create(this.iri + "#" + str);
 		// Create the OWLAPI construct for the class
 		OWLClass owlClass = this.owlDataFactory.getOWLClass(classIRI);
 		// Create the Declaration Axiom

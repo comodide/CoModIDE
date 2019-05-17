@@ -3,7 +3,6 @@ package com.comodide.rendering.editor;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -109,6 +108,7 @@ public class SchemaDiagram extends mxGraph
 				// TODO
 			}
 
+			// End Adding //
 			if (autoSize)
 			{
 				cellSizeUpdated(cell, false);
