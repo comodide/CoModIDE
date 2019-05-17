@@ -1,6 +1,7 @@
 package com.comodide.patterns;
 
 import java.awt.Component;
+import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,11 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A specialization of JTable specifically intended to list ontology design
  * patterns in the CoModIDE pattern selector view.
@@ -25,6 +31,8 @@ import javax.swing.table.TableCellRenderer;
 public class PatternTable extends JTable {
 
 	private static final long serialVersionUID = -6533182826250657204L;
+	
+	private static final Logger log = LoggerFactory.getLogger(PatternTable.class);
 
 	public PatternTable(PatternTableModel patternTableModel) {
 		super(patternTableModel);
@@ -43,7 +51,14 @@ public class PatternTable extends JTable {
 			@Override
 			public Transferable createTransferable(JComponent c) {
 				Pattern selectedPattern = ((PatternTableModel) dataModel).getPatternAtRow(getSelectedRow());
-				return new PatternTransferable(selectedPattern);
+				try {
+					OWLOntology selectedPatternOntology = PatternLibrary.getInstance().getOwlRepresentation(selectedPattern);
+					return new PatternTransferable(selectedPattern, selectedPatternOntology);
+				}
+				catch (OWLOntologyCreationException ooce) {
+					log.error("The pattern could not be loaded as an OWLAPI OWLOntology: " + ooce.getLocalizedMessage());
+					return new StringSelection(String.format("%s: %s", selectedPattern.getLabel(), selectedPattern.getIri().toString()));
+				}
 			}
 			
 		});

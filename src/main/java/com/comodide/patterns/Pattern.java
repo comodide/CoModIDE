@@ -14,11 +14,13 @@ public class Pattern implements Comparable<Pattern> {
 	private IRI iri;
 	private String schemaDiagramPath;
 	private String htmlDocumentation;
+	private String owlRepresentationPath;
 	
-	public Pattern(String label, IRI iri) {
+	public Pattern(String label, IRI iri, String owlRepresentationPath) {
 		super();
 		this.label = label;
 		this.iri = iri;
+		this.owlRepresentationPath = owlRepresentationPath;
 	}
 
 	public String getLabel() {
@@ -49,6 +51,10 @@ public class Pattern implements Comparable<Pattern> {
 		this.htmlDocumentation = htmlDocumentation;
 	}
 
+	public String getOwlRepresentationPath() {
+		return owlRepresentationPath;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
