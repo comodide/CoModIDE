@@ -97,7 +97,7 @@ public class GraphEditor extends BasicGraphEditor
         mxSwingConstants.SHADOW_COLOR = Color.LIGHT_GRAY;
         mxConstants.W3C_SHADOWCOLOR = "#D3D3D3";
 
-        GraphEditor editor = new GraphEditor(new SchemaDiagram(), null);
+        GraphEditor editor = new GraphEditor(new SchemaDiagram(null), null);
         editor.createFrame(null).setVisible(true);
     }
 }

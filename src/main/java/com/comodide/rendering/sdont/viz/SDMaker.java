@@ -3,12 +3,13 @@ package com.comodide.rendering.sdont.viz;
 import java.util.Map;
 import java.util.Set;
 
+import org.protege.editor.owl.model.OWLModelManager;
+
 import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDGraph;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.layout.mxFastOrganicLayout;
-import com.mxgraph.model.mxGraphModel;
 
 public class SDMaker
 {
@@ -19,11 +20,11 @@ public class SDMaker
 
     private Map<String, Object> vertices;
 
-    public SDMaker(SDGraph sdGraph)
+    public SDMaker(SDGraph sdGraph, OWLModelManager modelManager)
     {
         this.sdGraph = sdGraph;
         // Create an mxgraph
-        this.schemaDiagram = new SchemaDiagram();
+        this.schemaDiagram = new SchemaDiagram(modelManager);
         // Create the makers for the cells
         this.vertexMaker = new mxVertexMaker(schemaDiagram);
         this.edgeMaker = new mxEdgeMaker(schemaDiagram);

@@ -4,9 +4,14 @@ import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.axiomatization.AxiomManager;
+import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.util.mxPoint;
@@ -24,31 +29,58 @@ public class SchemaDiagram extends mxGraph
 
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(SchemaDiagram.class);
-	
+
 	/**
 	 * Holds the edge to be used as a template for inserting new edges.
 	 */
 	protected Object edgeTemplate;
 
 	/**
+	 * Manages the axioms to be added or removed based on the nodes and connections
+	 * inside of the graph
+	 */
+	private AxiomManager axiomManager;
+
+	/**
 	 * Custom graph that defines the alternate edge style to be used when the middle
 	 * control point of edges is double clicked (flipped).
 	 */
-	public SchemaDiagram()
+	public SchemaDiagram(OWLModelManager modelManager)
 	{
 		setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
+		this.axiomManager = AxiomManager.getInstance(modelManager);
 	}
 
 	@Override
-	public void cellLabelChanged(Object cell, Object value, boolean autoSize)
+	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
 	{
 		model.beginUpdate();
 
 		try
 		{
 			log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
-			getModel().setValue(cell, value);
-			if(autoSize)
+
+			// Get value of the object that is changing.
+			Object v = ((mxCell) cell).getValue();
+			// Typecast the received newValue to String.
+			String newLabel = (String) newValue;
+			// If v is a string, then that means it is a truly new node
+			if (v instanceof String) // New class
+			{
+				log.info("[CoModIDE:SchemaDiagram] New class detected.");
+				// Add the new class to the ontology
+				OWLAxiom axiom = this.axiomManager.addNewClass((String) newValue);
+				// Create an SDNode wrapper for the Axiom
+				SDNode node = new SDNode(newValue, false, ((OWLDeclarationAxiom) axiom). );
+
+				model.setValue(cell, node);
+			}
+			else
+			{
+				// TODO
+			}
+
+			if (autoSize)
 			{
 				cellSizeUpdated(cell, false);
 			}

@@ -34,7 +34,7 @@ public class SDManager
     {
         this.ontologyParser = new OntologyParser(this.modelManager);
         this.graph = ontologyParser.parseOntology();
-        this.maker = new SDMaker(graph);
+        this.maker = new SDMaker(graph, modelManager);
 
         return maker.visualize();
     }

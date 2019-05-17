@@ -26,7 +26,7 @@ public class SDontComponent extends mxGraphComponent
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(SDontComponent.class);
 
-	private OWLModelManager modelManager;
+	private OWLModelManager modelManager; // TODO this probably needs to be passed to an AxiomManager
 
 	public SDontComponent(mxGraph graph, OWLModelManager modelManager)
 	{
