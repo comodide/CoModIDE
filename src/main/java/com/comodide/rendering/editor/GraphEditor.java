@@ -71,10 +71,10 @@ public class GraphEditor extends BasicGraphEditor
                         "swimlane", 280, 280, "Container");
         shapesPalette // class
                 .addTemplate("Rounded Rectangle", new ImageIcon(GraphEditor.class.getResource("/images/rounded.png")),
-                        "rounded=1", 160, 120, "");
+                        SDConstants.classShape, 120, 30, "");
         shapesPalette // dataype
-                .addTemplate("Ellipse", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), "ellipse",
-                        160, 160, "");
+                .addTemplate("Ellipse", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
+                        120, 30, "");
         shapesPalette // relation
                 .addEdgeTemplate("Straight", new ImageIcon(GraphEditor.class.getResource("/images/straight.png")),
                         "straight", 120, 120, "");

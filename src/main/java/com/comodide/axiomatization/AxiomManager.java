@@ -1,16 +1,19 @@
 package com.comodide.axiomatization;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.find.OWLEntityFinder;
 import org.semanticweb.owlapi.formats.PrefixDocumentFormat;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.PrefixManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +73,7 @@ public class AxiomManager
 	}
 
 	/** This method is called when previousLabel.equals("") */
-	public OWLAxiom addNewClass(String str)
+	public OWLClass addNewClass(String str)
 	{
 		/* Construct the Declaration Axiom */
 		// Create the IRI for the class using the active namespace
@@ -83,9 +86,8 @@ public class AxiomManager
 		AddAxiom addAxiom = new AddAxiom(this.owlOntology, oda);
 		// Apply the change to the active ontology!
 		this.modelManager.applyChange(addAxiom);
-
-		// return a reference to the OWL Declaration Axiom
-		return oda;
+		// Return a reference to the class that was added
+		return owlClass;
 	}
 
 	/** This method should be called when !previousLabel.equals("") */
@@ -98,5 +100,13 @@ public class AxiomManager
 	public void removeClass()
 	{
 
+	}
+	
+	public List<OWLDatatype> addDatatype(String datatype)
+	{
+		// Determine if datatype property exists?
+		Set<OWLDatatype> datatypes = this.owlEntityFinder.getMatchingOWLDatatypes(datatype);
+		// return the matches
+		return new ArrayList<>(datatypes);
 	}
 }

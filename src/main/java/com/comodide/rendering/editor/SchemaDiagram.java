@@ -3,10 +3,12 @@ package com.comodide.rendering.editor;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,20 +62,47 @@ public class SchemaDiagram extends mxGraph
 		{
 			log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
 
+			// Cast the object into a cell
+			mxCell c = (mxCell) cell;
+			log.info("[CoModIDE:SchemaDiagram]" + c.getStyle());
 			// Get value of the object that is changing.
-			Object v = ((mxCell) cell).getValue();
+			Object v = c.getValue();
 			// Typecast the received newValue to String.
 			String newLabel = (String) newValue;
 			// If v is a string, then that means it is a truly new node
-			if (v instanceof String) // New class
+			if (v instanceof String && c.getStyle().equals(SDConstants.classShape)) // New class
 			{
 				log.info("[CoModIDE:SchemaDiagram] New class detected.");
 				// Add the new class to the ontology
-				OWLAxiom axiom = this.axiomManager.addNewClass((String) newValue);
+				OWLClass clazz = this.axiomManager.addNewClass(newLabel);
 				// Create an SDNode wrapper for the Axiom
-				SDNode node = new SDNode(newValue, false, ((OWLDeclarationAxiom) axiom). );
-
+				SDNode node = new SDNode(newLabel, false, (OWLEntity) clazz);
+				// Set the value in the model.
 				model.setValue(cell, node);
+			}
+			else if (v instanceof String && c.getStyle().equals(SDConstants.datatypeShape))
+			{
+				// TODO
+				// FIXME
+				log.info("[CoModIDE:SchemaDiagram] New datatype detected.");
+				// Add the new class to the ontology
+				List<OWLDatatype> datatypes = this.axiomManager.addDatatype(newLabel);
+				// there should hopefully just be one...
+				if (datatypes.size() == 1)
+				{
+					// Get the datatype
+					OWLDatatype datatype = datatypes.get(0);
+					// Create an SDNode wrapper for the Axiom
+					SDNode node = new SDNode(newLabel, true, (OWLEntity) datatype);
+					// Set the value in the model.
+					model.setValue(cell, node);
+				}
+				else
+				{
+					// Don't do anything.
+					// This will force them to type something as the label again
+					// TODO Eventually we want a descriptive message
+				}
 			}
 			else
 			{
