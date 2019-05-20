@@ -15,13 +15,19 @@
 	<!-- Views -->
 	<extension id="PatternSelectorView"
 		point="org.protege.editor.core.application.ViewComponent">
-		<label value="Pattern Selector View" />
+		<label value="CoModIDE Pattern Selector" />
 		<class value="com.comodide.views.PatternSelectorView" />
+		<headerColor value="@org.protege.ontologycolor" />
+	</extension>
+<extension id="ConfigurationView"
+		point="org.protege.editor.core.application.ViewComponent">
+		<label value="CoModIDE Configuration" />
+		<class value="com.comodide.views.ConfigurationView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
 	<extension id="RendererView"
 		point="org.protege.editor.core.application.ViewComponent">
-		<label value="Renderer View" />
+		<label value="CoModIDE Renderer" />
 		<class value="com.comodide.views.RendererView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
