@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.find.OWLEntityFinder;
-import org.semanticweb.owlapi.formats.PrefixDocumentFormat;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -23,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 public class AxiomManager
 {
+	/** AxiomManager is a singleton class */
 	private static AxiomManager instance = null;
 
 	public static AxiomManager getInstance(OWLModelManager modelManager)
@@ -48,10 +48,7 @@ public class AxiomManager
 	private OWLEntityFinder  owlEntityFinder;
 	private OWLEntityRenamer owlEntityRenamer;
 
-	/** default namespace */
-	private PrefixDocumentFormat pdf;
-	private String               prefix;
-
+	/** Used for current namespace */
 	private IRI iri;
 
 	private AxiomManager(OWLModelManager modelManager)
@@ -75,20 +72,21 @@ public class AxiomManager
 		}
 		else
 		{
-			log.warn("[CoModIDE:AxiomAdder] active ontology is null.");
+			log.warn(pf + "active ontology is null.");
 		}
 	}
 
 	private void createEntityRenamer()
 	{
+		// Get the Ontology Manager
 		OWLOntologyManager ontologyManager = this.owlOntology.getOWLOntologyManager();
-		
+		// Embed the active ontology into a Set
 		Set<OWLOntology> list = new HashSet<>();
 		list.add(this.owlOntology);
-		
+		// Create the EntityRenamer
 		this.owlEntityRenamer = new OWLEntityRenamer(ontologyManager, list);
 	}
-	
+
 	/** This method is called when previousLabel.equals("") */
 	public OWLClass addNewClass(String str)
 	{
