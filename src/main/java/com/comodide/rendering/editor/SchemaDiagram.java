@@ -51,6 +51,7 @@ public class SchemaDiagram extends mxGraph
 	{
 		setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
 		this.axiomManager = AxiomManager.getInstance(modelManager);
+		this.allowDanglingEdges = false;
 	}
 
 	@Override

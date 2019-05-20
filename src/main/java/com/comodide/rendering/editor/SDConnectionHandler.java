@@ -3,6 +3,7 @@ package com.comodide.rendering.editor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mxgraph.swing.handler.mxConnectPreview;
 import com.mxgraph.swing.handler.mxConnectionHandler;
 
 public class SDConnectionHandler extends mxConnectionHandler
@@ -15,5 +16,10 @@ public class SDConnectionHandler extends mxConnectionHandler
 	{
 		super(sdComponent);
 		log.info(pf + "SDConnectionHandler Initialized.");
+	}
+	
+	public mxConnectPreview createConnectPreview()
+	{
+		return new SDConnectPreview(graphComponent);
 	}
 }

@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.rendering.editor.GraphEditor;
-import com.comodide.rendering.editor.SDConnectionHandler;
 import com.comodide.rendering.editor.SDontComponent;
 import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.viz.SDManager;
