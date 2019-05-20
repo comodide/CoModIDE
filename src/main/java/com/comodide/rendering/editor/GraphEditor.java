@@ -10,8 +10,6 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
-import org.protege.editor.owl.model.OWLModelManager;
-
 import com.mxgraph.swing.util.mxGraphTransferable;
 import com.mxgraph.swing.util.mxSwingConstants;
 import com.mxgraph.util.mxConstants;
@@ -25,9 +23,9 @@ public class GraphEditor extends BasicGraphEditor
 {
     private static final long serialVersionUID = -4601740824088314699L;
 
-    public GraphEditor(SchemaDiagram initial, OWLModelManager modelManager)
+    public GraphEditor(SDontComponent sdComponent)
     {
-        this("Schema Diagram Editor", new SDontComponent(initial, modelManager));
+        this("Schema Diagram Editor", sdComponent);
     }
     
     public GraphEditor(String appTitle, SDontComponent component)
@@ -97,7 +95,7 @@ public class GraphEditor extends BasicGraphEditor
         mxSwingConstants.SHADOW_COLOR = Color.LIGHT_GRAY;
         mxConstants.W3C_SHADOWCOLOR = "#D3D3D3";
 
-        GraphEditor editor = new GraphEditor(new SchemaDiagram(null), null);
+        GraphEditor editor = new GraphEditor(new SDontComponent(null, null));
         editor.createFrame(null).setVisible(true);
     }
 }

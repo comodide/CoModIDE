@@ -10,6 +10,7 @@ import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.swing.handler.mxConnectionHandler;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxGraph;
 
@@ -23,12 +24,15 @@ public class SDontComponent extends mxGraphComponent
 		super(graph);
 		// Overwrite super created transfer handler
 		super.setTransferHandler(new SDontTransferHandler(modelManager));
-
+		// Overwrite super created connection handler (this is for connecting the
+		// edges when dragging off of a cell
+		/* TODO for some reason this breaks the "DROP on empty space to get new cell" */
+		
 		// Sets switches typically used in an editor
 		setPageVisible(true);
 		setGridVisible(true);
 		setToolTips(true);
-		getConnectionHandler().setCreateTarget(true);
+		super.connectionHandler.setCreateTarget(false);
 
 		// Loads the defalt stylesheet from an external file
 		mxCodec  codec = new mxCodec();
@@ -39,7 +43,12 @@ public class SDontComponent extends mxGraphComponent
 		getViewport().setOpaque(true);
 		getViewport().setBackground(Color.WHITE);
 	}
-
+	
+	public mxConnectionHandler createConnectionHandler()
+	{
+		return new SDConnectionHandler(this);
+	}
+	
 	/**
 	 * Overrides drop behaviour to set the cell style if the target is not a valid
 	 * drop target and the cells are of the same type (eg. both vertices or both

@@ -102,13 +102,13 @@ public class SchemaDiagram extends mxGraph
 					// TODO Eventually we want a descriptive message
 				}
 			}
-			else if(currentVal instanceof SDNode)
+			else if (currentVal instanceof SDNode)
 			{
 				log.info("\t[CoModIDE:SchemaDiagram] Change class detected.");
 				// Get current class
 				SDNode node = (SDNode) currentVal;
-				
-				if(node.isDatatype())
+
+				if (node.isDatatype())
 				{
 					// Add the new class to the ontology
 					List<OWLDatatype> datatypes = this.axiomManager.addDatatype(newLabel);
@@ -138,11 +138,11 @@ public class SchemaDiagram extends mxGraph
 					model.setValue(changedCell, node);
 				}
 			}
-			else if(currentVal instanceof SDEdge)
+			else if (currentVal instanceof SDEdge)
 			{
 				log.info("\t[CoModIDE:SchemaDiagram] Change property detected.");
 			}
-			else if(cell.isEdge()) // Enter branch if the label change is for a cell
+			else if (cell.isEdge()) // Enter branch if the label change is for a cell
 			{
 				log.info("\t[CoModIDE:SchemaDiagram] New Property detected.");
 //				mxEdge edge = (mxEdge) c;
@@ -164,17 +164,13 @@ public class SchemaDiagram extends mxGraph
 		}
 	}
 
-	/**
-	 * Sets the edge template to be used to inserting edges.
-	 */
+	/** Sets the edge template to be used to inserting edges. */
 	public void setEdgeTemplate(Object template)
 	{
 		edgeTemplate = template;
 	}
 
-	/**
-	 * Prints out some useful information about the cell in the tooltip.
-	 */
+	/** Prints out some useful information about the cell in the tooltip. */
 	public String getToolTipForCell(Object cell)
 	{
 		String      tip   = "<html>";
@@ -255,18 +251,11 @@ public class SchemaDiagram extends mxGraph
 	/**
 	 * Overrides the method to use the currently selected edge template for new
 	 * edges.
-	 * 
-	 * @param graph
-	 * @param parent
-	 * @param id
-	 * @param value
-	 * @param source
-	 * @param target
-	 * @param style
-	 * @return
 	 */
 	public Object createEdge(Object parent, String id, Object value, Object source, Object target, String style)
 	{
+		log.info("[CoModIDE:SchemaDiagram] createEdge in SchemaDiagram callback");
+		
 		if (edgeTemplate != null)
 		{
 			mxCell edge = (mxCell) cloneCells(new Object[] { edgeTemplate })[0];
