@@ -39,368 +39,333 @@ import com.mxgraph.util.mxEventSource.mxIEventListener;
 
 public class EditorPalette extends JPanel
 {
+	/** Bookkeeping */
+	private static final long serialVersionUID = 7771113885935187066L;
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 7771113885935187066L;
+	protected JLabel        selectedEntry = null;
+	protected mxEventSource eventSource   = new mxEventSource(this);
+	protected Color         gradientColor = new Color(117, 195, 173);
 
-    /**
-     * 
-     */
-    protected JLabel selectedEntry = null;
+	@SuppressWarnings("serial")
+	public EditorPalette()
+	{
+		setBackground(new Color(149, 230, 190));
+		setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
 
-    /**
-     * 
-     */
-    protected mxEventSource eventSource = new mxEventSource(this);
+		// Clears the current selection when the background is clicked
+		addMouseListener(new MouseListener()
+		{
 
-    /**
-     * 
-     */
-    protected Color gradientColor = new Color(117, 195, 173);
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+			 */
+			public void mousePressed(MouseEvent e)
+			{
+				clearSelection();
+			}
 
-    /**
-     * 
-     */
-    @SuppressWarnings("serial")
-    public EditorPalette()
-    {
-        setBackground(new Color(149, 230, 190));
-        setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+			 */
+			public void mouseClicked(MouseEvent e)
+			{
+			}
 
-        // Clears the current selection when the background is clicked
-        addMouseListener(new MouseListener()
-        {
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+			 */
+			public void mouseEntered(MouseEvent e)
+			{
+			}
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-             */
-            public void mousePressed(MouseEvent e)
-            {
-                clearSelection();
-            }
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+			 */
+			public void mouseExited(MouseEvent e)
+			{
+			}
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-             */
-            public void mouseClicked(MouseEvent e)
-            {
-            }
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+			 */
+			public void mouseReleased(MouseEvent e)
+			{
+			}
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-             */
-            public void mouseEntered(MouseEvent e)
-            {
-            }
+		});
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-             */
-            public void mouseExited(MouseEvent e)
-            {
-            }
+		// Shows a nice icon for drag and drop but doesn't import anything
+		setTransferHandler(new TransferHandler()
+		{
+			public boolean canImport(JComponent comp, DataFlavor[] flavors)
+			{
+				return true;
+			}
+		});
+	}
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-             */
-            public void mouseReleased(MouseEvent e)
-            {
-            }
+	public void setGradientColor(Color c)
+	{
+		gradientColor = c;
+	}
 
-        });
+	public Color getGradientColor()
+	{
+		return gradientColor;
+	}
 
-        // Shows a nice icon for drag and drop but doesn't import anything
-        setTransferHandler(new TransferHandler()
-        {
-            public boolean canImport(JComponent comp, DataFlavor[] flavors)
-            {
-                return true;
-            }
-        });
-    }
+	public void paintComponent(Graphics g)
+	{
+		if (gradientColor == null)
+		{
+			super.paintComponent(g);
+		}
+		else
+		{
+			Rectangle rect = getVisibleRect();
 
-    /**
-     * 
-     */
-    public void setGradientColor(Color c)
-    {
-        gradientColor = c;
-    }
+			if (g.getClipBounds() != null)
+			{
+				rect = rect.intersection(g.getClipBounds());
+			}
 
-    /**
-     * 
-     */
-    public Color getGradientColor()
-    {
-        return gradientColor;
-    }
+			Graphics2D g2 = (Graphics2D) g;
 
-    /**
-     * 
-     */
-    public void paintComponent(Graphics g)
-    {
-        if (gradientColor == null)
-        {
-            super.paintComponent(g);
-        } else
-        {
-            Rectangle rect = getVisibleRect();
+			g2.setPaint(new GradientPaint(0, 0, getBackground(), getWidth(), 0, gradientColor));
+			g2.fill(rect);
+		}
+	}
 
-            if (g.getClipBounds() != null)
-            {
-                rect = rect.intersection(g.getClipBounds());
-            }
+	public void clearSelection()
+	{
+		setSelectionEntry(null, null);
+	}
 
-            Graphics2D g2 = (Graphics2D) g;
+	public void setSelectionEntry(JLabel entry, mxGraphTransferable t)
+	{
+		JLabel previous = selectedEntry;
+		selectedEntry = entry;
 
-            g2.setPaint(new GradientPaint(0, 0, getBackground(), getWidth(), 0, gradientColor));
-            g2.fill(rect);
-        }
-    }
+		if (previous != null)
+		{
+			previous.setBorder(null);
+			previous.setOpaque(false);
+		}
 
-    /**
-     * 
-     */
-    public void clearSelection()
-    {
-        setSelectionEntry(null, null);
-    }
+		if (selectedEntry != null)
+		{
+			selectedEntry.setBorder(ShadowBorder.getSharedInstance());
+			selectedEntry.setOpaque(true);
+		}
 
-    /**
-     * 
-     */
-    public void setSelectionEntry(JLabel entry, mxGraphTransferable t)
-    {
-        JLabel previous = selectedEntry;
-        selectedEntry = entry;
+		eventSource.fireEvent(
+				new mxEventObject(mxEvent.SELECT, "entry", selectedEntry, "transferable", t, "previous", previous));
+	}
 
-        if (previous != null)
-        {
-            previous.setBorder(null);
-            previous.setOpaque(false);
-        }
+	public void setPreferredWidth(int width)
+	{
+		int cols = Math.max(1, width / 55);
+		setPreferredSize(new Dimension(width, (getComponentCount() * 55 / cols) + 30));
+		revalidate();
+	}
 
-        if (selectedEntry != null)
-        {
-            selectedEntry.setBorder(ShadowBorder.getSharedInstance());
-            selectedEntry.setOpaque(true);
-        }
+	/**
+	 * 
+	 * @param name
+	 * @param icon
+	 * @param style
+	 * @param width
+	 * @param height
+	 * @param value
+	 */
+	public void addEdgeTemplate(final String name, ImageIcon icon, String style, int width, int height, Object value)
+	{
+		mxGeometry geometry = new mxGeometry(0, 0, width, height);
+		geometry.setTerminalPoint(new mxPoint(0, height), true);
+		geometry.setTerminalPoint(new mxPoint(width, 0), false);
+		geometry.setRelative(true);
 
-        eventSource.fireEvent(
-                new mxEventObject(mxEvent.SELECT, "entry", selectedEntry, "transferable", t, "previous", previous));
-    }
+		mxCell cell = new mxCell(value, geometry, style);
+		cell.setEdge(true);
 
-    /**
-     * 
-     */
-    public void setPreferredWidth(int width)
-    {
-        int cols = Math.max(1, width / 55);
-        setPreferredSize(new Dimension(width, (getComponentCount() * 55 / cols) + 30));
-        revalidate();
-    }
+		addTemplate(name, icon, cell);
+	}
 
-    /**
-     * 
-     * @param name
-     * @param icon
-     * @param style
-     * @param width
-     * @param height
-     * @param value
-     */
-    public void addEdgeTemplate(final String name, ImageIcon icon, String style, int width, int height, Object value)
-    {
-        mxGeometry geometry = new mxGeometry(0, 0, width, height);
-        geometry.setTerminalPoint(new mxPoint(0, height), true);
-        geometry.setTerminalPoint(new mxPoint(width, 0), false);
-        geometry.setRelative(true);
+	/**
+	 * 
+	 * @param name
+	 * @param icon
+	 * @param style
+	 * @param width
+	 * @param height
+	 * @param value
+	 */
+	public void addTemplate(final String name, ImageIcon icon, String style, int width, int height, Object value)
+	{
+		mxCell cell = new mxCell(value, new mxGeometry(0, 0, width, height), style);
+		cell.setVertex(true);
 
-        mxCell cell = new mxCell(value, geometry, style);
-        cell.setEdge(true);
+		addTemplate(name, icon, cell);
+	}
 
-        addTemplate(name, icon, cell);
-    }
+	/**
+	 * 
+	 * @param name
+	 * @param icon
+	 * @param cell
+	 */
+	public void addTemplate(final String name, ImageIcon icon, mxCell cell)
+	{
+		mxRectangle               bounds = (mxGeometry) cell.getGeometry().clone();
+		final mxGraphTransferable t      = new mxGraphTransferable(new Object[] { cell }, bounds);
 
-    /**
-     * 
-     * @param name
-     * @param icon
-     * @param style
-     * @param width
-     * @param height
-     * @param value
-     */
-    public void addTemplate(final String name, ImageIcon icon, String style, int width, int height, Object value)
-    {
-        mxCell cell = new mxCell(value, new mxGeometry(0, 0, width, height), style);
-        cell.setVertex(true);
+		// Scales the image if it's too large for the library
+		if (icon != null)
+		{
+			if (icon.getIconWidth() > 32 || icon.getIconHeight() > 32)
+			{
+				icon = new ImageIcon(icon.getImage().getScaledInstance(32, 32, 0));
+			}
+		}
 
-        addTemplate(name, icon, cell);
-    }
+		final JLabel entry = new JLabel(icon);
+		entry.setPreferredSize(new Dimension(50, 50));
+		entry.setBackground(EditorPalette.this.getBackground().brighter());
+		entry.setFont(new Font(entry.getFont().getFamily(), 0, 10));
 
-    /**
-     * 
-     * @param name
-     * @param icon
-     * @param cell
-     */
-    public void addTemplate(final String name, ImageIcon icon, mxCell cell)
-    {
-        mxRectangle bounds = (mxGeometry) cell.getGeometry().clone();
-        final mxGraphTransferable t = new mxGraphTransferable(new Object[] { cell }, bounds);
+		entry.setVerticalTextPosition(JLabel.BOTTOM);
+		entry.setHorizontalTextPosition(JLabel.CENTER);
+		entry.setIconTextGap(0);
 
-        // Scales the image if it's too large for the library
-        if (icon != null)
-        {
-            if (icon.getIconWidth() > 32 || icon.getIconHeight() > 32)
-            {
-                icon = new ImageIcon(icon.getImage().getScaledInstance(32, 32, 0));
-            }
-        }
+		entry.setToolTipText(name);
+		entry.setText(name);
 
-        final JLabel entry = new JLabel(icon);
-        entry.setPreferredSize(new Dimension(50, 50));
-        entry.setBackground(EditorPalette.this.getBackground().brighter());
-        entry.setFont(new Font(entry.getFont().getFamily(), 0, 10));
+		entry.addMouseListener(new MouseListener()
+		{
 
-        entry.setVerticalTextPosition(JLabel.BOTTOM);
-        entry.setHorizontalTextPosition(JLabel.CENTER);
-        entry.setIconTextGap(0);
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+			 */
+			public void mousePressed(MouseEvent e)
+			{
+				setSelectionEntry(entry, t);
+			}
 
-        entry.setToolTipText(name);
-        entry.setText(name);
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+			 */
+			public void mouseClicked(MouseEvent e)
+			{
+			}
 
-        entry.addMouseListener(new MouseListener()
-        {
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+			 */
+			public void mouseEntered(MouseEvent e)
+			{
+			}
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-             */
-            public void mousePressed(MouseEvent e)
-            {
-                setSelectionEntry(entry, t);
-            }
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+			 */
+			public void mouseExited(MouseEvent e)
+			{
+			}
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-             */
-            public void mouseClicked(MouseEvent e)
-            {
-            }
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+			 */
+			public void mouseReleased(MouseEvent e)
+			{
+			}
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-             */
-            public void mouseEntered(MouseEvent e)
-            {
-            }
+		});
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-             */
-            public void mouseExited(MouseEvent e)
-            {
-            }
+		// Install the handler for dragging nodes into a graph
+		DragGestureListener dragGestureListener = new DragGestureListener()
+		{
+			/**
+			 * 
+			 */
+			public void dragGestureRecognized(DragGestureEvent e)
+			{
+				e.startDrag(null, mxSwingConstants.EMPTY_IMAGE, new Point(), t, null);
+			}
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-             */
-            public void mouseReleased(MouseEvent e)
-            {
-            }
+		};
 
-        });
+		DragSource dragSource = new DragSource();
+		dragSource.createDefaultDragGestureRecognizer(entry, DnDConstants.ACTION_COPY, dragGestureListener);
 
-        // Install the handler for dragging nodes into a graph
-        DragGestureListener dragGestureListener = new DragGestureListener()
-        {
-            /**
-             * 
-             */
-            public void dragGestureRecognized(DragGestureEvent e)
-            {
-                e.startDrag(null, mxSwingConstants.EMPTY_IMAGE, new Point(), t, null);
-            }
+		add(entry);
+	}
 
-        };
+	/**
+	 * @param eventName
+	 * @param listener
+	 * @see com.mxgraph.util.mxEventSource#addListener(java.lang.String,
+	 *      com.mxgraph.util.mxEventSource.mxIEventListener)
+	 */
+	public void addListener(String eventName, mxIEventListener listener)
+	{
+		eventSource.addListener(eventName, listener);
+	}
 
-        DragSource dragSource = new DragSource();
-        dragSource.createDefaultDragGestureRecognizer(entry, DnDConstants.ACTION_COPY, dragGestureListener);
+	/**
+	 * @return whether or not event are enabled for this palette
+	 * @see com.mxgraph.util.mxEventSource#isEventsEnabled()
+	 */
+	public boolean isEventsEnabled()
+	{
+		return eventSource.isEventsEnabled();
+	}
 
-        add(entry);
-    }
+	/**
+	 * @param listener
+	 * @see com.mxgraph.util.mxEventSource#removeListener(com.mxgraph.util.mxEventSource.mxIEventListener)
+	 */
+	public void removeListener(mxIEventListener listener)
+	{
+		eventSource.removeListener(listener);
+	}
 
-    /**
-     * @param eventName
-     * @param listener
-     * @see com.mxgraph.util.mxEventSource#addListener(java.lang.String,
-     *      com.mxgraph.util.mxEventSource.mxIEventListener)
-     */
-    public void addListener(String eventName, mxIEventListener listener)
-    {
-        eventSource.addListener(eventName, listener);
-    }
+	/**
+	 * @param eventName
+	 * @param listener
+	 * @see com.mxgraph.util.mxEventSource#removeListener(java.lang.String,
+	 *      com.mxgraph.util.mxEventSource.mxIEventListener)
+	 */
+	public void removeListener(mxIEventListener listener, String eventName)
+	{
+		eventSource.removeListener(listener, eventName);
+	}
 
-    /**
-     * @return whether or not event are enabled for this palette
-     * @see com.mxgraph.util.mxEventSource#isEventsEnabled()
-     */
-    public boolean isEventsEnabled()
-    {
-        return eventSource.isEventsEnabled();
-    }
-
-    /**
-     * @param listener
-     * @see com.mxgraph.util.mxEventSource#removeListener(com.mxgraph.util.mxEventSource.mxIEventListener)
-     */
-    public void removeListener(mxIEventListener listener)
-    {
-        eventSource.removeListener(listener);
-    }
-
-    /**
-     * @param eventName
-     * @param listener
-     * @see com.mxgraph.util.mxEventSource#removeListener(java.lang.String,
-     *      com.mxgraph.util.mxEventSource.mxIEventListener)
-     */
-    public void removeListener(mxIEventListener listener, String eventName)
-    {
-        eventSource.removeListener(listener, eventName);
-    }
-
-    /**
-     * @param eventsEnabled
-     * @see com.mxgraph.util.mxEventSource#setEventsEnabled(boolean)
-     */
-    public void setEventsEnabled(boolean eventsEnabled)
-    {
-        eventSource.setEventsEnabled(eventsEnabled);
-    }
-
+	/**
+	 * @param eventsEnabled
+	 * @see com.mxgraph.util.mxEventSource#setEventsEnabled(boolean)
+	 */
+	public void setEventsEnabled(boolean eventsEnabled)
+	{
+		eventSource.setEventsEnabled(eventsEnabled);
+	}
 }
