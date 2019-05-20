@@ -20,6 +20,12 @@ public class SDNode
 	{
 	    return this.label;
 	}
+
+	public void update(String newLabel, OWLEntity newEntity)
+	{
+		this.label = newLabel;
+		this.owlEntity = newEntity;
+	}
 	
 	public OWLEntity getOwlEntity()
     {

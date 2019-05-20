@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
+import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
@@ -53,7 +54,7 @@ public class SchemaDiagram extends mxGraph
 	}
 
 	@Override
-	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
+	public void cellLabelChanged(Object changedCell, Object newValue, boolean autoSize)
 	{
 		model.beginUpdate();
 
@@ -62,31 +63,29 @@ public class SchemaDiagram extends mxGraph
 			log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
 
 			// Cast the object into a cell
-			mxCell c = (mxCell) cell;
-			log.info("[CoModIDE:SchemaDiagram]" + c.getStyle());
+			mxCell cell = (mxCell) changedCell;
 			// Get value of the object that is changing.
-			Object v = c.getValue();
+			Object currentVal = cell.getValue();
 			// Typecast the received newValue to String.
 			String newLabel = (String) newValue;
 			// If v is a string, then that means it is a truly new node
-			if (v instanceof String && c.getStyle().equals(SDConstants.classShape)) // New class
+			if (currentVal instanceof String && cell.getStyle().equals(SDConstants.classShape)) // New class
 			{
-				log.info("[CoModIDE:SchemaDiagram] New class detected.");
+				log.info("\t[CoModIDE:SchemaDiagram] New class detected.");
 				// Add the new class to the ontology
 				OWLClass clazz = this.axiomManager.addNewClass(newLabel);
 				// Create an SDNode wrapper for the Axiom
 				SDNode node = new SDNode(newLabel, false, (OWLEntity) clazz);
 				// Set the value in the model.
-				model.setValue(cell, node);
+				model.setValue(changedCell, node);
 			}
-			else if (v instanceof String && c.getStyle().equals(SDConstants.datatypeShape))
+			else if (currentVal instanceof String && cell.getStyle().equals(SDConstants.datatypeShape))
 			{
-				// TODO
-				// FIXME
-				log.info("[CoModIDE:SchemaDiagram] New datatype detected.");
+				log.info("\t[CoModIDE:SchemaDiagram] New datatype detected.");
+
 				// Add the new class to the ontology
 				List<OWLDatatype> datatypes = this.axiomManager.addDatatype(newLabel);
-				// there should hopefully just be one...
+				// there should just be one...
 				if (datatypes.size() == 1)
 				{
 					// Get the datatype
@@ -94,7 +93,7 @@ public class SchemaDiagram extends mxGraph
 					// Create an SDNode wrapper for the Axiom
 					SDNode node = new SDNode(newLabel, true, (OWLEntity) datatype);
 					// Set the value in the model.
-					model.setValue(cell, node);
+					model.setValue(changedCell, node);
 				}
 				else
 				{
@@ -102,6 +101,51 @@ public class SchemaDiagram extends mxGraph
 					// This will force them to type something as the label again
 					// TODO Eventually we want a descriptive message
 				}
+			}
+			else if(currentVal instanceof SDNode)
+			{
+				log.info("\t[CoModIDE:SchemaDiagram] Change class detected.");
+				// Get current class
+				SDNode node = (SDNode) currentVal;
+				
+				if(node.isDatatype())
+				{
+					// Add the new class to the ontology
+					List<OWLDatatype> datatypes = this.axiomManager.addDatatype(newLabel);
+					// there should just be one...
+					if (datatypes.size() == 1)
+					{
+						// Get the datatype
+						OWLDatatype datatype = datatypes.get(0);
+						// Create an SDNode wrapper for the Axiom
+						SDNode datanode = new SDNode(newLabel, true, (OWLEntity) datatype);
+						// Set the value in the model.
+						model.setValue(changedCell, datanode);
+					}
+					else
+					{
+						// Don't do anything.
+						// This will force them to type something as the label again
+						// TODO Eventually we want a descriptive message
+					}
+				}
+				else
+				{
+					OWLClass oldClass = (OWLClass) node.getOwlEntity();
+					// Change the class in the ontology
+					OWLEntity owlEntity = this.axiomManager.replaceClass(oldClass, newLabel);
+					node.update(newLabel, owlEntity);
+					model.setValue(changedCell, node);
+				}
+			}
+			else if(currentVal instanceof SDEdge)
+			{
+				log.info("\t[CoModIDE:SchemaDiagram] Change property detected.");
+			}
+			else if(cell.isEdge()) // Enter branch if the label change is for a cell
+			{
+				log.info("\t[CoModIDE:SchemaDiagram] New Property detected.");
+//				mxEdge edge = (mxEdge) c;
 			}
 			else
 			{
@@ -111,7 +155,7 @@ public class SchemaDiagram extends mxGraph
 			// End Adding //
 			if (autoSize)
 			{
-				cellSizeUpdated(cell, false);
+				cellSizeUpdated(changedCell, false);
 			}
 		}
 		finally

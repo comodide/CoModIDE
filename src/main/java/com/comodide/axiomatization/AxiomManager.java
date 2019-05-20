@@ -1,6 +1,7 @@
 package com.comodide.axiomatization;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +15,9 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,10 +42,11 @@ public class AxiomManager
 	private final String pf  = "[CoModIDE:AxiomManager] ";
 
 	/** Used for adding axioms to the active ontology */
-	private OWLModelManager modelManager;
-	private OWLOntology     owlOntology;
-	private OWLDataFactory  owlDataFactory;
-	private OWLEntityFinder owlEntityFinder;
+	private OWLModelManager  modelManager;
+	private OWLOntology      owlOntology;
+	private OWLDataFactory   owlDataFactory;
+	private OWLEntityFinder  owlEntityFinder;
+	private OWLEntityRenamer owlEntityRenamer;
 
 	/** default namespace */
 	private PrefixDocumentFormat pdf;
@@ -63,6 +68,8 @@ public class AxiomManager
 			// The EntitiyFinder allows us to find existing entities within the
 			// ontology
 			this.owlEntityFinder = this.modelManager.getOWLEntityFinder();
+			// The EntityRenamer does exactly what you think it does
+			createEntityRenamer();
 			// Get the namespace for the active ontology
 			this.iri = this.owlOntology.getOntologyID().getOntologyIRI().orNull();
 		}
@@ -72,6 +79,16 @@ public class AxiomManager
 		}
 	}
 
+	private void createEntityRenamer()
+	{
+		OWLOntologyManager ontologyManager = this.owlOntology.getOWLOntologyManager();
+		
+		Set<OWLOntology> list = new HashSet<>();
+		list.add(this.owlOntology);
+		
+		this.owlEntityRenamer = new OWLEntityRenamer(ontologyManager, list);
+	}
+	
 	/** This method is called when previousLabel.equals("") */
 	public OWLClass addNewClass(String str)
 	{
@@ -91,9 +108,18 @@ public class AxiomManager
 	}
 
 	/** This method should be called when !previousLabel.equals("") */
-	public void replaceClass(Object value)
+	public OWLClass replaceClass(OWLClass oldClass, String newName)
 	{
-
+		// Construct new class IRI
+		IRI newIRI = IRI.create(this.iri + "#" + newName);
+		// Get all OntologyChanges from the EntityRenamer
+		List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(oldClass, newIRI);
+		// Apply the changes
+		this.modelManager.applyChanges(changes);
+		// Construct the OWLClass to return
+		OWLClass owlClass = this.owlDataFactory.getOWLClass(newIRI);
+		// Return a reference of the class based on the new IRI
+		return owlClass;
 	}
 
 	/** This method should be called when newValue == null */
@@ -101,7 +127,7 @@ public class AxiomManager
 	{
 
 	}
-	
+
 	public List<OWLDatatype> addDatatype(String datatype)
 	{
 		// Determine if datatype property exists?
