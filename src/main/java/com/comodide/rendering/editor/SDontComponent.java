@@ -4,17 +4,12 @@ import java.awt.Color;
 import java.awt.Point;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.util.mxEvent;
-import com.mxgraph.util.mxEventObject;
-import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxGraph;
 
@@ -23,20 +18,11 @@ public class SDontComponent extends mxGraphComponent
 	/** Bookkeeping */
 	private static final long serialVersionUID = -6833603133512882012L;
 
-	/** Logging */
-	private static final Logger log = LoggerFactory.getLogger(SDontComponent.class);
-
-	private OWLModelManager modelManager; // TODO this probably needs to be passed to an AxiomManager
-
 	public SDontComponent(mxGraph graph, OWLModelManager modelManager)
 	{
 		super(graph);
-		// Set the model manager for OWLAPI integration
-		this.modelManager = modelManager;
 		// Overwrite super created transfer handler
 		super.setTransferHandler(new SDontTransferHandler(modelManager));
-		// Add an Event Handler for
-		this.addListeners();
 
 		// Sets switches typically used in an editor
 		setPageVisible(true);
@@ -83,33 +69,4 @@ public class SDontComponent extends mxGraphComponent
 
 		return super.importCells(cells, dx, dy, target, location);
 	}
-
-	public void addListeners()
-	{
-		/** This listener will handle the addition of classes and properties. */
-		this.addListener(mxEvent.LABEL_CHANGED, new mxIEventListener()
-		{
-			@Override
-			public void invoke(Object sender, mxEventObject evtObj)
-			{
-				log.info("[CoModIDE:SDontComponent] Label Change Detected.");
-				log.info("\t"+evtObj.getProperty("cell"));
-			}
-		});
-
-		/**
-		 * This listener will handle when edges change connects AND have already been
-		 * instantiated. TODO this does not work at the moment.
-		 */
-		this.addListener(mxEvent.CELL_CONNECTED, new mxIEventListener()
-		{
-
-			@Override
-			public void invoke(Object arg0, mxEventObject arg1)
-			{
-				log.info("[CoModIDE:SDontComponent] Cells Connected Detected.");
-			}
-		});
-	}
-
 }
