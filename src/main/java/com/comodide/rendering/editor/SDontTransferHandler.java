@@ -4,13 +4,11 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.JComponent;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AddAxiom;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.slf4j.Logger;
