@@ -6,16 +6,12 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.util.ShortFormProvider;
-import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import com.comodide.rendering.sdont.model.SDNode;
 
 public class ConceptParser
 {
-	private static final ShortFormProvider	shortFormProvider	= new SimpleShortFormProvider();
-
-	private OWLConnector					connector;
+	private OWLConnector connector;
 
 	public ConceptParser(OWLConnector connector)
 	{
@@ -40,9 +36,8 @@ public class ConceptParser
 		List<OWLClass> concepts = this.connector.retrieveClasses();
 		// Construct nodeset for classes
 		Set<SDNode> conceptNodes = new HashSet<>();
-		concepts.forEach(concept ->{
-			String label = shortFormProvider.getShortForm(concept);
-			conceptNodes.add(new SDNode(label, false, concept));
+		concepts.forEach(concept -> {
+			conceptNodes.add(new SDNode(concept, false));
 		});
 
 		return conceptNodes;
@@ -55,8 +50,7 @@ public class ConceptParser
 		// Construct nodeset for datatypes
 		Set<SDNode> datatypeNodes = new HashSet<>();
 		datatypes.forEach(datatype -> {
-			String label = shortFormProvider.getShortForm(datatype);
-			datatypeNodes.add(new SDNode(label, true, datatype));
+			datatypeNodes.add(new SDNode(datatype, true));
 		});
 
 		return datatypeNodes;

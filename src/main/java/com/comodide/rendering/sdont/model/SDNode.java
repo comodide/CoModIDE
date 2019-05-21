@@ -1,43 +1,40 @@
 package com.comodide.rendering.sdont.model;
 
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 public class SDNode
 {
-	private String label;
+	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+
+	private String  label;
 	private boolean isDatatype;
-	
+
 	private OWLEntity owlEntity;
-	
-	public SDNode(String label, boolean isDatatype, OWLEntity owlEntity)
+
+	public SDNode(OWLEntity owlEntity, boolean isDatatype)
 	{
-		this.label = label;
 		this.isDatatype = isDatatype;
 		this.owlEntity = owlEntity;
 	}
 
 	public String toString()
 	{
-	    return this.label;
+		return shortFormProvider.getShortForm(owlEntity);
 	}
 
-	public void update(String newLabel, OWLEntity newEntity)
-	{
-		this.label = newLabel;
-		this.owlEntity = newEntity;
-	}
-	
 	public OWLEntity getOwlEntity()
-    {
-        return owlEntity;
-    }
+	{
+		return owlEntity;
+	}
 
-    public void setOwlEntity(OWLEntity owlEntity)
-    {
-        this.owlEntity = owlEntity;
-    }
+	public void setOwlEntity(OWLEntity owlEntity)
+	{
+		this.owlEntity = owlEntity;
+	}
 
-    public String getLabel()
+	public String getLabel()
 	{
 		return label;
 	}

@@ -60,7 +60,7 @@ public class LabelChangeHandler
 			OWLEntity cls = axiomManager.handleClass(newLabel);
 			// Wrap it in the intermediate layer (prevents ShortFormProvider reference)
 			// and return.
-			node = new SDNode(newLabel, false, cls);
+			node = new SDNode(cls, false);
 		}
 		else if (cell.getStyle().equals(SDConstants.datatypeShape))
 		{
@@ -69,7 +69,7 @@ public class LabelChangeHandler
 			// Add the new class to the ontology
 			OWLDatatype datatype = this.axiomManager.findDatatype(newLabel);
 			// Create an SDNode wrapper for the Axiom
-			node = new SDNode(newLabel, true, (OWLEntity) datatype);
+			node = new SDNode((OWLEntity) datatype, true);
 		}
 		else
 		{

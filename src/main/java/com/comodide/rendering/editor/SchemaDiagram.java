@@ -1,8 +1,7 @@
 package com.comodide.rendering.editor;
 
-import java.text.NumberFormat;
-
 import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +15,6 @@ import com.mxgraph.view.mxGraph;
  */
 public class SchemaDiagram extends mxGraph
 {
-	/** Holds the shared number formatter */
-	public static final NumberFormat numberFormat = NumberFormat.getInstance();
-
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(SchemaDiagram.class);
 
@@ -71,7 +67,18 @@ public class SchemaDiagram extends mxGraph
 	public void updateSchemaDiagramFromOntology(OWLOntologyChange change)
 	{
 		log.info("\t\t[CoModIDE:SchemaDiagram] Cascading Ontology Change.");
-		// TODO update the schema diagram here.
+
+		// Unpack the OntologyChange
+		OWLAxiom axiom = change.getAxiom();
+		// Add or remove from graph? Might not be necessary.
+		if (change.isAddAxiom())
+		{
+			log.info(axiom.getAxiomType().toString());
+		}
+		else
+		{
+			// TODO remove axiom
+		}
 	}
 
 	/** Sets the edge template to be used to inserting edges. */
