@@ -13,6 +13,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -85,6 +86,87 @@ public class AxiomManager
 		list.add(this.owlOntology);
 		// Create the EntityRenamer
 		this.owlEntityRenamer = new OWLEntityRenamer(ontologyManager, list);
+	}
+
+	public OWLEntity handleClass(String clazz)
+	{
+		OWLClass cls = findClass(clazz);
+
+		if (cls == null)
+		{
+			return addNewClass(clazz);
+		}
+		else
+		{
+			return replaceClass(cls, clazz);
+		}
+	}
+
+	public OWLClass findClass(String clazz)
+	{
+		// Get the list of matches
+		// Based on how it is used here, we should never see more than one match.
+		// TODO sanitize for wildcard
+		Set<OWLClass> classes = this.owlEntityFinder.getMatchingOWLClasses(clazz);
+
+		// Do some basic handling of potential errors
+		try
+		{
+			if (classes.size() > 1)
+			{
+				throw new MultipleMatchesException("The returned class is not guaranteed to be the correct match.");
+			}
+			else if (classes.isEmpty())
+			{
+				// I hate this
+				return null;
+			}
+			else
+			{
+				// Return the matched class
+				OWLClass cls = (new ArrayList<OWLClass>(classes)).get(0);
+				return cls;
+			}
+		}
+		catch (MultipleMatchesException e)
+		{
+			// Return something? or is it better to return nothing?
+			OWLClass cls = (new ArrayList<OWLClass>(classes)).get(0);
+			return cls;
+		}
+	}
+
+	public OWLDatatype findDatatype(String datatype)
+	{
+		// Determine if datatype property exists?
+		Set<OWLDatatype> datatypes = this.owlEntityFinder.getMatchingOWLDatatypes(datatype);
+
+		// Do some basic handling of potential errors
+		try
+		{
+			if (datatypes.size() > 1)
+			{
+				throw new MultipleMatchesException("The returned class is not guaranteed to be the correct match.");
+			}
+			else if (datatypes.isEmpty())
+			{
+				// I hate this
+				return null;
+			}
+			else
+			{
+				// Return the matched class
+				OWLDatatype matchedDatatype = (new ArrayList<OWLDatatype>(datatypes)).get(0);
+				return matchedDatatype;
+			}
+		}
+		catch (MultipleMatchesException e)
+		{
+			// Return something? or is it better to return nothing?
+			OWLDatatype cls = (new ArrayList<OWLDatatype>(datatypes)).get(0);
+			return cls;
+		}
+
 	}
 
 	/** This method is called when previousLabel.equals("") */
