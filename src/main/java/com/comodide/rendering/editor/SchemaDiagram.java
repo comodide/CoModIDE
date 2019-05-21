@@ -103,6 +103,10 @@ public class SchemaDiagram extends mxGraph
 					// TODO Eventually we want a descriptive message
 				}
 			}
+			else if (currentVal instanceof String && cell.isEdge())
+			{
+				log.info("\t[CoModIDE:SchemaDiagram] new edge detected.");
+			}
 			else if (currentVal instanceof SDNode)
 			{
 				log.info("\t[CoModIDE:SchemaDiagram] Change class detected.");
@@ -146,7 +150,6 @@ public class SchemaDiagram extends mxGraph
 			else if (cell.isEdge()) // Enter branch if the label change is for a cell
 			{
 				log.info("\t[CoModIDE:SchemaDiagram] New Property detected.");
-//				mxEdge edge = (mxEdge) c;
 			}
 			else
 			{
@@ -171,92 +174,12 @@ public class SchemaDiagram extends mxGraph
 		edgeTemplate = template;
 	}
 
-	/** Prints out some useful information about the cell in the tooltip. */
-	public String getToolTipForCell(Object cell)
-	{
-		String      tip   = "<html>";
-		mxGeometry  geo   = getModel().getGeometry(cell);
-		mxCellState state = getView().getState(cell);
-
-		if (getModel().isEdge(cell))
-		{
-			tip += "points={";
-
-			if (geo != null)
-			{
-				List<mxPoint> points = geo.getPoints();
-
-				if (points != null)
-				{
-					Iterator<mxPoint> it = points.iterator();
-
-					while (it.hasNext())
-					{
-						mxPoint point = it.next();
-						tip += "[x=" + numberFormat.format(point.getX()) + ",y=" + numberFormat.format(point.getY())
-								+ "],";
-					}
-
-					tip = tip.substring(0, tip.length() - 1);
-				}
-			}
-
-			tip += "}<br>";
-			tip += "absPoints={";
-
-			if (state != null)
-			{
-
-				for (int i = 0; i < state.getAbsolutePointCount(); i++)
-				{
-					mxPoint point = state.getAbsolutePoint(i);
-					tip += "[x=" + numberFormat.format(point.getX()) + ",y=" + numberFormat.format(point.getY()) + "],";
-				}
-
-				tip = tip.substring(0, tip.length() - 1);
-			}
-
-			tip += "}";
-		}
-		else
-		{
-			tip += "geo=[";
-
-			if (geo != null)
-			{
-				tip += "x=" + numberFormat.format(geo.getX()) + ",y=" + numberFormat.format(geo.getY()) + ",width="
-						+ numberFormat.format(geo.getWidth()) + ",height=" + numberFormat.format(geo.getHeight());
-			}
-
-			tip += "]<br>";
-			tip += "state=[";
-
-			if (state != null)
-			{
-				tip += "x=" + numberFormat.format(state.getX()) + ",y=" + numberFormat.format(state.getY()) + ",width="
-						+ numberFormat.format(state.getWidth()) + ",height=" + numberFormat.format(state.getHeight());
-			}
-
-			tip += "]";
-		}
-
-		mxPoint trans = getView().getTranslate();
-
-		tip += "<br>scale=" + numberFormat.format(getView().getScale()) + ", translate=[x="
-				+ numberFormat.format(trans.getX()) + ",y=" + numberFormat.format(trans.getY()) + "]";
-		tip += "</html>";
-
-		return tip;
-	}
-
 	/**
 	 * Overrides the method to use the currently selected edge template for new
 	 * edges.
 	 */
 	public Object createEdge(Object parent, String id, Object value, Object source, Object target, String style)
 	{
-		log.info("[CoModIDE:SchemaDiagram] createEdge in SchemaDiagram callback");
-		
 		if (edgeTemplate != null)
 		{
 			mxCell edge = (mxCell) cloneCells(new Object[] { edgeTemplate })[0];

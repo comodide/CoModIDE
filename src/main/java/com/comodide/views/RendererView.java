@@ -17,72 +17,80 @@ import com.comodide.rendering.editor.GraphEditor;
 import com.comodide.rendering.editor.SDontComponent;
 import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.viz.SDManager;
-import com.comodide.rendering.sdont.viz.UpdateFailureException;
 
 public class RendererView extends AbstractOWLViewComponent
 {
-    /* Book keeping */
-    private static final long serialVersionUID = 1L;
-    private static final Logger log = LoggerFactory.getLogger(RendererView.class);
+	/** Book keeping */
+	private static final long   serialVersionUID = 1L;
+	private static final Logger log              = LoggerFactory.getLogger(RendererView.class);
 
-    /* managers */
-    private OWLModelManager manager;
-    private SDManager sdManager;
+	/** Managers */
+	private OWLModelManager manager;
+	private SDManager       sdManager;
 
-    /* some sort of listener needs to be added here */
-    private RenderingViewOntologyListener renderingViewOntologyListener;
+	/** Listener for detecting changes in the underlying ontology */
+	private RenderingViewOntologyListener renderingViewOntologyListener;
 
-    /* UI objects */
-    private JPanel rendererPanel;
+	/** UI */
+	private JPanel rendererPanel;
 
-    @Override
-    protected void initialiseOWLView()
-    {
-        // Initialize stuff
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        this.manager = getOWLModelManager();
+	/** To be called on set up */
+	@Override
+	protected void initialiseOWLView()
+	{
+		// Initialize stuff
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		this.manager = getOWLModelManager();
 
-        if (this.manager != null)
-        {
-            // Add Listener to the model manager
-            this.renderingViewOntologyListener = new RenderingViewOntologyListener();
-            this.manager.addOntologyChangeListener(renderingViewOntologyListener);
+		if (this.manager != null)
+		{
+			/* Register listener to detect changes in the ontology */
+			// Create the Listener
+			this.renderingViewOntologyListener = new RenderingViewOntologyListener();
+			// Add ot the manager
+			this.manager.addOntologyChangeListener(renderingViewOntologyListener);
 
-            // Renderer Panel
-            this.sdManager = new SDManager(manager);
-            SchemaDiagram initialSchemaDiagram = this.sdManager.initialSchemaDiagram();
-            SDontComponent sdComponent = new SDontComponent(initialSchemaDiagram, manager);
-            this.rendererPanel = new GraphEditor(sdComponent);
-            add(rendererPanel);
+			/* Construct the RendererPanel */
+			// The SDManager is a wrapper class for the ontology loading
+			this.sdManager = new SDManager(manager);
+			// Create the initial schema diagram. If there is a loaded ontology, it will
+			// render it.
+			SchemaDiagram initialSchemaDiagram = this.sdManager.initialSchemaDiagram();
+			// Create visualization component
+			SDontComponent sdComponent = new SDontComponent(initialSchemaDiagram, manager);
+			// Show to user
+			this.rendererPanel = new GraphEditor(sdComponent);
+			add(rendererPanel);
 
-            // Finish and Log
-            log.info("[CoModIDE:RenderingView] Initialized");
-        } else
-        {
-            log.error("[CoModIDE:RenderingView] Manager does not exist.");
-        }
+			// Finish and Log
+			log.info("[CoModIDE:RenderingView] Successfully initialized");
+		}
+		else
+		{
+			log.error("[CoModIDE:RenderingView] Manager does not exist.");
+		}
 
-    }
+	}
 
-    public void update() throws UpdateFailureException
-    {
-//        this.rendererPanel.update();
-    }
+	/** To be called when exiting. */
+	@Override
+	protected void disposeOWLView()
+	{
+		this.manager.removeOntologyChangeListener(this.renderingViewOntologyListener);
+		log.info("[CoModIDE:RenderingView] Disposed");
+	}
 
-    @Override
-    protected void disposeOWLView()
-    {
-        this.manager.removeOntologyChangeListener(this.renderingViewOntologyListener);
-        log.info("[CoModIDE:RenderingView] Disposed");
-    }
-
-    private class RenderingViewOntologyListener implements OWLOntologyChangeListener
-    {
-        @Override
-        public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException
-        {
-            log.info("[CoModIDE:RenderingView] Change in Ontology detected.");
-            changes.forEach(c -> sdManager.updateNaive());
-        }
-    }
+	/**
+	 * This ontology listener detects changes in the underlying ontology. It will
+	 * in, turn attempt to apply the changes in the overlaying visualization.
+	 */
+	private class RenderingViewOntologyListener implements OWLOntologyChangeListener
+	{
+		@Override
+		public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException
+		{
+			log.info("[CoModIDE:RenderingView] Change in Ontology detected.");
+			changes.forEach(c -> sdManager.updateNaive());
+		}
+	}
 }
