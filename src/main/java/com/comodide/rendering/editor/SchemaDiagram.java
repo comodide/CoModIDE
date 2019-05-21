@@ -1,11 +1,18 @@
 package com.comodide.rendering.editor;
 
 import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.rendering.sdont.model.SDNode;
+import com.comodide.rendering.sdont.viz.mxEdgeMaker;
+import com.comodide.rendering.sdont.viz.mxVertexMaker;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.view.mxGraph;
 
@@ -26,6 +33,10 @@ public class SchemaDiagram extends mxGraph
 	/** Used for handling the changes to cell lables. i.e. add/remove axioms */
 	private LabelChangeHandler labelChangeHandler;
 
+	/** Used for creating the styled mxcells for the graph */
+	private mxVertexMaker vertexMaker;
+	private mxEdgeMaker   edgeMaker;
+
 	/**
 	 * Custom graph that defines the alternate edge style to be used when the middle
 	 * control point of edges is double clicked (flipped).
@@ -35,6 +46,12 @@ public class SchemaDiagram extends mxGraph
 		setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
 		this.labelChangeHandler = new LabelChangeHandler(modelManager);
 		this.allowDanglingEdges = false;
+	}
+
+	public void createCellMakers()
+	{
+		this.vertexMaker = new mxVertexMaker(this);
+		this.edgeMaker = new mxEdgeMaker(this);
 	}
 
 	@Override
@@ -73,7 +90,28 @@ public class SchemaDiagram extends mxGraph
 		// Add or remove from graph? Might not be necessary.
 		if (change.isAddAxiom())
 		{
-			log.info(axiom.getAxiomType().toString());
+			if (axiom.isOfType(AxiomType.DECLARATION))
+			{
+				OWLDeclarationAxiom declaration = (OWLDeclarationAxiom) axiom;
+
+				OWLEntity owlEntity = declaration.getEntity();
+
+				SDNode node = new SDNode(owlEntity, owlEntity instanceof OWLDatatype);
+				Object cell = vertexMaker.makeNode(node);
+
+				model.beginUpdate();
+
+				try
+				{
+					log.info("cell added to graph.");
+					this.addCell(cell);
+				}
+				finally
+				{
+					model.endUpdate();
+				}
+			}
+
 		}
 		else
 		{
