@@ -24,9 +24,6 @@ public class SDontComponent extends mxGraphComponent
 		super(graph);
 		// Overwrite super created transfer handler
 		super.setTransferHandler(new SDontTransferHandler(modelManager));
-		// Overwrite super created connection handler (this is for connecting the
-		// edges when dragging off of a cell
-		/* TODO for some reason this breaks the "DROP on empty space to get new cell" */
 		
 		// Sets switches typically used in an editor
 		setPageVisible(true);
@@ -44,6 +41,7 @@ public class SDontComponent extends mxGraphComponent
 		getViewport().setBackground(Color.WHITE);
 	}
 	
+	/** Override for injecting custom behavior into connection handling */
 	public mxConnectionHandler createConnectionHandler()
 	{
 		return new SDConnectionHandler(this);

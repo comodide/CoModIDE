@@ -22,6 +22,8 @@ public class RendererView extends AbstractOWLViewComponent
 {
 	/** Book keeping */
 	private static final long   serialVersionUID = 1L;
+	
+	/** Logging */
 	private static final Logger log              = LoggerFactory.getLogger(RendererView.class);
 
 	/** Managers */
@@ -89,8 +91,8 @@ public class RendererView extends AbstractOWLViewComponent
 		@Override
 		public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException
 		{
-			log.info("[CoModIDE:RenderingView] Change in Ontology detected.");
-			changes.forEach(c -> sdManager.updateNaive());
+			log.info("[CoModIDE:RenderingView] Changes in Ontology detected.");
+			changes.forEach(change -> sdManager.updateSchemaDiagramFromOntology(change));
 		}
 	}
 }
