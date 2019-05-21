@@ -41,8 +41,9 @@ public class SDManager
 		this.ontologyParser = new OntologyParser(this.modelManager);
 		this.graph = ontologyParser.parseOntology();
 		this.maker = new SDMaker(graph, modelManager);
-
-		return maker.visualize();
+		this.schemaDiagram = maker.visualize();
+		
+		return schemaDiagram;
 	}
 
 	/** Called when changes in the underlying ontology are detected. */
