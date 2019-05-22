@@ -92,18 +92,26 @@ public class SchemaDiagram extends mxGraph
 		{
 			if (axiom.isOfType(AxiomType.DECLARATION))
 			{
+				// Unpack data from Declaration
 				OWLDeclarationAxiom declaration = (OWLDeclarationAxiom) axiom;
-
 				OWLEntity owlEntity = declaration.getEntity();
-
-				SDNode node = new SDNode(owlEntity, owlEntity instanceof OWLDatatype);
-				Object cell = vertexMaker.makeNode(node);
-
+				// The cell to add
+				Object cell = null;
+				if (owlEntity.isOWLClass() || owlEntity.isOWLDatatype())
+				{
+					SDNode node = new SDNode(owlEntity, owlEntity.isOWLDatatype());
+					cell = vertexMaker.makeNode(node);
+				}
+				else
+				{
+					log.info("\t\tNot adding as node: " + owlEntity.toString());
+				}
+				
+				// Do update. Code above should be refactored into handler object, etc.
 				model.beginUpdate();
 
 				try
 				{
-					log.info("cell added to graph.");
 					this.addCell(cell);
 				}
 				finally
@@ -111,7 +119,15 @@ public class SchemaDiagram extends mxGraph
 					model.endUpdate();
 				}
 			}
-
+			else if(axiom.isOfType(AxiomType.SUBCLASS_OF))
+			{
+				
+			}
+			else
+			{
+				log.info(axiom.toString());
+			}
+			
 		}
 		else
 		{
