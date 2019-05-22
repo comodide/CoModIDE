@@ -1,7 +1,9 @@
 package com.comodide.patterns;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.protege.editor.core.prefs.Preferences;
 import org.protege.editor.core.prefs.PreferencesManager;
@@ -48,8 +50,8 @@ public class PatternInstantiationConfiguration {
 	 * A list of axioms that the user may want to create in the target ontology when drawing a new edge between 
 	 * two nodes in the schema diagram.
 	 */
-	public static List<EdgeCreationAxiom> getSelectedEdgeCreationAxioms() {
-		List<EdgeCreationAxiom> retVal = new ArrayList<EdgeCreationAxiom>();
+	public static Set<EdgeCreationAxiom> getSelectedEdgeCreationAxioms() {
+		Set<EdgeCreationAxiom> retVal = new HashSet<EdgeCreationAxiom>();
 		for (String s: PREFERENCES.getStringList(EDGE_CREATION_AXIOMS_KEY, new ArrayList<String>())) {
 			retVal.add(EdgeCreationAxiom.valueOf(s));
 		}
@@ -57,7 +59,7 @@ public class PatternInstantiationConfiguration {
 	}
 	
 	public static void addSelectedEdgeCreationAxiom(EdgeCreationAxiom eca) {
-		List<EdgeCreationAxiom> ecasToUpdate = getSelectedEdgeCreationAxioms();
+		Set<EdgeCreationAxiom> ecasToUpdate = getSelectedEdgeCreationAxioms();
 		if (!ecasToUpdate.contains(eca)) {
 			ecasToUpdate.add(eca);
 			setSelectedEdgeCreationAxioms(ecasToUpdate);
@@ -65,14 +67,14 @@ public class PatternInstantiationConfiguration {
 	}
 	
 	public static void removeSelectedEdgeCreationAxiom(EdgeCreationAxiom eca) {
-		List<EdgeCreationAxiom> ecasToUpdate = getSelectedEdgeCreationAxioms();
+		Set<EdgeCreationAxiom> ecasToUpdate = getSelectedEdgeCreationAxioms();
 		if (ecasToUpdate.contains(eca)) {
 			ecasToUpdate.remove(eca);
 			setSelectedEdgeCreationAxioms(ecasToUpdate);
 		}
 	}
 	
-	private static void setSelectedEdgeCreationAxioms(List<EdgeCreationAxiom> creationAxioms) {
+	private static void setSelectedEdgeCreationAxioms(Set<EdgeCreationAxiom> creationAxioms) {
 		List<String> listToStore = new ArrayList<String>();
 		for (EdgeCreationAxiom e: creationAxioms) {
 			listToStore.add(e.name());

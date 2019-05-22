@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -100,7 +101,7 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		edgeCreationAxiomsLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		this.add(edgeCreationAxiomsLabel);
 		
-		List<EdgeCreationAxiom> selectedEdgeCreationAxioms = PatternInstantiationConfiguration.getSelectedEdgeCreationAxioms();
+		Set<EdgeCreationAxiom> selectedEdgeCreationAxioms = PatternInstantiationConfiguration.getSelectedEdgeCreationAxioms();
 		for (PatternInstantiationConfiguration.EdgeCreationAxiom eca: PatternInstantiationConfiguration.EdgeCreationAxiom.values()) {
 			JCheckBox box = new JCheckBox(eca.toString(),selectedEdgeCreationAxioms.contains(eca));
 			box.addItemListener(new ItemListener() {
