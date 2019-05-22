@@ -5,6 +5,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.slf4j.Logger;
@@ -53,7 +55,9 @@ public class PatternTable extends JTable {
 				Pattern selectedPattern = ((PatternTableModel) dataModel).getPatternAtRow(getSelectedRow());
 				try {
 					OWLOntology selectedPatternOntology = PatternLibrary.getInstance().getOwlRepresentation(selectedPattern);
-					return new PatternTransferable(selectedPattern, selectedPatternOntology);
+					Set<OWLAxiom> instantiationAxioms = PatternInstantiator.getInstantiationAxioms(selectedPatternOntology);
+					Set<OWLAxiom> modularizationAxioms = PatternInstantiator.getModuleAnnotationAxioms(selectedPatternOntology);
+					return new PatternTransferable(selectedPattern, instantiationAxioms, modularizationAxioms);
 				}
 				catch (OWLOntologyCreationException ooce) {
 					log.error("The pattern could not be loaded as an OWLAPI OWLOntology: " + ooce.getLocalizedMessage());

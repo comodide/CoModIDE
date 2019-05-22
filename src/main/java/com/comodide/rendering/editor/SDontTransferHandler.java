@@ -4,6 +4,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JComponent;
 
@@ -72,24 +73,29 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 		{
 			try
 			{
-				PatternTransferable pt              = (PatternTransferable) t
-						.getTransferData(PatternTransferable.dataFlavor);
-				Pattern             pattern         = pt.getPattern();
-				OWLOntology         patternOntology = pt.getPatternOntology();
+				PatternTransferable pt = (PatternTransferable) t.getTransferData(PatternTransferable.dataFlavor);
+				Pattern pattern = pt.getPattern();
+				Set<OWLAxiom> instantiationAxioms = pt.getInstantiationAxioms();
+				Set<OWLAxiom> modularizationAnnotationAxioms = pt.getModularisationAnnotationAxioms();
+				
 				log.debug(String.format("The pattern '%s' with OWL ontology '%s' was dropped.", pattern.getLabel(),
-						patternOntology.getOntologyID().getOntologyIRI().orNull()));
+						pattern.getIri().toString()));
 
 				// Clone pattern axioms into active ontology.
 				// This is probably ugly and could be done in a more OWLAPI-ish way
 				OWLOntology    activeOntology = modelManager.getActiveOntology();
 				List<AddAxiom> newAxioms      = new ArrayList<AddAxiom>();
-				for (OWLAxiom patternAxiom : patternOntology.getAxioms())
+				for (OWLAxiom instantiationAxiom : instantiationAxioms)
 				{
-					newAxioms.add(new AddAxiom(activeOntology, patternAxiom));
+					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
+				}
+				for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
+				{
+					newAxioms.add(new AddAxiom(activeOntology, modularizationAnnotationAxiom));
 				}
 				modelManager.applyChanges(newAxioms);
 				log.debug(String.format("%s axioms from the pattern '%s' were added to ontology '%s'.",
-						newAxioms.size(), patternOntology.getOntologyID().getOntologyIRI().orNull(),
+						newAxioms.size(), pattern.getIri().toString(),
 						activeOntology.getOntologyID().getOntologyIRI().orNull()));
 			}
 			catch (Exception ex)

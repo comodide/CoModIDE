@@ -4,20 +4,22 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.Set;
 
-import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 public class PatternTransferable implements Transferable {
 
-	// TODO: Actually package a suitable OWLAPI construct, not just our metadata pattern class
 	private Pattern pattern;
-	private OWLOntology patternOntology;
+	private Set<OWLAxiom> instantiationAxioms;
+	private Set<OWLAxiom> modularisationAnnotationAxioms;
 	public static DataFlavor dataFlavor;
 	
-	public PatternTransferable(Pattern pattern, OWLOntology patternOntology) {
+	public PatternTransferable(Pattern pattern, Set<OWLAxiom> instantiationAxioms, Set<OWLAxiom> modularisationAnnotationAxioms) {
 		super();
 		this.pattern = pattern;
-		this.patternOntology = patternOntology;
+		this.instantiationAxioms = instantiationAxioms;
+		this.modularisationAnnotationAxioms = modularisationAnnotationAxioms;
 	}
 
 	@Override
@@ -48,10 +50,16 @@ public class PatternTransferable implements Transferable {
 	public Pattern getPattern() {
 		return pattern;
 	}
-	
-	public OWLOntology getPatternOntology() {
-		return patternOntology;
+
+	public Set<OWLAxiom> getInstantiationAxioms() {
+		return instantiationAxioms;
 	}
+
+	public Set<OWLAxiom> getModularisationAnnotationAxioms() {
+		return modularisationAnnotationAxioms;
+	}
+
+
 
 	static
 	{
