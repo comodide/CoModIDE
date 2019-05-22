@@ -67,7 +67,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 		
         JLabel patternsTableHeading = new JLabel("Patterns:");
         this.add(patternsTableHeading);
-		patternsTable = new PatternTable(patternsTableModel);
+		patternsTable = new PatternTable(patternsTableModel, this.getOWLModelManager());
 		JScrollPane patternsTableScrollPane = new JScrollPane(patternsTable);
 		patternsTable.setFillsViewportHeight(true);
         this.add(patternsTableScrollPane);

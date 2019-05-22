@@ -17,6 +17,7 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
+import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -36,7 +37,7 @@ public class PatternTable extends JTable {
 	
 	private static final Logger log = LoggerFactory.getLogger(PatternTable.class);
 
-	public PatternTable(PatternTableModel patternTableModel) {
+	public PatternTable(PatternTableModel patternTableModel, OWLModelManager modelManager) {
 		super(patternTableModel);
 		setColumnSelectionAllowed(false);
 		setRowSelectionAllowed(true);
@@ -55,7 +56,7 @@ public class PatternTable extends JTable {
 				Pattern selectedPattern = ((PatternTableModel) dataModel).getPatternAtRow(getSelectedRow());
 				try {
 					OWLOntology selectedPatternOntology = PatternLibrary.getInstance().getOwlRepresentation(selectedPattern);
-					PatternInstantiator pi = new PatternInstantiator(selectedPatternOntology);
+					PatternInstantiator pi = new PatternInstantiator(selectedPatternOntology, modelManager);
 					Set<OWLAxiom> instantiationAxioms = pi.getInstantiationAxioms();
 					Set<OWLAxiom> modularizationAxioms = pi.getModuleAnnotationAxioms();
 					return new PatternTransferable(selectedPattern, instantiationAxioms, modularizationAxioms);

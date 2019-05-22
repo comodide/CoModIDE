@@ -83,8 +83,8 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 
 				// Clone pattern axioms into active ontology.
 				// This is probably ugly and could be done in a more OWLAPI-ish way
-				OWLOntology    activeOntology = modelManager.getActiveOntology();
-				List<AddAxiom> newAxioms      = new ArrayList<AddAxiom>();
+				OWLOntology activeOntology = modelManager.getActiveOntology();
+				List<AddAxiom> newAxioms = new ArrayList<AddAxiom>();
 				for (OWLAxiom instantiationAxiom : instantiationAxioms)
 				{
 					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
