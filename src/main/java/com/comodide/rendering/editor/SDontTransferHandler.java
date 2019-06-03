@@ -89,6 +89,7 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 				{
 					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
 				}
+				// TODO: respect user choice about where to place these axioms; in target ontology or in importing one
 				for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
 				{
 					newAxioms.add(new AddAxiom(activeOntology, modularizationAnnotationAxiom));
