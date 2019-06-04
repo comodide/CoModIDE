@@ -10,13 +10,17 @@ public class SDNode
 
 	private String  label;
 	private boolean isDatatype;
+	private double positionX;
+	private double positionY;
 
 	private OWLEntity owlEntity;
 
-	public SDNode(OWLEntity owlEntity, boolean isDatatype)
+	public SDNode(OWLEntity owlEntity, boolean isDatatype, double positionX, double positionY)
 	{
 		this.isDatatype = isDatatype;
 		this.owlEntity = owlEntity;
+		this.positionX = positionX;
+		this.positionY = positionY;
 	}
 
 	public String toString()
@@ -52,5 +56,21 @@ public class SDNode
 	public void setDatatype(boolean isDatatype)
 	{
 		this.isDatatype = isDatatype;
+	}
+
+	public double getPositionX() {
+		return positionX;
+	}
+
+	public void setPositionX(double positionX) {
+		this.positionX = positionX;
+	}
+
+	public double getPositionY() {
+		return positionY;
+	}
+
+	public void setPositionY(double positionY) {
+		this.positionY = positionY;
 	}
 }

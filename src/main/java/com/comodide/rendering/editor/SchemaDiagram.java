@@ -1,15 +1,18 @@
 package com.comodide.rendering.editor;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.comodide.rendering.sdont.viz.mxEdgeMaker;
 import com.comodide.rendering.sdont.viz.mxVertexMaker;
@@ -95,8 +98,9 @@ public class SchemaDiagram extends mxGraph
 				OWLDeclarationAxiom declaration = (OWLDeclarationAxiom) axiom;
 
 				OWLEntity owlEntity = declaration.getEntity();
-
-				SDNode node = new SDNode(owlEntity, owlEntity instanceof OWLDatatype);
+				OWLOntology ontology = change.getOntology();
+				Pair<Double,Double> xyCoords = PositioningOperations.getXYCoordsForEntity(owlEntity, ontology);
+				SDNode node = new SDNode(owlEntity, owlEntity instanceof OWLDatatype, xyCoords.getLeft(), xyCoords.getRight());
 				Object cell = vertexMaker.makeNode(node);
 
 				model.beginUpdate();

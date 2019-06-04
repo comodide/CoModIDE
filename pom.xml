@@ -32,6 +32,11 @@
 			<version>20180130</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+		<dependency>
 			<groupId>com.comodide</groupId>
 			<artifactId>jgraphx</artifactId>
 			<version>4.0.1</version>
@@ -82,7 +87,8 @@
 						<Embed-Dependency>
 							json,
 							commons-io,
-							jgraphx
+							jgraphx,
+							commons-lang3
 						</Embed-Dependency>
 					</instructions>
 				</configuration>

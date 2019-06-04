@@ -1,12 +1,12 @@
 package com.comodide.rendering.sdont.parsing;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDatatype;
+import org.apache.commons.lang3.tuple.Pair;
+import org.semanticweb.owlapi.model.OWLOntology;
 
+import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDNode;
 
 public class ConceptParser
@@ -32,12 +32,12 @@ public class ConceptParser
 
 	private Set<SDNode> conceptNodes()
 	{
-		// Retrieve classes
-		List<OWLClass> concepts = this.connector.retrieveClasses();
+		OWLOntology ontology = this.connector.getOntology();
 		// Construct nodeset for classes
 		Set<SDNode> conceptNodes = new HashSet<>();
-		concepts.forEach(concept -> {
-			conceptNodes.add(new SDNode(concept, false));
+		ontology.getClassesInSignature().forEach(concept -> {
+			Pair<Double,Double> xyCoords = PositioningOperations.getXYCoordsForEntity(concept, ontology);
+			conceptNodes.add(new SDNode(concept, false, xyCoords.getLeft(), xyCoords.getRight()));
 		});
 
 		return conceptNodes;
@@ -45,12 +45,12 @@ public class ConceptParser
 
 	private Set<SDNode> datatypeNodes()
 	{
-		// Retrieve datatypes
-		List<OWLDatatype> datatypes = this.connector.retrieveDatatypes();
+		OWLOntology ontology = this.connector.getOntology();
 		// Construct nodeset for datatypes
 		Set<SDNode> datatypeNodes = new HashSet<>();
-		datatypes.forEach(datatype -> {
-			datatypeNodes.add(new SDNode(datatype, true));
+		ontology.getDatatypesInSignature().forEach(datatype -> {
+			Pair<Double,Double> xyCoords = PositioningOperations.getXYCoordsForEntity(datatype, ontology);
+			datatypeNodes.add(new SDNode(datatype, true, xyCoords.getLeft(), xyCoords.getRight()));
 		});
 
 		return datatypeNodes;
