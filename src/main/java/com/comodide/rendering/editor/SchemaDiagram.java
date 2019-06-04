@@ -2,6 +2,7 @@ package com.comodide.rendering.editor;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
+import org.protege.editor.owl.model.find.OWLEntityFinder;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDatatype;
@@ -17,6 +18,11 @@ import com.comodide.rendering.sdont.model.SDNode;
 import com.comodide.rendering.sdont.viz.mxEdgeMaker;
 import com.comodide.rendering.sdont.viz.mxVertexMaker;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxICell;
+import com.mxgraph.util.mxEvent;
+import com.mxgraph.util.mxEventObject;
+import com.mxgraph.util.mxUndoableEdit;
+import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.view.mxGraph;
 
 /**
@@ -40,6 +46,37 @@ public class SchemaDiagram extends mxGraph
 	private mxVertexMaker vertexMaker;
 	private mxEdgeMaker   edgeMaker;
 
+	/** Used to interoperate with loaded ontologies. */
+	private final OWLModelManager modelManager;
+	
+	/**
+	 * Listener for mxEvent.CELLS_MOVED event; retrieves the new X/Y coordinates for
+	 * each moved cell and (through {@link PositioningOperations}) updates the OPLa-SD 
+	 * positioning annotations for the corresponding OWL entities.
+	 */
+	protected mxIEventListener cellsMovedHandler = new mxIEventListener()
+	{
+		public void invoke(Object source, mxEventObject evt)
+		{
+			Object[] cells = (Object[])evt.getProperty("cells");
+			for (Object c: cells) {
+				mxICell cell = (mxICell)c;
+				Double newX = cell.getGeometry().getX();
+				Double newY = cell.getGeometry().getY();
+				OWLEntity entity = ((SDNode)cell.getValue()).getOwlEntity();
+				
+				// Check which of the loaded ontologies that hosts this entity; 
+				// update annotations in that ontology.
+				for (OWLOntology ontology: modelManager.getOntologies()) {
+					if (ontology.containsEntityInSignature(entity.getIRI())) {
+						PositioningOperations.updateXYCoordinateAnnotations(entity, ontology ,newX, newY);
+						break;
+					}
+				}
+			}
+		}
+	};
+	
 	/**
 	 * Custom graph that defines the alternate edge style to be used when the middle
 	 * control point of edges is double clicked (flipped).
@@ -49,6 +86,8 @@ public class SchemaDiagram extends mxGraph
 		setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
 		this.labelChangeHandler = new LabelChangeHandler(modelManager);
 		this.allowDanglingEdges = false;
+		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
+		this.modelManager = modelManager;
 	}
 
 	public void createCellMakers()
