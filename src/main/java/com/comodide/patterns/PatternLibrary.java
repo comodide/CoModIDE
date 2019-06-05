@@ -102,7 +102,7 @@ public class PatternLibrary {
 					// We've found a pattern; turn it into a Java object.
 					OWLNamedIndividual namedPattern = (OWLNamedIndividual)pattern;
 					List<String> patternLabels = getLabels(namedPattern, index);
-					List<String> owlRepresentations = getDataProperty(namedPattern, owlRepresentationProperty, index);
+					List<String> owlRepresentations = getDataPropertyValues(namedPattern, owlRepresentationProperty, index);
 					
 					// Mandatory fields if we are to proceed at all: rdfs:label, opla:owlRepresentation, 
 					// and an IRI (which is already checked above in if pattern.isNamed())
@@ -110,11 +110,11 @@ public class PatternLibrary {
 						Pattern newPattern = new Pattern(patternLabels.get(0), namedPattern.getIRI(), owlRepresentations.get(0));
 					
 						// The below fields are nice to have but not mandatory to be indexed.
-						List<String> schemaDiagrams = getDataProperty(namedPattern, schemaDiagram, index);
+						List<String> schemaDiagrams = getDataPropertyValues(namedPattern, schemaDiagram, index);
 						if (schemaDiagrams.size() > 0) {
 							newPattern.setSchemaDiagramPath(schemaDiagrams.get(0));
 						}
-						List<String> htmlDocs = getDataProperty(namedPattern, htmlDocumentation, index);
+						List<String> htmlDocs = getDataPropertyValues(namedPattern, htmlDocumentation, index);
 						if (htmlDocs.size() > 0) {
 							newPattern.setHtmlDocumentation(htmlDocs.get(0));
 						}
@@ -156,7 +156,6 @@ public class PatternLibrary {
 				}
 			}
 		} 
-		// TODO: Add more fine-grained exceptions management.
 		catch (Exception e) {
 			log.error("Unable to reindex pattern library; setting up empty index.", e);
 			e.printStackTrace();
@@ -181,7 +180,15 @@ public class PatternLibrary {
 		return retVal;
 	}
 	
-	private List<String> getDataProperty(OWLIndividual i, OWLDataProperty p, OWLOntology ontology) {
+	/**
+	 * Convenience method that returns the string values of all occurrences of a given data 
+	 * property on a given individual in a given ontology 
+	 * @param i - Individual
+	 * @param p - Data property
+	 * @param ontology - Ontology
+	 * @return List of strings, one per each occurrence of the data property, on the individual, in the ontology
+	 */
+	private List<String> getDataPropertyValues(OWLIndividual i, OWLDataProperty p, OWLOntology ontology) {
 		List<String> retVal = new ArrayList<String>();
 		for(OWLLiteral literal: EntitySearcher.getDataPropertyValues(i, p, ontology)) {
 			retVal.add(literal.getLiteral());

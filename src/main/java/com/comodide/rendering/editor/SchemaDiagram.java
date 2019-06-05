@@ -63,7 +63,10 @@ public class SchemaDiagram extends mxGraph
 				mxICell cell = (mxICell)c;
 				Double newX = cell.getGeometry().getX();
 				Double newY = cell.getGeometry().getY();
-				OWLEntity entity = ((SDNode)cell.getValue()).getOwlEntity();
+				SDNode node = (SDNode)cell.getValue();
+				node.setPositionX(newX);
+				node.setPositionY(newY);
+				OWLEntity entity = node.getOwlEntity();
 				
 				// Check which of the loaded ontologies that hosts this entity; 
 				// update annotations in that ontology.

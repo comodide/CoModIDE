@@ -17,6 +17,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A frame displaying ontology design pattern documentation, as provided by a
  * passed in Pattern object.
@@ -27,6 +30,8 @@ import javax.swing.JScrollPane;
 public class PatternDocumentationFrame extends JFrame {
 
 	private static final long serialVersionUID = -455249794302758088L;
+	
+	private static final Logger log = LoggerFactory.getLogger(PatternDocumentationFrame.class);
 
 	public PatternDocumentationFrame(Pattern pattern) throws HeadlessException {
 		super();
@@ -61,8 +66,8 @@ public class PatternDocumentationFrame extends JFrame {
 			}
 		}
 		catch (Exception ex) {
+			log.error(ex.getMessage());
 			ex.printStackTrace();
-			// TODO: Log whatever went wrong error
 		}
 		
 		JEditorPane documentationPane = new JEditorPane();

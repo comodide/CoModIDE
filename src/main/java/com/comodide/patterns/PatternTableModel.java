@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  * Custom AbstractTableModel implementation that holds Pattern objects. Supports
- * the PatternTable class.
+ * the {@link PatternTable} class.
  * 
  * @author Karl Hammar <karl@karlhammar.com>
  *

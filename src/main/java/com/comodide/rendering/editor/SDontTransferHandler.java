@@ -102,7 +102,6 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 				if (PatternInstantiationConfiguration.getModuleMetadataExternal()) {
 					IRI activeOntologyIRI = activeOntology.getOntologyID().getOntologyIRI().orNull();
 					// The metadata ontology has the same IRI as the main ontology, but with a -metadata ending
-					// TODO: this assumption may be dangerous, consider the consequences
 					IRI metadataOntologyIRI = IRI.create(activeOntologyIRI.toString(), "-metadata");
 					Set<OWLOntology> allOntologies = modelManager.getOntologies();
 					
@@ -111,7 +110,7 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 					for (OWLOntology ont: allOntologies) {
 						if (ont.getOntologyID().getOntologyIRI().orNull().equals(metadataOntologyIRI)) {
 							metadataOntology = ont;
-							log.info("Found existing metadata ontology: '" + metadataOntology.toString() + "'");
+							log.debug("Found existing metadata ontology: '" + metadataOntology.toString() + "'");
 							break;
 						}
 					}
@@ -134,14 +133,13 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 						}
 						
 						URI metadataOntologyPhysicalURI = new URI(String.format("%s://%s%s", scheme, authority, newPath));
-						log.info("Physical URI for new metadata ontology = " + metadataOntologyPhysicalURI.toString());
+						log.debug("Physical URI for new metadata ontology = " + metadataOntologyPhysicalURI.toString());
 						
-						//String metaDataOntologyPath =  activeOntologyPhysicalPath.replace("", replacement)
 						Optional<IRI> optionalMetadataOntologyIri = Optional.of(metadataOntologyIRI);
 						Optional<IRI> optionalMetadataOntologyVersionIri = Optional.absent();
 						OWLOntologyID metadataOid = new OWLOntologyID(optionalMetadataOntologyIri, optionalMetadataOntologyVersionIri);
 						metadataOntology = modelManager.createNewOntology(metadataOid, metadataOntologyPhysicalURI);
-						log.info("Created new metadata ontology '" + metadataOntology.toString() + "'");
+						log.debug("Created new metadata ontology '" + metadataOntology.toString() + "'");
 						
 						// Add import of active ontology to metadata ontology
 						OWLDataFactory factory = metadataOntology.getOWLOntologyManager().getOWLDataFactory();
@@ -149,7 +147,6 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 						AddImport ai = new AddImport(metadataOntology, importsDec);
 						newAxioms.add(ai);
 					}
-					
 					
 					// Add modularization axioms to metadata ontology
 					for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)

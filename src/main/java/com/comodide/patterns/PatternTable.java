@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A specialization of JTable specifically intended to list ontology design
- * patterns in the CoModIDE pattern selector view.
+ * patterns in the CoModIDE pattern selector view. Supported by the {@link PatternTableModel} class.
  * 
  * @author Karl Hammar <karl@karlhammar.com>
  *
@@ -43,6 +43,8 @@ public class PatternTable extends JTable {
 		setRowSelectionAllowed(true);
 		getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setDragEnabled(true);
+		
+		// Transfer handler supporting dragging of patterns out of the table.
 		this.setTransferHandler(new TransferHandler() {
 			private static final long serialVersionUID = -4277997093361110983L;
 			

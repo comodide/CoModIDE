@@ -22,6 +22,11 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 
+/**
+ * This class provides static methods that map from OPLa-SD annotations to (x,y) coordinate pairs, and vice versa. 
+ * @author Karl Hammar <karl@karlhammar.com>
+ *
+ */
 public class PositioningOperations {
 
 	private static final Logger log = LoggerFactory.getLogger(PositioningOperations.class);
@@ -33,6 +38,14 @@ public class PositioningOperations {
 	private static OWLAnnotationProperty entityPositionX = factory.getOWLAnnotationProperty(IRI.create(String.format("%sentityPositionX", OPLA_SD_NAMESPACE)));
 	private static OWLAnnotationProperty entityPositionY = factory.getOWLAnnotationProperty(IRI.create(String.format("%sentityPositionY", OPLA_SD_NAMESPACE)));
 	
+	/**
+	 * Get the (x,y) coordinate pair from OPLa-SD annotations on an OWL Entity in a given OWL ontology.
+	 * @param entity -- The OWL entity to get annotations on
+	 * @param ontology -- The OWL ontology in which the annotations are defined
+	 * @return A pair of Doubles representing (x,y) coordinates. If no coordinates are found in the annotations, 
+	 * each of the coordinates returned are randomized doubles between 0 and 300 (to scatter the rendered nodes 
+	 * a little and avoid 100 % overlap) 
+	 */
 	public static Pair<Double,Double> getXYCoordsForEntity(OWLEntity entity, OWLOntology ontology) {
 		log.debug(String.format("Parsing OPLa-SD annotations to establish coordinates for entity '%s'", entity.toString()));
 		
@@ -42,11 +55,13 @@ public class PositioningOperations {
 		log.debug(String.format("Default (auto-generated) coordinates for entity '%s': (%s,%s)", entity.toString(), positionX.toString(), positionY.toString()));
 		
 		// We'll iterate through all the annotations, so in effect we will get one at random if multiple ones exist.
-		// This is not efficient but the set of annotations should be small (i.e., at most one) so it doesn't really matter.
+		// This is not efficient but the set of annotations should be small (i.e., one) so it doesn't really matter.
 		Collection<OWLAnnotation> positionAnnotations = EntitySearcher.getAnnotations(entity.getIRI(), ontology, entityPosition);
 		for (OWLAnnotation positionAnnotation: positionAnnotations) {
 			if (positionAnnotation.anonymousIndividualValue().isPresent()) {
 				OWLAnonymousIndividual positionIndividual = positionAnnotation.anonymousIndividualValue().get();
+				// We have found an entityPosition annotation pointing from our entity to an anonymous "wrapper" individual; 
+				// now find the sought (x,y) coordinates as annotations on that wrapper individual
 				Collection<OWLAnnotation> positionXAnnotations = EntitySearcher.getAnnotations(positionIndividual, ontology, entityPositionX);
 				for (OWLAnnotation positionXAnnotation: positionXAnnotations) {
 					if (positionXAnnotation.annotationValue().asLiteral().isPresent() && positionXAnnotation.annotationValue().asLiteral().get().isDouble()) {
@@ -69,7 +84,14 @@ public class PositioningOperations {
 		return Pair.of(positionX, positionY);
 	}
 	
-	
+	/**
+	 * Creates OPLa-SD positioning annotations, i.e., (x,y) on an OWL entity in an OWL 
+	 * ontology (replacing any previous annotations in the process). 
+	 * @param entity - The entity to annotate
+	 * @param ontology - The ontology holding the annotations
+	 * @param newX - X coordinate of entity
+	 * @param newY - Y coordinate of entity
+	 */
 	public static void updateXYCoordinateAnnotations(OWLEntity entity, OWLOntology ontology, Double newX, Double newY) {
 		
 		OWLOntologyManager manager = ontology.getOWLOntologyManager();
@@ -107,7 +129,6 @@ public class PositioningOperations {
 		// 4. Add the new axioms
 		manager.addAxioms(ontology, newAxioms);
 	}
-	
 	
 	private static double getRandomDoubleBetweenRange(double min, double max){
 	    double x = (Math.random()*((max-min)+1))+min;

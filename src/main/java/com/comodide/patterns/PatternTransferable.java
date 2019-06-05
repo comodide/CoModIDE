@@ -8,6 +8,13 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
 
+/**
+ * Transferable implementation that supports the dragging and dropping of OWLAPI-based ontology design patterns.
+ * Provides its own custom DataFlavor implementation based on the {@link Pattern} POJO, which is the only DataFlavor
+ * that PatternTransferable supports. 
+ * 
+ * @author Karl Hammar <karl@karlhammar.com>
+ */
 public class PatternTransferable implements Transferable {
 
 	private Pattern pattern;
@@ -58,8 +65,6 @@ public class PatternTransferable implements Transferable {
 	public Set<OWLAxiom> getModularisationAnnotationAxioms() {
 		return modularisationAnnotationAxioms;
 	}
-
-
 
 	static
 	{
