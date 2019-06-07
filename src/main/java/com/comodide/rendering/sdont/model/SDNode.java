@@ -1,5 +1,6 @@
 package com.comodide.rendering.sdont.model;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
@@ -15,6 +16,11 @@ public class SDNode
 
 	private OWLEntity owlEntity;
 
+	public SDNode(OWLEntity owlEntity, boolean isDatatype, Pair<Double, Double> xyCoords)
+	{
+		this(owlEntity, isDatatype, xyCoords.getLeft(), xyCoords.getRight());
+	}
+	
 	public SDNode(OWLEntity owlEntity, boolean isDatatype, double positionX, double positionY)
 	{
 		this.isDatatype = isDatatype;
