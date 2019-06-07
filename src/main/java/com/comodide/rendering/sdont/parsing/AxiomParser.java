@@ -47,10 +47,22 @@ public class AxiomParser
 	private Set<SDEdge>						edgeSet				= null;
 	private SDEdgeFactory					edgeFactory;
 
+	/** Empty Constructor */
+	public AxiomParser()
+	{
+		
+	}
+	
+	/** When parsing the axiom is the only necessity */
+	public AxiomParser(OWLDataFactory owlDataFactory)
+	{
+		
+	}
+	
 	public AxiomParser(OWLConnector connector)
 	{
 		this.connector = connector;
-		this.df = this.connector.getDataFactory();
+		this.df = connector.getDataFactory();
 	}
 
 	public Set<SDEdge> provideEdges(Set<SDNode> nodeSet)
@@ -152,7 +164,7 @@ public class AxiomParser
 		});
 	}
 
-	private void parseAxiom(OWLSubClassOfAxiom ax)
+	public void parseAxiom(OWLSubClassOfAxiom ax)
 	{
 		// Parse SubClass
 		OWLClassExpression sub = ax.getSubClass();
@@ -402,9 +414,10 @@ public class AxiomParser
 		return cet.equals(ClassExpressionType.OWL_CLASS);
 	}
 
-	private void addEdge(Triple t)
+	private SDEdge addEdge(Triple t)
 	{
 		SDEdge edge = edgeFactory.makeSDEdge(t);
 		this.edgeSet.add(edge);
+		return edge;
 	}
 }

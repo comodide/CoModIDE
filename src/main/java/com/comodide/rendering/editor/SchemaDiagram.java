@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDNode;
-import com.comodide.rendering.sdont.viz.mxEdgeMaker;
-import com.comodide.rendering.sdont.viz.mxVertexMaker;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxEvent;
@@ -26,9 +24,7 @@ public class SchemaDiagram extends mxGraph
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(SchemaDiagram.class);
 
-	/**
-	 * Holds the edge to be used as a template for inserting new edges.
-	 */
+	/** Holds the edge to be used as a template for inserting new edges. */
 	protected Object edgeTemplate;
 
 	/** Used for handling the changes to cell lables. i.e. add/remove axioms */
@@ -80,11 +76,11 @@ public class SchemaDiagram extends mxGraph
 	public SchemaDiagram(OWLModelManager modelManager)
 	{
 		setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
+		this.modelManager = modelManager;
 		this.labelChangeHandler = new LabelChangeHandler(modelManager);
 		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(this, modelManager);
 		this.allowDanglingEdges = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
-		this.modelManager = modelManager;
 	}
 
 	@Override
@@ -117,12 +113,10 @@ public class SchemaDiagram extends mxGraph
 	public void updateSchemaDiagramFromOntology(OWLOntologyChange change)
 	{
 		log.info("\t\t[CoModIDE:SchemaDiagram] Cascading Ontology Change.");
-
 		// Handle the change
 		Object cell = updateFromOntologyHandler.handle(change);
 		// Update!
 		model.beginUpdate();
-
 		try
 		{
 			this.addCell(cell);
