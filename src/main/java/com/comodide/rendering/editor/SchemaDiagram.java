@@ -137,19 +137,19 @@ public class SchemaDiagram extends mxGraph
 		{
 			if (axiom.isOfType(AxiomType.DECLARATION))
 			{
+				// Unpack data from Declaration
 				OWLDeclarationAxiom declaration = (OWLDeclarationAxiom) axiom;
-
 				OWLEntity owlEntity = declaration.getEntity();
 				OWLOntology ontology = change.getOntology();
 				Pair<Double,Double> xyCoords = PositioningOperations.getXYCoordsForEntity(owlEntity, ontology);
 				SDNode node = new SDNode(owlEntity, owlEntity instanceof OWLDatatype, xyCoords.getLeft(), xyCoords.getRight());
 				Object cell = vertexMaker.makeNode(node);
 
+				// Do update. Code above should be refactored into handler object, etc.
 				model.beginUpdate();
 
 				try
 				{
-					log.info("cell added to graph.");
 					this.addCell(cell);
 				}
 				finally
@@ -157,7 +157,15 @@ public class SchemaDiagram extends mxGraph
 					model.endUpdate();
 				}
 			}
-
+			else if(axiom.isOfType(AxiomType.SUBCLASS_OF))
+			{
+				
+			}
+			else
+			{
+				log.info(axiom.toString());
+			}
+			
 		}
 		else
 		{
