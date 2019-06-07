@@ -57,6 +57,7 @@ public class AxiomManager
 
 	/** Used for parsing axioms added to the ontology */
 	private AxiomParser axiomParser;
+	private SimpleAxiomParser simpleAxiomParser;
 	
 	private AxiomManager(OWLModelManager modelManager)
 	{
@@ -78,7 +79,6 @@ public class AxiomManager
 			this.iri = this.owlOntology.getOntologyID().getOntologyIRI().orNull();
 			// Create the axiom parser
 			this.axiomParser = new AxiomParser(this.owlDataFactory);
-				
 		}
 		else
 		{

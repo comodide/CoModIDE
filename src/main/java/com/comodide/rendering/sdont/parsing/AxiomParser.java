@@ -38,10 +38,16 @@ import com.comodide.rendering.sdont.model.SDNode;
 
 public class AxiomParser
 {
+	/** Logging */
     private static final Logger log = LoggerFactory.getLogger(AxiomParser.class);
     
+    /** Used for deriving human readable labels */
 	private static final ShortFormProvider	shortFormProvider	= new SimpleShortFormProvider();
+	
+	/** Connects to an OWLOntology and provides some convenience methods. */
 	private OWLConnector					connector;
+	
+	/** Creates new entities/axioms */
 	private OWLDataFactory					df;
 
 	private Set<SDEdge>						edgeSet				= null;

@@ -29,6 +29,7 @@ public class SchemaDiagram extends mxGraph
 
 	/** Used for handling the changes to cell lables. i.e. add/remove axioms */
 	private LabelChangeHandler labelChangeHandler;
+
 	/** Used for handling changes originating in the ontology */
 	private UpdateFromOntologyHandler updateFromOntologyHandler;
 

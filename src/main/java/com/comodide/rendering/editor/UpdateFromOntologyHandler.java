@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
+import com.comodide.axiomatization.SimpleAxiomParser;
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.comodide.rendering.sdont.viz.mxEdgeMaker;
@@ -25,6 +26,9 @@ public class UpdateFromOntologyHandler
 	/** Singleton reference to AxiomManager. Handles OWL entity constructions */
 	private AxiomManager axiomManager;
 
+	/** SimpleAxiomParser, currently shortcuts axiomManagemer */
+	private SimpleAxiomParser simpleAxiomParser;
+	
 	/** Used for creating the styled mxcells for the graph */
 	private mxVertexMaker vertexMaker;
 	private mxEdgeMaker   edgeMaker;
@@ -40,6 +44,8 @@ public class UpdateFromOntologyHandler
 		this.axiomManager = AxiomManager.getInstance(modelManager);
 		this.vertexMaker = new mxVertexMaker(schemaDiagram);
 		this.edgeMaker = new mxEdgeMaker(schemaDiagram);
+
+		this.simpleAxiomParser = new SimpleAxiomParser(schemaDiagram);
 	}
 
 	public Object handle(OWLOntologyChange change)
@@ -81,11 +87,17 @@ public class UpdateFromOntologyHandler
 				log.info(axiom.toString());
 			}
 		}
-		else
+		else if(change.isRemoveAxiom())
 		{
 			// TODO isRemoveAxiom
+			log.warn("[CoModIDE:UFOH] Remove Axioms are currently unhandled.");
 		}
-
+		else
+		{
+			// I'm not actually sure why the ImportChange was throwing such a huge error, possibly in the .getAxiom line
+			// But we completely don't handle ImportChanges; they are skipped in RendererView
+		}
+		
 		return cell;
 	}
 }
