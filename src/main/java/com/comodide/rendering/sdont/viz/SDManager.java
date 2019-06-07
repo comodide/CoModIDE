@@ -42,7 +42,6 @@ public class SDManager
 		this.graph = ontologyParser.parseOntology();
 		this.maker = new SDMaker(graph, modelManager);
 		this.schemaDiagram = maker.visualize();
-		this.schemaDiagram.createCellMakers();
 		return schemaDiagram;
 	}
 
