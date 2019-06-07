@@ -17,9 +17,12 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.comodide.rendering.sdont.parsing.AxiomParser;
 
 public class AxiomManager
 {
@@ -52,6 +55,9 @@ public class AxiomManager
 	/** Used for current namespace */
 	private IRI iri;
 
+	/** Used for parsing axioms added to the ontology */
+	private AxiomParser axiomParser;
+	
 	private AxiomManager(OWLModelManager modelManager)
 	{
 		this.modelManager = modelManager;
@@ -70,6 +76,9 @@ public class AxiomManager
 			createEntityRenamer();
 			// Get the namespace for the active ontology
 			this.iri = this.owlOntology.getOntologyID().getOntologyIRI().orNull();
+			// Create the axiom parser
+			this.axiomParser = new AxiomParser(this.owlDataFactory);
+				
 		}
 		else
 		{
@@ -214,5 +223,13 @@ public class AxiomManager
 		Set<OWLDatatype> datatypes = this.owlEntityFinder.getMatchingOWLDatatypes(datatype);
 		// return the matches
 		return new ArrayList<>(datatypes);
+	}
+	
+	public void addAxiom(OWLSubClassOfAxiom axiom)
+	{
+		// FIXME
+//		SDEdge edge = this.axiomParser.parseAxiom(axiom);
+	
+		
 	}
 }

@@ -32,8 +32,10 @@ public class SDEdgeFactory
 
 		OWLAxiom owlAxiom = t.wraps();
 		
+//		SDEdge edge = new SDEdge(owlAxiom, source, target, isSubClass);
 		SDEdge edge = new SDEdge(label, isSubClass, source, target, owlAxiom);
 
+		
 		return edge;
 	}
 }

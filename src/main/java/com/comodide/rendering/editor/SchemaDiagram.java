@@ -1,18 +1,10 @@
 package com.comodide.rendering.editor;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owlapi.model.AxiomType;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.rendering.sdont.model.SDNode;
-import com.comodide.rendering.sdont.viz.mxEdgeMaker;
-import com.comodide.rendering.sdont.viz.mxVertexMaker;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.view.mxGraph;
 
@@ -25,17 +17,15 @@ public class SchemaDiagram extends mxGraph
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(SchemaDiagram.class);
 
-	/**
-	 * Holds the edge to be used as a template for inserting new edges.
-	 */
+	/** Holds the edge to be used as a template for inserting new edges. */
 	protected Object edgeTemplate;
 
 	/** Used for handling the changes to cell lables. i.e. add/remove axioms */
-	private LabelChangeHandler labelChangeHandler;
+	private LabelChangeHandler        labelChangeHandler;
+	private UpdateFromOntologyHandler updateFromOntologyHandler;
 
-	/** Used for creating the styled mxcells for the graph */
-	private mxVertexMaker vertexMaker;
-	private mxEdgeMaker   edgeMaker;
+	/** Manager */
+	private OWLModelManager modelManager;
 
 	/**
 	 * Custom graph that defines the alternate edge style to be used when the middle
@@ -44,14 +34,15 @@ public class SchemaDiagram extends mxGraph
 	public SchemaDiagram(OWLModelManager modelManager)
 	{
 		setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
-		this.labelChangeHandler = new LabelChangeHandler(modelManager);
+		this.modelManager = modelManager;
+		this.labelChangeHandler = new LabelChangeHandler(this.modelManager);
+
 		this.allowDanglingEdges = false;
 	}
 
 	public void createCellMakers()
 	{
-		this.vertexMaker = new mxVertexMaker(this);
-		this.edgeMaker = new mxEdgeMaker(this);
+		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(this, this.modelManager);
 	}
 
 	@Override
@@ -84,54 +75,20 @@ public class SchemaDiagram extends mxGraph
 	public void updateSchemaDiagramFromOntology(OWLOntologyChange change)
 	{
 		log.info("\t\t[CoModIDE:SchemaDiagram] Cascading Ontology Change.");
+		Object cell = null;
 
-		// Unpack the OntologyChange
-		OWLAxiom axiom = change.getAxiom();
-		// Add or remove from graph? Might not be necessary.
-		if (change.isAddAxiom())
+		cell = updateFromOntologyHandler.handle(change);
+		
+		// Do update. Code above should be refactored into handler object, etc.
+		model.beginUpdate();
+
+		try
 		{
-			if (axiom.isOfType(AxiomType.DECLARATION))
-			{
-				// Unpack data from Declaration
-				OWLDeclarationAxiom declaration = (OWLDeclarationAxiom) axiom;
-				OWLEntity owlEntity = declaration.getEntity();
-				// The cell to add
-				Object cell = null;
-				if (owlEntity.isOWLClass() || owlEntity.isOWLDatatype())
-				{
-					SDNode node = new SDNode(owlEntity, owlEntity.isOWLDatatype());
-					cell = vertexMaker.makeNode(node);
-				}
-				else
-				{
-					log.info("\t\tNot adding as node: " + owlEntity.toString());
-				}
-				
-				// Do update. Code above should be refactored into handler object, etc.
-				model.beginUpdate();
-
-				try
-				{
-					this.addCell(cell);
-				}
-				finally
-				{
-					model.endUpdate();
-				}
-			}
-			else if(axiom.isOfType(AxiomType.SUBCLASS_OF))
-			{
-				
-			}
-			else
-			{
-				log.info(axiom.toString());
-			}
-			
+			this.addCell(cell);
 		}
-		else
+		finally
 		{
-			// TODO remove axiom
+			model.endUpdate();
 		}
 	}
 
