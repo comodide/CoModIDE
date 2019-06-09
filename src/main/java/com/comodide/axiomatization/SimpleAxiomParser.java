@@ -3,6 +3,7 @@ package com.comodide.axiomatization;
 import java.util.Map;
 
 import org.semanticweb.owlapi.model.ClassExpressionType;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
@@ -12,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.rendering.editor.SchemaDiagram;
-import com.comodide.rendering.sdont.model.SDEdge;
 import com.mxgraph.model.mxGraphModel;
 
 public class SimpleAxiomParser
@@ -21,12 +21,12 @@ public class SimpleAxiomParser
 	private static final Logger log = LoggerFactory.getLogger(SimpleAxiomParser.class);
 
 	/** Used for deriving human readable labels */
-	private static final ShortFormProvider	shortFormProvider	= new SimpleShortFormProvider();
-	
+	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+
 	/** Reference to the SchemaDiagram that is being displayed */
-	//TODO this might break with multiple ontologies D:
+	// TODO this might break with multiple ontologies D:
 	private SchemaDiagram schemaDiagram;
-	
+
 	/** Empty Constructor */
 	public SimpleAxiomParser()
 	{
@@ -53,10 +53,10 @@ public class SimpleAxiomParser
 	 * @return
 	 */
 	// @formatter:on
-	public SDEdge parseSimpleAxiom(OWLSubClassOfAxiom axiom)
+	public EdgeContainer parseSimpleAxiom(OWLSubClassOfAxiom axiom)
 	{
 		// Edge to return
-		SDEdge edge;
+		EdgeContainer edge;
 
 		OWLClassExpression left  = axiom.getSubClass();
 		OWLClassExpression right = axiom.getSuperClass();
@@ -65,7 +65,7 @@ public class SimpleAxiomParser
 		if (left.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS)
 				&& right.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS))
 		{
-			edge = atomicSubclass(left, right);
+			edge = atomicSubclass(axiom, left, right);
 		}
 		else if (left.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS)
 				&& !right.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS))
@@ -87,31 +87,35 @@ public class SimpleAxiomParser
 		return edge;
 	}
 
-	private SDEdge atomicSubclass(OWLClassExpression left, OWLClassExpression right)
+	private EdgeContainer atomicSubclass(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
-		SDEdge subclassEdge = null;
+		EdgeContainer subclassEdge = null;
 
 		// Extract classes
-		OWLClass leftclass = left.asOWLClass();
+		OWLClass leftclass  = left.asOWLClass();
 		OWLClass rightclass = right.asOWLClass();
+		
 		// Get the shortforms. In node creation, these are the IDs
-		String leftLabel = shortFormProvider.getShortForm(leftclass);
+		String leftLabel  = shortFormProvider.getShortForm(leftclass);
 		String rightlabel = shortFormProvider.getShortForm(rightclass);
+		
 		// Obtain associated cells from labels (which are ids)
-		Map<String, Object> cells = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-		Object leftcell = cells.get(leftLabel);
-		Object rightcell = cells.get(rightlabel);
+		Map<String, Object> cells     = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
+		Object              leftcell  = cells.get(leftLabel);
+		Object              rightcell = cells.get(rightlabel);
 		
-		
+		// Package
+		subclassEdge = new EdgeContainer("subclass", axiom, leftcell, rightcell, "subclassStyle");
+
 		return subclassEdge;
 	}
 
-	private SDEdge leftComplex(OWLClassExpression left, OWLClassExpression right)
+	private EdgeContainer leftComplex(OWLClassExpression left, OWLClassExpression right)
 	{
 		return null;
 	}
 
-	private SDEdge rightComplex(OWLClassExpression left, OWLClassExpression right)
+	private EdgeContainer rightComplex(OWLClassExpression left, OWLClassExpression right)
 	{
 		return null;
 	}

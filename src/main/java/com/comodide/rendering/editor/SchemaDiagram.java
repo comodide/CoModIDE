@@ -121,7 +121,6 @@ public class SchemaDiagram extends mxGraph
 
 	public void updateSchemaDiagramFromOntology(OWLOntologyChange change)
 	{
-		log.info("[CoModIDE:SchemaDiagram] Handling Ontology Change.");
 		updateFromOntologyHandler.handle(change);
 	}
 

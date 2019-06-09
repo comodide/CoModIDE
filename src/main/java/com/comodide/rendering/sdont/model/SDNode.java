@@ -42,7 +42,8 @@ public class SDNode
 	{
 		this.owlEntity = owlEntity;
 	}
-
+	
+	@Deprecated
 	public String getLabel()
 	{
 		return this.toString();
