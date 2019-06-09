@@ -3,9 +3,12 @@ package com.comodide.axiomatization;
 import java.util.Map;
 
 import org.semanticweb.owlapi.model.ClassExpressionType;
+import org.semanticweb.owlapi.model.HasFiller;
+import org.semanticweb.owlapi.model.HasProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
@@ -70,12 +73,12 @@ public class SimpleAxiomParser
 		else if (left.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS)
 				&& !right.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS))
 		{
-			edge = rightComplex(left, right);
+			edge = rightComplex(axiom, left, right);
 		}
 		else if (!left.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS)
 				&& right.getClassExpressionType().equals(ClassExpressionType.OWL_CLASS))
 		{
-			edge = leftComplex(left, right);
+			edge = leftComplex(axiom, left, right);
 		}
 		else
 		{
@@ -92,31 +95,73 @@ public class SimpleAxiomParser
 		EdgeContainer subclassEdge = null;
 
 		// Extract classes
-		OWLClass leftclass  = left.asOWLClass();
-		OWLClass rightclass = right.asOWLClass();
-		
+		OWLClass leftClass  = left.asOWLClass();
+		OWLClass rightClass = right.asOWLClass();
+
 		// Get the shortforms. In node creation, these are the IDs
-		String leftLabel  = shortFormProvider.getShortForm(leftclass);
-		String rightlabel = shortFormProvider.getShortForm(rightclass);
-		
+		String leftLabel  = shortFormProvider.getShortForm(leftClass);
+		String rightlabel = shortFormProvider.getShortForm(rightClass);
+
 		// Obtain associated cells from labels (which are ids)
 		Map<String, Object> cells     = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
 		Object              leftcell  = cells.get(leftLabel);
 		Object              rightcell = cells.get(rightlabel);
-		
+
 		// Package
 		subclassEdge = new EdgeContainer("subclass", axiom, leftcell, rightcell, "subclassStyle");
 
 		return subclassEdge;
 	}
 
-	private EdgeContainer leftComplex(OWLClassExpression left, OWLClassExpression right)
+	private EdgeContainer leftComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
-		return null;
+		EdgeContainer relationEdge = null;
+
+		/* Parse Left */
+		// Extract Property
+		OWLEntity property = (OWLEntity) ((HasProperty<?>) left).getProperty();
+		// Extract Class
+		OWLClass leftClass = (OWLClass) ((HasFiller<?>) left).getFiller();
+		// Extract Right Class
+		OWLClass rightClass = right.asOWLClass();
+
+		// Get the shortforms
+		String propertyLabel = shortFormProvider.getShortForm(property);
+		String leftLabel     = shortFormProvider.getShortForm(leftClass);
+		String rightLabel    = shortFormProvider.getShortForm(rightClass);
+
+		// Obtain associated cells using the labels
+		Map<String, Object> cells     = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
+		Object              leftCell  = cells.get(leftLabel);
+		Object              rightCell = cells.get(rightLabel);
+
+		relationEdge = new EdgeContainer(propertyLabel, axiom, leftCell, rightCell, "standardStyle");
+		return relationEdge;
 	}
 
-	private EdgeContainer rightComplex(OWLClassExpression left, OWLClassExpression right)
+	private EdgeContainer rightComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
-		return null;
+		EdgeContainer relationEdge = null;
+
+		// Extract left Class
+		OWLClass leftClass = left.asOWLClass();
+		/* Parse Right */
+		// Extract Property
+		OWLEntity property = (OWLEntity) ((HasProperty<?>) right).getProperty();
+		// Extract Class
+		OWLClass rightClass = (OWLClass) ((HasFiller<?>) right).getFiller();
+
+		// Get the shortforms
+		String propertyLabel = shortFormProvider.getShortForm(property);
+		String leftLabel     = shortFormProvider.getShortForm(leftClass);
+		String rightLabel    = shortFormProvider.getShortForm(rightClass);
+
+		// Obtain associated cells using the labels
+		Map<String, Object> cells     = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
+		Object              leftCell  = cells.get(leftLabel);
+		Object              rightCell = cells.get(rightLabel);
+
+		relationEdge = new EdgeContainer(propertyLabel, axiom, leftCell, rightCell, "standardStyle");
+		return relationEdge;
 	}
 }
