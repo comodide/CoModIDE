@@ -9,7 +9,6 @@ public class SDNode
 {
 	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
 
-	private String  label;
 	private boolean isDatatype;
 	private double positionX;
 	private double positionY;
@@ -46,17 +45,12 @@ public class SDNode
 
 	public String getLabel()
 	{
-		return label;
+		return this.toString();
 	}
 
 	public boolean isDatatype()
 	{
 		return isDatatype;
-	}
-
-	public void setLabel(String label)
-	{
-		this.label = label;
 	}
 
 	public void setDatatype(boolean isDatatype)
