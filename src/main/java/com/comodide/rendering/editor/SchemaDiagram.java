@@ -51,19 +51,23 @@ public class SchemaDiagram extends mxGraph
 				mxICell cell = (mxICell) c;
 				Double  newX = cell.getGeometry().getX();
 				Double  newY = cell.getGeometry().getY();
-				SDNode  node = (SDNode) cell.getValue();
-				node.setPositionX(newX);
-				node.setPositionY(newY);
-				OWLEntity entity = node.getOwlEntity();
-
-				// Check which of the loaded ontologies that hosts this entity;
-				// update annotations in that ontology.
-				for (OWLOntology ontology : modelManager.getOntologies())
+				
+				if(cell.getValue() instanceof SDNode)
 				{
-					if (ontology.containsEntityInSignature(entity.getIRI()))
+					SDNode  node = (SDNode) cell.getValue();
+					node.setPositionX(newX);
+					node.setPositionY(newY);
+					OWLEntity entity = node.getOwlEntity();
+
+					// Check which of the loaded ontologies that hosts this entity;
+					// update annotations in that ontology.
+					for (OWLOntology ontology : modelManager.getOntologies())
 					{
-						PositioningOperations.updateXYCoordinateAnnotations(entity, ontology, newX, newY);
-						break;
+						if (ontology.containsEntityInSignature(entity.getIRI()))
+						{
+							PositioningOperations.updateXYCoordinateAnnotations(entity, ontology, newX, newY);
+							break;
+						}
 					}
 				}
 			}
