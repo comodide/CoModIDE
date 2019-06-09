@@ -48,19 +48,23 @@ public class SchemaDiagram extends mxGraph
 			Object[] cells = (Object[]) evt.getProperty("cells");
 			for (Object c : cells)
 			{
+				// Unpack data from cells
 				mxICell cell = (mxICell) c;
 				Double  newX = cell.getGeometry().getX();
 				Double  newY = cell.getGeometry().getY();
-				
-				if(cell.getValue() instanceof SDNode)
+
+				// We want to update the position only if the cell is a "proper node"
+				// i.e. that the node is actually representing a class in the ontology
+				if (cell.getValue() instanceof SDNode)
 				{
-					SDNode  node = (SDNode) cell.getValue();
+					// Set the positions inside the node
+					SDNode node = (SDNode) cell.getValue();
 					node.setPositionX(newX);
 					node.setPositionY(newY);
-					OWLEntity entity = node.getOwlEntity();
 
-					// Check which of the loaded ontologies that hosts this entity;
-					// update annotations in that ontology.
+					// Check which of the loaded ontologies hosts the
+					// represented entity and update annotations in that ontology.
+					OWLEntity entity = node.getOwlEntity();
 					for (OWLOntology ontology : modelManager.getOntologies())
 					{
 						if (ontology.containsEntityInSignature(entity.getIRI()))
@@ -117,19 +121,8 @@ public class SchemaDiagram extends mxGraph
 
 	public void updateSchemaDiagramFromOntology(OWLOntologyChange change)
 	{
-		log.info("\t\t[CoModIDE:SchemaDiagram] Cascading Ontology Change.");
-		// Handle the change
-		Object cell = updateFromOntologyHandler.handle(change);
-		// Update!
-		model.beginUpdate();
-		try
-		{
-			this.addCell(cell);
-		}
-		finally
-		{
-			model.endUpdate();
-		}
+		log.info("[CoModIDE:SchemaDiagram] Handling Ontology Change.");
+		updateFromOntologyHandler.handle(change);
 	}
 
 	/** Sets the edge template to be used to inserting edges. */
