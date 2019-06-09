@@ -48,7 +48,6 @@ public class SDManager
 	/** Called when changes in the underlying ontology are detected. */
 	public void updateSchemaDiagramFromOntology(OWLOntologyChange change)
 	{
-		log.info("\t[CoModIDE:SDManager] Cascading Ontology Change");
 		this.schemaDiagram.updateSchemaDiagramFromOntology(change);
 	}
 }

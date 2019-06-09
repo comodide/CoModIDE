@@ -91,7 +91,6 @@ public class RendererView extends AbstractOWLViewComponent
 		@Override
 		public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException
 		{
-			log.info("[CoModIDE:RenderingView] Changes in Ontology detected.");
 			changes.forEach(change -> {if(change.isAxiomChange()) sdManager.updateSchemaDiagramFromOntology(change);});
 		}
 	}
