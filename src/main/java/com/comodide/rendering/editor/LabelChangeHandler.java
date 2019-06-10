@@ -25,9 +25,9 @@ public class LabelChangeHandler
 
 	}
 
-	public LabelChangeHandler(OWLModelManager modelManager)
+	public LabelChangeHandler(OWLModelManager modelManager, SchemaDiagram schemaDiagram)
 	{
-		this.axiomManager = AxiomManager.getInstance(modelManager);
+		this.axiomManager = AxiomManager.getInstance(modelManager, schemaDiagram);
 	}
 
 	public Object handle(mxCell cell, String newLabel)

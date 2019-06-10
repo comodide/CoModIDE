@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.ClassExpressionType;
 import org.semanticweb.owlapi.model.HasFiller;
@@ -59,10 +60,16 @@ public class AxiomParser
 		
 	}
 	
+	/** Convenience constructor for only parsing axioms */
+	public AxiomParser(OWLModelManager modelManager)
+	{
+		this.df = modelManager.getOWLDataFactory();
+	}
+	
 	/** When parsing the axiom is the only necessity */
 	public AxiomParser(OWLDataFactory owlDataFactory)
 	{
-		
+		this.df = owlDataFactory;
 	}
 	
 	public AxiomParser(OWLConnector connector)

@@ -10,11 +10,13 @@ public class EdgeContainer
 	private Object target;
 	private String style;
 
+	/** Empty Constructor */
 	public EdgeContainer()
 	{
 
 	}
 
+	/** FIXME this edge container is insufficient for tracing both domain AND range axioms */
 	public EdgeContainer(String id, OWLAxiom axiom, Object source, Object target, String style)
 	{
 		this.id = id;

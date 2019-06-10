@@ -4,17 +4,19 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
 import com.comodide.axiomatization.EdgeContainer;
-import com.comodide.axiomatization.SimpleAxiomParser;
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.comodide.rendering.sdont.viz.mxEdgeMaker;
@@ -30,11 +32,8 @@ public class UpdateFromOntologyHandler
 	private SchemaDiagram schemaDiagram;
 	private mxGraphModel  graphModel;
 
-	/** Singleton reference to AxiomManager. Handles OWL entity constructions */
+	/** Singleton reference to AxiomManager for parsing Axioms */
 	private AxiomManager axiomManager;
-
-	/** SimpleAxiomParser, currently shortcuts axiomManagemer */
-	private SimpleAxiomParser simpleAxiomParser;
 
 	/** Used for creating the styled mxcells for the graph */
 	private mxVertexMaker vertexMaker;
@@ -51,8 +50,7 @@ public class UpdateFromOntologyHandler
 		this.schemaDiagram = schemaDiagram;
 		this.graphModel = (mxGraphModel) schemaDiagram.getModel();
 
-		this.axiomManager = AxiomManager.getInstance(modelManager);
-		this.simpleAxiomParser = new SimpleAxiomParser(schemaDiagram);
+		this.axiomManager = AxiomManager.getInstance(modelManager, schemaDiagram);
 
 		this.vertexMaker = new mxVertexMaker(schemaDiagram);
 		this.edgeMaker = new mxEdgeMaker(schemaDiagram);
@@ -74,10 +72,26 @@ public class UpdateFromOntologyHandler
 			{
 				handleClass(ontology, axiom);
 			}
-			// Axioms are parsed and rendered as an edge
+			// General class axioms are parsed and rendered as an edge
 			else if (axiom.isOfType(AxiomType.SUBCLASS_OF))
 			{
-				handleProperty(ontology, axiom);
+				handleGeneralAxiom(ontology, axiom);
+			}
+			else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN))
+			{
+				handleObjectPropertyDomain(ontology, axiom);
+			}
+			else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_RANGE))
+			{
+
+			}
+			else if (axiom.isOfType(AxiomType.DATA_PROPERTY_DOMAIN))
+			{
+
+			}
+			else if (axiom.isOfType(AxiomType.DATA_PROPERTY_RANGE))
+			{
+
 			}
 			else
 			{
@@ -98,7 +112,7 @@ public class UpdateFromOntologyHandler
 	public void handleClass(OWLOntology ontology, OWLAxiom axiom)
 	{
 		log.info("\t[CoModIDE:UFOH] Handling class change.");
-		
+
 		// The Cell representing the Class or Datatype
 		Object cell = null;
 		// Unpack data from Declaration
@@ -131,27 +145,134 @@ public class UpdateFromOntologyHandler
 		}
 	}
 
-	public void handleProperty(OWLOntology ontology, OWLAxiom axiom)
+	public void handleGeneralAxiom(OWLOntology ontology, OWLAxiom axiom)
 	{
 		log.info("\t[CoModIDE:UFOH] Handling property change.");
 
 		// Parse the axiom
-		EdgeContainer edge = simpleAxiomParser.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
+		EdgeContainer edge = axiomManager.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
 		// Unpack
 		String id     = edge.getId();
 		Object source = edge.getSource();
 		Object target = edge.getTarget();
-//		String style  = edge.getStyle();
+		String style  = edge.getStyle();
 		// Update the SchemaDiagram
 		graphModel.beginUpdate();
 		try
 		{
-			schemaDiagram.insertEdge(null, id, edge, source, target); //style);
+			/*
+			 * FIXME I suspect we need to add the two styles to the SDConstants or something
+			 */
+			schemaDiagram.insertEdge(null, id, edge, source, target, style);
 		}
 		finally
 		{
 			graphModel.endUpdate();
 		}
 
+	}
+
+	public void handleObjectPropertyDomain(OWLOntology ontology, OWLAxiom axiom)
+	{
+		log.info("\t[CoModIDE:UFOH] Handing Object Property Domain Restriction.");
+		EdgeContainer edge = axiomManager.handleObjectPropertyDomain(ontology, axiom);
+		// Null is returned if the edge cannot be handled (multiple ranges)
+		// or if there is no range accompanying this domain.
+		if (edge != null)
+		{
+			// Unpack
+			String id     = edge.getId();
+			Object source = edge.getSource();
+			Object target = edge.getTarget();
+			String style  = edge.getStyle();
+			// Update the SchemaDiagram
+			graphModel.beginUpdate();
+			try
+			{
+				schemaDiagram.insertEdge(null, id, edge, source, target, style);
+			}
+			finally
+			{
+				graphModel.endUpdate();
+			}
+		}
+	}
+	
+	public void handleObjectPropertyRange(OWLOntology ontology, OWLAxiom axiom)
+	{
+		log.info("\t[CoModIDE:UFOH] Handing Object Property Range Restriction.");
+		EdgeContainer edge = axiomManager.handleObjectPropertyRange(ontology, axiom);
+		// Null is returned if the edge cannot be handled (multiple ranges)
+		// or if there is no range accompanying this domain.
+		if (edge != null)
+		{
+			// Unpack
+			String id     = edge.getId();
+			Object source = edge.getSource();
+			Object target = edge.getTarget();
+			String style  = edge.getStyle();
+			// Update the SchemaDiagram
+			graphModel.beginUpdate();
+			try
+			{
+				schemaDiagram.insertEdge(null, id, edge, source, target, style);
+			}
+			finally
+			{
+				graphModel.endUpdate();
+			}
+		}
+	}
+	
+	public void handleDataPropertyDomain(OWLOntology ontology, OWLAxiom axiom)
+	{
+		log.info("\t[CoModIDE:UFOH] Handing Data Property Domain Restriction.");
+		EdgeContainer edge = axiomManager.handleDataPropertyDomain(ontology, axiom);
+		// Null is returned if the edge cannot be handled (multiple ranges)
+		// or if there is no range accompanying this domain.
+		if (edge != null)
+		{
+			// Unpack
+			String id     = edge.getId();
+			Object source = edge.getSource();
+			Object target = edge.getTarget();
+			String style  = edge.getStyle();
+			// Update the SchemaDiagram
+			graphModel.beginUpdate();
+			try
+			{
+				schemaDiagram.insertEdge(null, id, edge, source, target, style);
+			}
+			finally
+			{
+				graphModel.endUpdate();
+			}
+		}
+	}
+	
+	public void handleDataPropertyRange(OWLOntology ontology, OWLAxiom axiom)
+	{
+		log.info("\t[CoModIDE:UFOH] Handing Data Property Range Restriction.");
+		EdgeContainer edge = axiomManager.handleDataPropertyRange(ontology, axiom);
+		// Null is returned if the edge cannot be handled (multiple ranges)
+		// or if there is no range accompanying this domain.
+		if (edge != null)
+		{
+			// Unpack
+			String id     = edge.getId();
+			Object source = edge.getSource();
+			Object target = edge.getTarget();
+			String style  = edge.getStyle();
+			// Update the SchemaDiagram
+			graphModel.beginUpdate();
+			try
+			{
+				schemaDiagram.insertEdge(null, id, edge, source, target, style);
+			}
+			finally
+			{
+				graphModel.endUpdate();
+			}
+		}
 	}
 }

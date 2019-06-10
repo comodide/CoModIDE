@@ -86,7 +86,7 @@ public class SchemaDiagram extends mxGraph
 	{
 		setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
 		this.modelManager = modelManager;
-		this.labelChangeHandler = new LabelChangeHandler(modelManager);
+		this.labelChangeHandler = new LabelChangeHandler(modelManager, this);
 		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(this, modelManager);
 		this.allowDanglingEdges = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
