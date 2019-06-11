@@ -16,7 +16,6 @@ import com.comodide.axiomatization.AxiomManager;
 import com.comodide.axiomatization.EdgeContainer;
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDNode;
-import com.comodide.rendering.sdont.viz.mxEdgeMaker;
 import com.comodide.rendering.sdont.viz.mxVertexMaker;
 import com.mxgraph.model.mxGraphModel;
 
