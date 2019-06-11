@@ -3,6 +3,7 @@ package com.comodide.rendering.editor;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,24 +35,52 @@ public class LabelChangeHandler
 	{
 		if (cell.isEdge())
 		{
-			return handleEdgeChange(cell, newLabel);
+			return handleEdgeLabelChange(cell, newLabel);
 		}
 		else
 		{
-			return handleNodeChange(cell, newLabel);
+			return handleNodeLabelChange(cell, newLabel);
 		}
 	}
 
-	public SDEdge handleEdgeChange(mxCell cell, String newLabel)
+	public SDEdge handleEdgeLabelChange(mxCell cell, String newLabel)
 	{
-		// Determine if the
-		return null;
+		// Unpack useful things
+		SDNode source = (SDNode) cell.getSource().getValue();
+		SDNode target = (SDNode) cell.getTarget().getValue();
+		
+		// The edge to return
+		SDEdge edge = null;
+		
+		// Domain can not be a datatype
+		if(source.isDatatype())
+		{
+			log.warn("[CoModIDE:LabelChangeHandler] Cannot create axiom with datatype as domain.");
+			return null;
+		}
+		
+		OWLProperty property = null;
+		OWLEntity domain = source.getOwlEntity();
+		OWLEntity range = target.getOwlEntity();
+		// Create the property
+		if(target.isDatatype())
+		{
+			property = this.axiomManager.handleDataProperty(newLabel, domain, range);
+		}
+		else
+		{
+			property = this.axiomManager.handleObjectProperty(newLabel, domain, range);
+		}
+		
+		edge = new SDEdge(source, target, false, property);
+
+		return edge;
 	}
 
-	public SDNode handleNodeChange(mxCell cell, String newLabel)
+	public SDNode handleNodeLabelChange(mxCell cell, String newLabel)
 	{
 		SDNode node = null;
-		
+
 		if (cell.getStyle().equals(SDConstants.classShape))
 		{
 			// Pass the label onto the AxiomManager
@@ -64,8 +93,6 @@ public class LabelChangeHandler
 		}
 		else if (cell.getStyle().equals(SDConstants.datatypeShape))
 		{
-			log.info("\t[CoModIDE:LabelChangeHandler] New datatype detected.");
-
 			// Add the new class to the ontology
 			OWLDatatype datatype = this.axiomManager.findDatatype(newLabel);
 			// Create an SDNode wrapper for the Axiom
@@ -75,7 +102,7 @@ public class LabelChangeHandler
 		{
 			// something something individuals?
 		}
-		
+
 		return node;
 	}
 }
