@@ -31,7 +31,7 @@ public class SDEdgeFactory
 
 		OWLProperty owlProperty = t.wraps();
 		
-		SDEdge edge = new SDEdge(isSubClass, source, target, owlProperty);
+		SDEdge edge = new SDEdge(source, target, isSubClass, owlProperty);
 		
 		return edge;
 	}

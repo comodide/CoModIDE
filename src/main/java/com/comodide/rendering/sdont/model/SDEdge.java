@@ -15,7 +15,7 @@ public class SDEdge
 	
 	private OWLProperty owlProperty;
 	
-	public SDEdge(boolean isSubClass, SDNode source, SDNode target, OWLProperty owlProperty)
+	public SDEdge(SDNode source, SDNode target, boolean isSubClass, OWLProperty owlProperty)
 	{
 		this.isSubclass = isSubClass;
 		this.source = source;

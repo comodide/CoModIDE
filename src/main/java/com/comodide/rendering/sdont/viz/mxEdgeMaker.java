@@ -36,7 +36,7 @@ public class mxEdgeMaker implements EdgeMaker<Object>
 		{
 			for(SDEdge sdedge : sdedges)
 			{
-				edges.put(sdedge.getLabel(), makeEdge(sdedge, vertices));
+				edges.put(sdedge.toString(), makeEdge(sdedge, vertices));
 			}
 		}
 		finally
@@ -50,10 +50,10 @@ public class mxEdgeMaker implements EdgeMaker<Object>
 	public Object makeEdge(SDEdge sdEdge, Map<String, Object> vertices)
 	{
 		// Extract the data from the edge
-		String id = sdEdge.getLabel();
+		String id = sdEdge.toString();
 		
-		Object source = vertices.get(sdEdge.getSource().getLabel());
-		Object target = vertices.get(sdEdge.getTarget().getLabel());
+		Object source = vertices.get(sdEdge.getSource().toString());
+		Object target = vertices.get(sdEdge.getTarget().toString());
 		
 		// Create the mxEdge
 		Object edge = null;

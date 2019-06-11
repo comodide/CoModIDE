@@ -32,7 +32,7 @@ public class mxVertexMaker implements NodeMaker<Object>
 		Map<String, Object> vertices = new HashMap<>();
 		for(SDNode node : nodes)
 		{
-			vertices.put(node.getLabel(), makeNode(node));
+			vertices.put(node.toString(), makeNode(node));
 		}
 		return vertices;
 	}
@@ -40,7 +40,7 @@ public class mxVertexMaker implements NodeMaker<Object>
 	public Object makeNode(SDNode node)
 	{
 		// Extract the data from the node
-		String id = node.getLabel();
+		String id = node.toString();
 
 		// Create the vertex
 		Object vertex = null;
