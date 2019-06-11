@@ -8,7 +8,6 @@ public class SDEdge
 {
 	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
 
-	private String label;
 	private boolean isSubclass;
 	
 	private SDNode source;
@@ -16,9 +15,8 @@ public class SDEdge
 	
 	private OWLProperty owlProperty;
 	
-	public SDEdge(String label, boolean isSubClass, SDNode source, SDNode target, OWLProperty owlProperty)
+	public SDEdge(boolean isSubClass, SDNode source, SDNode target, OWLProperty owlProperty)
 	{
-		this.label = label;
 		this.isSubclass = isSubClass;
 		this.source = source;
 		this.target = target;

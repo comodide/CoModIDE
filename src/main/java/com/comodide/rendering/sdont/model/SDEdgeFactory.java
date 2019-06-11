@@ -15,13 +15,12 @@ public class SDEdgeFactory
 	{
 		this.nodeMap = new HashMap<>();
 		nodeSet.forEach(node -> {
-			this.nodeMap.put(node.getLabel(), node);
+			this.nodeMap.put(node.toString(), node);
 		});
 	}
 	
 	public SDEdge makeSDEdge(Triple t)
 	{
-		String label = t.getPr();
 		String from = t.getFr();
 		String to = t.getTo();
 		
@@ -32,7 +31,7 @@ public class SDEdgeFactory
 
 		OWLProperty owlProperty = t.wraps();
 		
-		SDEdge edge = new SDEdge(label, isSubClass, source, target, owlProperty);
+		SDEdge edge = new SDEdge(isSubClass, source, target, owlProperty);
 		
 		return edge;
 	}
