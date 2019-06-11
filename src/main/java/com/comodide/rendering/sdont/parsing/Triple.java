@@ -1,6 +1,7 @@
 package com.comodide.rendering.sdont.parsing;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLProperty;
 
 /**
  * 
@@ -17,39 +18,47 @@ public class Triple
 
 	private boolean isSubClass;
 	
+	private OWLProperty owlProperty;
 	private OWLAxiom owlAxiom;
 	
-	public Triple(String fr, String to, String pr, OWLAxiom owlAxiom)
+	public Triple(String fr, String to, String pr, OWLProperty owlProperty)
 	{
 		this.fr = fr;
 		this.to = to;
 		this.pr = pr;
 		this.isSubClass = false;
+		this.owlAxiom = null;
+		this.owlProperty = owlProperty;
+	}
+
+	public Triple(String fr, String to, OWLAxiom owlAxiom)
+	{
+	    this(fr, to, "SUBCLASS", null);
+		this.isSubClass = true;
 		this.owlAxiom = owlAxiom;
 	}
 	
-	public Triple(String fr, String to, OWLAxiom owlAxiom)
+	public OWLProperty wraps()
 	{
-	    this(fr, to, "SUBCLASS", owlAxiom);
-		this.isSubClass = true;
+	    return this.getOwlProperty();
 	}
 	
-	public OWLAxiom wraps()
+	public OWLAxiom represents()
 	{
-	    return this.getOwlAxiom();
+		return this.owlAxiom;
 	}
 	
-	public OWLAxiom getOwlAxiom()
-    {
-        return owlAxiom;
-    }
+    public OWLProperty getOwlProperty()
+	{
+		return owlProperty;
+	}
 
-    public void setOwlAxiom(OWLAxiom owlAxiom)
-    {
-        this.owlAxiom = owlAxiom;
-    }
-
-    public boolean isSubClass()
+	public void setOwlProperty(OWLProperty owlProperty)
+	{
+		this.owlProperty = owlProperty;
+	}
+	
+	public boolean isSubClass()
 	{
 		return isSubClass;
 	}

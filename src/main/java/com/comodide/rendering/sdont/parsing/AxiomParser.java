@@ -27,6 +27,7 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
@@ -275,7 +276,7 @@ public class AxiomParser
 
 		// Get filler shortform (codomain)
 		OWLObject filler = ((HasFiller<?>) sup).getFiller();
-
+		OWLObjectProperty prop = null;
 		// TODO: this if clause will probably be a problem, later
 		if(filler instanceof OWLObjectIntersectionOf)
 		{
@@ -312,7 +313,7 @@ public class AxiomParser
 			// We need to make an axiom for each of these
 
 			// Get the property
-			OWLObjectProperty prop = (OWLObjectProperty) ((HasProperty<?>) sup).getProperty();
+			prop = (OWLObjectProperty) ((HasProperty<?>) sup).getProperty();
 
 			// Get the filler
 			Set<OWLClassExpression> set = ((OWLObjectUnionOf) filler).asDisjunctSet();
@@ -342,7 +343,7 @@ public class AxiomParser
 		// Get Property shortform
 		rolStr = shortFormProvider.getShortForm((OWLEntity) ((HasProperty<?>) sup).getProperty());
 
-		return new Triple(domStr, codStr, rolStr, ax);
+		return new Triple(domStr, codStr, rolStr, prop);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -357,7 +358,7 @@ public class AxiomParser
 
 		// Get filler shortform (codomain)
 		OWLObject filler = ((HasFiller<?>) sub).getFiller();
-
+		OWLObjectProperty prop = null;
 		if(filler instanceof OWLObjectIntersectionOf)
 		{
 			OWLObjectIntersectionOf inter = (OWLObjectIntersectionOf) filler;
@@ -389,7 +390,7 @@ public class AxiomParser
 		else if(filler instanceof OWLObjectUnionOf)
 		{
 			// Get the property
-			OWLObjectProperty prop = (OWLObjectProperty) ((HasProperty<?>) sub).getProperty();
+			prop = (OWLObjectProperty) ((HasProperty<?>) sub).getProperty();
 
 			// Get the filler
 			Set<OWLClassExpression> set = ((OWLObjectUnionOf) filler).asDisjunctSet();
@@ -416,7 +417,7 @@ public class AxiomParser
 		// Get Property shortform
 		rolStr = shortFormProvider.getShortForm((OWLEntity) ((HasProperty<?>) sub).getProperty());
 
-		return new Triple(domStr, codStr, rolStr, ax);
+		return new Triple(domStr, codStr, rolStr, prop);
 	}
 
 	/////////////////

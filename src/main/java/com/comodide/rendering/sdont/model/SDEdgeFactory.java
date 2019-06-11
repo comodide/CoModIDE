@@ -3,7 +3,7 @@ package com.comodide.rendering.sdont.model;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLProperty;
 
 import com.comodide.rendering.sdont.parsing.Triple;
 
@@ -30,11 +30,9 @@ public class SDEdgeFactory
 		SDNode source = nodeMap.get(from);
 		SDNode target = nodeMap.get(to);
 
-		OWLAxiom owlAxiom = t.wraps();
+		OWLProperty owlProperty = t.wraps();
 		
-//		SDEdge edge = new SDEdge(owlAxiom, source, target, isSubClass);
-		SDEdge edge = new SDEdge(label, isSubClass, source, target, owlAxiom);
-
+		SDEdge edge = new SDEdge(label, isSubClass, source, target, owlProperty);
 		
 		return edge;
 	}
