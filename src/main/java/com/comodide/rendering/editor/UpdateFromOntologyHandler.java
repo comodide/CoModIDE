@@ -4,14 +4,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +34,6 @@ public class UpdateFromOntologyHandler
 
 	/** Used for creating the styled mxcells for the graph */
 	private mxVertexMaker vertexMaker;
-	private mxEdgeMaker   edgeMaker;
 
 	/** Empty Constructor */
 	public UpdateFromOntologyHandler()
@@ -53,7 +49,6 @@ public class UpdateFromOntologyHandler
 		this.axiomManager = AxiomManager.getInstance(modelManager, schemaDiagram);
 
 		this.vertexMaker = new mxVertexMaker(schemaDiagram);
-		this.edgeMaker = new mxEdgeMaker(schemaDiagram);
 	}
 
 	public void handle(OWLOntologyChange change)
