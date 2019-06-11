@@ -358,13 +358,13 @@ public class AxiomManager
 	{
 		OWLDataPropertyDomainAxiom domainAxiom = (OWLDataPropertyDomainAxiom) axiom;
 		// Unpack from axiom
-		OWLObjectProperty objectProperty = domainAxiom.getProperty().asOWLDataProperty();
-		OWLDatatype          domain         = domainAxiom.getDomain().asOWLDatatype();
+		OWLDataProperty dataProperty = domainAxiom.getProperty().asOWLDataProperty();
+		OWLClass        domain       = domainAxiom.getDomain().asOWLClass();
 		// Get shortforms
-		String propertyName = shortFormProvider.getShortForm(objectProperty);
+		String propertyName = shortFormProvider.getShortForm(dataProperty);
 		String domainLabel  = shortFormProvider.getShortForm(domain);
 		// Extract the Ranges for the object property
-		Set<OWLObjectPropertyRangeAxiom> ranges = ontology.getObjectPropertyRangeAxioms(objectProperty);
+		Set<OWLDataPropertyRangeAxiom> ranges = ontology.getDataPropertyRangeAxioms(dataProperty);
 
 		// Draw edge only if there is domain and range pair. Warn if multiple ranges.
 		if (!ranges.isEmpty())
@@ -403,16 +403,16 @@ public class AxiomManager
 	{
 		OWLDataPropertyRangeAxiom rangeAxiom = (OWLDataPropertyRangeAxiom) axiom;
 		// Unpack from axiom
-		OWLDataProperty objectProperty = rangeAxiom.getProperty().asOWLDataProperty();
-		OWLDatatype     range          = rangeAxiom.getRange().asOWLDatatype();
+		OWLDataProperty dataProperty = rangeAxiom.getProperty().asOWLDataProperty();
+		OWLDatatype     range        = rangeAxiom.getRange().asOWLDatatype();
 		// Get shortforms
-		String propertyName = shortFormProvider.getShortForm(objectProperty);
+		String propertyName = shortFormProvider.getShortForm(dataProperty);
 		String rangeLabel   = shortFormProvider.getShortForm(range);
 		// Extract the Ranges for the object property
 		// For some reason the reasoner object was not finding any thing. I am not sure
 		// why, thus
 		// the propagation of ontology into this method.
-		Set<OWLDataPropertyDomainAxiom> domains = ontology.getDataPropertyDomainAxioms(objectProperty);
+		Set<OWLDataPropertyDomainAxiom> domains = ontology.getDataPropertyDomainAxioms(dataProperty);
 
 		// Draw edge only if there is domain and range pair. Warn if multiple ranges.
 		if (!domains.isEmpty())
