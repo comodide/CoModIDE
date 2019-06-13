@@ -17,9 +17,7 @@ import com.comodide.axiomatization.EdgeContainer;
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.comodide.rendering.sdont.viz.mxVertexMaker;
-import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
-import com.mxgraph.model.mxICell;
 
 public class UpdateFromOntologyHandler
 {
@@ -124,12 +122,13 @@ public class UpdateFromOntologyHandler
 			// Create the node
 			cell = vertexMaker.makeNode(node);
 			// We do not want to add a duplicate cell at this time
-			// By adding this "catch" we prevent the loopback "feature" of adding a Class via CoModIDE propagating
-			// Via this handler to add a duplicate cell
+			// By adding this "catch" we prevent the loopback "feature" of adding a Class
+			// via CoModIDE propagating via this handler to add a duplicate cell
 			// TODO support duplicate cells in a sane manner
-			boolean isPresent = (mxCell) graphModel.getCell(cell.toString())  == null;
+			boolean isPresent = this.schemaDiagram.isLock();
+
 			// Update the SchemaDiagram if the cell isn't present
-			if(!isPresent)
+			if (!isPresent)
 			{
 				graphModel.beginUpdate();
 				try
@@ -201,7 +200,7 @@ public class UpdateFromOntologyHandler
 			}
 		}
 	}
-	
+
 	public void handleObjectPropertyRange(OWLOntology ontology, OWLAxiom axiom)
 	{
 		log.info("\t[CoModIDE:UFOH] Handing Object Property Range Restriction.");
@@ -227,7 +226,7 @@ public class UpdateFromOntologyHandler
 			}
 		}
 	}
-	
+
 	public void handleDataPropertyDomain(OWLOntology ontology, OWLAxiom axiom)
 	{
 		log.info("\t[CoModIDE:UFOH] Handing Data Property Domain Restriction.");
@@ -253,7 +252,7 @@ public class UpdateFromOntologyHandler
 			}
 		}
 	}
-	
+
 	public void handleDataPropertyRange(OWLOntology ontology, OWLAxiom axiom)
 	{
 		log.info("\t[CoModIDE:UFOH] Handing Data Property Range Restriction.");

@@ -36,6 +36,9 @@ public class SchemaDiagram extends mxGraph
 	/** Used to interoperate with loaded ontologies. */
 	private final OWLModelManager modelManager;
 
+	/** Used to prevent loopback from adding a class via tab */
+	private boolean lock = false;
+
 	/**
 	 * Listener for mxEvent.CELLS_MOVED event; retrieves the new X/Y coordinates for
 	 * each moved cell and (through {@link PositioningOperations}) updates the
@@ -96,7 +99,7 @@ public class SchemaDiagram extends mxGraph
 	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
 	{
 		model.beginUpdate();
-
+		this.lock = true; // prevent loopback during addaxiom
 		try
 		{
 			log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
@@ -115,6 +118,7 @@ public class SchemaDiagram extends mxGraph
 		}
 		finally
 		{
+			this.lock = false; // always make sure unlocked at this stage
 			model.endUpdate();
 		}
 	}
@@ -122,6 +126,11 @@ public class SchemaDiagram extends mxGraph
 	public void updateSchemaDiagramFromOntology(OWLOntologyChange change)
 	{
 		updateFromOntologyHandler.handle(change);
+	}
+
+	public boolean isLock()
+	{
+		return this.lock;
 	}
 
 	/** Sets the edge template to be used to inserting edges. */
