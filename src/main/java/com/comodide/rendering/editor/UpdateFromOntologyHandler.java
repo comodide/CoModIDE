@@ -17,7 +17,9 @@ import com.comodide.axiomatization.EdgeContainer;
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.comodide.rendering.sdont.viz.mxVertexMaker;
+import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.model.mxICell;
 
 public class UpdateFromOntologyHandler
 {
@@ -77,15 +79,15 @@ public class UpdateFromOntologyHandler
 			}
 			else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_RANGE))
 			{
-
+				handleObjectPropertyRange(ontology, axiom);
 			}
 			else if (axiom.isOfType(AxiomType.DATA_PROPERTY_DOMAIN))
 			{
-
+				handleDataPropertyDomain(ontology, axiom);
 			}
 			else if (axiom.isOfType(AxiomType.DATA_PROPERTY_RANGE))
 			{
-
+				handleDataPropertyRange(ontology, axiom);
 			}
 			else
 			{
@@ -121,15 +123,23 @@ public class UpdateFromOntologyHandler
 			SDNode node = new SDNode(owlEntity, owlEntity.isOWLDatatype(), xyCoords);
 			// Create the node
 			cell = vertexMaker.makeNode(node);
-			// Update the SchemaDiagram
-			graphModel.beginUpdate();
-			try
+			// We do not want to add a duplicate cell at this time
+			// By adding this "catch" we prevent the loopback "feature" of adding a Class via CoModIDE propagating
+			// Via this handler to add a duplicate cell
+			// TODO support duplicate cells in a sane manner
+			boolean isPresent = (mxCell) graphModel.getCell(cell.toString())  == null;
+			// Update the SchemaDiagram if the cell isn't present
+			if(!isPresent)
 			{
-				schemaDiagram.addCell(cell);
-			}
-			finally
-			{
-				graphModel.endUpdate();
+				graphModel.beginUpdate();
+				try
+				{
+					schemaDiagram.addCell(cell);
+				}
+				finally
+				{
+					graphModel.endUpdate();
+				}
 			}
 		}
 		else
