@@ -121,9 +121,9 @@ public class SimpleAxiomParser
 		// Extract Property
 		OWLEntity property = (OWLEntity) ((HasProperty<?>) left).getProperty();
 		// Extract Class
-		OWLClass leftClass = (OWLClass) ((HasFiller<?>) left).getFiller();
+		OWLEntity leftClass = (OWLEntity) ((HasFiller<?>) left).getFiller();
 		// Extract Right Class
-		OWLClass rightClass = right.asOWLClass();
+		OWLEntity rightClass = right.asOWLClass();
 
 		// Get the shortforms
 		String propertyLabel = shortFormProvider.getShortForm(property);
@@ -144,12 +144,12 @@ public class SimpleAxiomParser
 		EdgeContainer relationEdge = null;
 
 		// Extract left Class
-		OWLClass leftClass = left.asOWLClass();
+		OWLEntity leftClass = left.asOWLClass();
 		/* Parse Right */
 		// Extract Property
 		OWLEntity property = (OWLEntity) ((HasProperty<?>) right).getProperty();
 		// Extract Class
-		OWLClass rightClass = (OWLClass) ((HasFiller<?>) right).getFiller();
+		OWLEntity rightClass = (OWLEntity) ((HasFiller<?>) right).getFiller();
 
 		// Get the shortforms
 		String propertyLabel = shortFormProvider.getShortForm(property);
