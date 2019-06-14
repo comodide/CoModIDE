@@ -52,7 +52,6 @@ public class UpdateFromOntologyHandler
 
 	public void handle(OWLOntologyChange change)
 	{
-		log.info("[CoModIDE:UFOH] Handling Ontology Change.");
 		/* Determine the type of OntologyChange */
 		// Unpack the OntologyChange
 		OWLOntology ontology = change.getOntology();
@@ -108,7 +107,7 @@ public class UpdateFromOntologyHandler
 
 	public void handleClass(OWLOntology ontology, OWLAxiom axiom)
 	{
-		log.info("\t[CoModIDE:UFOH] Handling class change.");
+		log.info("[CoModIDE:UFOH] Handling class change.");
 
 		// The Cell representing the Class or Datatype
 		Object cell = null;
@@ -153,7 +152,7 @@ public class UpdateFromOntologyHandler
 
 	public void handleGeneralAxiom(OWLOntology ontology, OWLAxiom axiom)
 	{
-		log.info("\t[CoModIDE:UFOH] Handling property via GCI.");
+		log.info("[CoModIDE:UFOH] Handling property via GCI.");
 		// Parse the axiom
 		EdgeContainer edge = axiomManager.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
 		// Unpack
@@ -179,7 +178,7 @@ public class UpdateFromOntologyHandler
 
 	public void handleObjectPropertyDomain(OWLOntology ontology, OWLAxiom axiom)
 	{
-		log.info("\t[CoModIDE:UFOH] Handing Object Property Domain Restriction.");
+		log.info("[CoModIDE:UFOH] Handing Object Property Domain Restriction.");
 		EdgeContainer edge = axiomManager.handleObjectPropertyDomain(ontology, axiom);
 		// Null is returned if the edge cannot be handled (multiple ranges)
 		// or if there is no range accompanying this domain.
@@ -205,7 +204,7 @@ public class UpdateFromOntologyHandler
 
 	public void handleObjectPropertyRange(OWLOntology ontology, OWLAxiom axiom)
 	{
-		log.info("\t[CoModIDE:UFOH] Handing Object Property Range Restriction.");
+		log.info("[CoModIDE:UFOH] Handing Object Property Range Restriction.");
 		EdgeContainer edge = axiomManager.handleObjectPropertyRange(ontology, axiom);
 		// Null is returned if the edge cannot be handled (multiple ranges)
 		// or if there is no range accompanying this domain.
@@ -231,7 +230,7 @@ public class UpdateFromOntologyHandler
 
 	public void handleDataPropertyDomain(OWLOntology ontology, OWLAxiom axiom)
 	{
-		log.info("\t[CoModIDE:UFOH] Handing Data Property Domain Restriction.");
+		log.info("[CoModIDE:UFOH] Handing Data Property Domain Restriction.");
 		EdgeContainer edge = axiomManager.handleDataPropertyDomain(ontology, axiom);
 		// Null is returned if the edge cannot be handled (multiple ranges)
 		// or if there is no range accompanying this domain.
@@ -257,7 +256,7 @@ public class UpdateFromOntologyHandler
 
 	public void handleDataPropertyRange(OWLOntology ontology, OWLAxiom axiom)
 	{
-		log.info("\t[CoModIDE:UFOH] Handing Data Property Range Restriction.");
+		log.info("[CoModIDE:UFOH] Handing Data Property Range Restriction.");
 		EdgeContainer edge = axiomManager.handleDataPropertyRange(ontology, axiom);
 		// Null is returned if the edge cannot be handled (multiple ranges)
 		// or if there is no range accompanying this domain.
