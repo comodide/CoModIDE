@@ -436,8 +436,8 @@ public class AxiomManager
 		{
 			if (domains.size() == 1)
 			{
-				// Get Range
-				OWLClass domain = ((OWLObjectPropertyRangeAxiom) domains.toArray()[0]).getRange().asOWLClass();
+				// Get Domain
+				OWLClass domain = ((OWLObjectPropertyDomainAxiom) domains.toArray()[0]).getDomain().asOWLClass();
 				// Shortform
 				String domainLabel = shortFormProvider.getShortForm(domain);
 
