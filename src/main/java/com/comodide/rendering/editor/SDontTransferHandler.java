@@ -4,6 +4,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -82,19 +83,27 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 		{
 			try
 			{
+				// Extract from TransferHandler
 				PatternTransferable pt = (PatternTransferable) t.getTransferData(PatternTransferable.dataFlavor);
+				// Unpack from Transferable
 				Pattern pattern = pt.getPattern();
 				Set<OWLAxiom> instantiationAxioms = pt.getInstantiationAxioms();
 				Set<OWLAxiom> modularizationAnnotationAxioms = pt.getModularisationAnnotationAxioms();
+				// Axioms should be sorted, i.e. declarations, then GCI, etc. 
+				// This allows nodes to be rendered, then edges
+				// Sets are unordered, so create List first.
+				ArrayList<OWLAxiom> sortedInstantationAxioms = new ArrayList<OWLAxiom>(instantiationAxioms);
+				Collections.sort(sortedInstantationAxioms); // In place sorting using OWLAPI default comparators
 				
 				log.debug(String.format("The pattern '%s' with OWL ontology '%s' was dropped.", pattern.getLabel(), pattern.getIri().toString()));
 
 				// Clone pattern axioms into active ontology.
 				OWLOntology activeOntology = modelManager.getActiveOntology();
 				List<OWLOntologyChange> newAxioms = new ArrayList<OWLOntologyChange>();
-				for (OWLAxiom instantiationAxiom : instantiationAxioms)
+				for (OWLAxiom instantiationAxiom : sortedInstantationAxioms)
 				{
 					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
+					log.info("debug " + instantiationAxiom    );
 				}
 				
 				// Depending on user configuration, add modularization axioms either to separate metadata ontology or directly
