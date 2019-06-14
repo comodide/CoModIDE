@@ -89,7 +89,10 @@ public class UpdateFromOntologyHandler
 			}
 			else
 			{
-				log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
+				if (!axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
+				{
+					log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
+				}
 			}
 		}
 		else if (change.isRemoveAxiom())
@@ -150,8 +153,7 @@ public class UpdateFromOntologyHandler
 
 	public void handleGeneralAxiom(OWLOntology ontology, OWLAxiom axiom)
 	{
-		log.info("\t[CoModIDE:UFOH] Handling property change.");
-
+		log.info("\t[CoModIDE:UFOH] Handling property via GCI.");
 		// Parse the axiom
 		EdgeContainer edge = axiomManager.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
 		// Unpack
