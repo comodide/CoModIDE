@@ -39,6 +39,7 @@ public class SchemaDiagram extends mxGraph
 	/** Used to prevent loopback from adding a class via tab */
 	private boolean lock = false;
 
+	
 	/**
 	 * Listener for mxEvent.CELLS_MOVED event; retrieves the new X/Y coordinates for
 	 * each moved cell and (through {@link PositioningOperations}) updates the
@@ -98,14 +99,22 @@ public class SchemaDiagram extends mxGraph
 	@Override
 	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
 	{
+		log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
+		/* Process object into useful formats. */
+		mxCell changedCell = (mxCell) cell;
+		String newLabel    = (String) newValue;
+
+		// Rename or new Class?
+		if(changedCell.getValue() instanceof SDNode)
+		{
+			log.info("RENAME");
+		}
+		
+		
 		model.beginUpdate();
 		this.lock = true; // prevent loopback during addaxiom
 		try
 		{
-			log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
-			/* Process object into useful formats. */
-			mxCell changedCell = (mxCell) cell;
-			String newLabel    = (String) newValue;
 			// Handle the label change
 			newValue = labelChangeHandler.handle(changedCell, newLabel);
 			// Set the new value

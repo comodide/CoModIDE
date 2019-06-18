@@ -39,6 +39,15 @@ import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.parsing.AxiomParser;
 import com.mxgraph.model.mxGraphModel;
 
+/**
+ * The purpose of this class is to provide a single point of entry for the
+ * management, creation, and addition of Axioms based on certain actions. For
+ * example, add a new class to the ontology given a string, or rename a class,
+ * etc.
+ * 
+ * @author cogan
+ *
+ */
 public class AxiomManager
 {
 	/** AxiomManager is a singleton class */
@@ -125,18 +134,68 @@ public class AxiomManager
 		this.owlEntityRenamer = new OWLEntityRenamer(ontologyManager, list);
 	}
 
-	public OWLEntity handleClass(String clazz)
+	/**
+	 * This method will attempt to first find a Class with the existing targetName
+	 * If it does not find it, it will create a Class with target name in the active
+	 * ontology.
+	 * 
+	 * If the currentClass is null, then it will return the result from above.
+	 * 
+	 * If the currentClass is not null and targetName exists, it will return
+	 * targetName
+	 * 
+	 * If the currentClass is not null and targetName did not exist, it will rename
+	 * currentClass to targetName
+	 * 
+	 * @return
+	 */
+	public OWLEntity handleClassChange(OWLClass currentClass, String targetName)
 	{
-		OWLClass cls = findClass(clazz);
+		OWLClass targetClass = findClass(targetName);
 
-		if (cls == null)
+		if (targetClass != null)
 		{
-			return addNewClass(clazz);
+			return targetClass;
+		}
+
+		if (currentClass == null)
+		{
+			return addNewClass(targetName);
 		}
 		else
 		{
-			return replaceClass(cls, clazz);
+			return renameClass(currentClass, targetName);
 		}
+	}
+
+	public OWLEntity handleClass(String className)
+	{
+		// Determine if the new class that we are naming the node exists
+		OWLClass cls = findClass(className);
+
+		// Null indicates that there was no class with that name, so create a new one
+		if (cls == null)
+		{
+			return addNewClass(className);
+		}
+		else
+		{
+			return renameClass(cls, className);
+		}
+
+	}
+
+	/** This method will add the created class to the ontology!! */
+	public OWLEntity findOrAddClass(String className)
+	{
+		OWLClass owlClass = findClass(className);
+
+		if (owlClass == null)
+		{
+			owlClass = addNewClass(className);
+		}
+
+		return owlClass;
 	}
 
 	public OWLClass findClass(String clazz)
@@ -151,11 +210,12 @@ public class AxiomManager
 		{
 			if (classes.size() > 1)
 			{
+				log.warn("[CoModIDE:AxiomManager] The returned class is not guaranteed to be the correct match.");
 				throw new MultipleMatchesException("The returned class is not guaranteed to be the correct match.");
 			}
 			else if (classes.isEmpty())
 			{
-				// I hate this
+				// No class of that name was found.
 				return null;
 			}
 			else
@@ -171,6 +231,53 @@ public class AxiomManager
 			OWLClass cls = (new ArrayList<OWLClass>(classes)).get(0);
 			return cls;
 		}
+	}
+
+	/** This method is called when previousLabel.equals("") */
+	public OWLClass addNewClass(String str)
+	{
+		/* Construct the Declaration Axiom */
+		// Create the IRI for the class using the active namespace
+		IRI classIRI = IRI.create(this.iri + "#" + str);
+		// Create the OWLAPI construct for the class
+		OWLClass owlClass = this.owlDataFactory.getOWLClass(classIRI);
+		// Create the Declaration Axiom
+		OWLDeclarationAxiom oda = this.owlDataFactory.getOWLDeclarationAxiom(owlClass);
+		// Create the Axiom Change
+		AddAxiom addAxiom = new AddAxiom(this.owlOntology, oda);
+		// Apply the change to the active ontology!
+		this.modelManager.applyChange(addAxiom);
+		// Return a reference to the class that was added
+		return owlClass;
+	}
+
+	/** This method should be called when !previousLabel.equals("") */
+	public OWLClass renameClass(OWLClass oldClass, String newName)
+	{
+		// Construct new class IRI
+		IRI newIRI = IRI.create(this.iri + "#" + newName);
+		// Get all OntologyChanges from the EntityRenamer
+		List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(oldClass, newIRI);
+		// Apply the changes
+		this.modelManager.applyChanges(changes);
+		// Construct the OWLClass to return
+		OWLClass owlClass = this.owlDataFactory.getOWLClass(newIRI);
+		// Return a reference of the class based on the new IRI
+		return owlClass;
+	}
+
+	/** This method should be called when newValue == null */
+	public void removeClass()
+	{
+
+	}
+
+	public List<OWLDatatype> addDatatype(String datatype)
+	{
+		// Determine if datatype property exists?
+		Set<OWLDatatype> datatypes = this.owlEntityFinder.getMatchingOWLDatatypes(datatype);
+		// return the matches
+		return new ArrayList<>(datatypes);
 	}
 
 	public OWLDatatype findDatatype(String datatype)
@@ -206,53 +313,6 @@ public class AxiomManager
 
 	}
 
-	/** This method is called when previousLabel.equals("") */
-	public OWLClass addNewClass(String str)
-	{
-		/* Construct the Declaration Axiom */
-		// Create the IRI for the class using the active namespace
-		IRI classIRI = IRI.create(this.iri + "#" + str);
-		// Create the OWLAPI construct for the class
-		OWLClass owlClass = this.owlDataFactory.getOWLClass(classIRI);
-		// Create the Declaration Axiom
-		OWLDeclarationAxiom oda = this.owlDataFactory.getOWLDeclarationAxiom(owlClass);
-		// Create the Axiom Change
-		AddAxiom addAxiom = new AddAxiom(this.owlOntology, oda);
-		// Apply the change to the active ontology!
-		this.modelManager.applyChange(addAxiom);
-		// Return a reference to the class that was added
-		return owlClass;
-	}
-
-	/** This method should be called when !previousLabel.equals("") */
-	public OWLClass replaceClass(OWLClass oldClass, String newName)
-	{
-		// Construct new class IRI
-		IRI newIRI = IRI.create(this.iri + "#" + newName);
-		// Get all OntologyChanges from the EntityRenamer
-		List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(oldClass, newIRI);
-		// Apply the changes
-		this.modelManager.applyChanges(changes);
-		// Construct the OWLClass to return
-		OWLClass owlClass = this.owlDataFactory.getOWLClass(newIRI);
-		// Return a reference of the class based on the new IRI
-		return owlClass;
-	}
-
-	/** This method should be called when newValue == null */
-	public void removeClass()
-	{
-
-	}
-
-	public List<OWLDatatype> addDatatype(String datatype)
-	{
-		// Determine if datatype property exists?
-		Set<OWLDatatype> datatypes = this.owlEntityFinder.getMatchingOWLDatatypes(datatype);
-		// return the matches
-		return new ArrayList<>(datatypes);
-	}
-
 	public OWLObjectProperty handleObjectProperty(String propertyName, OWLEntity domain, OWLEntity range)
 	{
 		// Perhaps the ObjectProperty already exists?
@@ -262,7 +322,7 @@ public class AxiomManager
 		if (property == null)
 		{
 			property = addNewProperty(propertyName);
-			
+
 			// Get which axioms to create
 			Set<EdgeCreationAxiom> axioms = PatternInstantiationConfiguration.getSelectedEdgeCreationAxioms();
 
@@ -273,7 +333,8 @@ public class AxiomManager
 			if (axioms.contains(EdgeCreationAxiom.RDFS_DOMAIN))
 			{
 				// Create the OWLAPI construct for the property domain restriction
-				OWLObjectPropertyDomainAxiom opda = this.owlDataFactory.getOWLObjectPropertyDomainAxiom(property, domain.asOWLClass());
+				OWLObjectPropertyDomainAxiom opda = this.owlDataFactory.getOWLObjectPropertyDomainAxiom(property,
+						domain.asOWLClass());
 				// Package into AddAxiom
 				AddAxiom addAxiom = new AddAxiom(this.owlOntology, opda);
 				// Make the change to the ontology
@@ -283,7 +344,8 @@ public class AxiomManager
 			if (axioms.contains(EdgeCreationAxiom.RDFS_RANGE))
 			{
 				// Create the OWLAPI construct for the property range restriction
-				OWLObjectPropertyRangeAxiom opra = this.owlDataFactory.getOWLObjectPropertyRangeAxiom(property, range.asOWLClass());
+				OWLObjectPropertyRangeAxiom opra = this.owlDataFactory.getOWLObjectPropertyRangeAxiom(property,
+						range.asOWLClass());
 				// Package into AddAxiom
 				AddAxiom addAxiom = new AddAxiom(this.owlOntology, opra);
 				// Make the change to the ontology

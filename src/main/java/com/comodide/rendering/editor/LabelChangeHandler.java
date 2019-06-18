@@ -1,7 +1,7 @@
 package com.comodide.rendering.editor;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLProperty;
@@ -85,6 +85,14 @@ public class LabelChangeHandler
 
 	public SDNode handleNodeLabelChange(mxCell cell, String newLabel)
 	{
+		// Extract currentClass, if it is present
+		OWLClass currentClass = null;
+		Object value = cell.getValue();
+		if(value instanceof SDNode)
+		{
+			currentClass = ((SDNode) value).getOwlEntity().asOWLClass();
+		}
+		
 		SDNode node = null;
 
 		Double newX = cell.getGeometry().getX();
@@ -97,7 +105,7 @@ public class LabelChangeHandler
 			// Pass the label onto the AxiomManager
 			// It will attempt to find if the class exists,
 			// Otherwise, it will create a new class
-			entity = axiomManager.handleClass(newLabel);
+			entity = axiomManager.handleClassChange(currentClass, newLabel);
 			// Wrap it in the intermediate layer (prevents ShortFormProvider reference)
 			// and return.
 			node = new SDNode(entity, false, newX, newY);
