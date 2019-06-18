@@ -34,7 +34,7 @@ public class GraphEditor extends BasicGraphEditor
 
         // Creates the shapes palette
         EditorPalette coreConstructsPalette = insertPalette("Core constructs");
-        EditorPalette datatypesPalette = insertPalette("Datatypes");
+        EditorPalette xsdTypesPalette = insertPalette("XSD datatypes");
 
         // Sets the edge template to be used for creating new edges if an edge
         // is clicked in the shape palette
@@ -77,9 +77,21 @@ public class GraphEditor extends BasicGraphEditor
                 .addEdgeTemplate("Subclass", new ImageIcon(GraphEditor.class.getResource("/images/arrow.png")), "arrow",
                         120, 120, "");
         
-        datatypesPalette // datatype
-        		.addTemplate("Ellipse", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
+        xsdTypesPalette // datatype
+        		.addTemplate("string", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
         				120, 30, "");
+        xsdTypesPalette // datatype
+				.addTemplate("int", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
+						120, 30, "");
+        xsdTypesPalette // datatype
+				.addTemplate("float", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
+						120, 30, "");
+        xsdTypesPalette // datatype
+				.addTemplate("boolean", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
+						120, 30, "");
+        xsdTypesPalette // datatype
+				.addTemplate("dateTime", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
+						120, 30, "");
     }
 
     /** For debugging purposes */
