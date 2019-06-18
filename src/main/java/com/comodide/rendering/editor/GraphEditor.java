@@ -16,7 +16,6 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
-import com.mxgraph.util.mxResources;
 import com.mxgraph.view.mxGraph;
 
 public class GraphEditor extends BasicGraphEditor
@@ -34,11 +33,12 @@ public class GraphEditor extends BasicGraphEditor
         final mxGraph graph = graphComponent.getGraph();
 
         // Creates the shapes palette
-        EditorPalette shapesPalette = insertPalette(mxResources.get("shapes"));
+        EditorPalette coreConstructsPalette = insertPalette("Core constructs");
+        EditorPalette datatypesPalette = insertPalette("Datatypes");
 
         // Sets the edge template to be used for creating new edges if an edge
         // is clicked in the shape palette
-        shapesPalette.addListener(mxEvent.SELECT, new mxIEventListener()
+        coreConstructsPalette.addListener(mxEvent.SELECT, new mxIEventListener()
         {
             public void invoke(Object sender, mxEventObject evt)
             {
@@ -67,18 +67,19 @@ public class GraphEditor extends BasicGraphEditor
         /*shapesPalette // This shape could probably in the future be used for allocating modules/patterns
                 .addTemplate("Container", new ImageIcon(GraphEditor.class.getResource("/images/swimlane.png")),
                         "swimlane", 280, 280, "Container");*/
-        shapesPalette // class
-                .addTemplate("Rounded Rectangle", new ImageIcon(GraphEditor.class.getResource("/images/rounded.png")),
+        coreConstructsPalette // class
+                .addTemplate("Class", new ImageIcon(GraphEditor.class.getResource("/images/rounded.png")),
                         SDConstants.classShape, 120, 30, "");
-        shapesPalette // dataype
-                .addTemplate("Ellipse", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
-                        120, 30, "");
-        shapesPalette // relation
-                .addEdgeTemplate("Straight", new ImageIcon(GraphEditor.class.getResource("/images/straight.png")),
+        coreConstructsPalette // relation
+                .addEdgeTemplate("Property", new ImageIcon(GraphEditor.class.getResource("/images/straight.png")),
                         "straight", 120, 120, "");
-        shapesPalette // subclass
-                .addEdgeTemplate("Arrow", new ImageIcon(GraphEditor.class.getResource("/images/arrow.png")), "arrow",
+        coreConstructsPalette // subclass
+                .addEdgeTemplate("Subclass", new ImageIcon(GraphEditor.class.getResource("/images/arrow.png")), "arrow",
                         120, 120, "");
+        
+        datatypesPalette // datatype
+        		.addTemplate("Ellipse", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
+        				120, 30, "");
     }
 
     /** For debugging purposes */
