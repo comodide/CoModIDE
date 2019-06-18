@@ -64,9 +64,9 @@ public class GraphEditor extends BasicGraphEditor
          * ellipse: datatype 
          * arrow: relation
          */
-        shapesPalette // This can probably be used for allocating modules/patterns?
+        /*shapesPalette // This shape could probably in the future be used for allocating modules/patterns
                 .addTemplate("Container", new ImageIcon(GraphEditor.class.getResource("/images/swimlane.png")),
-                        "swimlane", 280, 280, "Container");
+                        "swimlane", 280, 280, "Container");*/
         shapesPalette // class
                 .addTemplate("Rounded Rectangle", new ImageIcon(GraphEditor.class.getResource("/images/rounded.png")),
                         SDConstants.classShape, 120, 30, "");
