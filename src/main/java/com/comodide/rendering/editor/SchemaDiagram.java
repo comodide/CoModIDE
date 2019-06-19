@@ -104,13 +104,6 @@ public class SchemaDiagram extends mxGraph
 		mxCell changedCell = (mxCell) cell;
 		String newLabel    = (String) newValue;
 
-		// Rename or new Class?
-		if(changedCell.getValue() instanceof SDNode)
-		{
-			log.info("RENAME");
-		}
-		
-		
 		model.beginUpdate();
 		this.lock = true; // prevent loopback during addaxiom
 		try

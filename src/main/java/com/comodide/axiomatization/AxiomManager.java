@@ -321,7 +321,7 @@ public class AxiomManager
 		// Create the ObjectProperty and add the requisite axioms
 		if (property == null)
 		{
-			property = addNewProperty(propertyName);
+			property = addNewObjectProperty(propertyName);
 
 			// Get which axioms to create
 			Set<EdgeCreationAxiom> axioms = PatternInstantiationConfiguration.getSelectedEdgeCreationAxioms();
@@ -378,7 +378,7 @@ public class AxiomManager
 		return null;
 	}
 
-	public OWLObjectProperty addNewProperty(String propertyName)
+	public OWLObjectProperty addNewObjectProperty(String propertyName)
 	{
 		// Create the IRI for the class using the active namespace
 		IRI propertyIRI = IRI.create(this.iri + "#" + propertyName);
@@ -396,16 +396,47 @@ public class AxiomManager
 
 	public OWLDataProperty handleDataProperty(String propertyName, OWLEntity domain, OWLEntity range)
 	{
-		OWLDataProperty property = findDataProperty(propertyName);
+		OWLDataProperty dataProperty = findDataProperty(propertyName);
 
-		if (property == null)
+		if (dataProperty == null)
 		{
+			dataProperty = addNewDataProperty(propertyName);
+
+			// Get which axioms to create
+			Set<EdgeCreationAxiom> axioms = PatternInstantiationConfiguration.getSelectedEdgeCreationAxioms();
+
+			/*
+			 * These if statements will add an axiom for each of the EdgeCreationAxioms as
+			 * selected in the Pattern Configuration view
+			 */
+			if (axioms.contains(EdgeCreationAxiom.RDFS_DOMAIN))
+			{
+				// Create the OWLAPI construct for the property domain restriction
+				OWLDataPropertyDomainAxiom opda = this.owlDataFactory.getOWLDataPropertyDomainAxiom(dataProperty,
+						domain.asOWLClass());
+				// Package into AddAxiom
+				AddAxiom addAxiom = new AddAxiom(this.owlOntology, opda);
+				// Make the change to the ontology
+				this.modelManager.applyChange(addAxiom);
+			}
+
+			if (axioms.contains(EdgeCreationAxiom.RDFS_RANGE))
+			{
+				// Create the OWLAPI construct for the property range restriction
+				OWLDataPropertyRangeAxiom opra = this.owlDataFactory.getOWLDataPropertyRangeAxiom(dataProperty,
+						range.asOWLDatatype());
+				// Package into AddAxiom
+				AddAxiom addAxiom = new AddAxiom(this.owlOntology, opra);
+				// Make the change to the ontology
+				this.modelManager.applyChange(addAxiom);
+			}
 
 		}
 
-		return property;
+		return dataProperty;
 	}
 
+	// TODO document this
 	public OWLDataProperty findDataProperty(String propertyName)
 	{
 		Set<OWLDataProperty> properties = this.owlEntityFinder.getMatchingOWLDataProperties(propertyName);
@@ -426,6 +457,22 @@ public class AxiomManager
 		}
 
 		return null;
+	}
+
+	public OWLDataProperty addNewDataProperty(String propertyName)
+	{
+		// Create the IRI for the class using the active namespace
+		IRI propertyIRI = IRI.create(this.iri + "#" + propertyName);
+		// Create the OWLAPI construct for the class
+		OWLDataProperty dataProperty = this.owlDataFactory.getOWLDataProperty(propertyIRI);
+		// Create the Declaration Axiom
+		OWLDeclarationAxiom oda = this.owlDataFactory.getOWLDeclarationAxiom(dataProperty);
+		// Create the Axiom Change
+		AddAxiom addAxiom = new AddAxiom(this.owlOntology, oda);
+		// Apply the change to the active ontology!
+		this.modelManager.applyChange(addAxiom);
+		// Return a reference to the class that was added
+		return dataProperty;
 	}
 
 	public EdgeContainer parseSimpleAxiom(OWLAxiom axiom)
@@ -592,7 +639,7 @@ public class AxiomManager
 			if (domains.size() == 1)
 			{
 				// Get Range
-				OWLClass domain = ((OWLObjectPropertyRangeAxiom) domains.toArray()[0]).getRange().asOWLClass();
+				OWLClass domain = ((OWLDataPropertyDomainAxiom) domains.toArray()[0]).getDomain().asOWLClass();
 				// Shortform
 				String domainLabel = shortFormProvider.getShortForm(domain);
 
