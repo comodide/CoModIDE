@@ -4,6 +4,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -267,6 +270,28 @@ public class UpdateFromOntologyHandler
 			Object source = edge.getSource();
 			Object target = edge.getTarget();
 			String style  = edge.getStyle();
+			
+			// If the datatype has not previously been rendered, ensure it is rendered prior to the property
+			// being linked up against it.
+			if (target == null) {
+				OWLDataPropertyRangeAxiom rangeAxiom = (OWLDataPropertyRangeAxiom) axiom;
+				OWLDataProperty dataProperty = rangeAxiom.getProperty().asOWLDataProperty();
+				OWLDatatype range = rangeAxiom.getRange().asOWLDatatype();
+				// Note that we are fetching the positioning axioms from the data property, which has identity (the datatype might not have)
+				Pair<Double, Double> xyCoords = PositioningOperations.getXYCoordsForEntity(dataProperty, ontology);
+				SDNode node = new SDNode(range, true, xyCoords);
+				target = vertexMaker.makeNode(node);
+				// TODO: Check if locking is needed here like for classes?
+				graphModel.beginUpdate();
+				try
+				{
+					schemaDiagram.addCell(target);
+				}
+				finally
+				{
+					graphModel.endUpdate();
+				}
+			}
 			// Update the SchemaDiagram
 			graphModel.beginUpdate();
 			try
