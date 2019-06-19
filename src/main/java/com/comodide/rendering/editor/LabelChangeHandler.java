@@ -68,10 +68,21 @@ public class LabelChangeHandler
 		OWLProperty property = null;
 		OWLEntity domain = source.getOwlEntity();
 		OWLEntity range = target.getOwlEntity();
+		
 		// Create the property
 		if(target.isDatatype())
 		{
 			property = this.axiomManager.handleDataProperty(newLabel, domain, range);
+			// Update positioning annotations for target which are stored on the data property
+			// (since the target datatype does not have own identity)
+			for (OWLOntology ontology : modelManager.getOntologies())
+			{
+				if (ontology.containsEntityInSignature(property.getIRI()))
+				{
+					PositioningOperations.updateXYCoordinateAnnotations(property, ontology, target.getPositionX(), target.getPositionY());
+				}
+			}
+			
 		}
 		else
 		{
@@ -85,52 +96,44 @@ public class LabelChangeHandler
 
 	public SDNode handleNodeLabelChange(mxCell cell, String newLabel)
 	{
-		// Extract currentClass, if it is present
-		OWLClass currentClass = null;
-		Object value = cell.getValue();
-		if(value instanceof SDNode)
-		{
-			currentClass = ((SDNode) value).getOwlEntity().asOWLClass();
-		}
-		
 		SDNode node = null;
 
 		Double newX = cell.getGeometry().getX();
 		Double newY = cell.getGeometry().getY();
 		
-		OWLEntity entity = null;
-		
 		if (cell.getStyle().equals(SDConstants.classShape))
 		{
+			// Extract currentClass, if it is present
+			OWLClass currentClass = null;
+			if(cell.getValue() instanceof SDNode)
+			{
+				currentClass = ((SDNode) cell.getValue()).getOwlEntity().asOWLClass();
+			}
+			
 			// Pass the label onto the AxiomManager
 			// It will attempt to find if the class exists,
 			// Otherwise, it will create a new class
-			entity = axiomManager.handleClassChange(currentClass, newLabel);
-			// Wrap it in the intermediate layer (prevents ShortFormProvider reference)
-			// and return.
-			node = new SDNode(entity, false, newX, newY);
+			OWLEntity classEntity = axiomManager.handleClassChange(currentClass, newLabel);
+			
+			// Check which of the loaded ontologies hosts the OWL entity representing
+			// the class and update the positioning annotations on the entity in those ontologies.
+			for (OWLOntology ontology : modelManager.getOntologies())
+			{
+				if (ontology.containsEntityInSignature(classEntity.getIRI()))
+				{
+					PositioningOperations.updateXYCoordinateAnnotations(classEntity, ontology, newX, newY);
+				}
+			}
+			
+			// Wrap it in the intermediate layer (prevents ShortFormProvider reference) and return.
+			node = new SDNode(classEntity, false, newX, newY);
 		}
 		else if (cell.getStyle().equals(SDConstants.datatypeShape))
 		{
 			// Add the new class to the ontology
-			entity = this.axiomManager.findDatatype(newLabel);
+			OWLEntity datatypeEntity = this.axiomManager.findDatatype(newLabel);
 			// Create an SDNode wrapper for the Axiom
-			node = new SDNode(entity, true, newX, newY);
-		}
-		else
-		{
-			// something something individuals?
-		}
-		
-		// Check which of the loaded ontologies hosts the
-		// represented entity and update annotations in that ontology.
-		for (OWLOntology ontology : modelManager.getOntologies())
-		{
-			if (ontology.containsEntityInSignature(entity.getIRI()))
-			{
-				PositioningOperations.updateXYCoordinateAnnotations(entity, ontology, newX, newY);
-				break;
-			}
+			node = new SDNode(datatypeEntity, true, newX, newY);
 		}
 
 		return node;

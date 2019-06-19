@@ -63,4 +63,10 @@ public class SDEdge
 	{
 		this.target = target;
 	}
+
+	public OWLProperty getOwlProperty() {
+		return owlProperty;
+	}
+	
+	
 }

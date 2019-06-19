@@ -1,5 +1,8 @@
 package com.comodide.rendering.editor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -8,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.rendering.PositioningOperations;
+import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxICell;
@@ -65,16 +69,33 @@ public class SchemaDiagram extends mxGraph
 					SDNode node = (SDNode) cell.getValue();
 					node.setPositionX(newX);
 					node.setPositionY(newY);
-
-					// Check which of the loaded ontologies hosts the
-					// represented entity and update annotations in that ontology.
-					OWLEntity entity = node.getOwlEntity();
-					for (OWLOntology ontology : modelManager.getOntologies())
-					{
-						if (ontology.containsEntityInSignature(entity.getIRI()))
+					
+					List<OWLEntity> positioningEntities = new ArrayList<OWLEntity>();
+					// If this is a datatype cell, put the OPLa-SD positioning annotations on the (implicitly ingoing) attached edges 
+					if (node.isDatatype()) {
+						for (int i = 0; i < cell.getEdgeCount(); i++) {
+							mxICell candidateEdge = cell.getEdgeAt(i);
+							if (candidateEdge.isEdge()) {
+								SDEdge edge = (SDEdge)candidateEdge.getValue();
+								positioningEntities.add(edge.getOwlProperty());
+							}
+						}
+					}
+					// Else, if it is a class, just put them on the class
+					else {
+						positioningEntities.add(node.getOwlEntity());
+					}
+					
+					// Check which of the loaded ontologies that hosts the positioning entities
+					// and update annotations in those ontologies
+					for (OWLEntity positioningEntity: positioningEntities) {
+						for (OWLOntology ontology : modelManager.getOntologies())
 						{
-							PositioningOperations.updateXYCoordinateAnnotations(entity, ontology, newX, newY);
-							break;
+							if (ontology.containsEntityInSignature(positioningEntity.getIRI()))
+							{
+								PositioningOperations.updateXYCoordinateAnnotations(positioningEntity, ontology, newX, newY);
+								break;
+							}
 						}
 					}
 				}
