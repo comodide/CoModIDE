@@ -5,6 +5,7 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
@@ -257,20 +258,45 @@ public class UpdateFromOntologyHandler
 			// Unpack
 			String id     = edge.getId();
 			Object source = edge.getSource();
-			Object target = edge.getTarget();
-			String style  = edge.getStyle();
-			// Update the SchemaDiagram
-			graphModel.beginUpdate();
-			try
-			{
-				// If null is passed as parent, a convenience function in the chain
-				// will call getDefaultParent()
-				// TODO: the value added below should be a SDEdge, not EdgeContainer
-				schemaDiagram.insertEdge(null, id, edge, source, target, style);
-			}
-			finally
-			{
-				graphModel.endUpdate();
+			
+			OWLDataPropertyDomainAxiom domainAxiom   = (OWLDataPropertyDomainAxiom) axiom;
+			OWLDataProperty           dataProperty = domainAxiom.getProperty().asOWLDataProperty();
+			OWLDatatype range = ontology.getDataPropertyRangeAxioms(dataProperty).iterator().next().getRange().asOWLDatatype();
+			
+			// Note that we are fetching the positioning axioms from the data property,
+			// which has identity (the datatype might not have)
+			Pair<Double, Double> xyCoords = PositioningOperations.getXYCoordsForEntity(dataProperty, ontology);
+						
+			// The given coordinates might come from the ontology, or they might have been created by PositioningAnnotations (if none were given
+			// in the ontology at the outset). To guard against the latter case, persist them right away.
+			PositioningOperations.updateXYCoordinateAnnotations(dataProperty, ontology, xyCoords.getLeft(), xyCoords.getRight());
+			
+			// Now, create a new datatype node and corresponding cell for this datatype
+			SDNode rangeNode = new SDNode(range, true, xyCoords);
+			Object target = vertexMaker.makeNode(rangeNode);
+			
+			// Only proceed if we actually have a source/domain cell we can use as SDNode
+			if (source instanceof mxCell) {
+				mxCell sourceCell = (mxCell)source;
+				if (sourceCell.getValue() instanceof SDNode) {
+					SDNode domainNode = (SDNode)sourceCell.getValue();
+					SDEdge sdEdge = new SDEdge(domainNode, rangeNode, false, dataProperty);
+					
+					// TODO: Check if locking would be needed here like for classes?
+					// Update the SchemaDiagram
+					graphModel.beginUpdate();
+					try
+					{
+						schemaDiagram.addCell(target);
+						// If null is passed as parent, a convenience function in the chain
+						// will call getDefaultParent()
+						schemaDiagram.insertEdge(null, id, sdEdge, source, target, SDConstants.standardEdgeStyle);
+					}
+					finally
+					{
+						graphModel.endUpdate();
+					}
+				}
 			}
 		}
 	}
@@ -286,7 +312,6 @@ public class UpdateFromOntologyHandler
 			// Unpack
 			String id     = edge.getId();
 			Object source = edge.getSource();
-			String style  = edge.getStyle();
 
 			OWLDataPropertyRangeAxiom rangeAxiom   = (OWLDataPropertyRangeAxiom) axiom;
 			OWLDataProperty           dataProperty = rangeAxiom.getProperty().asOWLDataProperty();
@@ -319,7 +344,7 @@ public class UpdateFromOntologyHandler
 						schemaDiagram.addCell(target);
 						// If null is passed as parent, a convenience function in the chain
 						// will call getDefaultParent()
-						schemaDiagram.insertEdge(null, id, sdEdge, source, target, style);
+						schemaDiagram.insertEdge(null, id, sdEdge, source, target, SDConstants.standardEdgeStyle);
 					}
 					finally
 					{

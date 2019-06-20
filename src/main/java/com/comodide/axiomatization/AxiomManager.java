@@ -591,18 +591,16 @@ public class AxiomManager
 		{
 			if (ranges.size() == 1)
 			{
-				// Get Range
-				OWLClass range = ((OWLObjectPropertyRangeAxiom) ranges.toArray()[0]).getRange().asOWLClass();
-				// Shortform
-				String rangeLabel = shortFormProvider.getShortForm(range);
-
-				// Obtain associated cells using the labels
+				// Iterate through all cells to find the one whose ID matches the domain
 				Map<String, Object> cells      = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-				Object              domainCell = cells.get(domainLabel);
-				Object              rangeCell  = cells.get(rangeLabel);
-
-				// Package and return
-				return new EdgeContainer(propertyName, axiom, domainCell, rangeCell, "standardStyle");
+				for (String key: cells.keySet()) {
+					mxCell cell = (mxCell)cells.get(key);
+					if (cell.getId().equals(domainLabel)) {
+						// Package and return
+						// Sending a null target, since the target cell for a data property will be created in the calling method
+						return new EdgeContainer(propertyName, axiom, cell, null, "standardStyle");
+					}
+				}
 			}
 			else
 			{
@@ -643,7 +641,7 @@ public class AxiomManager
 					mxCell cell = (mxCell)cells.get(key);
 					if (cell.getId().equals(domainLabel)) {
 						// Package and return
-						// Sending a null target, since the target cell will be created in the calling method
+						// Sending a null target, since the target cell for a data property will be created in the calling method
 						return new EdgeContainer(propertyName, axiom, cell, null, "standardStyle");
 					}
 				}
