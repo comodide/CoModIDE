@@ -11,6 +11,7 @@
 
 	<add as="comodideClassVertex" extend="defaultVertex">
 		<add as="shape" value="rectangle" />
+		<add as="perimeter" value="rectanglePerimeter" />
 		<add as="rounded" value="1" />
 		<add as="fillColor" value="#ffcc00" />
 
@@ -25,20 +26,24 @@
 	<add as="defaultEdge">
 		<add as="labelBackgroundColor" value="white" />
 		<add as="rounded" value="1" />
-		<add as="edgeStyle" value="none" />
+		<add as="edgeStyle" value="elbowEdgeStyle" />
 		<add as="strokeColor" value="#000000" />
 		<add as="fontSize" value="12" />
 		<add as="fontColor" value="#000000" />
 		<add as="fontFamily" value="Verdana" />
+		<add as="shape" value="connector" />
+		<add as="endArrow" value="block" />
+		<add as="strokeWidth" value="2"/>
 	</add>
 
 	<add as="comodideStandardEdge" extend="defaultEdge">
-		<add as="shape" value="connector" />
-		<add as="endArrow" value="classic" />
+		<add as="endSize" value="15" />
 	</add>
 	
 	<add as="comodideSubclassEdge" extend="defaultEdge">
-		<add as="shape" value="arrow" />
+		<add as="endSize" value="20" />
+		<add as="dashed" value="1" />
+		<add as="endFill" value="0" />
 	</add>
 	
 

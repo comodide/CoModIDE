@@ -116,8 +116,6 @@ public class SchemaDiagram extends mxGraph
 		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(this, modelManager);
 		this.allowDanglingEdges = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
-		//createStandardEdgeStyle();
-		//createSubclassEdgeStyle();
 	}
 
 	@Override
@@ -214,21 +212,5 @@ public class SchemaDiagram extends mxGraph
 		}
 
 		return super.createEdge(parent, id, value, source, target, style);
-	}
-	
-	private void createStandardEdgeStyle()
-	{
-		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		style.put(mxConstants.STYLE_STROKECOLOR, "#000000");
-		style.put(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_CLASSIC);
-		stylesheet.putCellStyle(SDConstants.standardEdgeStyle, style);
-	}
-	
-	private void createSubclassEdgeStyle()
-	{
-		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		style.put(mxConstants.STYLE_STROKECOLOR, "#000000");
-		style.put(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_OPEN);
-		stylesheet.putCellStyle(SDConstants.subclassEdgeStyle, style);
 	}
 }
