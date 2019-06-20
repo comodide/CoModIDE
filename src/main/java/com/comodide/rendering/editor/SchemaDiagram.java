@@ -77,7 +77,6 @@ public class SchemaDiagram extends mxGraph
 						for (int i = 0; i < cell.getEdgeCount(); i++) {
 							mxICell candidateEdge = cell.getEdgeAt(i);
 							if (candidateEdge.isEdge()) {
-								log.warn((String)candidateEdge.getValue());
 								SDEdge edge = (SDEdge)candidateEdge.getValue();
 								positioningEntities.add(edge.getOwlProperty());
 							}

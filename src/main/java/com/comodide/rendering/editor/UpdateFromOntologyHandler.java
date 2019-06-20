@@ -18,8 +18,10 @@ import org.slf4j.LoggerFactory;
 import com.comodide.axiomatization.AxiomManager;
 import com.comodide.axiomatization.EdgeContainer;
 import com.comodide.rendering.PositioningOperations;
+import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.comodide.rendering.sdont.viz.mxVertexMaker;
+import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
 
 public class UpdateFromOntologyHandler
@@ -176,6 +178,7 @@ public class UpdateFromOntologyHandler
 		{
 			// If null is passed as parent, a convenience function in the chain
 			// will call getDefaultParent()
+			// TODO: the value added below should be a SDEdge, not EdgeContainer
 			schemaDiagram.insertEdge(null, id, edge, source, target, style);
 		}
 		finally
@@ -204,6 +207,7 @@ public class UpdateFromOntologyHandler
 			{
 				// If null is passed as parent, a convenience function in the chain
 				// will call getDefaultParent()
+				// TODO: the value added below should be a SDEdge, not EdgeContainer
 				schemaDiagram.insertEdge(null, id, edge, source, target, style);
 			}
 			finally
@@ -232,6 +236,7 @@ public class UpdateFromOntologyHandler
 			{
 				// If null is passed as parent, a convenience function in the chain
 				// will call getDefaultParent()
+				// TODO: the value added below should be a SDEdge, not EdgeContainer
 				schemaDiagram.insertEdge(null, id, edge, source, target, style);
 			}
 			finally
@@ -260,6 +265,7 @@ public class UpdateFromOntologyHandler
 			{
 				// If null is passed as parent, a convenience function in the chain
 				// will call getDefaultParent()
+				// TODO: the value added below should be a SDEdge, not EdgeContainer
 				schemaDiagram.insertEdge(null, id, edge, source, target, style);
 			}
 			finally
@@ -295,22 +301,31 @@ public class UpdateFromOntologyHandler
 			PositioningOperations.updateXYCoordinateAnnotations(dataProperty, ontology, xyCoords.getLeft(), xyCoords.getRight());
 			
 			// Now, create a new node and corresponding cell for this datatype
-			SDNode node = new SDNode(range, true, xyCoords);
-			Object target = vertexMaker.makeNode(node);
+			SDNode rangeNode = new SDNode(range, true, xyCoords);
+			Object target = vertexMaker.makeNode(rangeNode);
 			
-			// TODO: Check if locking would be needed here like for classes?
-			// Update the SchemaDiagram
-			graphModel.beginUpdate();
-			try
-			{
-				schemaDiagram.addCell(target);
-				// If null is passed as parent, a convenience function in the chain
-				// will call getDefaultParent()
-				schemaDiagram.insertEdge(null, id, edge, source, target, style);
-			}
-			finally
-			{
-				graphModel.endUpdate();
+			// Only proceed if we actually have a source/domain cell we can use as SDNode
+			if (source instanceof mxCell) {
+				mxCell sourceCell = (mxCell)source;
+				if (sourceCell.getValue() instanceof SDNode) {
+					SDNode domainNode = (SDNode)sourceCell.getValue();
+					SDEdge sdEdge = new SDEdge(domainNode, rangeNode, false, dataProperty);
+					
+					// TODO: Check if locking would be needed here like for classes?
+					// Update the SchemaDiagram
+					graphModel.beginUpdate();
+					try
+					{
+						schemaDiagram.addCell(target);
+						// If null is passed as parent, a convenience function in the chain
+						// will call getDefaultParent()
+						schemaDiagram.insertEdge(null, id, sdEdge, source, target, style);
+					}
+					finally
+					{
+						graphModel.endUpdate();
+					}
+				}
 			}
 		}
 	}
