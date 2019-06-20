@@ -10,6 +10,13 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.vocab.XSDVocabulary;
+
+import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.swing.util.mxGraphTransferable;
 import com.mxgraph.swing.util.mxSwingConstants;
 import com.mxgraph.util.mxConstants;
@@ -69,7 +76,7 @@ public class GraphEditor extends BasicGraphEditor
                         "swimlane", 280, 280, "Container");*/
         coreConstructsPalette // class
                 .addTemplate("Class", new ImageIcon(GraphEditor.class.getResource("/images/rounded.png")),
-                        SDConstants.classShape, 120, 30, "");
+                        SDConstants.classStyle, 120, 30, "");
         coreConstructsPalette // relation
                 .addEdgeTemplate("Property", new ImageIcon(GraphEditor.class.getResource("/images/straight.png")),
                         "straight", 120, 120, "");
@@ -77,21 +84,39 @@ public class GraphEditor extends BasicGraphEditor
                 .addEdgeTemplate("Subclass", new ImageIcon(GraphEditor.class.getResource("/images/arrow.png")), "arrow",
                         120, 120, "");
         
-        xsdTypesPalette // datatype
-        		.addTemplate("string", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
-        				120, 30, "");
-        xsdTypesPalette // datatype
-				.addTemplate("int", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
-						120, 30, "");
-        xsdTypesPalette // datatype
-				.addTemplate("float", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
-						120, 30, "");
-        xsdTypesPalette // datatype
-				.addTemplate("boolean", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
-						120, 30, "");
-        xsdTypesPalette // datatype
-				.addTemplate("dateTime", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeShape,
-						120, 30, "");
+        // Factory and defaults for creating templates
+        OWLDataFactory df = OWLManager.getOWLDataFactory();
+        Pair<Double, Double> zeroCoordinates = Pair.of(0.0, 0.0);
+        
+        // xsd:string
+        OWLDatatype xsdString = df.getOWLDatatype(XSDVocabulary.STRING.getIRI()); 
+        xsdTypesPalette
+        		.addTemplate("string", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+        				120, 30, new SDNode(xsdString, true, zeroCoordinates));
+        
+        // xsd:int
+        OWLDatatype xsdInt = df.getOWLDatatype(XSDVocabulary.INT.getIRI());
+        xsdTypesPalette
+				.addTemplate("int", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+						120, 30, new SDNode(xsdInt, true, zeroCoordinates));
+        
+        // xsd:float
+        OWLDatatype xsdFloat = df.getOWLDatatype(XSDVocabulary.FLOAT.getIRI());
+        xsdTypesPalette
+			.addTemplate("float", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+				120, 30, new SDNode(xsdFloat, true, zeroCoordinates));
+        
+        // xsd:float
+        OWLDatatype xsdBoolean = df.getOWLDatatype(XSDVocabulary.BOOLEAN.getIRI());
+        xsdTypesPalette
+			.addTemplate("boolean", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+				120, 30, new SDNode(xsdBoolean, true, zeroCoordinates));
+        
+        // xsd:dateTime
+        OWLDatatype xsdDateTime = df.getOWLDatatype(XSDVocabulary.DATE_TIME.getIRI());
+        xsdTypesPalette
+			.addTemplate("dateTime", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+				120, 30, new SDNode(xsdDateTime, true, zeroCoordinates));
     }
 
     /** For debugging purposes */

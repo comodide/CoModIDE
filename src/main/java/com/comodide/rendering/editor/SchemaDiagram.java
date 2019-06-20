@@ -1,6 +1,7 @@
 package com.comodide.rendering.editor;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -14,6 +15,7 @@ import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxICell;
+import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
 import com.mxgraph.view.mxGraph;
@@ -23,7 +25,7 @@ import com.mxgraph.view.mxGraph;
  * jGraphx example code.
  */
 public class SchemaDiagram extends mxGraph
-{
+{	
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(SchemaDiagram.class);
 
@@ -115,6 +117,8 @@ public class SchemaDiagram extends mxGraph
 		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(this, modelManager);
 		this.allowDanglingEdges = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
+		createClassVertexStyle();
+		createDatatypeVertexStyle();
 	}
 
 	@Override
@@ -211,5 +215,24 @@ public class SchemaDiagram extends mxGraph
 		}
 
 		return super.createEdge(parent, id, value, source, target, style);
+	}
+	
+	private void createClassVertexStyle()
+	{
+		Hashtable<String, Object> style = new Hashtable<String, Object>();
+		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
+		style.put(mxConstants.STYLE_ROUNDED, "true");
+		style.put(mxConstants.STYLE_FONTCOLOR, "#000000");
+		style.put(mxConstants.STYLE_FILLCOLOR, "#FFCC00");
+		stylesheet.putCellStyle(SDConstants.classStyle, style);
+	}
+	
+	private void createDatatypeVertexStyle()
+	{
+		Hashtable<String, Object> style = new Hashtable<String, Object>();
+		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+		style.put(mxConstants.STYLE_FONTCOLOR, "#000000");
+		style.put(mxConstants.STYLE_FILLCOLOR, "#B0E0E0");
+		stylesheet.putCellStyle(SDConstants.datatypeStyle, style);
 	}
 }

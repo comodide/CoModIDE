@@ -102,7 +102,7 @@ public class LabelChangeHandler
 		Double newX = cell.getGeometry().getX();
 		Double newY = cell.getGeometry().getY();
 		
-		if (cell.getStyle().equals(SDConstants.classShape))
+		if (cell.getStyle().equals(SDConstants.classStyle))
 		{
 			// Extract currentClass, if it is present
 			OWLClass currentClass = null;
@@ -129,7 +129,7 @@ public class LabelChangeHandler
 			// Wrap it in the intermediate layer (prevents ShortFormProvider reference) and return.
 			node = new SDNode(classEntity, false, newX, newY);
 		}
-		else if (cell.getStyle().equals(SDConstants.datatypeShape))
+		else if (cell.getStyle().equals(SDConstants.datatypeStyle))
 		{
 			// Add the new class to the ontology
 			OWLEntity datatypeEntity = this.axiomManager.findDatatype(newLabel);

@@ -1,20 +1,15 @@
 package com.comodide.rendering.sdont.viz;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
+import com.comodide.rendering.editor.SDConstants;
 import com.comodide.rendering.sdont.model.SDNode;
-import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
-import com.mxgraph.view.mxStylesheet;
 
 public class mxVertexMaker implements NodeMaker<Object>
 {
-	private static final String	datatypeStyle	= "datatypeVertex";
-	private static final String	standardStyle	= "standardVertex";
-
 	private mxGraph				graph;
 	private Object				parent;
 
@@ -22,9 +17,6 @@ public class mxVertexMaker implements NodeMaker<Object>
 	{
 		this.graph = graph;
 		this.parent = this.graph.getDefaultParent();
-		
-		createStandardVertexStyle();
-		createDatatypeVertexStyle();
 	}
 
 	public Map<String, Object> makeNodes(Set<SDNode> nodes)
@@ -46,34 +38,13 @@ public class mxVertexMaker implements NodeMaker<Object>
 		Object vertex = null;
 		if(node.isDatatype())
 		{
-			vertex = this.graph.createVertex(parent, id, node, node.getPositionX(), node.getPositionY(), 75, 30, datatypeStyle);
+			vertex = this.graph.createVertex(parent, id, node, node.getPositionX(), node.getPositionY(), 75, 30, SDConstants.datatypeStyle);
 		}
 		else
 		{
-			vertex = this.graph.createVertex(parent, id, node, node.getPositionX(), node.getPositionY(), 75, 30, standardStyle);
+			vertex = this.graph.createVertex(parent, id, node, node.getPositionX(), node.getPositionY(), 75, 30, SDConstants.classStyle);
 		}
 
 		return vertex;
-	}
-
-	private void createStandardVertexStyle()
-	{
-		mxStylesheet stylesheet = graph.getStylesheet();
-		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
-		style.put(mxConstants.STYLE_ROUNDED, "true");
-		style.put(mxConstants.STYLE_FONTCOLOR, "#000000");
-		style.put(mxConstants.STYLE_FILLCOLOR, "#FFCC00");
-		stylesheet.putCellStyle(standardStyle, style);
-	}
-	
-	private void createDatatypeVertexStyle()
-	{
-		mxStylesheet stylesheet = graph.getStylesheet();
-		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
-		style.put(mxConstants.STYLE_FONTCOLOR, "#000000");
-		style.put(mxConstants.STYLE_FILLCOLOR, "#B0E0E0");
-		stylesheet.putCellStyle(datatypeStyle, style);
 	}
 }
