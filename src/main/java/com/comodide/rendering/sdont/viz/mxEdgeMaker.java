@@ -1,19 +1,15 @@
 package com.comodide.rendering.sdont.viz;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
+import com.comodide.rendering.editor.SDConstants;
 import com.comodide.rendering.sdont.model.SDEdge;
-import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
-import com.mxgraph.view.mxStylesheet;
 
 public class mxEdgeMaker implements EdgeMaker<Object>
 {
-	private static final String subclassStyle = "subclassEdge";
-	private static final String standardStyle = "standardEdge";
 	
 	private mxGraph graph;
 	private Object parent;
@@ -22,9 +18,6 @@ public class mxEdgeMaker implements EdgeMaker<Object>
 	{
 		this.graph = graph;
 		this.parent = this.graph.getDefaultParent();
-		
-		createStandardEdgeStyle();
-		createSubclassEdgeStyle();
 	}
 	
 	public Map<String, Object> makeEdges(Set<SDEdge> sdedges, Map<String, Object> vertices)
@@ -59,30 +52,12 @@ public class mxEdgeMaker implements EdgeMaker<Object>
 		Object edge = null;
 		if(sdEdge.isSubclass())
 		{
-			edge = this.graph.insertEdge(parent, id, sdEdge, source, target, subclassStyle);
+			edge = this.graph.insertEdge(parent, id, sdEdge, source, target, SDConstants.subclassEdgeStyle);
 		}
 		else
 		{
-			edge = this.graph.insertEdge(parent, id, sdEdge, source, target, standardStyle);			
+			edge = this.graph.insertEdge(parent, id, sdEdge, source, target, SDConstants.standardEdgeStyle);			
 		}
 		return edge;
-	}
-	
-	private void createStandardEdgeStyle()
-	{
-		mxStylesheet stylesheet = graph.getStylesheet();
-		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		style.put(mxConstants.STYLE_STROKECOLOR, "#000000");
-		style.put(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_CLASSIC);
-		stylesheet.putCellStyle(standardStyle, style);
-	}
-	
-	private void createSubclassEdgeStyle()
-	{
-		mxStylesheet stylesheet = graph.getStylesheet();
-		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		style.put(mxConstants.STYLE_STROKECOLOR, "#000000");
-		style.put(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_OPEN);
-		stylesheet.putCellStyle(subclassStyle, style);
 	}
 }

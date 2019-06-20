@@ -1,0 +1,46 @@
+<mxStylesheet>
+	<add as="defaultVertex">
+		<add as="height" value="30" />
+		<add as="width"  value="120" />
+		<add as="strokeColor" value="#000000" />
+		<add as="strokeWidth" value="4" />
+		<add as="fontSize" value="12" />
+		<add as="fontColor" value="#000000" />
+		<add as="fontFamily" value="Verdana" />
+	</add>
+
+	<add as="comodideClassVertex" extend="defaultVertex">
+		<add as="shape" value="rectangle" />
+		<add as="rounded" value="1" />
+		<add as="fillColor" value="#ffcc00" />
+
+	</add>
+
+	<add as="comodideDatatypeVertex" extend="defaultVertex">
+		<add as="shape" value="ellipse" />
+		<add as="perimeter" value="ellipsePerimeter" />
+		<add as="fillColor" value="#b0e0e0" />
+	</add>
+
+	<add as="defaultEdge">
+		<add as="labelBackgroundColor" value="white" />
+		<add as="rounded" value="1" />
+		<add as="edgeStyle" value="none" />
+		<add as="strokeColor" value="#000000" />
+		<add as="fontSize" value="12" />
+		<add as="fontColor" value="#000000" />
+		<add as="fontFamily" value="Verdana" />
+	</add>
+
+	<add as="comodideStandardEdge" extend="defaultEdge">
+		<add as="shape" value="connector" />
+		<add as="endArrow" value="classic" />
+	</add>
+	
+	<add as="comodideSubclassEdge" extend="defaultEdge">
+		<add as="shape" value="arrow" />
+	</add>
+	
+
+	
+</mxStylesheet>

@@ -110,14 +110,14 @@ public class SchemaDiagram extends mxGraph
 	 */
 	public SchemaDiagram(OWLModelManager modelManager)
 	{
-		setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
+		//setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
 		this.modelManager = modelManager;
 		this.labelChangeHandler = new LabelChangeHandler(modelManager, this);
 		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(this, modelManager);
 		this.allowDanglingEdges = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
-		createClassVertexStyle();
-		createDatatypeVertexStyle();
+		//createStandardEdgeStyle();
+		//createSubclassEdgeStyle();
 	}
 
 	@Override
@@ -216,22 +216,19 @@ public class SchemaDiagram extends mxGraph
 		return super.createEdge(parent, id, value, source, target, style);
 	}
 	
-	private void createClassVertexStyle()
+	private void createStandardEdgeStyle()
 	{
 		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
-		style.put(mxConstants.STYLE_ROUNDED, "true");
-		style.put(mxConstants.STYLE_FONTCOLOR, "#000000");
-		style.put(mxConstants.STYLE_FILLCOLOR, "#FFCC00");
-		stylesheet.putCellStyle(SDConstants.classStyle, style);
+		style.put(mxConstants.STYLE_STROKECOLOR, "#000000");
+		style.put(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_CLASSIC);
+		stylesheet.putCellStyle(SDConstants.standardEdgeStyle, style);
 	}
 	
-	private void createDatatypeVertexStyle()
+	private void createSubclassEdgeStyle()
 	{
 		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
-		style.put(mxConstants.STYLE_FONTCOLOR, "#000000");
-		style.put(mxConstants.STYLE_FILLCOLOR, "#B0E0E0");
-		stylesheet.putCellStyle(SDConstants.datatypeStyle, style);
+		style.put(mxConstants.STYLE_STROKECOLOR, "#000000");
+		style.put(mxConstants.STYLE_ENDARROW, mxConstants.ARROW_OPEN);
+		stylesheet.putCellStyle(SDConstants.subclassEdgeStyle, style);
 	}
 }

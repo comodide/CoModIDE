@@ -79,9 +79,9 @@ public class GraphEditor extends BasicGraphEditor
                         SDConstants.classStyle, 120, 30, "");
         coreConstructsPalette // relation
                 .addEdgeTemplate("Property", new ImageIcon(GraphEditor.class.getResource("/images/straight.png")),
-                        "straight", 120, 120, "");
+                        SDConstants.standardEdgeStyle, 120, 120, "");
         coreConstructsPalette // subclass
-                .addEdgeTemplate("Subclass", new ImageIcon(GraphEditor.class.getResource("/images/arrow.png")), "arrow",
+                .addEdgeTemplate("Subclass", new ImageIcon(GraphEditor.class.getResource("/images/arrow.png")), SDConstants.subclassEdgeStyle,
                         120, 120, "");
         
         // Factory and defaults for creating templates

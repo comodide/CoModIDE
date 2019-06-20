@@ -33,7 +33,7 @@ public class SDontComponent extends mxGraphComponent
 
 		// Loads the defalt stylesheet from an external file
 		mxCodec  codec = new mxCodec();
-		Document doc   = mxUtils.loadDocument(GraphEditor.class.getResource("/resources/default-style.xml").toString());
+		Document doc   = mxUtils.loadDocument(GraphEditor.class.getResource("/resources/comodide-style.xml").toString());
 		codec.decode(doc.getDocumentElement(), graph.getStylesheet());
 
 		// Sets the background to white
