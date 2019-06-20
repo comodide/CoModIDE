@@ -273,46 +273,37 @@ public class UpdateFromOntologyHandler
 	{
 		log.info("[CoModIDE:UFOH] Handing Data Property Range Restriction.");
 		EdgeContainer edge = axiomManager.handleDataPropertyRange(ontology, axiom);
-		// Null is returned if the edge cannot be handled (multiple ranges)
+		// Null is returned if the edge cannot be handled (multiple domains)
 		// or if there is no range accompanying this domain.
 		if (edge != null)
 		{
 			// Unpack
 			String id     = edge.getId();
 			Object source = edge.getSource();
-			Object target = edge.getTarget();
 			String style  = edge.getStyle();
 
-			// If the datatype has not previously been rendered, ensure it is rendered prior
-			// to the property being linked up against it.
-			if (target == null)
-			{
-				OWLDataPropertyRangeAxiom rangeAxiom   = (OWLDataPropertyRangeAxiom) axiom;
-				OWLDataProperty           dataProperty = rangeAxiom.getProperty().asOWLDataProperty();
-				OWLDatatype               range        = rangeAxiom.getRange().asOWLDatatype();
-				// Note that we are fetching the positioning axioms from the data property,
-				// which has identity (the datatype might not have)
-				Pair<Double, Double> xyCoords = PositioningOperations.getXYCoordsForEntity(dataProperty, ontology);
-				// The given coordinates might come from the ontology, or they might have been created by PositioningAnnotations (if none were given
-				// in the ontology at the outset). To guard against the latter case, persist them right away.
-				PositioningOperations.updateXYCoordinateAnnotations(dataProperty, ontology, xyCoords.getLeft(), xyCoords.getRight());
-				// Now, create a new node and corresponding cell for this datatype
-				SDNode node = new SDNode(range, true, xyCoords);				target = vertexMaker.makeNode(node);
-				// TODO: Check if locking would be needed here like for classes?
-				graphModel.beginUpdate();
-				try
-				{
-					schemaDiagram.addCell(target);
-				}
-				finally
-				{
-					graphModel.endUpdate();
-				}
-			}
+			OWLDataPropertyRangeAxiom rangeAxiom   = (OWLDataPropertyRangeAxiom) axiom;
+			OWLDataProperty           dataProperty = rangeAxiom.getProperty().asOWLDataProperty();
+			OWLDatatype               range        = rangeAxiom.getRange().asOWLDatatype();
+			
+			// Note that we are fetching the positioning axioms from the data property,
+			// which has identity (the datatype might not have)
+			Pair<Double, Double> xyCoords = PositioningOperations.getXYCoordsForEntity(dataProperty, ontology);
+			
+			// The given coordinates might come from the ontology, or they might have been created by PositioningAnnotations (if none were given
+			// in the ontology at the outset). To guard against the latter case, persist them right away.
+			PositioningOperations.updateXYCoordinateAnnotations(dataProperty, ontology, xyCoords.getLeft(), xyCoords.getRight());
+			
+			// Now, create a new node and corresponding cell for this datatype
+			SDNode node = new SDNode(range, true, xyCoords);
+			Object target = vertexMaker.makeNode(node);
+			
+			// TODO: Check if locking would be needed here like for classes?
 			// Update the SchemaDiagram
 			graphModel.beginUpdate();
 			try
 			{
+				schemaDiagram.addCell(target);
 				// If null is passed as parent, a convenience function in the chain
 				// will call getDefaultParent()
 				schemaDiagram.insertEdge(null, id, edge, source, target, style);

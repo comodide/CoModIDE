@@ -37,6 +37,7 @@ import com.comodide.patterns.PatternInstantiationConfiguration;
 import com.comodide.patterns.PatternInstantiationConfiguration.EdgeCreationAxiom;
 import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.parsing.AxiomParser;
+import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
 
 /**
@@ -623,43 +624,39 @@ public class AxiomManager
 		OWLDataPropertyRangeAxiom rangeAxiom = (OWLDataPropertyRangeAxiom) axiom;
 		// Unpack from axiom
 		OWLDataProperty dataProperty = rangeAxiom.getProperty().asOWLDataProperty();
-		OWLDatatype     range        = rangeAxiom.getRange().asOWLDatatype();
 		// Get shortforms
 		String propertyName = shortFormProvider.getShortForm(dataProperty);
-		String rangeLabel   = shortFormProvider.getShortForm(range);
-		// Extract the Ranges for the object property
-		// For some reason the reasoner object was not finding any thing. I am not sure
-		// why, thus
-		// the propagation of ontology into this method.
 		Set<OWLDataPropertyDomainAxiom> domains = ontology.getDataPropertyDomainAxioms(dataProperty);
 
-		// Draw edge only if there is domain and range pair. Warn if multiple ranges.
+		// Draw edge only if there is exactly one domain. Warn if multiple domains.
 		if (!domains.isEmpty())
 		{
 			if (domains.size() == 1)
 			{
 				// Get domain
 				OWLClass domain = ((OWLDataPropertyDomainAxiom) domains.toArray()[0]).getDomain().asOWLClass();
-				// Shortform
 				String domainLabel = shortFormProvider.getShortForm(domain);
 
-				// Obtain associated cells using the labels
+				// Iterate through all cells to find the one whose ID matches the domain
 				Map<String, Object> cells      = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-				Object              domainCell = cells.get(domainLabel);
-				Object              rangeCell  = cells.get(rangeLabel);
-
-				// Package and return
-				return new EdgeContainer(propertyName, axiom, domainCell, rangeCell, "standardStyle");
+				for (String key: cells.keySet()) {
+					mxCell cell = (mxCell)cells.get(key);
+					if (cell.getId().equals(domainLabel)) {
+						// Package and return
+						// Sending a null target, since the target cell will be created in the calling method
+						return new EdgeContainer(propertyName, axiom, cell, null, "standardStyle");
+					}
+				}
 			}
 			else
 			{
-				log.warn("[CoModIDE:AxiomManager] Multiple ranges found for property.");
+				log.warn("[CoModIDE:AxiomManager] Multiple domains found for property.");
 			}
 		}
 		else
 		{
 			// Do nothing
-			// i.e. if there is not an accompanying range to the domain, an edge can't be
+			// i.e. if there is not an accompanying domain to the range, an edge can't be
 			// drawn
 		}
 

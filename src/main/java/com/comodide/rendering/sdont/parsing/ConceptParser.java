@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import com.comodide.rendering.PositioningOperations;
@@ -39,7 +41,6 @@ public class ConceptParser
 			Pair<Double,Double> xyCoords = PositioningOperations.getXYCoordsForEntity(concept, ontology);
 			conceptNodes.add(new SDNode(concept, false, xyCoords.getLeft(), xyCoords.getRight()));
 		});
-
 		return conceptNodes;
 	}
 
@@ -48,11 +49,26 @@ public class ConceptParser
 		OWLOntology ontology = this.connector.getOntology();
 		// Construct nodeset for datatypes
 		Set<SDNode> datatypeNodes = new HashSet<>();
+		
+		// Create nodes for custom datatypes (which may have their own positioning annotations)
 		ontology.getDatatypesInSignature().forEach(datatype -> {
-			Pair<Double,Double> xyCoords = PositioningOperations.getXYCoordsForEntity(datatype, ontology);
-			datatypeNodes.add(new SDNode(datatype, true, xyCoords.getLeft(), xyCoords.getRight()));
+			if (!datatype.isBuiltIn()) {
+				Pair<Double,Double> xyCoords = PositioningOperations.getXYCoordsForEntity(datatype, ontology);
+				datatypeNodes.add(new SDNode(datatype, true, xyCoords.getLeft(), xyCoords.getRight()));
+			}
 		});
 
+		// Create nodes for datatypes linked from data properties (which use positioning annotations on the data property)
+		ontology.getDataPropertiesInSignature().forEach(dataProperty -> {
+			Pair<Double,Double> xyCoords = PositioningOperations.getXYCoordsForEntity(dataProperty, ontology);
+			for (OWLDataPropertyRangeAxiom rangeAxiom: ontology.getDataPropertyRangeAxioms(dataProperty)) {
+				Set<OWLDatatype> rangeTypes = rangeAxiom.getDatatypesInSignature();
+				for (OWLDatatype range: rangeTypes) {
+					datatypeNodes.add(new SDNode(range, true, xyCoords.getLeft(), xyCoords.getRight()));
+				}
+			}
+		});
+		
 		return datatypeNodes;
 	}
 }

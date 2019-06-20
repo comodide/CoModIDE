@@ -39,6 +39,7 @@ public class LabelChangeHandler
 
 	public Object handle(mxCell cell, String newLabel)
 	{
+		cell.setId(newLabel);
 		if (cell.isEdge())
 		{
 			return handleEdgeLabelChange(cell, newLabel);
