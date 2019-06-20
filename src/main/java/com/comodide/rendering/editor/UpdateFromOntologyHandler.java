@@ -59,8 +59,12 @@ public class UpdateFromOntologyHandler
 		// Unpack the OntologyChange
 		OWLOntology ontology = change.getOntology();
 		OWLAxiom    axiom    = change.getAxiom();
-		// Add or remove from graph? Might not be necessary.
-		if (change.isAddAxiom())
+		// Add or remove from graph
+		if (this.schemaDiagram.isLock())
+		{
+			// Do nothing
+		}
+		else if (change.isAddAxiom())
 		{
 			// When a class is created it is declared. We extract the OWLEntity
 			// From the declaration. It does not render declared properties.
@@ -110,8 +114,6 @@ public class UpdateFromOntologyHandler
 
 	public void handleClass(OWLOntology ontology, OWLAxiom axiom)
 	{
-		log.info("[CoModIDE:UFOH] Handling class change.");
-
 		// The Cell representing the Class or Datatype
 		Object cell = null;
 		// Unpack data from Declaration
@@ -120,6 +122,8 @@ public class UpdateFromOntologyHandler
 		// Only handle Class or Datatype
 		if (owlEntity.isOWLClass() || owlEntity.isOWLDatatype())
 		{
+			log.info("[CoModIDE:UFOH] Handling class or datatype change.");
+
 			// Retrieve the opla-sd annotations for positions
 			Pair<Double, Double> xyCoords = PositioningOperations.getXYCoordsForEntity(owlEntity, ontology);
 			// Package the node
@@ -167,9 +171,8 @@ public class UpdateFromOntologyHandler
 		graphModel.beginUpdate();
 		try
 		{
-			/*
-			 * FIXME I suspect we need to add the two styles to the SDConstants or something
-			 */
+			// If null is passed as parent, a convenience function in the chain
+			// will call getDefaultParent()
 			schemaDiagram.insertEdge(null, id, edge, source, target, style);
 		}
 		finally
@@ -196,6 +199,8 @@ public class UpdateFromOntologyHandler
 			graphModel.beginUpdate();
 			try
 			{
+				// If null is passed as parent, a convenience function in the chain
+				// will call getDefaultParent()
 				schemaDiagram.insertEdge(null, id, edge, source, target, style);
 			}
 			finally
@@ -222,6 +227,8 @@ public class UpdateFromOntologyHandler
 			graphModel.beginUpdate();
 			try
 			{
+				// If null is passed as parent, a convenience function in the chain
+				// will call getDefaultParent()
 				schemaDiagram.insertEdge(null, id, edge, source, target, style);
 			}
 			finally
@@ -248,6 +255,8 @@ public class UpdateFromOntologyHandler
 			graphModel.beginUpdate();
 			try
 			{
+				// If null is passed as parent, a convenience function in the chain
+				// will call getDefaultParent()
 				schemaDiagram.insertEdge(null, id, edge, source, target, style);
 			}
 			finally
@@ -270,16 +279,18 @@ public class UpdateFromOntologyHandler
 			Object source = edge.getSource();
 			Object target = edge.getTarget();
 			String style  = edge.getStyle();
-			
-			// If the datatype has not previously been rendered, ensure it is rendered prior to the property
-			// being linked up against it.
-			if (target == null) {
-				OWLDataPropertyRangeAxiom rangeAxiom = (OWLDataPropertyRangeAxiom) axiom;
-				OWLDataProperty dataProperty = rangeAxiom.getProperty().asOWLDataProperty();
-				OWLDatatype range = rangeAxiom.getRange().asOWLDatatype();
-				// Note that we are fetching the positioning axioms from the data property, which has identity (the datatype might not have)
+
+			// If the datatype has not previously been rendered, ensure it is rendered prior
+			// to the property being linked up against it.
+			if (target == null)
+			{
+				OWLDataPropertyRangeAxiom rangeAxiom   = (OWLDataPropertyRangeAxiom) axiom;
+				OWLDataProperty           dataProperty = rangeAxiom.getProperty().asOWLDataProperty();
+				OWLDatatype               range        = rangeAxiom.getRange().asOWLDatatype();
+				// Note that we are fetching the positioning axioms from the data property,
+				// which has identity (the datatype might not have)
 				Pair<Double, Double> xyCoords = PositioningOperations.getXYCoordsForEntity(dataProperty, ontology);
-				SDNode node = new SDNode(range, true, xyCoords);
+				SDNode               node     = new SDNode(range, true, xyCoords);
 				target = vertexMaker.makeNode(node);
 				// TODO: Check if locking is needed here like for classes?
 				graphModel.beginUpdate();
@@ -296,6 +307,8 @@ public class UpdateFromOntologyHandler
 			graphModel.beginUpdate();
 			try
 			{
+				// If null is passed as parent, a convenience function in the chain
+				// will call getDefaultParent()
 				schemaDiagram.insertEdge(null, id, edge, source, target, style);
 			}
 			finally
