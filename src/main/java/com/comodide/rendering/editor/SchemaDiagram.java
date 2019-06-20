@@ -2,7 +2,6 @@ package com.comodide.rendering.editor;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -169,6 +168,23 @@ public class SchemaDiagram extends mxGraph
 		updateFromOntologyHandler.handle(change);
 	}
 
+	/**
+	 * Overriding mxGraph to make datatype nodes non-editable
+	 */
+	@Override
+	public boolean isCellEditable(Object cell)
+	{
+		mxCell theCell = (mxCell)cell;
+		
+		if (theCell.getValue() instanceof SDNode) {
+			SDNode node = (SDNode)theCell.getValue();
+			if (node.isDatatype()) {
+				return false;
+			}
+		}
+		return super.isCellEditable(cell);
+	}
+	
 	public boolean isLock()
 	{
 		return this.lock;
