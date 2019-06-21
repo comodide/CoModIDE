@@ -1,8 +1,9 @@
 package com.comodide.rendering.editor;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -14,8 +15,8 @@ import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.model.mxICell;
-import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
 import com.mxgraph.view.mxGraph;
@@ -169,6 +170,29 @@ public class SchemaDiagram extends mxGraph
 		updateFromOntologyHandler.handle(change);
 	}
 
+	/** This method is a convenience (but necessary) method for finding a cell in the schema diagram.
+	 * Due to the creation mechanism of nodes via drag-and-drop ids are added before the id is assigned
+	 * via class/property creation, therefore we must iterate through cells and match their current id
+	 * instead of the id that they had when they were dragged and dropped (an arbitrary integer).
+	 * @param cellID
+	 */
+	public mxCell getCell(String cellID)
+	{
+		Map<String, Object> cells = ((mxGraphModel) model).getCells();
+		
+		for(Object o : cells.values())
+		{
+			mxCell cell = (mxCell) o;
+			
+			if(cell.getId().equals(cellID))
+			{
+				return cell;
+			}
+		}
+	
+		return null;
+	}
+	
 	/**
 	 * Overriding mxGraph to make datatype nodes non-editable
 	 */

@@ -1,5 +1,7 @@
 package com.comodide.rendering.editor;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
@@ -13,6 +15,8 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +34,10 @@ public class UpdateFromOntologyHandler
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(UpdateFromOntologyHandler.class);
 
+	/** Used for obtaining human readable lables */
+	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+
+	
 	/** Used for updating the graph when handling changes */
 	private SchemaDiagram schemaDiagram;
 	private mxGraphModel  graphModel;
@@ -106,8 +114,18 @@ public class UpdateFromOntologyHandler
 		}
 		else if (change.isRemoveAxiom())
 		{
-			// TODO isRemoveAxiom
-			log.warn("[CoModIDE:UFOH] RemoveAxioms are currently unhandled.");
+			// TODO removeAxiom implementation in Progress
+			if (axiom.isOfType(AxiomType.DECLARATION))
+			{
+				removeClass(axiom);
+			}
+			else
+			{
+				if (!axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
+				{
+					log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
+				}
+			}
 		}
 		else
 		{
@@ -352,6 +370,37 @@ public class UpdateFromOntologyHandler
 					}
 				}
 			}
+		}
+	}
+	
+	public void removeClass(OWLAxiom axiom)
+	{
+		// Unpack
+		OWLDeclarationAxiom declarationAxiom = (OWLDeclarationAxiom) axiom;
+		OWLEntity owlEntity = declarationAxiom.getEntity();
+
+		// Act only if class
+		if(owlEntity.isOWLClass())
+		{
+			// Get the label
+			String className = shortFormProvider.getShortForm(owlEntity);
+			// Find the associated cell
+			Object classCell = this.schemaDiagram.getCell(className);
+			
+			// Remove that cell from the schema diagram
+			graphModel.beginUpdate();
+			try
+			{
+				schemaDiagram.removeCells(new Object[] {classCell});
+			}
+			finally
+			{
+				graphModel.endUpdate();
+			}
+		}
+		else
+		{
+			log.warn("debug:ufoh wasn't owl class as expected");
 		}
 	}
 }
