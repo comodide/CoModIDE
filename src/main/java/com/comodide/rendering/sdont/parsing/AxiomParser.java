@@ -40,38 +40,38 @@ import com.comodide.rendering.sdont.model.SDNode;
 public class AxiomParser
 {
 	/** Logging */
-    private static final Logger log = LoggerFactory.getLogger(AxiomParser.class);
-    
-    /** Used for deriving human readable labels */
-	private static final ShortFormProvider	shortFormProvider	= new SimpleShortFormProvider();
-	
-	/** Connects to an OWLOntology and provides some convenience methods. */
-	private OWLConnector					connector;
-	
-	/** Creates new entities/axioms */
-	private OWLDataFactory					df;
+	private static final Logger log = LoggerFactory.getLogger(AxiomParser.class);
 
-	private Set<SDEdge>						edgeSet				= null;
-	private SDEdgeFactory					edgeFactory;
+	/** Used for deriving human readable labels */
+	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+
+	/** Connects to an OWLOntology and provides some convenience methods. */
+	private OWLConnector connector;
+
+	/** Creates new entities/axioms */
+	private OWLDataFactory df;
+
+	private Set<SDEdge>   edgeSet = null;
+	private SDEdgeFactory edgeFactory;
 
 	/** Empty Constructor */
 	public AxiomParser()
 	{
-		
+
 	}
-	
+
 	/** Convenience constructor for only parsing axioms */
 	public AxiomParser(OWLModelManager modelManager)
 	{
 		this.df = modelManager.getOWLDataFactory();
 	}
-	
+
 	/** When parsing the axiom is the only necessity */
 	public AxiomParser(OWLDataFactory owlDataFactory)
 	{
 		this.df = owlDataFactory;
 	}
-	
+
 	public AxiomParser(OWLConnector connector)
 	{
 		this.connector = connector;
@@ -80,7 +80,7 @@ public class AxiomParser
 
 	public Set<SDEdge> provideEdges(Set<SDNode> nodeSet)
 	{
-		if(this.edgeSet == null)
+		if (this.edgeSet == null)
 		{
 			this.edgeSet = new HashSet<>();
 			this.edgeFactory = new SDEdgeFactory(nodeSet);
@@ -117,16 +117,15 @@ public class AxiomParser
 
 		// Get the domain and range of the property
 		OWLObjectPropertyDomainAxiom domain = (OWLObjectPropertyDomainAxiom) objPropMap
-		        .get(AxiomType.OBJECT_PROPERTY_DOMAIN);
-		OWLObjectPropertyRangeAxiom range = (OWLObjectPropertyRangeAxiom) objPropMap
-		        .get(AxiomType.OBJECT_PROPERTY_RANGE);
+				.get(AxiomType.OBJECT_PROPERTY_DOMAIN);
+		OWLObjectPropertyRangeAxiom  range  = (OWLObjectPropertyRangeAxiom) objPropMap
+				.get(AxiomType.OBJECT_PROPERTY_RANGE);
 
 		// As long we have both the domain and range (i.e. the objProp is not
 		// malformed) parse the axiom
-		if(domain != null && range != null)
+		if (domain != null && range != null)
 		{
-			OWLClassExpression superClass = df.getOWLObjectSomeValuesFrom(objProp,
-			        range.getRange());
+			OWLClassExpression superClass = df.getOWLObjectSomeValuesFrom(objProp, range.getRange());
 			parseAxiom(df.getOWLSubClassOfAxiom(domain.getDomain(), superClass));
 		}
 	}
@@ -155,15 +154,14 @@ public class AxiomParser
 
 		// Get the domain and range of the property
 		OWLDataPropertyDomainAxiom domain = (OWLDataPropertyDomainAxiom) dataPropMap
-		        .get(AxiomType.DATA_PROPERTY_DOMAIN);
-		OWLDataPropertyRangeAxiom range = (OWLDataPropertyRangeAxiom) dataPropMap.get(AxiomType.DATA_PROPERTY_RANGE);
+				.get(AxiomType.DATA_PROPERTY_DOMAIN);
+		OWLDataPropertyRangeAxiom  range  = (OWLDataPropertyRangeAxiom) dataPropMap.get(AxiomType.DATA_PROPERTY_RANGE);
 
 		// As long we have both the domain and range (i.e. the objProp is not
 		// malformed) parse the axiom
-		if(domain != null && range != null)
+		if (domain != null && range != null)
 		{
-			OWLClassExpression superClass = df.getOWLDataSomeValuesFrom(dataProp,
-			        range.getRange());
+			OWLClassExpression superClass = df.getOWLDataSomeValuesFrom(dataProp, range.getRange());
 			parseAxiom(df.getOWLSubClassOfAxiom(domain.getDomain(), superClass));
 		}
 	}
@@ -180,17 +178,17 @@ public class AxiomParser
 	public void parseAxiom(OWLSubClassOfAxiom ax)
 	{
 		// Parse SubClass
-		OWLClassExpression sub = ax.getSubClass();
+		OWLClassExpression  sub  = ax.getSubClass();
 		ClassExpressionType subt = sub.getClassExpressionType();
 
 		// Parse SuperClass
-		OWLClassExpression sup = ax.getSuperClass();
+		OWLClassExpression  sup  = ax.getSuperClass();
 		ClassExpressionType supt = sup.getClassExpressionType();
 
 		try
 		{
 			// Atomic Subclass Relation
-			if(subt.equals(ClassExpressionType.OWL_CLASS) && subt.equals(supt))
+			if (subt.equals(ClassExpressionType.OWL_CLASS) && subt.equals(supt))
 			{
 				String src = shortFormProvider.getShortForm((OWLEntity) sub);
 				String tar = shortFormProvider.getShortForm((OWLEntity) sup);
@@ -199,44 +197,44 @@ public class AxiomParser
 				addEdge(t);
 			}
 			// Complex \sqsubseteq Class
-			else if(sub instanceof HasFiller<?> && isClass(supt))
+			else if (sub instanceof HasFiller<?> && isClass(supt))
 			{
 				Triple t = handleComplexAndClass(sub, sup, ax);
 				addEdge(t);
 			}
 			// Class \sqsubseteq Complex
-			else if(isClass(subt) && sup instanceof HasFiller<?>)
+			else if (isClass(subt) && sup instanceof HasFiller<?>)
 			{
 				Triple t = handleClassAndComplex(sub, sup, ax);
 				addEdge(t);
 			}
-			else if(sub instanceof HasFiller<?> && sup instanceof OWLObjectUnionOf)
+			else if (sub instanceof HasFiller<?> && sup instanceof OWLObjectUnionOf)
 			{
 				Set<OWLClassExpression> union = sup.asDisjunctSet();
 
-				for(OWLClassExpression c : union)
+				for (OWLClassExpression c : union)
 				{
 					parseAxiom(df.getOWLSubClassOfAxiom(sub, c));
 				}
 			}
-			else if(sub instanceof OWLObjectIntersectionOf && sup instanceof HasFiller<?>)
+			else if (sub instanceof OWLObjectIntersectionOf && sup instanceof HasFiller<?>)
 			{
 				Set<OWLClassExpression> intersection = sub.asConjunctSet();
 
-				for(OWLClassExpression c : intersection)
+				for (OWLClassExpression c : intersection)
 				{
 					parseAxiom(df.getOWLSubClassOfAxiom(c, sup));
 				}
 			}
-			else if(sub instanceof OWLObjectUnionOf)
+			else if (sub instanceof OWLObjectUnionOf)
 			{
 				sub.asDisjunctSet().forEach(u -> parseAxiom(df.getOWLSubClassOfAxiom(u, sup)));
 			}
-			else if(sup instanceof OWLObjectUnionOf)
+			else if (sup instanceof OWLObjectUnionOf)
 			{
 				sup.asDisjunctSet().forEach(d -> parseAxiom(df.getOWLSubClassOfAxiom(d, sub)));
 			}
-			else if(sup instanceof OWLObjectIntersectionOf)
+			else if (sup instanceof OWLObjectIntersectionOf)
 			{
 				sup.asConjunctSet().forEach(c -> parseAxiom(df.getOWLSubClassOfAxiom(sub, c)));
 			}
@@ -245,7 +243,7 @@ public class AxiomParser
 				throw new UnparseableAxiomException("Completely unhandled axiom occurred.");
 			}
 		}
-		catch(UnparseableAxiomException e)
+		catch (UnparseableAxiomException e)
 		{
 //			System.err.println("Unparseable axiom encountered: ");
 //			System.err.println(ax.getAxiomWithoutAnnotations().toString());
@@ -253,7 +251,7 @@ public class AxiomParser
 			log.warn("[CoModIDE:SDOnt] Unparseable axiom encountered.");
 			log.warn("\tMessage: " + e.getMessage() + "\n");
 		}
-		catch(ClassCastException e)
+		catch (ClassCastException e)
 		{
 //			System.err.println("Problem parsing axiom: ");
 //			System.err.println(ax.getAxiomWithoutAnnotations().toString());
@@ -264,7 +262,8 @@ public class AxiomParser
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	public Triple handleClassAndComplex(OWLClassExpression sub, OWLClassExpression sup, OWLAxiom ax) throws UnparseableAxiomException
+	public Triple handleClassAndComplex(OWLClassExpression sub, OWLClassExpression sup, OWLAxiom ax)
+			throws UnparseableAxiomException
 	{
 		String domStr;
 		String codStr;
@@ -275,13 +274,14 @@ public class AxiomParser
 
 		// Get filler shortform (codomain)
 		OWLObject filler = ((HasFiller<?>) sup).getFiller();
-		OWLObjectProperty prop = null;
+		// Get the property
+		OWLObjectProperty prop = (OWLObjectProperty) ((HasProperty<?>) sup).getProperty();
 		// TODO: this if clause will probably be a problem, later
-		if(filler instanceof OWLObjectIntersectionOf)
+		if (filler instanceof OWLObjectIntersectionOf)
 		{
 			OWLObjectIntersectionOf inter = (OWLObjectIntersectionOf) filler;
-			Set<?> set = inter.asConjunctSet();
-			if(set.size() != 2)
+			Set<?>                  set   = inter.asConjunctSet();
+			if (set.size() != 2)
 			{
 				throw new UnparseableAxiomException();
 			}
@@ -291,7 +291,7 @@ public class AxiomParser
 				set.toArray(arr);
 				OWLClass cod;
 
-				if(arr[0] instanceof OWLClass)
+				if (arr[0] instanceof OWLClass)
 				{
 					parseAxiom(df.getOWLSubClassOfAxiom(arr[0], arr[1]));
 					cod = (OWLClass) arr[0];
@@ -305,22 +305,19 @@ public class AxiomParser
 				codStr = shortFormProvider.getShortForm((OWLEntity) cod);
 			}
 		}
-		else if(filler instanceof OWLObjectUnionOf)
+		else if (filler instanceof OWLObjectUnionOf)
 		{
 			// Consider DetectorFinalState \sqsubclasseq \exists hO(A\cup O\cup
 			// SC)
 			// We need to make an axiom for each of these
 
-			// Get the property
-			prop = (OWLObjectProperty) ((HasProperty<?>) sup).getProperty();
-
 			// Get the filler
 			Set<OWLClassExpression> set = ((OWLObjectUnionOf) filler).asDisjunctSet();
-			for(OWLClassExpression s : set)
+			for (OWLClassExpression s : set)
 			{
 				OWLClassExpression newSup;
 
-				if(sup instanceof OWLObjectSomeValuesFrom)
+				if (sup instanceof OWLObjectSomeValuesFrom)
 				{
 					newSup = df.getOWLObjectSomeValuesFrom(prop, s);
 				}
@@ -346,7 +343,8 @@ public class AxiomParser
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	public Triple handleComplexAndClass(OWLClassExpression sub, OWLClassExpression sup, OWLAxiom ax) throws UnparseableAxiomException
+	public Triple handleComplexAndClass(OWLClassExpression sub, OWLClassExpression sup, OWLAxiom ax)
+			throws UnparseableAxiomException
 	{
 		String domStr;
 		String codStr;
@@ -357,12 +355,15 @@ public class AxiomParser
 
 		// Get filler shortform (codomain)
 		OWLObject filler = ((HasFiller<?>) sub).getFiller();
-		OWLObjectProperty prop = null;
-		if(filler instanceof OWLObjectIntersectionOf)
+		// Get the property
+		OWLObjectProperty prop = (OWLObjectProperty) ((HasProperty<?>) sub).getProperty();
+
+//		OWLObjectProperty prop = null;
+		if (filler instanceof OWLObjectIntersectionOf)
 		{
 			OWLObjectIntersectionOf inter = (OWLObjectIntersectionOf) filler;
-			Set<?> set = inter.asConjunctSet();
-			if(set.size() != 2)
+			Set<?>                  set   = inter.asConjunctSet();
+			if (set.size() != 2)
 			{
 				throw new UnparseableAxiomException("Wrong intersection set size");
 			}
@@ -372,7 +373,7 @@ public class AxiomParser
 				set.toArray(arr);
 				OWLClass cod;
 
-				if(arr[0] instanceof OWLClass)
+				if (arr[0] instanceof OWLClass)
 				{
 					parseAxiom(df.getOWLSubClassOfAxiom(arr[0], arr[1]));
 					cod = (OWLClass) arr[0];
@@ -386,16 +387,13 @@ public class AxiomParser
 				codStr = shortFormProvider.getShortForm((OWLEntity) cod);
 			}
 		}
-		else if(filler instanceof OWLObjectUnionOf)
+		else if (filler instanceof OWLObjectUnionOf)
 		{
-			// Get the property
-			prop = (OWLObjectProperty) ((HasProperty<?>) sub).getProperty();
-
 			// Get the filler
 			Set<OWLClassExpression> set = ((OWLObjectUnionOf) filler).asDisjunctSet();
-			for(OWLClassExpression s : set)
+			for (OWLClassExpression s : set)
 			{
-				if(sub instanceof OWLObjectSomeValuesFrom)
+				if (sub instanceof OWLObjectSomeValuesFrom)
 				{
 					OWLObjectSomeValuesFrom newSub = df.getOWLObjectSomeValuesFrom(prop, s);
 					parseAxiom(df.getOWLSubClassOfAxiom(newSub, sup));
@@ -414,6 +412,7 @@ public class AxiomParser
 		}
 
 		// Get Property shortform
+
 		rolStr = shortFormProvider.getShortForm((OWLEntity) ((HasProperty<?>) sub).getProperty());
 
 		return new Triple(domStr, codStr, rolStr, prop);

@@ -46,12 +46,6 @@ public class RendererView extends AbstractOWLViewComponent
 
 		if (this.manager != null)
 		{
-			/* Register listener to detect changes in the ontology */
-			// Create the Listener
-			this.renderingViewOntologyListener = new RenderingViewOntologyListener();
-			// Add ot the manager
-			this.manager.addOntologyChangeListener(renderingViewOntologyListener);
-
 			/* Construct the RendererPanel */
 			// The SDManager is a wrapper class for the ontology loading
 			this.sdManager = new SDManager(manager);
@@ -64,6 +58,12 @@ public class RendererView extends AbstractOWLViewComponent
 			this.rendererPanel = new GraphEditor(sdComponent);
 			add(rendererPanel);
 
+			/* Register listener to detect changes in the ontology */
+			// Create the Listener
+			this.renderingViewOntologyListener = new RenderingViewOntologyListener();
+			// Add to the manager
+			this.manager.addOntologyChangeListener(renderingViewOntologyListener);
+			
 			// Finish and Log
 			log.info("[CoModIDE:RenderingView] Successfully initialized");
 		}

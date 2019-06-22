@@ -120,23 +120,6 @@ public class SchemaDiagram extends mxGraph
 	}
 
 	@Override
-	public Object addEdge(Object edge, Object parent, Object source, Object target, Integer index)
-	{
-		Object o = super.addEdge(edge, parent, source, target, index);
-		
-		log.info("fired.");
-
-		log.info("----");
-		
-		log.info(((mxCell) o).getValue().toString());
-		
-		log.info("----");
-		
-		log.info(o.toString());
-		return o;
-	}
-	
-	@Override
 	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
 	{
 		log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
