@@ -132,9 +132,9 @@ public class SchemaDiagram extends mxGraph
 		try
 		{
 			// Handle the label change
-			newValue = labelChangeHandler.handle(changedCell, newLabel);
+			Object updatedSdEdgeOrNode = labelChangeHandler.handle(changedCell, newLabel);
 			// Set the new value
-			model.setValue(cell, newValue);
+			model.setValue(cell, updatedSdEdgeOrNode);
 			// Autosize, if necessary.
 			if (autoSize)
 			{

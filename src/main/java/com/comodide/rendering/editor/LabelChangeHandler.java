@@ -25,12 +25,6 @@ public class LabelChangeHandler
 	/** Used for adding positional arguments to updatedCells */
 	private OWLModelManager modelManager;
 	
-	/** explicit empty constructor */
-	public LabelChangeHandler()
-	{
-
-	}
-
 	public LabelChangeHandler(OWLModelManager modelManager, SchemaDiagram schemaDiagram)
 	{
 		this.axiomManager = AxiomManager.getInstance(modelManager, schemaDiagram);
@@ -50,7 +44,7 @@ public class LabelChangeHandler
 		}
 	}
 
-	public SDEdge handleEdgeLabelChange(mxCell cell, String newLabel)
+	private SDEdge handleEdgeLabelChange(mxCell cell, String newLabel)
 	{
 		// Unpack useful things
 		SDNode source = (SDNode) cell.getSource().getValue();
@@ -95,7 +89,7 @@ public class LabelChangeHandler
 		return edge;
 	}
 
-	public SDNode handleNodeLabelChange(mxCell cell, String newLabel)
+	private SDNode handleNodeLabelChange(mxCell cell, String newLabel)
 	{
 		SDNode node = null;
 

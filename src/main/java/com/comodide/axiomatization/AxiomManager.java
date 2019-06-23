@@ -3,7 +3,6 @@ package com.comodide.axiomatization;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
@@ -26,7 +25,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
@@ -36,9 +34,6 @@ import org.slf4j.LoggerFactory;
 import com.comodide.patterns.PatternInstantiationConfiguration;
 import com.comodide.patterns.PatternInstantiationConfiguration.EdgeCreationAxiom;
 import com.comodide.rendering.editor.SchemaDiagram;
-import com.comodide.rendering.sdont.parsing.AxiomParser;
-import com.mxgraph.model.mxCell;
-import com.mxgraph.model.mxGraphModel;
 
 /**
  * The purpose of this class is to provide a single point of entry for the
@@ -77,18 +72,11 @@ public class AxiomManager
 	private OWLEntityFinder  owlEntityFinder;
 	private OWLEntityRenamer owlEntityRenamer;
 
-	/** Used for finding domains and ranges */
-	private OWLReasoner reasoner;
-
 	/** Used for current namespace */
 	private IRI iri;
 
 	/** Used for parsing axioms added to the ontology */
-	private AxiomParser       axiomParser;
 	private SimpleAxiomParser simpleAxiomParser;
-
-	/** Used to retrieve cells representing classes from parsed axioms */
-	private SchemaDiagram schemaDiagram;
 
 	/** Used for generating human readable labels */
 	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
@@ -96,7 +84,6 @@ public class AxiomManager
 	private AxiomManager(OWLModelManager modelManager, SchemaDiagram schemaDiagram)
 	{
 		this.modelManager = modelManager;
-		this.schemaDiagram = schemaDiagram;
 
 		// Retrieve the active ontology
 		this.owlOntology = this.modelManager.getActiveOntology();
@@ -113,10 +100,7 @@ public class AxiomManager
 			// Get the namespace for the active ontology
 			this.iri = this.owlOntology.getOntologyID().getOntologyIRI().orNull();
 			// Create Parsers for axioms
-			this.axiomParser = new AxiomParser(this.owlDataFactory);
 			this.simpleAxiomParser = new SimpleAxiomParser(schemaDiagram);
-			// Get the Reasoner
-			this.reasoner = this.modelManager.getReasoner();
 		}
 		else
 		{
@@ -479,185 +463,5 @@ public class AxiomManager
 	public EdgeContainer parseSimpleAxiom(OWLAxiom axiom)
 	{
 		return this.simpleAxiomParser.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
-	}
-
-	public EdgeContainer handleObjectPropertyDomain(OWLOntology ontology, OWLAxiom axiom)
-	{
-		OWLObjectPropertyDomainAxiom domainAxiom = (OWLObjectPropertyDomainAxiom) axiom;
-		// Unpack from axiom
-		OWLObjectProperty objectProperty = domainAxiom.getProperty().asOWLObjectProperty();
-		OWLClass          domain         = domainAxiom.getDomain().asOWLClass();
-		// Get shortforms
-		String propertyName = shortFormProvider.getShortForm(objectProperty);
-		String domainLabel  = shortFormProvider.getShortForm(domain);
-		// Extract the Ranges for the object property
-		Set<OWLObjectPropertyRangeAxiom> ranges = ontology.getObjectPropertyRangeAxioms(objectProperty);
-
-		// Draw edge only if there is domain and range pair. Warn if multiple ranges.
-		if (!ranges.isEmpty())
-		{
-			if (ranges.size() == 1)
-			{
-				// Get Range
-				OWLClass range = ((OWLObjectPropertyRangeAxiom) ranges.toArray()[0]).getRange().asOWLClass();
-				// Shortform
-				String rangeLabel = shortFormProvider.getShortForm(range);
-
-				// Obtain associated cells using the labels
-				Map<String, Object> cells      = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-				Object              domainCell = cells.get(domainLabel);
-				Object              rangeCell  = cells.get(rangeLabel);
-
-				// Package and return
-				return new EdgeContainer(propertyName, axiom, domainCell, rangeCell, "standardStyle");
-			}
-			else
-			{
-				log.warn("[CoModIDE:AxiomManager] Multiple domains found for property.");
-			}
-		}
-		else
-		{
-			// Do nothing
-			// i.e. if there is not an accompanying range to the domain, an edge can't be
-			// drawn
-		}
-
-		return null;
-	}
-
-	public EdgeContainer handleObjectPropertyRange(OWLOntology ontology, OWLAxiom axiom)
-	{
-		OWLObjectPropertyRangeAxiom rangeAxiom = (OWLObjectPropertyRangeAxiom) axiom;
-		// Unpack from axiom
-		OWLObjectProperty objectProperty = rangeAxiom.getProperty().asOWLObjectProperty();
-		OWLClass          range          = rangeAxiom.getRange().asOWLClass();
-		// Get shortforms
-		String propertyName = shortFormProvider.getShortForm(objectProperty);
-		String rangeLabel   = shortFormProvider.getShortForm(range);
-		// Extract the Ranges for the object property
-		// For some reason the reasoner object was not finding any thing. I am not sure
-		// why, thus
-		// the propagation of ontology into this method.
-		Set<OWLObjectPropertyDomainAxiom> domains = ontology.getObjectPropertyDomainAxioms(objectProperty);
-
-		// Draw edge only if there is domain and range pair. Warn if multiple ranges.
-		if (!domains.isEmpty())
-		{
-			if (domains.size() == 1)
-			{
-				// Get Domain
-				OWLClass domain = ((OWLObjectPropertyDomainAxiom) domains.toArray()[0]).getDomain().asOWLClass();
-				// Shortform
-				String domainLabel = shortFormProvider.getShortForm(domain);
-
-				// Obtain associated cells using the labels
-				Map<String, Object> cells      = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-				Object              domainCell = cells.get(domainLabel);
-				Object              rangeCell  = cells.get(rangeLabel);
-
-				// Package and return
-				return new EdgeContainer(propertyName, axiom, domainCell, rangeCell, "standardStyle");
-			}
-			else
-			{
-				log.warn("[CoModIDE:AxiomManager] Multiple domains found for property.");
-			}
-		}
-		else
-		{
-			// Do nothing
-			// i.e. if there is not an accompanying range to the domain, an edge can't be
-			// drawn
-		}
-
-		return null;
-	}
-
-	public EdgeContainer handleDataPropertyDomain(OWLOntology ontology, OWLAxiom axiom)
-	{
-		OWLDataPropertyDomainAxiom domainAxiom = (OWLDataPropertyDomainAxiom) axiom;
-		// Unpack from axiom
-		OWLDataProperty dataProperty = domainAxiom.getProperty().asOWLDataProperty();
-		OWLClass        domain       = domainAxiom.getDomain().asOWLClass();
-		// Get shortforms
-		String propertyName = shortFormProvider.getShortForm(dataProperty);
-		String domainLabel  = shortFormProvider.getShortForm(domain);
-		// Extract the Ranges for the object property
-		Set<OWLDataPropertyRangeAxiom> ranges = ontology.getDataPropertyRangeAxioms(dataProperty);
-
-		// Draw edge only if there is domain and range pair. Warn if multiple ranges.
-		if (!ranges.isEmpty())
-		{
-			if (ranges.size() == 1)
-			{
-				// Iterate through all cells to find the one whose ID matches the domain
-				Map<String, Object> cells      = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-				for (String key: cells.keySet()) {
-					mxCell cell = (mxCell)cells.get(key);
-					if (cell.getId().equals(domainLabel)) {
-						// Package and return
-						// Sending a null target, since the target cell for a data property will be created in the calling method
-						return new EdgeContainer(propertyName, axiom, cell, null, "standardStyle");
-					}
-				}
-			}
-			else
-			{
-				log.warn("[CoModIDE:AxiomManager] Multiple domains found for property.");
-			}
-		}
-		else
-		{
-			// Do nothing
-			// i.e. if there is not an accompanying range to the domain, an edge can't be
-			// drawn
-		}
-
-		return null;
-	}
-
-	public EdgeContainer handleDataPropertyRange(OWLOntology ontology, OWLAxiom axiom)
-	{
-		OWLDataPropertyRangeAxiom rangeAxiom = (OWLDataPropertyRangeAxiom) axiom;
-		// Unpack from axiom
-		OWLDataProperty dataProperty = rangeAxiom.getProperty().asOWLDataProperty();
-		// Get shortforms
-		String propertyName = shortFormProvider.getShortForm(dataProperty);
-		Set<OWLDataPropertyDomainAxiom> domains = ontology.getDataPropertyDomainAxioms(dataProperty);
-
-		// Draw edge only if there is exactly one domain. Warn if multiple domains.
-		if (!domains.isEmpty())
-		{
-			if (domains.size() == 1)
-			{
-				// Get domain
-				OWLClass domain = ((OWLDataPropertyDomainAxiom) domains.toArray()[0]).getDomain().asOWLClass();
-				String domainLabel = shortFormProvider.getShortForm(domain);
-
-				// Iterate through all cells to find the one whose ID matches the domain
-				Map<String, Object> cells      = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-				for (String key: cells.keySet()) {
-					mxCell cell = (mxCell)cells.get(key);
-					if (cell.getId().equals(domainLabel)) {
-						// Package and return
-						// Sending a null target, since the target cell for a data property will be created in the calling method
-						return new EdgeContainer(propertyName, axiom, cell, null, "standardStyle");
-					}
-				}
-			}
-			else
-			{
-				log.warn("[CoModIDE:AxiomManager] Multiple domains found for property.");
-			}
-		}
-		else
-		{
-			// Do nothing
-			// i.e. if there is not an accompanying domain to the range, an edge can't be
-			// drawn
-		}
-
-		return null;
 	}
 }
