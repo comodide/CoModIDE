@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
-import com.comodide.axiomatization.EdgeContainer;
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
@@ -141,7 +140,7 @@ public class UpdateFromOntologyHandler
 		}
 	}
 
-	public void handleClass(OWLOntology ontology, OWLAxiom axiom)
+	private void handleClass(OWLOntology ontology, OWLAxiom axiom)
 	{
 		// The Cell representing the Class or Datatype
 		Object cell = null;
@@ -189,28 +188,52 @@ public class UpdateFromOntologyHandler
 		}
 	}
 
-	public void handleGeneralAxiom(OWLOntology ontology, OWLAxiom axiom)
+	private void handleGeneralAxiom(OWLOntology ontology, OWLAxiom axiom)
 	{
 		log.info("[CoModIDE:UFOH] Handling property via GCI.");
 		// Parse the axiom
-		EdgeContainer edge = axiomManager.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
+		SDEdge edge = axiomManager.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
+		
 		// Unpack
-		String id     = edge.getId();
-		Object source = edge.getSource();
-		Object target = edge.getTarget();
+		String id = edge.toString();
+		SDNode sourceNode = edge.getSource();
+		String sourceLabel = sourceNode.toString();
+		SDNode targetNode = edge.getTarget();
+		String targetLabel = targetNode.toString();
 		String style  = edge.getStyle();
-		// Update the SchemaDiagram
-		graphModel.beginUpdate();
-		try
-		{
-			// If null is passed as parent, a convenience function in the chain
-			// will call getDefaultParent()
-			// TODO: the value added below should be a SDEdge, not EdgeContainer
-			schemaDiagram.insertEdge(null, id, edge, source, target, style);
+		
+		// Find corresponding cells on canvas (if they exist)
+		mxCell sourceCell = null;
+		mxCell targetCell = null;
+		Map<String, Object> cells = ((mxGraphModel)this.schemaDiagram.getModel()).getCells();
+		for (String key: cells.keySet()) {
+			mxCell cell = (mxCell)cells.get(key);
+			if (cell.getId().equals(sourceLabel)) {
+				sourceCell = cell;
+			}
+			if (cell.getId().equals(targetLabel)) {
+				targetCell = cell;
+			}
+			if (sourceCell != null && targetCell != null) {
+				// We have found both ends of the edge
+				break;
+			}
 		}
-		finally
-		{
-			graphModel.endUpdate();
+		
+		if (sourceCell != null && targetCell != null) {	
+			// Update the SchemaDiagram
+			graphModel.beginUpdate();
+			try
+			{
+				// If null is passed as parent, a convenience function in the chain
+				// will call getDefaultParent()
+				// TODO: the value added below should be a SDEdge, not EdgeContainer
+				schemaDiagram.insertEdge(null, id, edge, sourceNode, targetNode, style);
+			}
+			finally
+			{
+				graphModel.endUpdate();
+			}
 		}
 
 	}
@@ -352,7 +375,7 @@ public class UpdateFromOntologyHandler
 		}
 	}
 	
-	public void removeClass(OWLAxiom axiom)
+	private void removeClass(OWLAxiom axiom)
 	{
 		// Unpack
 		OWLDeclarationAxiom declarationAxiom = (OWLDeclarationAxiom) axiom;

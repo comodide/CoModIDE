@@ -3,6 +3,9 @@ package com.comodide.rendering.sdont.model;
 import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
+
+import com.comodide.rendering.editor.SDConstants;
 
 public class SDEdge
 {
@@ -25,7 +28,7 @@ public class SDEdge
 	
 	public String toString()
 	{
-		return isSubclass ? "subclass" : shortFormProvider.getShortForm(owlProperty);
+		return isSubclass ? "subClassOf" : shortFormProvider.getShortForm(owlProperty);
 	}
 
 	@Deprecated
@@ -66,6 +69,15 @@ public class SDEdge
 
 	public OWLProperty getOwlProperty() {
 		return owlProperty;
+	}
+
+	public String getStyle() {
+		if (this.owlProperty.getIRI().equals(OWLRDFVocabulary.RDFS_SUBCLASS_OF.getIRI())) {
+			return SDConstants.subclassEdgeStyle;
+		}
+		else {
+			return SDConstants.standardEdgeStyle;
+		}
 	}
 	
 	

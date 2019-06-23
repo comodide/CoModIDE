@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import com.comodide.patterns.PatternInstantiationConfiguration;
 import com.comodide.patterns.PatternInstantiationConfiguration.EdgeCreationAxiom;
 import com.comodide.rendering.editor.SchemaDiagram;
+import com.comodide.rendering.sdont.model.SDEdge;
 
 /**
  * The purpose of this class is to provide a single point of entry for the
@@ -460,7 +461,7 @@ public class AxiomManager
 		return dataProperty;
 	}
 
-	public EdgeContainer parseSimpleAxiom(OWLAxiom axiom)
+	public SDEdge parseSimpleAxiom(OWLAxiom axiom)
 	{
 		return this.simpleAxiomParser.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
 	}

@@ -2,6 +2,7 @@ package com.comodide.axiomatization;
 
 import java.util.Map;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.ClassExpressionType;
 import org.semanticweb.owlapi.model.HasFiller;
 import org.semanticweb.owlapi.model.HasProperty;
@@ -9,14 +10,21 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.rendering.editor.SDConstants;
 import com.comodide.rendering.editor.SchemaDiagram;
+import com.comodide.rendering.sdont.model.SDEdge;
+import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.model.mxGraphModel;
+
+import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 
 public class SimpleAxiomParser
 {
@@ -56,10 +64,10 @@ public class SimpleAxiomParser
 	 * @return
 	 */
 	// @formatter:on
-	public EdgeContainer parseSimpleAxiom(OWLSubClassOfAxiom axiom)
+	public SDEdge parseSimpleAxiom(OWLSubClassOfAxiom axiom)
 	{
 		// Edge to return
-		EdgeContainer edge;
+		SDEdge edge;
 
 		OWLClassExpression left  = axiom.getSubClass();
 		OWLClassExpression right = axiom.getSuperClass();
@@ -90,30 +98,23 @@ public class SimpleAxiomParser
 		return edge;
 	}
 
-	private EdgeContainer atomicSubclass(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
+	private SDEdge atomicSubclass(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
-		EdgeContainer subclassEdge = null;
-
 		// Extract classes
 		OWLClass leftClass  = left.asOWLClass();
 		OWLClass rightClass = right.asOWLClass();
-
-		// Get the shortforms. In node creation, these are the IDs
-		String leftLabel  = shortFormProvider.getShortForm(leftClass);
-		String rightlabel = shortFormProvider.getShortForm(rightClass);
-
-		// Obtain associated cells from labels (which are ids)
-		Map<String, Object> cells     = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-		Object              leftcell  = cells.get(leftLabel);
-		Object              rightcell = cells.get(rightlabel);
-
-		// Package
-		subclassEdge = new EdgeContainer("subclass", axiom, leftcell, rightcell, "subclassStyle");
-
+		
+		// Construct wrappers for left/right nodes
+		SDNode leftNode = new SDNode(leftClass, false, 0.0, 0.0);
+		SDNode rightNode = new SDNode(rightClass, false, 0.0, 0.0);
+		
+		// Make and return edge
+		OWLObjectProperty subClassOf = OWLManager.getOWLDataFactory().getOWLObjectProperty(OWLRDFVocabulary.RDFS_SUBCLASS_OF.getIRI());
+		SDEdge subclassEdge = new SDEdge(leftNode, rightNode, true, subClassOf);
 		return subclassEdge;
 	}
 
-	private EdgeContainer leftComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
+	private SDEdge leftComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
 		EdgeContainer relationEdge = null;
 
@@ -131,6 +132,7 @@ public class SimpleAxiomParser
 		String rightLabel    = shortFormProvider.getShortForm(rightClass);
 
 		// Obtain associated cells using the labels
+		// TODO: DO NOT DO THIS IT IS BUGGY
 		Map<String, Object> cells     = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
 		Object              leftCell  = cells.get(leftLabel);
 		Object              rightCell = cells.get(rightLabel);
@@ -139,7 +141,7 @@ public class SimpleAxiomParser
 		return relationEdge;
 	}
 
-	private EdgeContainer rightComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
+	private SDEdge rightComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
 		EdgeContainer relationEdge = null;
 
@@ -157,6 +159,7 @@ public class SimpleAxiomParser
 		String rightLabel    = shortFormProvider.getShortForm(rightClass);
 
 		// Obtain associated cells using the labels
+		// TODO: DO NOT DO THIS IT IS BUGGY
 		Map<String, Object> cells     = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
 		Object              leftCell  = cells.get(leftLabel);
 		Object              rightCell = cells.get(rightLabel);
