@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +48,59 @@ public class SchemaDiagram extends mxGraph
 	/** Used to prevent loopback from adding a class via tab */
 	private boolean lock = false;
 
+	
+	/**
+	 * Listener for mxEvents.CELLS_ADDED event; used to add subClassOf axiom to the model when
+	 * a new subClassOf edge is drawn on the canvas.
+	 */
+	protected mxIEventListener cellsAddedHandler =  new mxIEventListener() {
+		@Override
+		public void invoke(Object sender, mxEventObject evt) {
+			Object[] cells = (Object[]) evt.getProperty("cells");
+			if (cells.length == 1) {
+				if (cells[0] instanceof mxCell) {
+					mxCell edgeCell = (mxCell)cells[0];
+					if (edgeCell.getValue() instanceof SDEdge) {
+						SDEdge edge = (SDEdge)edgeCell.getValue();
+						if (edge.isSubclass()) {
+
+							// Retrieve the terminals of this cell
+							mxICell sourceCell = edgeCell.getTerminal(true);
+							mxICell targetCell = edgeCell.getTerminal(false);
+							
+							// Update the SDEdge user object
+							if (sourceCell.getValue() instanceof SDNode && targetCell.getValue() instanceof SDNode) {								
+								model.beginUpdate();
+								lock = true; // prevent loopback during addaxiom
+								try
+								{
+									SDNode sourceNode = (SDNode)sourceCell.getValue();
+									SDNode targetNode = (SDNode)targetCell.getValue();
+									edge.setSource(sourceNode);
+									edge.setTarget(targetNode);
+									model.setValue(edgeCell, edge);
+									
+									// Generate and add the subClassOf axioms to the active ontology
+									OWLClass subClass = sourceNode.getOwlEntity().asOWLClass();
+									OWLClass superClass = targetNode.getOwlEntity().asOWLClass();
+									OWLOntology ontology = modelManager.getActiveOntology();
+									OWLOntologyManager ontologyManager = ontology.getOWLOntologyManager();
+									OWLSubClassOfAxiom newAxiom = ontologyManager.getOWLDataFactory().getOWLSubClassOfAxiom(subClass, superClass);
+									ontologyManager.addAxiom(ontology, newAxiom);
+								}
+								finally
+								{
+									lock = false; // always make sure unlocked at this stage
+									model.endUpdate();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+	
 	
 	/**
 	 * Listener for mxEvent.CELLS_MOVED event; retrieves the new X/Y coordinates for
@@ -117,6 +173,7 @@ public class SchemaDiagram extends mxGraph
 		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(this, modelManager);
 		this.allowDanglingEdges = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
+		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
 	}
 
 	@Override
@@ -187,6 +244,12 @@ public class SchemaDiagram extends mxGraph
 		if (theCell.getValue() instanceof SDNode) {
 			SDNode node = (SDNode)theCell.getValue();
 			if (node.isDatatype()) {
+				return false;
+			}
+		}
+		if (theCell.getValue() instanceof SDEdge) {
+			SDEdge edge = (SDEdge)theCell.getValue();
+			if (edge.isSubclass()) {
 				return false;
 			}
 		}

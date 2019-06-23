@@ -14,8 +14,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import org.semanticweb.owlapi.vocab.XSDVocabulary;
 
+import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.swing.util.mxGraphTransferable;
 import com.mxgraph.swing.util.mxSwingConstants;
@@ -80,9 +83,10 @@ public class GraphEditor extends BasicGraphEditor
         coreConstructsPalette // relation
                 .addEdgeTemplate("Property", new ImageIcon(GraphEditor.class.getResource("/images/straight.png")),
                         SDConstants.standardEdgeStyle, 120, 120, "");
+        OWLObjectProperty subClassOf = OWLManager.getOWLDataFactory().getOWLObjectProperty(OWLRDFVocabulary.RDFS_SUBCLASS_OF.getIRI());
         coreConstructsPalette // subclass
                 .addEdgeTemplate("Subclass", new ImageIcon(GraphEditor.class.getResource("/images/arrow.png")), SDConstants.subclassEdgeStyle,
-                        120, 120, "");
+                        120, 120, new SDEdge(null, null, true, subClassOf));
         
         // Factory and defaults for creating templates
         OWLDataFactory df = OWLManager.getOWLDataFactory();
