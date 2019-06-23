@@ -1,7 +1,5 @@
 package com.comodide.axiomatization;
 
-import java.util.Map;
-
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.ClassExpressionType;
 import org.semanticweb.owlapi.model.HasFiller;
@@ -11,42 +9,24 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.util.ShortFormProvider;
-import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.rendering.editor.SDConstants;
-import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
-import com.mxgraph.model.mxGraphModel;
-
-import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 
 public class SimpleAxiomParser
 {
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(SimpleAxiomParser.class);
 
-	/** Used for deriving human readable labels */
-	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
-
-	/** Reference to the SchemaDiagram that is being displayed */
-	// TODO this might break with multiple ontologies D:
-	private SchemaDiagram schemaDiagram;
-
 	/** Empty Constructor */
 	public SimpleAxiomParser()
 	{
 
-	}
-
-	public SimpleAxiomParser(SchemaDiagram schemaDiagram)
-	{
-		this.schemaDiagram = schemaDiagram;
 	}
 
 	// @formatter:off
@@ -116,55 +96,39 @@ public class SimpleAxiomParser
 
 	private SDEdge leftComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
-		EdgeContainer relationEdge = null;
-
 		/* Parse Left */
 		// Extract Property
-		OWLEntity property = (OWLEntity) ((HasProperty<?>) left).getProperty();
+		OWLProperty property = (OWLProperty) ((HasProperty<?>) left).getProperty();
 		// Extract Class
 		OWLEntity leftClass = (OWLEntity) ((HasFiller<?>) left).getFiller();
 		// Extract Right Class
 		OWLEntity rightClass = right.asOWLClass();
 
-		// Get the shortforms
-		String propertyLabel = shortFormProvider.getShortForm(property);
-		String leftLabel     = shortFormProvider.getShortForm(leftClass);
-		String rightLabel    = shortFormProvider.getShortForm(rightClass);
-
-		// Obtain associated cells using the labels
-		// TODO: DO NOT DO THIS IT IS BUGGY
-		Map<String, Object> cells     = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-		Object              leftCell  = cells.get(leftLabel);
-		Object              rightCell = cells.get(rightLabel);
-
-		relationEdge = new EdgeContainer(propertyLabel, axiom, leftCell, rightCell, "standardStyle");
+		// Construct wrappers for left/right nodes
+		SDNode leftNode = new SDNode(leftClass, false, 0.0, 0.0);
+		SDNode rightNode = new SDNode(rightClass, false, 0.0, 0.0);
+		
+		// Construct and return edge
+		SDEdge relationEdge = new SDEdge(leftNode, rightNode, false, property);
 		return relationEdge;
 	}
 
 	private SDEdge rightComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
-		EdgeContainer relationEdge = null;
-
 		// Extract left Class
 		OWLEntity leftClass = left.asOWLClass();
 		/* Parse Right */
 		// Extract Property
-		OWLEntity property = (OWLEntity) ((HasProperty<?>) right).getProperty();
+		OWLProperty property = (OWLProperty) ((HasProperty<?>) right).getProperty();
 		// Extract Class
 		OWLEntity rightClass = (OWLEntity) ((HasFiller<?>) right).getFiller();
 
-		// Get the shortforms
-		String propertyLabel = shortFormProvider.getShortForm(property);
-		String leftLabel     = shortFormProvider.getShortForm(leftClass);
-		String rightLabel    = shortFormProvider.getShortForm(rightClass);
-
-		// Obtain associated cells using the labels
-		// TODO: DO NOT DO THIS IT IS BUGGY
-		Map<String, Object> cells     = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
-		Object              leftCell  = cells.get(leftLabel);
-		Object              rightCell = cells.get(rightLabel);
-
-		relationEdge = new EdgeContainer(propertyLabel, axiom, leftCell, rightCell, "standardStyle");
+		// Construct wrappers for left/right nodes
+		SDNode leftNode = new SDNode(leftClass, false, 0.0, 0.0);
+		SDNode rightNode = new SDNode(rightClass, false, 0.0, 0.0);
+		
+		//Construct and return edge
+		SDEdge relationEdge = new SDEdge(leftNode, rightNode, false, property);
 		return relationEdge;
 	}
 }

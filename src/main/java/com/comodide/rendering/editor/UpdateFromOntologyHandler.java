@@ -227,8 +227,7 @@ public class UpdateFromOntologyHandler
 			{
 				// If null is passed as parent, a convenience function in the chain
 				// will call getDefaultParent()
-				// TODO: the value added below should be a SDEdge, not EdgeContainer
-				schemaDiagram.insertEdge(null, id, edge, sourceNode, targetNode, style);
+				schemaDiagram.insertEdge(null, id, edge, sourceCell, targetCell, style);
 			}
 			finally
 			{

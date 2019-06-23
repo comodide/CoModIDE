@@ -101,7 +101,7 @@ public class AxiomManager
 			// Get the namespace for the active ontology
 			this.iri = this.owlOntology.getOntologyID().getOntologyIRI().orNull();
 			// Create Parsers for axioms
-			this.simpleAxiomParser = new SimpleAxiomParser(schemaDiagram);
+			this.simpleAxiomParser = new SimpleAxiomParser();
 		}
 		else
 		{
