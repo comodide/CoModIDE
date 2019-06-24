@@ -18,7 +18,6 @@ import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
@@ -343,8 +342,8 @@ public class AxiomManager
 			
 			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_DOMAIN)) {
 				OWLObjectSomeValuesFrom someValuesFrom = this.owlDataFactory.getOWLObjectSomeValuesFrom(property, range.asOWLClass());
-				OWLEquivalentClassesAxiom equivalentClassesAxiom = this.owlDataFactory.getOWLEquivalentClassesAxiom(domain.asOWLClass(), someValuesFrom);
-				AddAxiom addAxiomChange = new AddAxiom(this.owlOntology, equivalentClassesAxiom);
+				OWLSubClassOfAxiom subClassAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(someValuesFrom, domain.asOWLClass());
+				AddAxiom addAxiomChange = new AddAxiom(this.owlOntology, subClassAxiom);
 				this.modelManager.applyChange(addAxiomChange);
 			}
 			
