@@ -23,6 +23,8 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 
+import com.comodide.ComodideConfiguration;
+
 /**
  * Class that, based on a selected pattern, user preferences, and (possibly) the target ontology, creates
  * an ontology design pattern instantiation, in the form of both a) the logic axioms representing the design
@@ -46,7 +48,7 @@ public class PatternInstantiator {
 		super();
 		this.pattern = pattern;
 		this.patternLabel = patternLabel;
-		this.useTargetNamespace = PatternInstantiationConfiguration.getUseTargetNamespace();
+		this.useTargetNamespace = ComodideConfiguration.getUseTargetNamespace();
 		this.targetOntologyIri = modelManager.getActiveOntology().getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
 		this.entitySeparator = EntityCreationPreferences.getDefaultSeparator();
 		String moduleName = String.format("-modules/%s", UUID.randomUUID().toString());

@@ -44,13 +44,13 @@ public class PatternLibrary {
     private final IRI SCHEMADIAGRAM_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#renderedSchemaDiagram");
     private final IRI HTMLDOC_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#htmlDocumentation");
     private final IRI OWLREP_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#owlRepresentation");
-    public final Category ANY_CATEGORY = new Category("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
+    public final PatternCategory ANY_CATEGORY = new PatternCategory("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
     
     // Instance fields
     OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	OWLDataFactory factory = manager.getOWLDataFactory();
 	OWLOntology index;
-	private Map<Category,List<Pattern>> patternCategories = new HashMap<Category,List<Pattern>>();
+	private Map<PatternCategory,List<Pattern>> patternCategories = new HashMap<PatternCategory,List<Pattern>>();
     
     // Singleton access method
     public static synchronized PatternLibrary getInstance() {
@@ -120,7 +120,7 @@ public class PatternLibrary {
 						}
 						
 						// Find all the categories for this pattern. All patterns are assigned to at least the Any category by default
-						List<Category> categoriesForPattern = new ArrayList<Category>();
+						List<PatternCategory> categoriesForPattern = new ArrayList<PatternCategory>();
 						categoriesForPattern.add(ANY_CATEGORY);
 						for (OWLIndividual category: EntitySearcher.getObjectPropertyValues(namedPattern, categorizationProperty, index)) {
 							if (category.isNamed()) {
@@ -135,13 +135,13 @@ public class PatternLibrary {
 								else {
 									categoryLabel = namedCategory.getIRI().toString();
 								}
-								Category newCategory = new Category(categoryLabel, namedCategory.getIRI());
+								PatternCategory newCategory = new PatternCategory(categoryLabel, namedCategory.getIRI());
 								categoriesForPattern.add(newCategory);
 							}
 						}
 						
 						// Go through the list of categories for pattern and generate the map structure Category -> List<Pattern> that we need 
-						for (Category category: categoriesForPattern) {
+						for (PatternCategory category: categoriesForPattern) {
 							if (patternCategories.containsKey(category)) {
 								List<Pattern> patternsForCategory = patternCategories.get(category);
 								patternsForCategory.add(newPattern);
@@ -202,16 +202,16 @@ public class PatternLibrary {
 	 * Returns a list of all categories (that have one or more patterns) in this library.
 	 * @return
 	 */
-	public Category[] getPatternCategories() {
+	public PatternCategory[] getPatternCategories() {
 		// Get and sort all categories
-		Set<Category> categorySet = patternCategories.keySet();
-		List<Category> categoryList = new ArrayList<Category>(categorySet);
+		Set<PatternCategory> categorySet = patternCategories.keySet();
+		List<PatternCategory> categoryList = new ArrayList<PatternCategory>(categorySet);
 		Collections.sort(categoryList);
 		// Put the Any category first in the list, for usability purposes
 		categoryList.remove(ANY_CATEGORY);
 		categoryList.add(0, ANY_CATEGORY);
 		// Return as array
-		return categoryList.toArray(new Category[categoryList.size()]);
+		return categoryList.toArray(new PatternCategory[categoryList.size()]);
 	}
 	
 	/**
@@ -219,7 +219,7 @@ public class PatternLibrary {
 	 * @param category
 	 * @return
 	 */
-	public List<Pattern> getPatternsForCategory(Category category) {
+	public List<Pattern> getPatternsForCategory(PatternCategory category) {
 		List<Pattern> returnedPatterns = patternCategories.get(category);
 		Collections.sort(returnedPatterns);
 		return returnedPatterns;

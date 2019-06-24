@@ -1,4 +1,4 @@
-package com.comodide.patterns;
+package com.comodide;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,10 +9,10 @@ import org.protege.editor.core.prefs.Preferences;
 import org.protege.editor.core.prefs.PreferencesManager;
 
 /**
- * Configuration for the CoModIDE plugin's pattern instantiation mechanisms.
+ * Configuration for the CoModIDE plugin.
  * @author Karl Hammar <karl@karlhammar.com>
  */
-public class PatternInstantiationConfiguration {
+public class ComodideConfiguration {
 	
 	/**
 	 * Enumeration of the different types of ontology axioms that the user might want to create when drawing

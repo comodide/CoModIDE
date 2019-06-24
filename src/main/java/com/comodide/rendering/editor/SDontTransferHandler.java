@@ -23,8 +23,8 @@ import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.ComodideConfiguration;
 import com.comodide.patterns.Pattern;
-import com.comodide.patterns.PatternInstantiationConfiguration;
 import com.comodide.patterns.PatternTransferable;
 import com.google.common.base.Optional;
 import com.mxgraph.swing.mxGraphComponent;
@@ -108,7 +108,7 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 				
 				// Depending on user configuration, add modularization axioms either to separate metadata ontology or directly
 				// to target ontology
-				if (PatternInstantiationConfiguration.getModuleMetadataExternal()) {
+				if (ComodideConfiguration.getModuleMetadataExternal()) {
 					IRI activeOntologyIRI = activeOntology.getOntologyID().getOntologyIRI().orNull();
 					// The metadata ontology has the same IRI as the main ontology, but with a -metadata ending
 					IRI metadataOntologyIRI = IRI.create(activeOntologyIRI.toString(), "-metadata");

@@ -17,8 +17,8 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.patterns.PatternInstantiationConfiguration;
-import com.comodide.patterns.PatternInstantiationConfiguration.EdgeCreationAxiom;
+import com.comodide.ComodideConfiguration;
+import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
 
 /**
  * CoModIDE configuration view. Provides an interface through which users may select how CoModIDE should instantiate ontology design patterns
@@ -40,14 +40,14 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Boolean useTarget = (e.getActionCommand().equals(USE_TARGET_NAMESPACE_ACTION));
-			PatternInstantiationConfiguration.setUseTargetNamespace(useTarget);
+			ComodideConfiguration.setUseTargetNamespace(useTarget);
 		}
 	};
 	private static final ActionListener metadataPlacementListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Boolean metadataExternal = (e.getActionCommand().equals(METADATA_EXTERNAL_ACTION));
-			PatternInstantiationConfiguration.setModuleMetadataExternal(metadataExternal);
+			ComodideConfiguration.setModuleMetadataExternal(metadataExternal);
 		}
 	};
 
@@ -60,7 +60,7 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		entityNamingLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		this.add(entityNamingLabel);
 		
-		Boolean useTargetNamespace = PatternInstantiationConfiguration.getUseTargetNamespace();
+		Boolean useTargetNamespace = ComodideConfiguration.getUseTargetNamespace();
 		ButtonGroup namespaceGroup = new ButtonGroup();
 		JRadioButton useTargetNamespaceButton = new JRadioButton("Use target namespace");
 		useTargetNamespaceButton.setActionCommand(USE_TARGET_NAMESPACE_ACTION);
@@ -80,7 +80,7 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		moduleMetadataLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		this.add(moduleMetadataLabel);
 		
-		Boolean moduleMetadataExternal = PatternInstantiationConfiguration.getModuleMetadataExternal();
+		Boolean moduleMetadataExternal = ComodideConfiguration.getModuleMetadataExternal();
 		ButtonGroup metadataGroup = new ButtonGroup();
 		JRadioButton metadataExternalButton = new JRadioButton("External (in importing parent ontology)");
 		metadataExternalButton.setActionCommand(METADATA_EXTERNAL_ACTION);
@@ -100,18 +100,18 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		edgeCreationAxiomsLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		this.add(edgeCreationAxiomsLabel);
 		
-		Set<EdgeCreationAxiom> selectedEdgeCreationAxioms = PatternInstantiationConfiguration.getSelectedEdgeCreationAxioms();
-		for (PatternInstantiationConfiguration.EdgeCreationAxiom eca: PatternInstantiationConfiguration.EdgeCreationAxiom.values()) {
+		Set<EdgeCreationAxiom> selectedEdgeCreationAxioms = ComodideConfiguration.getSelectedEdgeCreationAxioms();
+		for (ComodideConfiguration.EdgeCreationAxiom eca: ComodideConfiguration.EdgeCreationAxiom.values()) {
 			JCheckBox box = new JCheckBox(eca.toString(),selectedEdgeCreationAxioms.contains(eca));
 			box.addItemListener(new ItemListener() {
 				@Override
 				public void itemStateChanged(ItemEvent itemEvent) {
 					int state = itemEvent.getStateChange();
 					if (state == ItemEvent.SELECTED) {
-						PatternInstantiationConfiguration.addSelectedEdgeCreationAxiom(eca);
+						ComodideConfiguration.addSelectedEdgeCreationAxiom(eca);
 					}
 					else {
-						PatternInstantiationConfiguration.removeSelectedEdgeCreationAxiom(eca);
+						ComodideConfiguration.removeSelectedEdgeCreationAxiom(eca);
 					}
 				}
 			});

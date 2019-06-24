@@ -31,8 +31,8 @@ import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.patterns.PatternInstantiationConfiguration;
-import com.comodide.patterns.PatternInstantiationConfiguration.EdgeCreationAxiom;
+import com.comodide.ComodideConfiguration;
+import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
 import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.model.SDEdge;
 
@@ -310,7 +310,7 @@ public class AxiomManager
 			property = addNewObjectProperty(propertyName);
 
 			// Get which axioms to create
-			Set<EdgeCreationAxiom> axioms = PatternInstantiationConfiguration.getSelectedEdgeCreationAxioms();
+			Set<EdgeCreationAxiom> axioms = ComodideConfiguration.getSelectedEdgeCreationAxioms();
 
 			/*
 			 * These if statements will add an axiom for each of the EdgeCreationAxioms as
@@ -389,7 +389,7 @@ public class AxiomManager
 			dataProperty = addNewDataProperty(propertyName);
 
 			// Get which axioms to create
-			Set<EdgeCreationAxiom> axioms = PatternInstantiationConfiguration.getSelectedEdgeCreationAxioms();
+			Set<EdgeCreationAxiom> axioms = ComodideConfiguration.getSelectedEdgeCreationAxioms();
 
 			/*
 			 * These if statements will add an axiom for each of the EdgeCreationAxioms as

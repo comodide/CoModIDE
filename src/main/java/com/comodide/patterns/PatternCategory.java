@@ -7,12 +7,12 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Karl Hammar <karl@karlhammar.com>
  *
  */
-public class Category implements Comparable<Category> {
+public class PatternCategory implements Comparable<PatternCategory> {
 
 	private String label;
 	private IRI iri;
 	
-	public Category(String label, IRI iri) {
+	public PatternCategory(String label, IRI iri) {
 		super();
 		this.label = label;
 		this.iri = iri;
@@ -46,7 +46,7 @@ public class Category implements Comparable<Category> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		PatternCategory other = (PatternCategory) obj;
 		if (iri == null) {
 			if (other.iri != null)
 				return false;
@@ -56,7 +56,7 @@ public class Category implements Comparable<Category> {
 	}
 
 	@Override
-	public int compareTo(Category other) {
+	public int compareTo(PatternCategory other) {
 		return label.compareTo(other.label);
 	}
 }

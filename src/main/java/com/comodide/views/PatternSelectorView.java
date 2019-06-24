@@ -13,7 +13,7 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.patterns.Category;
+import com.comodide.patterns.PatternCategory;
 import com.comodide.patterns.PatternLibrary;
 import com.comodide.patterns.PatternTable;
 import com.comodide.patterns.PatternTableModel;
@@ -46,7 +46,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 		JLabel categorySelectorLabel = new JLabel("Pattern Category Selector:");
         this.add(categorySelectorLabel);
         // This is a hack due to JComboBox misbehaving; see https://stackoverflow.com/questions/7581846/swing-boxlayout-problem-with-jcombobox-without-using-setxxxsize
-        JComboBox<Category> categoryList = new JComboBox<Category>(patternLibrary.getPatternCategories()) {
+        JComboBox<PatternCategory> categoryList = new JComboBox<PatternCategory>(patternLibrary.getPatternCategories()) {
 			private static final long serialVersionUID = 4795749883863962239L;
 			@Override
             public Dimension getMaximumSize() {
@@ -59,7 +59,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
         categoryList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				Category selectedCategory = (Category)categoryList.getSelectedItem();
+				PatternCategory selectedCategory = (PatternCategory)categoryList.getSelectedItem();
 				patternsTableModel.update(patternLibrary.getPatternsForCategory(selectedCategory));				
 			}
         });
