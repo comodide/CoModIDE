@@ -34,16 +34,9 @@ public class SDMaker
     {
         // Make the graph
         makeGraph();
-        // set the layout for the graph
-        executeLayout();
         
         // Return the created Schema Diagram
         return this.schemaDiagram;
-        
-        // Create and display the visualization
-//        mxGraphComponent graphComponent = new mxGraphComponent(this.schemaDiagram);
-//
-//        return graphComponent;
     }
 
     private void makeGraph()
@@ -56,7 +49,8 @@ public class SDMaker
         makeEdges(parent);
     }
 
-    private void executeLayout()
+    @SuppressWarnings("unused")
+	private void executeLayout()
     {
         Object parent = schemaDiagram.getDefaultParent();
         mxFastOrganicLayout fol = new mxFastOrganicLayout(this.schemaDiagram);
