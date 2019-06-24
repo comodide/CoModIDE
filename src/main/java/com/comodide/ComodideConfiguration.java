@@ -22,7 +22,8 @@ public class ComodideConfiguration {
 	public static enum EdgeCreationAxiom {
 		RDFS_RANGE("RDFS Range"),
 		RDFS_DOMAIN("RDFS Domain"),
-		OTHER_OPTION("Other option");
+		SCOPED_RANGE("AllValuesFrom constraint"),
+		SCOPED_DOMAIN("SomeValuesFrom constraint");
 		
 		private final String fieldDescription;
 		
