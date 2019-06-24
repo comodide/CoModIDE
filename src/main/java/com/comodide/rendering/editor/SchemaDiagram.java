@@ -13,15 +13,18 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
+import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
+import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxGraph;
 
 /**
@@ -174,6 +177,11 @@ public class SchemaDiagram extends mxGraph
 		this.allowDanglingEdges = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
+		
+		// Loads styling information from an external file.
+		mxCodec  codec = new mxCodec();
+		Document doc   = mxUtils.loadDocument(GraphEditor.class.getResource("/resources/comodide-style.xml").toString());
+		codec.decode(doc.getDocumentElement(), getStylesheet());
 	}
 	
 	@Override
