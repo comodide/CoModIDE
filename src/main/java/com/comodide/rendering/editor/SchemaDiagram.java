@@ -191,8 +191,45 @@ public class SchemaDiagram extends mxGraph
 		return super.isCellConnectable(cell);
 	}
 
+	@Override
+	public boolean isValidSource(Object cell) {
+		// If this is a cell with an attached SDNode, and that SDNode is a datatype, 
+		// then it should NOT be a valid source of outgoing edges, return false.
+		if (cell instanceof mxCell) {
+			if (((mxCell)cell).getValue() instanceof SDNode) {
+				SDNode node = (SDNode)((mxCell)cell).getValue();
+				if (node.isDatatype()) {
+					return false;
+				}
+			}
+		}
+		// In all other cases, defer to parent method
+		return super.isValidSource(cell);
+	}
+	
+	
+	@Override
+	public boolean isValidTarget(Object cell) {
+		// If this is a cell with an attached SDNode, and that SDNode is a datatype, 
+		// then it should have at most one incoming edge; if existing edge count > 0, return false.
+		if (cell instanceof mxCell) {
+			if (((mxCell)cell).getValue() instanceof SDNode) {
+				SDNode node = (SDNode)((mxCell)cell).getValue();
+				if (node.isDatatype()) {
+					if (((mxCell)cell).getEdgeCount() > 0) {
+						return false;
+					}
+				}
+			}
+		}
+		// Do not defer to the parent method because it is broken by our 
+		// isValidSource customization above -- instead, copied from super.isValidSource
+		return (cell == null && allowDanglingEdges) || (cell != null
+				&& (!model.isEdge(cell) || isConnectableEdges())
+				&& isCellConnectable(cell));
+	}
 
-
+	
 	@Override
 	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
 	{
