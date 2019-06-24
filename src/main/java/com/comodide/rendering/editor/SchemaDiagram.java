@@ -175,6 +175,23 @@ public class SchemaDiagram extends mxGraph
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
 	}
+	
+	@Override
+	public boolean isCellConnectable(Object cell) {
+		// If this is a vertex but there is no SDNode attached to it, then it means
+		// it was just dropped and has not been relabelled yet; if so, it should NOT be connectable.
+		if (cell instanceof mxCell) {
+			boolean isVertex = ((mxCell)cell).isVertex();
+			boolean hasSdNode = ((mxCell)cell).getValue() instanceof SDNode;
+			if (isVertex && !hasSdNode) {
+				return false;
+			}
+		}
+		// In all other cases, defer to parent method
+		return super.isCellConnectable(cell);
+	}
+
+
 
 	@Override
 	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
