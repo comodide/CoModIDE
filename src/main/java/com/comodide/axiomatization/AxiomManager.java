@@ -18,9 +18,12 @@ import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -310,13 +313,13 @@ public class AxiomManager
 			property = addNewObjectProperty(propertyName);
 
 			// Get which axioms to create
-			Set<EdgeCreationAxiom> axioms = ComodideConfiguration.getSelectedEdgeCreationAxioms();
+			Set<EdgeCreationAxiom> axiomGenerationConfiguration = ComodideConfiguration.getSelectedEdgeCreationAxioms();
 
 			/*
 			 * These if statements will add an axiom for each of the EdgeCreationAxioms as
 			 * selected in the Pattern Configuration view
 			 */
-			if (axioms.contains(EdgeCreationAxiom.RDFS_DOMAIN))
+			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.RDFS_DOMAIN))
 			{
 				// Create the OWLAPI construct for the property domain restriction
 				OWLObjectPropertyDomainAxiom opda = this.owlDataFactory.getOWLObjectPropertyDomainAxiom(property,
@@ -327,7 +330,7 @@ public class AxiomManager
 				this.modelManager.applyChange(addAxiom);
 			}
 
-			if (axioms.contains(EdgeCreationAxiom.RDFS_RANGE))
+			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.RDFS_RANGE))
 			{
 				// Create the OWLAPI construct for the property range restriction
 				OWLObjectPropertyRangeAxiom opra = this.owlDataFactory.getOWLObjectPropertyRangeAxiom(property,
@@ -336,6 +339,20 @@ public class AxiomManager
 				AddAxiom addAxiom = new AddAxiom(this.owlOntology, opra);
 				// Make the change to the ontology
 				this.modelManager.applyChange(addAxiom);
+			}
+			
+			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_DOMAIN)) {
+				OWLObjectSomeValuesFrom someValuesFrom = this.owlDataFactory.getOWLObjectSomeValuesFrom(property, range.asOWLClass());
+				OWLEquivalentClassesAxiom equivalentClassesAxiom = this.owlDataFactory.getOWLEquivalentClassesAxiom(domain.asOWLClass(), someValuesFrom);
+				AddAxiom addAxiomChange = new AddAxiom(this.owlOntology, equivalentClassesAxiom);
+				this.modelManager.applyChange(addAxiomChange);
+			}
+			
+			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_RANGE)) {
+				OWLObjectAllValuesFrom allValuesFrom = this.owlDataFactory.getOWLObjectAllValuesFrom(property, range.asOWLClass());
+				OWLSubClassOfAxiom subClassAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(domain.asOWLClass(), allValuesFrom);
+				AddAxiom addAxiomChange = new AddAxiom(this.owlOntology, subClassAxiom);
+				this.modelManager.applyChange(addAxiomChange);
 			}
 		}
 
