@@ -85,12 +85,12 @@ public class SimpleAxiomParser
 		OWLClass rightClass = right.asOWLClass();
 		
 		// Construct wrappers for left/right nodes
-		SDNode leftNode = new SDNode(leftClass, false, 0.0, 0.0);
-		SDNode rightNode = new SDNode(rightClass, false, 0.0, 0.0);
+		SDNode sourceNode = new SDNode(leftClass, false, 0.0, 0.0);
+		SDNode targetNode = new SDNode(rightClass, false, 0.0, 0.0);
 		
 		// Make and return edge
 		OWLObjectProperty subClassOf = OWLManager.getOWLDataFactory().getOWLObjectProperty(OWLRDFVocabulary.RDFS_SUBCLASS_OF.getIRI());
-		SDEdge subclassEdge = new SDEdge(leftNode, rightNode, true, subClassOf);
+		SDEdge subclassEdge = new SDEdge(sourceNode, targetNode, true, subClassOf);
 		return subclassEdge;
 	}
 
@@ -105,11 +105,11 @@ public class SimpleAxiomParser
 		OWLEntity rightClass = right.asOWLClass();
 
 		// Construct wrappers for left/right nodes
-		SDNode leftNode = new SDNode(leftClass, false, 0.0, 0.0);
-		SDNode rightNode = new SDNode(rightClass, false, 0.0, 0.0);
+		SDNode targetNode = new SDNode(leftClass, false, 0.0, 0.0);
+		SDNode sourceNode = new SDNode(rightClass, false, 0.0, 0.0);
 		
 		// Construct and return edge
-		SDEdge relationEdge = new SDEdge(leftNode, rightNode, false, property);
+		SDEdge relationEdge = new SDEdge(sourceNode, targetNode, false, property);
 		return relationEdge;
 	}
 
@@ -124,11 +124,11 @@ public class SimpleAxiomParser
 		OWLEntity rightClass = (OWLEntity) ((HasFiller<?>) right).getFiller();
 
 		// Construct wrappers for left/right nodes
-		SDNode leftNode = new SDNode(leftClass, false, 0.0, 0.0);
-		SDNode rightNode = new SDNode(rightClass, false, 0.0, 0.0);
+		SDNode sourceNode = new SDNode(leftClass, false, 0.0, 0.0);
+		SDNode targetNode = new SDNode(rightClass, false, 0.0, 0.0);
 		
 		//Construct and return edge
-		SDEdge relationEdge = new SDEdge(leftNode, rightNode, false, property);
+		SDEdge relationEdge = new SDEdge(sourceNode, targetNode, false, property);
 		return relationEdge;
 	}
 }
