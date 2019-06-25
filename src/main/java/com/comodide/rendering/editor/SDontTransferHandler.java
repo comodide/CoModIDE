@@ -35,11 +35,19 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 {
 	/** Bookkeeping */
 	private static final long   serialVersionUID = 1L;
+	
+	/** Logging */
 	private static final Logger log              = LoggerFactory.getLogger(SDontTransferHandler.class);
 
 	/** OWLAPI Integration */
 	private OWLModelManager modelManager;
 
+	/** Empty Constructor */
+	public SDontTransferHandler()
+	{
+		
+	}
+	
 	public SDontTransferHandler(OWLModelManager modelManager)
 	{
 		super();
@@ -95,21 +103,16 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 				ArrayList<OWLAxiom> sortedInstantationAxioms = new ArrayList<OWLAxiom>(instantiationAxioms);
 				Collections.sort(sortedInstantationAxioms); // In place sorting using OWLAPI default comparators
 
-				log.debug(String.format("The pattern '%s' with OWL ontology '%s' was dropped.", pattern.getLabel(),
-						pattern.getIri().toString()));
-
 				// Clone pattern axioms into active ontology.
 				OWLOntology             activeOntology = modelManager.getActiveOntology();
 				List<OWLOntologyChange> newAxioms      = new ArrayList<OWLOntologyChange>();
 				for (OWLAxiom instantiationAxiom : sortedInstantationAxioms)
 				{
 					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
-					log.info("debug " + instantiationAxiom);
 				}
 
 				// Depending on user configuration, add modularization axioms either to separate
-				// metadata ontology or directly
-				// to target ontology
+				// metadata ontology or directly to target ontology
 				if (ComodideConfiguration.getModuleMetadataExternal())
 				{
 					IRI activeOntologyIRI = activeOntology.getOntologyID().getOntologyIRI().orNull();
@@ -126,10 +129,11 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 						if (ont.getOntologyID().getOntologyIRI().orNull().equals(metadataOntologyIRI))
 						{
 							metadataOntology = ont;
-							log.debug("Found existing metadata ontology: '" + metadataOntology.toString() + "'");
 							break;
 						}
 					}
+					
+					// If the metadata ontology was not found
 					if (metadataOntology == null)
 					{
 						// Get and copy existing storage path on disk, injecting "-metadata".
@@ -151,14 +155,12 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 
 						URI metadataOntologyPhysicalURI = new URI(
 								String.format("%s://%s%s", scheme, authority, newPath));
-						log.debug("Physical URI for new metadata ontology = " + metadataOntologyPhysicalURI.toString());
 
 						Optional<IRI> optionalMetadataOntologyIri        = Optional.of(metadataOntologyIRI);
 						Optional<IRI> optionalMetadataOntologyVersionIri = Optional.absent();
 						OWLOntologyID metadataOid                        = new OWLOntologyID(
 								optionalMetadataOntologyIri, optionalMetadataOntologyVersionIri);
 						metadataOntology = modelManager.createNewOntology(metadataOid, metadataOntologyPhysicalURI);
-						log.debug("Created new metadata ontology '" + metadataOntology.toString() + "'");
 
 						// Add import of active ontology to metadata ontology
 						OWLDataFactory        factory    = metadataOntology.getOWLOntologyManager().getOWLDataFactory();
@@ -173,7 +175,7 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 						newAxioms.add(new AddAxiom(metadataOntology, modularizationAnnotationAxiom));
 					}
 				}
-				else
+				else // (i.e. add directly to active ontology)
 				{
 					// Add modularization axioms to target ontology
 					for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
@@ -181,19 +183,16 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 						newAxioms.add(new AddAxiom(activeOntology, modularizationAnnotationAxiom));
 					}
 				}
+				
 				modelManager.applyChanges(newAxioms);
-
-				log.debug(
-						String.format("%s axioms from the pattern '%s' were added to ontology '%s'.", newAxioms.size(),
-								pattern.getIri().toString(), activeOntology.getOntologyID().getOntologyIRI().orNull()));
 			}
 			catch (Exception ex)
 			{
-				log.error("Failed to import pattern.");
+				log.error("[CoModIDE:sdTransferHandler] Failed to import pattern.");
 				ex.printStackTrace();
 			}
 		}
-		else
+		else // (e.g. a cell)
 		{
 			try
 			{
