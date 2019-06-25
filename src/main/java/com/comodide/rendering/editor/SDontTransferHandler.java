@@ -86,85 +86,95 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 				// Extract from TransferHandler
 				PatternTransferable pt = (PatternTransferable) t.getTransferData(PatternTransferable.dataFlavor);
 				// Unpack from Transferable
-				Pattern pattern = pt.getPattern();
-				Set<OWLAxiom> instantiationAxioms = pt.getInstantiationAxioms();
+				Pattern       pattern                        = pt.getPattern();
+				Set<OWLAxiom> instantiationAxioms            = pt.getInstantiationAxioms();
 				Set<OWLAxiom> modularizationAnnotationAxioms = pt.getModularisationAnnotationAxioms();
-				// Axioms should be sorted, i.e. declarations, then GCI, etc. 
+				// Axioms should be sorted, i.e. declarations, then GCI, etc.
 				// This allows nodes to be rendered, then edges
 				// Sets are unordered, so create List first.
 				ArrayList<OWLAxiom> sortedInstantationAxioms = new ArrayList<OWLAxiom>(instantiationAxioms);
 				Collections.sort(sortedInstantationAxioms); // In place sorting using OWLAPI default comparators
-				
-				log.debug(String.format("The pattern '%s' with OWL ontology '%s' was dropped.", pattern.getLabel(), pattern.getIri().toString()));
+
+				log.debug(String.format("The pattern '%s' with OWL ontology '%s' was dropped.", pattern.getLabel(),
+						pattern.getIri().toString()));
 
 				// Clone pattern axioms into active ontology.
-				OWLOntology activeOntology = modelManager.getActiveOntology();
-				List<OWLOntologyChange> newAxioms = new ArrayList<OWLOntologyChange>();
+				OWLOntology             activeOntology = modelManager.getActiveOntology();
+				List<OWLOntologyChange> newAxioms      = new ArrayList<OWLOntologyChange>();
 				for (OWLAxiom instantiationAxiom : sortedInstantationAxioms)
 				{
 					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
-					log.info("debug " + instantiationAxiom    );
+					log.info("debug " + instantiationAxiom);
 				}
-				
-				// Depending on user configuration, add modularization axioms either to separate metadata ontology or directly
+
+				// Depending on user configuration, add modularization axioms either to separate
+				// metadata ontology or directly
 				// to target ontology
-				if (ComodideConfiguration.getModuleMetadataExternal()) {
+				if (ComodideConfiguration.getModuleMetadataExternal())
+				{
 					IRI activeOntologyIRI = activeOntology.getOntologyID().getOntologyIRI().orNull();
-					// The metadata ontology has the same IRI as the main ontology, but with a -metadata ending
-					IRI metadataOntologyIRI = IRI.create(activeOntologyIRI.toString(), "-metadata");
-					Set<OWLOntology> allOntologies = modelManager.getOntologies();
-					
-					// Iterate over all loaded ontologies, to find the metadata ontology if it already exists
-					OWLOntology metadataOntology = null; 
-					for (OWLOntology ont: allOntologies) {
-						if (ont.getOntologyID().getOntologyIRI().orNull().equals(metadataOntologyIRI)) {
+					// The metadata ontology has the same IRI as the main ontology, but with a
+					// -metadata ending
+					IRI              metadataOntologyIRI = IRI.create(activeOntologyIRI.toString(), "-metadata");
+					Set<OWLOntology> allOntologies       = modelManager.getOntologies();
+
+					// Iterate over all loaded ontologies, to find the metadata ontology if it
+					// already exists
+					OWLOntology metadataOntology = null;
+					for (OWLOntology ont : allOntologies)
+					{
+						if (ont.getOntologyID().getOntologyIRI().orNull().equals(metadataOntologyIRI))
+						{
 							metadataOntology = ont;
 							log.debug("Found existing metadata ontology: '" + metadataOntology.toString() + "'");
 							break;
 						}
 					}
-					if (metadataOntology == null) {
-						
+					if (metadataOntology == null)
+					{
 						// Get and copy existing storage path on disk, injecting "-metadata".
 						URI activeOntologyPhysicalURI = modelManager.getOntologyPhysicalURI(activeOntology);
 
-						String scheme = activeOntologyPhysicalURI.getScheme();
+						String scheme    = activeOntologyPhysicalURI.getScheme();
 						String authority = activeOntologyPhysicalURI.getAuthority();
-						String path = activeOntologyPhysicalURI.getPath();
-						
+						String path      = activeOntologyPhysicalURI.getPath();
+
 						// Fallback solution if no file ending exists
 						String newPath = path + "-metadata.rdf";
-						
+
 						// If there is a file ending, inject the -metadata
-						if (path.lastIndexOf(".") != -1) {
+						if (path.lastIndexOf(".") != -1)
+						{
 							String pathEnding = path.substring(path.lastIndexOf("."));
 							newPath = path.replace(pathEnding, ("-metadata" + pathEnding));
 						}
-						
-						URI metadataOntologyPhysicalURI = new URI(String.format("%s://%s%s", scheme, authority, newPath));
+
+						URI metadataOntologyPhysicalURI = new URI(
+								String.format("%s://%s%s", scheme, authority, newPath));
 						log.debug("Physical URI for new metadata ontology = " + metadataOntologyPhysicalURI.toString());
-						
-						Optional<IRI> optionalMetadataOntologyIri = Optional.of(metadataOntologyIRI);
+
+						Optional<IRI> optionalMetadataOntologyIri        = Optional.of(metadataOntologyIRI);
 						Optional<IRI> optionalMetadataOntologyVersionIri = Optional.absent();
-						OWLOntologyID metadataOid = new OWLOntologyID(optionalMetadataOntologyIri, optionalMetadataOntologyVersionIri);
+						OWLOntologyID metadataOid                        = new OWLOntologyID(
+								optionalMetadataOntologyIri, optionalMetadataOntologyVersionIri);
 						metadataOntology = modelManager.createNewOntology(metadataOid, metadataOntologyPhysicalURI);
 						log.debug("Created new metadata ontology '" + metadataOntology.toString() + "'");
-						
+
 						// Add import of active ontology to metadata ontology
-						OWLDataFactory factory = metadataOntology.getOWLOntologyManager().getOWLDataFactory();
+						OWLDataFactory        factory    = metadataOntology.getOWLOntologyManager().getOWLDataFactory();
 						OWLImportsDeclaration importsDec = factory.getOWLImportsDeclaration(activeOntologyIRI);
-						AddImport ai = new AddImport(metadataOntology, importsDec);
+						AddImport             ai         = new AddImport(metadataOntology, importsDec);
 						newAxioms.add(ai);
 					}
-					
+
 					// Add modularization axioms to metadata ontology
 					for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
 					{
 						newAxioms.add(new AddAxiom(metadataOntology, modularizationAnnotationAxiom));
 					}
-					
 				}
-				else {
+				else
+				{
 					// Add modularization axioms to target ontology
 					for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
 					{
@@ -172,10 +182,10 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 					}
 				}
 				modelManager.applyChanges(newAxioms);
-				
-				log.debug(String.format("%s axioms from the pattern '%s' were added to ontology '%s'.",
-						newAxioms.size(), pattern.getIri().toString(),
-						activeOntology.getOntologyID().getOntologyIRI().orNull()));
+
+				log.debug(
+						String.format("%s axioms from the pattern '%s' were added to ontology '%s'.", newAxioms.size(),
+								pattern.getIri().toString(), activeOntology.getOntologyID().getOntologyIRI().orNull()));
 			}
 			catch (Exception ex)
 			{
