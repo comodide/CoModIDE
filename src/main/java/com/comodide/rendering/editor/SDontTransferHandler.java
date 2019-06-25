@@ -10,12 +10,16 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AddImport;
+import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
@@ -26,18 +30,21 @@ import org.slf4j.LoggerFactory;
 import com.comodide.ComodideConfiguration;
 import com.comodide.patterns.Pattern;
 import com.comodide.patterns.PatternTransferable;
+import com.comodide.rendering.PositioningOperations;
 import com.google.common.base.Optional;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.handler.mxGraphTransferHandler;
 import com.mxgraph.swing.util.mxGraphTransferable;
+import com.mxgraph.util.mxPoint;
+import com.mxgraph.view.mxGraph;
 
 public class SDontTransferHandler extends mxGraphTransferHandler
 {
 	/** Bookkeeping */
-	private static final long   serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 1L;
+
 	/** Logging */
-	private static final Logger log              = LoggerFactory.getLogger(SDontTransferHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(SDontTransferHandler.class);
 
 	/** OWLAPI Integration */
 	private OWLModelManager modelManager;
@@ -45,9 +52,9 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 	/** Empty Constructor */
 	public SDontTransferHandler()
 	{
-		
+
 	}
-	
+
 	public SDontTransferHandler(OWLModelManager modelManager)
 	{
 		super();
@@ -100,17 +107,30 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 				// Axioms should be sorted, i.e. declarations, then GCI, etc.
 				// This allows nodes to be rendered, then edges
 				// Sets are unordered, so create List first.
-				ArrayList<OWLAxiom> sortedInstantationAxioms = new ArrayList<OWLAxiom>(instantiationAxioms);
-				Collections.sort(sortedInstantationAxioms); // In place sorting using OWLAPI default comparators
+				ArrayList<OWLAxiom> sortedInstantiationAxioms = new ArrayList<OWLAxiom>(instantiationAxioms);
+				Collections.sort(sortedInstantiationAxioms); // In place sorting using OWLAPI default comparators
 
 				// Clone pattern axioms into active ontology.
 				OWLOntology             activeOntology = modelManager.getActiveOntology();
 				List<OWLOntologyChange> newAxioms      = new ArrayList<OWLOntologyChange>();
-				for (OWLAxiom instantiationAxiom : sortedInstantationAxioms)
+				for (OWLAxiom instantiationAxiom : sortedInstantiationAxioms)
 				{
 					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
-					// FIXME My original idea was to call the calculate dropLocationAnnotations here
-					// but technically can't do that yet, because they're not in the active ontology
+				}
+
+				for (OWLAxiom instantiationAxiom : sortedInstantiationAxioms)
+				{
+					if (instantiationAxiom.isOfType(AxiomType.DECLARATION))
+					{
+						OWLDeclarationAxiom oda    = (OWLDeclarationAxiom) instantiationAxiom;
+						OWLEntity           entity = oda.getEntity();
+
+						if (entity.isOWLClass() || entity.isOWLDataProperty())
+						{
+							PositioningOperations.calculateDropLocationAnnotations(activeOntology, pattern, entity,
+									getScaledDropLocation((SDontComponent) c));
+						}
+					}
 				}
 
 				// Depending on user configuration, add modularization axioms either to separate
@@ -134,7 +154,7 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 							break;
 						}
 					}
-					
+
 					// If the metadata ontology was not found
 					if (metadataOntology == null)
 					{
@@ -185,9 +205,9 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 						newAxioms.add(new AddAxiom(activeOntology, modularizationAnnotationAxiom));
 					}
 				}
-				
+
 				modelManager.applyChanges(newAxioms);
-				
+
 				result = true;
 			}
 			catch (Exception ex)
@@ -225,5 +245,23 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 		}
 
 		return result;
+	}
+
+	private Pair<Double, Double> getScaledDropLocation(mxGraphComponent graphComponent)
+	{
+		mxGraph     graph  = graphComponent.getGraph();
+		double      scale  = graph.getView().getScale();
+		double      dx     = 0, dy = 0;
+
+		mxPoint translate = graph.getView().getTranslate();
+
+		dx = location.getX() - translate.getX() * scale;
+		dy = location.getY() - translate.getY() * scale;
+
+		// Keeps the cells aligned to the grid
+		dx = graph.snap(dx / scale);
+		dy = graph.snap(dy / scale);
+
+		return Pair.of(dx, dy);
 	}
 }

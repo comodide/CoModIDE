@@ -1,11 +1,11 @@
 package com.comodide.rendering;
 
-import java.awt.Point;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.protege.editor.owl.model.entity.EntityCreationPreferences;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -19,6 +19,8 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.search.EntitySearcher;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +41,9 @@ public class PositioningOperations
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(PositioningOperations.class);
 
+	/** Used for creating human readable labels. */
+	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+	
 	private static OWLDataFactory factory = new OWLDataFactoryImpl();
 
 	private static String                OPLA_SD_NAMESPACE = "http://ontologydesignpatterns.org/opla-sd#";
@@ -80,8 +85,10 @@ public class PositioningOperations
 		// random if multiple ones exist.
 		// This is not efficient but the set of annotations should be small (i.e., one)
 		// so it doesn't really matter.
+
 		Collection<OWLAnnotation> positionAnnotations = EntitySearcher.getAnnotations(entity.getIRI(), ontology,
 				entityPosition);
+
 		for (OWLAnnotation positionAnnotation : positionAnnotations)
 		{
 			if (positionAnnotation.anonymousIndividualValue().isPresent())
@@ -181,21 +188,25 @@ public class PositioningOperations
 		manager.addAxioms(ontology, newAxioms);
 	}
 
-	public static void calculateDropLocationAnnotations(OWLOntology activeOntology, Pattern pattern, OWLEntity entity, Point dropLocation)
+	public static void calculateDropLocationAnnotations(OWLOntology activeOntology, Pattern pattern, OWLEntity entity, Pair<Double, Double> dropLocation)
 	{
 		OWLOntology patternOntology;
 		try
 		{
+			// Get the pattern version of the entity (this is annoying)
+			IRI patternIRI = pattern.getIri();
+			String separator = EntityCreationPreferences.getDefaultSeparator();
+			String patternEntityString = patternIRI + separator + shortFormProvider.getShortForm(entity);
+			IRI patternEntityIRI = IRI.create(patternEntityString);
+			OWLEntity patternEntity = activeOntology.getOWLOntologyManager().getOWLDataFactory().getOWLEntity(entity.getEntityType(), patternEntityIRI);
+			
 			// Get the annotations for location from the pattern
 			patternOntology = PatternLibrary.getInstance().getOwlRepresentation(pattern);
-			Pair<Double, Double> annotationLocation = getXYCoordsForEntity(entity, patternOntology);
+			Pair<Double, Double> annotationLocation = getXYCoordsForEntity(patternEntity, patternOntology);
 		
 			// Calculate the new drop locations
-			// At this time, annotations inside of the pattern should indicate relative positions
-			// to the drop location (i.e. if node location is -50, 0 in the pattern, then 
-			// it will be dropped 50 pts to the left of the drop location).
-			Double newX = annotationLocation.getLeft() + dropLocation.x;
-			Double newY = annotationLocation.getRight() + dropLocation.y;
+			Double newX = annotationLocation.getLeft() + dropLocation.getLeft();
+			Double newY = annotationLocation.getRight() + dropLocation.getRight();
 			
 			updateXYCoordinateAnnotations(entity, activeOntology, newX, newY);
 		}
@@ -209,5 +220,10 @@ public class PositioningOperations
 	{
 		double x = (Math.random() * ((max - min) + 1)) + min;
 		return x;
+	}
+	
+	public static OWLAnnotationProperty provideEntityPositionProperty()
+	{
+		return entityPosition;
 	}
 }
