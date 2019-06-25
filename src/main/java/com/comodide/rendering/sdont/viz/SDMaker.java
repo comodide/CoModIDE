@@ -1,6 +1,5 @@
 package com.comodide.rendering.sdont.viz;
 
-import java.util.Map;
 import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;

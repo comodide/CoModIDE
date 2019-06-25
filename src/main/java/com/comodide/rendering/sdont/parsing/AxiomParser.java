@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.ClassExpressionType;
 import org.semanticweb.owlapi.model.HasFiller;
@@ -140,12 +139,7 @@ public class AxiomParser
 					this.edgeSet.add(edge);
 				}
 			}
-		}
-		
-		for (SDEdge edge: this.edgeSet) {
-			log.warn(String.format("SDEdge -- Source: '%s', Target: '%s', Subclass: '%s', Property: '%s').", edge.getSource().toString(), edge.getTarget().toString(), edge.isSubclass(), edge.getOwlProperty().toString()));
-		}
-		
+		}		
 	}
 
 	private void parseAxioms()
@@ -240,8 +234,6 @@ public class AxiomParser
 //			System.err.println("Message: " + e.getMessage() + "\n");
 			log.warn("[CoModIDE:SDOnt] Problem parsing axiom.");
 			log.warn("\tMessage: " + e.getMessage() + "\n");
-			log.warn(ax.toString());
-			log.error("Trace",e);
 		}
 	}
 
