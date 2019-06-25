@@ -109,6 +109,8 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 				for (OWLAxiom instantiationAxiom : sortedInstantationAxioms)
 				{
 					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
+					// FIXME My original idea was to call the calculate dropLocationAnnotations here
+					// but technically can't do that yet, because they're not in the active ontology
 				}
 
 				// Depending on user configuration, add modularization axioms either to separate
@@ -185,6 +187,8 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 				}
 				
 				modelManager.applyChanges(newAxioms);
+				
+				result = true;
 			}
 			catch (Exception ex)
 			{

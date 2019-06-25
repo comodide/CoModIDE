@@ -1,5 +1,6 @@
 package com.comodide.rendering;
 
+import java.awt.Point;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,10 +16,14 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.search.EntitySearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.comodide.patterns.Pattern;
+import com.comodide.patterns.PatternLibrary;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 
@@ -176,6 +181,30 @@ public class PositioningOperations
 		manager.addAxioms(ontology, newAxioms);
 	}
 
+	public static void calculateDropLocationAnnotations(OWLOntology activeOntology, Pattern pattern, OWLEntity entity, Point dropLocation)
+	{
+		OWLOntology patternOntology;
+		try
+		{
+			// Get the annotations for location from the pattern
+			patternOntology = PatternLibrary.getInstance().getOwlRepresentation(pattern);
+			Pair<Double, Double> annotationLocation = getXYCoordsForEntity(entity, patternOntology);
+		
+			// Calculate the new drop locations
+			// At this time, annotations inside of the pattern should indicate relative positions
+			// to the drop location (i.e. if node location is -50, 0 in the pattern, then 
+			// it will be dropped 50 pts to the left of the drop location).
+			Double newX = annotationLocation.getLeft() + dropLocation.x;
+			Double newY = annotationLocation.getRight() + dropLocation.y;
+			
+			updateXYCoordinateAnnotations(entity, activeOntology, newX, newY);
+		}
+		catch (OWLOntologyCreationException e)
+		{
+			log.error("[CoModIDE:PositioningOperations] Pattern Ontology could not be created.", e);
+		}
+	}
+	
 	private static double getRandomDoubleBetweenRange(double min, double max)
 	{
 		double x = (Math.random() * ((max - min) + 1)) + min;
