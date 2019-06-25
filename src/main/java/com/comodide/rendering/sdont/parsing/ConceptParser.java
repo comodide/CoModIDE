@@ -50,15 +50,6 @@ public class ConceptParser
 		OWLOntology ontology = this.connector.getOntology();
 		// Construct nodeset for datatypes
 		Set<SDNode> datatypeNodes = new HashSet<>();
-		
-		// Create nodes for custom datatypes (which may have their own positioning annotations)
-		ontology.getDatatypesInSignature().forEach(datatype -> {
-			if (!datatype.isBuiltIn()) {
-				Pair<Double,Double> xyCoords = PositioningOperations.getXYCoordsForEntity(datatype, ontology);
-				PositioningOperations.updateXYCoordinateAnnotations(datatype, ontology, xyCoords.getLeft(), xyCoords.getRight());
-				datatypeNodes.add(new SDNode(datatype, true, xyCoords.getLeft(), xyCoords.getRight()));
-			}
-		});
 
 		// Create nodes for datatypes linked from data properties (which use positioning annotations on the data property)
 		ontology.getDataPropertiesInSignature().forEach(dataProperty -> {
