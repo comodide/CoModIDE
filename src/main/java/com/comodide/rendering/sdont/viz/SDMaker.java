@@ -10,15 +10,16 @@ import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDGraph;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.layout.mxFastOrganicLayout;
+import com.mxgraph.model.mxCell;
 
 public class SDMaker
 {
     private SDGraph sdGraph;
     private SchemaDiagram schemaDiagram;
-    private NodeMaker<Object> vertexMaker;
-    private EdgeMaker<Object> edgeMaker;
+    private mxVertexMaker vertexMaker;
+    private mxEdgeMaker edgeMaker;
 
-    private Map<String, Object> vertices;
+    private Set<mxCell> vertices;
 
     public SDMaker(SDGraph sdGraph, OWLModelManager modelManager)
     {
@@ -62,12 +63,12 @@ public class SDMaker
         // Get all nodes from sdgraph
         Set<SDNode> nodeset = this.sdGraph.getNodeSet();
         // Create the visualizations of the nodes
-        this.vertices = this.vertexMaker.makeNodes(nodeset);
+        this.vertices = this.vertexMaker.makeVertexCells(nodeset);
         // Add them all to the graph
         this.schemaDiagram.getModel().beginUpdate();
         try
         {
-            for (Object vertex : this.vertices.values())
+            for (Object vertex : this.vertices)
             {
                 this.schemaDiagram.addCell(vertex);
             }

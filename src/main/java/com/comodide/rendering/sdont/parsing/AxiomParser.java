@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.ClassExpressionType;
@@ -15,9 +16,9 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDataPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
@@ -27,12 +28,14 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDEdgeFactory;
 import com.comodide.rendering.sdont.model.SDNode;
@@ -54,23 +57,6 @@ public class AxiomParser
 	private Set<SDEdge>   edgeSet = null;
 	private SDEdgeFactory edgeFactory;
 
-	/** Empty Constructor */
-	public AxiomParser()
-	{
-
-	}
-
-	/** Convenience constructor for only parsing axioms */
-	public AxiomParser(OWLModelManager modelManager)
-	{
-		this.df = modelManager.getOWLDataFactory();
-	}
-
-	/** When parsing the axiom is the only necessity */
-	public AxiomParser(OWLDataFactory owlDataFactory)
-	{
-		this.df = owlDataFactory;
-	}
 
 	public AxiomParser(OWLConnector connector)
 	{
@@ -133,37 +119,33 @@ public class AxiomParser
 	private void parseDataProperties()
 	{
 		List<OWLDataProperty> dataProperties = this.connector.retrieveDataProperties();
-
-		dataProperties.forEach(dataProp -> {
-			parseDataProperty(dataProp);
-		});
-	}
-
-	private void parseDataProperty(OWLDataProperty dataProp)
-	{
-		// Get the axioms related to this particular property
-		List<OWLDataPropertyAxiom> dataPropAxioms = this.connector.retreiveAxiomsRelatedToDataProp(dataProp);
-		// Map the type of the axiom to the axiom, so that we
-		// can find exactly the domain and range
-		HashMap<AxiomType<?>, OWLDataPropertyAxiom> dataPropMap = new HashMap<>();
-
-		// Populate the map
-		dataPropAxioms.forEach(dataPropAx -> {
-			dataPropMap.put(dataPropAx.getAxiomType(), dataPropAx);
-		});
-
-		// Get the domain and range of the property
-		OWLDataPropertyDomainAxiom domain = (OWLDataPropertyDomainAxiom) dataPropMap
-				.get(AxiomType.DATA_PROPERTY_DOMAIN);
-		OWLDataPropertyRangeAxiom  range  = (OWLDataPropertyRangeAxiom) dataPropMap.get(AxiomType.DATA_PROPERTY_RANGE);
-
-		// As long we have both the domain and range (i.e. the objProp is not
-		// malformed) parse the axiom
-		if (domain != null && range != null)
-		{
-			OWLClassExpression superClass = df.getOWLDataSomeValuesFrom(dataProp, range.getRange());
-			parseAxiom(df.getOWLSubClassOfAxiom(domain.getDomain(), superClass));
+		
+		for (OWLDataProperty dataProperty: dataProperties) {
+			Set<OWLDataPropertyDomainAxiom> domainAxioms = this.connector.getOntology().getDataPropertyDomainAxioms(dataProperty);
+			Set<OWLDataPropertyRangeAxiom> rangeAxioms = this.connector.getOntology().getDataPropertyRangeAxioms(dataProperty);
+			
+			if (domainAxioms.size() != 1 || rangeAxioms.size() != 1) {
+				log.info(String.format("[CoModIDE:AxiomParser] Property '%s' cannot be processed as it does not have exactly 1 domain and range.", dataProperty.toString()));
+			}
+			else {
+				// Get the things we will be linking up
+				OWLClass domain = ((OWLDataPropertyDomainAxiom) domainAxioms.toArray()[0]).getDomain().asOWLClass();
+				String domainLabel = shortFormProvider.getShortForm(domain);
+				OWLDatatype range = ((OWLDataPropertyRangeAxiom) rangeAxioms.toArray()[0]).getRange().asOWLDatatype();
+				String rangeLabel = shortFormProvider.getShortForm(range);
+				Pair<Double,Double> dataPropertyCoordinates = PositioningOperations.getXYCoordsForEntity(dataProperty, this.connector.getOntology());
+				
+				SDEdge edge = edgeFactory.makeSDEdgeForDataProperty(domainLabel, rangeLabel, false, dataProperty, dataPropertyCoordinates);
+				if (edge != null) {
+					this.edgeSet.add(edge);
+				}
+			}
 		}
+		
+		for (SDEdge edge: this.edgeSet) {
+			log.warn(String.format("SDEdge -- Source: '%s', Target: '%s', Subclass: '%s', Property: '%s').", edge.getSource().toString(), edge.getTarget().toString(), edge.isSubclass(), edge.getOwlProperty().toString()));
+		}
+		
 	}
 
 	private void parseAxioms()
@@ -258,6 +240,8 @@ public class AxiomParser
 //			System.err.println("Message: " + e.getMessage() + "\n");
 			log.warn("[CoModIDE:SDOnt] Problem parsing axiom.");
 			log.warn("\tMessage: " + e.getMessage() + "\n");
+			log.warn(ax.toString());
+			log.error("Trace",e);
 		}
 	}
 
@@ -428,8 +412,21 @@ public class AxiomParser
 
 	private SDEdge addEdge(Triple t)
 	{
-		SDEdge edge = edgeFactory.makeSDEdge(t);
-		this.edgeSet.add(edge);
+		String from = t.getFr();
+		String to = t.getTo();
+		boolean isSubClass = t.isSubClass();
+		OWLProperty owlProperty = t.wraps();
+		SDEdge edge = null;
+		if (owlProperty != null && owlProperty.isDataPropertyExpression()) {
+			Pair<Double,Double> datatypeCoordinates = PositioningOperations.getXYCoordsForEntity(owlProperty, this.connector.getOntology());
+			edge = edgeFactory.makeSDEdgeForDataProperty(from, to, isSubClass, owlProperty, datatypeCoordinates); 
+		}
+		else {
+			edge = edgeFactory.makeSDEdge(from, to, isSubClass, owlProperty);
+		}
+		if (edge != null) {
+			this.edgeSet.add(edge);
+		}
 		return edge;
 	}
 }

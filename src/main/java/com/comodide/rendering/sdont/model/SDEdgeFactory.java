@@ -1,38 +1,93 @@
 package com.comodide.rendering.sdont.model;
 
-import java.util.HashMap;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.semanticweb.owlapi.model.OWLProperty;
-
-import com.comodide.rendering.sdont.parsing.Triple;
 
 public class SDEdgeFactory
 {
-	private HashMap<String, SDNode> nodeMap;
+	private Set<SDNode> nodes;
 	
 	public SDEdgeFactory(Set<SDNode> nodeSet)
 	{
-		this.nodeMap = new HashMap<>();
-		nodeSet.forEach(node -> {
-			this.nodeMap.put(node.toString(), node);
-		});
+		this.nodes = nodeSet;
 	}
 	
-	public SDEdge makeSDEdge(Triple t)
-	{
-		String from = t.getFr();
-		String to = t.getTo();
+	/**
+	 * Generate an SDEdge from one node that is known by the SDEdgeFactory (e.g., listed in SDEdgeFactory.nodes) to another, using the nodes' labels.
+	 * @param from
+	 * @param to
+	 * @param isSubClass
+	 * @param property
+	 * @return Edge or null (if no edge can be created)
+	 */
+	public SDEdge makeSDEdge(String from, String to, boolean isSubClass, OWLProperty property) {
 		
-		boolean isSubClass = t.isSubClass();
+		SDNode source = null;
+		SDNode target = null;
+		for (SDNode candidateNode: nodes) {
+			if (candidateNode.toString().equals(from)) {
+				source = candidateNode;
+			}
+			if (candidateNode.toString().equals(to)) {
+				target = candidateNode;
+			}
+			if (source != null && target != null) {
+				break;
+			}
+		}
 		
-		SDNode source = nodeMap.get(from);
-		SDNode target = nodeMap.get(to);
-
-		OWLProperty owlProperty = t.wraps();
+		if (source != null && target != null) {
+			return new SDEdge(source, target, isSubClass, property);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Generate an SDEdge from one node that is known by the SDEdgeFactory (e.g., listed in SDEdgeFactory.nodes) to another, using the nodes' labels.
+	 * If the property that this edge represents is a data property (i.e., there may be multiple candidate target nodes with the same labels, then the
+	 * datatypeCoordinates (position of the target node) are used to disambiguate the candidates.  
+	 * @param from
+	 * @param to
+	 * @param isSubClass
+	 * @param property
+	 * @param datatypeCoordinates
+	 * @return Edge or null (if no edge can be created)
+	 */
+	public SDEdge makeSDEdgeForDataProperty(String from, String to, boolean isSubClass, OWLProperty property, Pair<Double,Double> datatypeCoordinates) {
 		
-		SDEdge edge = new SDEdge(source, target, isSubClass, owlProperty);
+		SDNode source = null;
+		SDNode target = null;
+		for (SDNode candidateNode: nodes) {
+			if (candidateNode.toString().equals(from)) {
+				source = candidateNode;
+			}
+			if (property.isDataPropertyExpression()) {
+				if (candidateNode.toString().equals(to) && 
+						candidateNode.getPositionX()==datatypeCoordinates.getLeft() &&
+						candidateNode.getPositionY()==datatypeCoordinates.getRight()) {
+					target = candidateNode;
+				}
+				
+			}
+			else {
+				if (candidateNode.toString().equals(to)) {
+					target = candidateNode;
+				}
+			}
+			if (source != null && target != null) {
+				break;
+			}
+		}
 		
-		return edge;
+		if (source != null && target != null) {
+			return new SDEdge(source, target, isSubClass, property);
+		}
+		else {
+			return null;
+		}
 	}
 }
