@@ -15,7 +15,7 @@
 	<!-- Views -->
 	<extension id="PatternSelectorView"
 		point="org.protege.editor.core.application.ViewComponent">
-		<label value="CoModIDE Pattern Selector" />
+		<label value="CoModIDE Pattern Library" />
 		<class value="com.comodide.views.PatternSelectorView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
@@ -27,7 +27,7 @@
 	</extension>
 	<extension id="RendererView"
 		point="org.protege.editor.core.application.ViewComponent">
-		<label value="CoModIDE Renderer" />
+		<label value="CoModIDE Schema Editor" />
 		<class value="com.comodide.views.RendererView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
