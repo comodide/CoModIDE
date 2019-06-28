@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent">
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/sequence</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#TemporalExtent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasReferenceSystem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Value"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#endsAt"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PointInTime"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TimeInterval"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#contains"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ComplexTemporalExtent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#startsFrom"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ReferenceSystem"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasValue"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#PointInTime"/>
+        <Class IRI="#ComplexTemporalExtent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PointInTime"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasReferenceSystem"/>
+            <Class IRI="#ReferenceSystem"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PointInTime"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasValue"/>
+            <Class IRI="#Value"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TemporalExtent"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#contains"/>
+            <Class IRI="#ComplexTemporalExtent"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TimeInterval"/>
+        <Class IRI="#ComplexTemporalExtent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TimeInterval"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#endsAt"/>
+            <Class IRI="#PointInTime"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TimeInterval"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#startsFrom"/>
+            <Class IRI="#PointInTime"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#ComplexTemporalExtent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#PointInTime</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#ReferenceSystem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#TemporalExtent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#TimeInterval</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#Value</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#contains</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#endsAt</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#hasReferenceSystem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#hasValue</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <IRI>#startsFrom</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+

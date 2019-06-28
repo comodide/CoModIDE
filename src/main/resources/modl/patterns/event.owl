@@ -1,145 +1,136 @@
 <?xml version="1.0"?>
-<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+<rdf:RDF xmlns="https://archive.org/services/purl/domain/modular_ontology_design_library/event#"
      xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/event"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/event">
-    <Prefix name="" IRI="https://archive.org/services/purl/domain/modular_ontology_design_library/event"/>
-    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
-    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
-    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
-    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
-    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
-    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
-    <Annotation>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole</Literal>
-    </Annotation>
-    <Annotation>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
-    </Annotation>
-    <Declaration>
-        <Class IRI="#Event"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ParticipantRole"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#SpatiotemporalExtent"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasSpatiotemporalExtent"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#providesParticipantRole"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#subEventOf"/>
-    </Declaration>
-    <Declaration>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-    </Declaration>
-    <Declaration>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-    </Declaration>
-    <Declaration>
-        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
-    </Declaration>
-    <SubClassOf>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <ObjectAllValuesFrom>
-            <ObjectProperty IRI="#hasSpatiotemporalExtent"/>
-            <Class IRI="#SpatiotemporalExtent"/>
-        </ObjectAllValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <ObjectAllValuesFrom>
-            <ObjectProperty IRI="#providesParticipantRole"/>
-            <Class IRI="#ParticipantRole"/>
-        </ObjectAllValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <ObjectAllValuesFrom>
-            <ObjectProperty IRI="#subEventOf"/>
-            <Class IRI="#Event"/>
-        </ObjectAllValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Event"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#providesParticipantRole"/>
-            <Class IRI="#ParticipantRole"/>
-        </ObjectSomeValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Event"/>
-        <ObjectExactCardinality cardinality="1">
-            <ObjectProperty IRI="#hasSpatiotemporalExtent"/>
-            <Class IRI="#SpatiotemporalExtent"/>
-        </ObjectExactCardinality>
-    </SubClassOf>
-    <SubClassOf>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#subEventOf"/>
-            <Class abbreviatedIRI="owl:Thing"/>
-        </ObjectSomeValuesFrom>
-        <Class IRI="#Event"/>
-    </SubClassOf>
-    <SubObjectPropertyOf>
-        <ObjectPropertyChain>
-            <ObjectProperty IRI="#subEventOf"/>
-            <ObjectProperty IRI="#subEventOf"/>
-        </ObjectPropertyChain>
-        <ObjectProperty IRI="#subEventOf"/>
-    </SubObjectPropertyOf>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#Event</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/event</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#ParticipantRole</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/event</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
-        <IRI>#ParticipantRole</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ofExternalType</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#SpatiotemporalExtent</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/event</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
-        <IRI>#SpatiotemporalExtent</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ofExternalType</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#hasSpatiotemporalExtent</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/event</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#providesParticipantRole</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/event</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#subEventOf</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/event</Literal>
-    </AnnotationAssertion>
-</Ontology>
+     xmlns:opla-sd="http://ontologydesignpatterns.org/opla-sd#">
+    <owl:Ontology rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPosition -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionX -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionY -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event#hasSpatiotemporalExtent -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event#hasSpatiotemporalExtent">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/event#Event"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/event#SpatiotemporalExtent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event#providesParticipantRole -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event#providesParticipantRole">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/event#Event"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/event#ParticipantRole"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event#subeventOf -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event#subeventOf">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/event#Event"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/event#Event"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event#Event -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event#Event">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">149.57922085765622</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">50.38980998859293</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event#ParticipantRole -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event#ParticipantRole">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">299.62271237532957</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">49.570808085390524</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event#SpatiotemporalExtent -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event#SpatiotemporalExtent">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">29.944494033088404</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">50.0369556222727</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+</rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
 

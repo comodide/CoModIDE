@@ -1,0 +1,407 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent">
+    <Prefix name="" IRI="https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/sequence</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/trajectory</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#EndingFix"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Fix"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Place"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Segment"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SpatiotemporalExtent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#StartingFix"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Time"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Trajectory"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#atPlace"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#atTime"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#endsAt"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFix"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFixInverse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasNext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPredecessor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPrevious"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSegment"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSegmentInverse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSpatiotemporalExtent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSuccessor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTrajectory"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#nextFix"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#startsFrom"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
+    </Declaration>
+    <SubClassOf>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#atPlace"/>
+            <Class IRI="#Place"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#atTime"/>
+            <Class IRI="#Time"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasSpatiotemporalExtent"/>
+            <Class IRI="#SpatiotemporalExtent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasTrajectory"/>
+            <Class IRI="#Trajectory"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Segment"/>
+        <ObjectSomeValuesFrom>
+            <ObjectInverseOf>
+                <ObjectProperty IRI="#hasSegment"/>
+            </ObjectInverseOf>
+            <Class IRI="#Trajectory"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Segment"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#endsAt"/>
+            <Class IRI="#Fix"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Segment"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#startsFrom"/>
+            <Class IRI="#Fix"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpatiotemporalExtent"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTrajectory"/>
+            <Class IRI="#Trajectory"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Trajectory"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasSegment"/>
+            <Class IRI="#Segment"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#Fix"/>
+            <ObjectComplementOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectInverseOf>
+                        <ObjectProperty IRI="#endsAt"/>
+                    </ObjectInverseOf>
+                    <Class IRI="#Segment"/>
+                </ObjectSomeValuesFrom>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+        <Class IRI="#StartingFix"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#Fix"/>
+            <ObjectComplementOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectInverseOf>
+                        <ObjectProperty IRI="#startsFrom"/>
+                    </ObjectInverseOf>
+                    <Class IRI="#Segment"/>
+                </ObjectSomeValuesFrom>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+        <Class IRI="#EndingFix"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFix"/>
+            <Class IRI="#Segment"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#Trajectory"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFixInverse"/>
+            <Class IRI="#Trajectory"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#Fix"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasSegment"/>
+            <Class IRI="#Segment"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#Trajectory"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasSegmentInverse"/>
+            <Class IRI="#Trajectory"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#Segment"/>
+    </SubClassOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasNext"/>
+        <ObjectProperty IRI="#hasSuccessor"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasPrevious"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasFix"/>
+        <ObjectProperty IRI="#hasFixInverse"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasNext"/>
+        <ObjectProperty IRI="#hasPrevious"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPredecessor"/>
+        <ObjectProperty IRI="#hasSuccessor"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasSegment"/>
+        <ObjectProperty IRI="#hasSegmentInverse"/>
+    </InverseObjectProperties>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#hasSegment"/>
+            <ObjectProperty IRI="#endsAt"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#hasFix"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#hasSegment"/>
+            <ObjectProperty IRI="#startsFrom"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#hasFix"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#hasSuccessor"/>
+            <ObjectProperty IRI="#hasSuccessor"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#hasSuccessor"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectInverseOf>
+                <ObjectProperty IRI="#startsFrom"/>
+            </ObjectInverseOf>
+            <ObjectProperty IRI="#endsAt"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#hasNext"/>
+    </SubObjectPropertyOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#EndingFix</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Fix</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Place</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
+        <IRI>#Place</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ofExternalType</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Segment</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#SpatiotemporalExtent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#StartingFix</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Time</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
+        <IRI>#Time</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ofExternalType</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Trajectory</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#atPlace</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#atTime</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#endsAt</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasFix</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasFixInverse</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasNext</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasPredecessor</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasPrevious</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasSegment</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasSegmentInverse</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasSpatiotemporalExtent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasSuccessor</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasTrajectory</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#nextFix</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#startsFrom</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ExternalTypehttps://archive.org/services/purl/domain/modular_ontology_design_library/spatiotemporalextent</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+

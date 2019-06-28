@@ -1,158 +1,204 @@
 <?xml version="1.0"?>
-<Ontology xmlns="http://www.w3.org/2002/07/owl#"
-     xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent"
+<rdf:RDF xmlns="http://www.semanticweb.org/cogan/ontologies/2019/5/untitled-ontology-435#"
+     xml:base="http://www.semanticweb.org/cogan/ontologies/2019/5/untitled-ontology-435"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent">
-    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
-    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
-    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
-    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
-    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
-    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
-    <Annotation>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/sequence</Literal>
-    </Annotation>
-    <Declaration>
-        <Class IRI="#TemporalExtent"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasReferenceSystem"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Value"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#endsAt"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PointInTime"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TimeInterval"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#contains"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ComplexTemporalExtent"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#startsFrom"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ReferenceSystem"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasValue"/>
-    </Declaration>
-    <Declaration>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-    </Declaration>
-    <SubClassOf>
-        <Class IRI="#PointInTime"/>
-        <Class IRI="#ComplexTemporalExtent"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#PointInTime"/>
-        <ObjectExactCardinality cardinality="1">
-            <ObjectProperty IRI="#hasReferenceSystem"/>
-            <Class IRI="#ReferenceSystem"/>
-        </ObjectExactCardinality>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#PointInTime"/>
-        <ObjectExactCardinality cardinality="1">
-            <ObjectProperty IRI="#hasValue"/>
-            <Class IRI="#Value"/>
-        </ObjectExactCardinality>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#TemporalExtent"/>
-        <ObjectExactCardinality cardinality="1">
-            <ObjectProperty IRI="#contains"/>
-            <Class IRI="#ComplexTemporalExtent"/>
-        </ObjectExactCardinality>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#TimeInterval"/>
-        <Class IRI="#ComplexTemporalExtent"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#TimeInterval"/>
-        <ObjectExactCardinality cardinality="1">
-            <ObjectProperty IRI="#endsAt"/>
-            <Class IRI="#PointInTime"/>
-        </ObjectExactCardinality>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#TimeInterval"/>
-        <ObjectExactCardinality cardinality="1">
-            <ObjectProperty IRI="#startsFrom"/>
-            <Class IRI="#PointInTime"/>
-        </ObjectExactCardinality>
-    </SubClassOf>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#ComplexTemporalExtent</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#PointInTime</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#ReferenceSystem</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#TemporalExtent</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#TimeInterval</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#Value</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#contains</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#endsAt</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#hasReferenceSystem</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#hasValue</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <IRI>#startsFrom</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
-    </AnnotationAssertion>
-</Ontology>
+     xmlns:opla-sd="http://ontologydesignpatterns.org/opla-sd#">
+    <owl:Ontology rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPosition -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionX -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionY -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#contains -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#contains">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#TemporalExtent"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#ComplexTemporalExtent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#endsAt -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#endsAt">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#TimeInterval"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#PointInTime"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#hasReferenceSystem -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#hasReferenceSystem">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#PointInTime"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#ReferenceSystem"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#hasValue -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#hasValue">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#PointInTime"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#Value"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#startsFrom -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#startsFrom">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#TimeInterval"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#PointInTime"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#ComplexTemporalExtent -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#ComplexTemporalExtent">
+        <opla-sd:entityPosition>
+            <rdf:Description/>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#PointInTime -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#PointInTime">
+        <rdfs:subClassOf rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#ComplexTemporalExtent"/>
+        <opla-sd:entityPosition>
+            <rdf:Description/>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#ReferenceSystem -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#ReferenceSystem">
+        <opla-sd:entityPosition>
+            <rdf:Description/>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#TemporalExtent -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#TemporalExtent">
+        <opla-sd:entityPosition>
+            <rdf:Description/>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#TimeInterval -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#TimeInterval">
+        <rdfs:subClassOf rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#ComplexTemporalExtent"/>
+        <opla-sd:entityPosition>
+            <rdf:Description/>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#Value -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent#Value">
+        <opla-sd:entityPosition>
+            <rdf:Description/>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">249.8260368693463</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">270.14442614045754</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">389.8252373333022</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">170.34793265864073</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">509.8912256494158</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">260.20573043442675</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">390.0136757208756</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">60.08631759124647</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">210.281264702889</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">109.5891149601008</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">39.54262802709317</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">50.369455707085876</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+</rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
 

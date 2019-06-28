@@ -1,0 +1,254 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole">
+    <Prefix name="" IRI="https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/temporalextent</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#Agent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AgentRole"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TemporalExtent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTemporalExtent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPerformedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProvidedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#performsAgentRole"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#providesAgentRole"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+    </Declaration>
+    <SubClassOf>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasTemporalExtent"/>
+            <Class IRI="#TemporalExtent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#providesAgentRole"/>
+            <Class IRI="#AgentRole"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AgentRole"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#isPerformedBy"/>
+            <Class IRI="#Agent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AgentRole"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasTemporalExtent"/>
+            <Class IRI="#TemporalExtent"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AgentRole"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isPerformedBy"/>
+            <Class IRI="#Agent"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTemporalExtent"/>
+            <Class IRI="#TemporalExtent"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#AgentRole"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isPerformedBy"/>
+            <Class IRI="#Agent"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#AgentRole"/>
+    </SubClassOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isPerformedBy"/>
+        <ObjectProperty IRI="#performsAgentRole"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isProvidedBy"/>
+        <ObjectProperty IRI="#providesAgentRole"/>
+    </InverseObjectProperties>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+        <AbbreviatedIRI>owl:Thing</AbbreviatedIRI>
+        <AnonymousIndividual nodeID="_:genid2147483659"/>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Agent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
+        <IRI>#Agent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ofExternalType</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+        <IRI>#Agent</IRI>
+        <AnonymousIndividual nodeID="_:genid2147483657"/>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#AgentRole</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+        <IRI>#AgentRole</IRI>
+        <AnonymousIndividual nodeID="_:genid2147483658"/>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#TemporalExtent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
+        <IRI>#TemporalExtent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ofExternalType</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+        <IRI>#TemporalExtent</IRI>
+        <AnonymousIndividual nodeID="_:genid2147483656"/>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasTemporalExtent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#isPerformedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#isProvidedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#performsAgentRole</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#providesAgentRole</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/agentrole</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+        <AnonymousIndividual nodeID="_:genid2147483656"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">429.5251052030253</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+        <AnonymousIndividual nodeID="_:genid2147483656"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">19.574227033680216</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AnonymousIndividual nodeID="_:genid2147483656"/>
+        <Literal xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+        <AnonymousIndividual nodeID="_:genid2147483657"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">19.608958656638492</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+        <AnonymousIndividual nodeID="_:genid2147483657"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">89.84401282241834</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AnonymousIndividual nodeID="_:genid2147483657"/>
+        <Literal xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+        <AnonymousIndividual nodeID="_:genid2147483658"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">209.72873326440322</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+        <AnonymousIndividual nodeID="_:genid2147483658"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">90.43548116730193</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AnonymousIndividual nodeID="_:genid2147483658"/>
+        <Literal xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+        <AnonymousIndividual nodeID="_:genid2147483659"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">429.8474184778289</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+        <AnonymousIndividual nodeID="_:genid2147483659"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">169.55120412281724</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AnonymousIndividual nodeID="_:genid2147483659"/>
+        <Literal xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

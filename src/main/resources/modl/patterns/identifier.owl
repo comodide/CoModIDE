@@ -1,99 +1,154 @@
 <?xml version="1.0"?>
-<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+<rdf:RDF xmlns="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#"
      xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier">
-    <Prefix name="" IRI="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier"/>
-    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
-    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
-    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
-    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
-    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
-    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
-    <Annotation>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/reification</Literal>
-    </Annotation>
-    <Declaration>
-        <Class IRI="#IDType"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Identifier"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasIdentifier"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasIdentifierType"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#identifierAsText"/>
-    </Declaration>
-    <Declaration>
-        <AnnotationProperty abbreviatedIRI="opla:hasRelatedPattern"/>
-    </Declaration>
-    <Declaration>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-    </Declaration>
-    <SubClassOf>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <ObjectAllValuesFrom>
-            <ObjectProperty IRI="#hasIdentifier"/>
-            <Class IRI="#Identifier"/>
-        </ObjectAllValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <ObjectAllValuesFrom>
-            <ObjectProperty IRI="#hasIdentifierType"/>
-            <Class IRI="#IDType"/>
-        </ObjectAllValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <DataAllValuesFrom>
-            <DataProperty IRI="#identifierAsText"/>
-            <Datatype abbreviatedIRI="xsd:string"/>
-        </DataAllValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="#hasIdentifierType"/>
-            <Class abbreviatedIRI="owl:Thing"/>
-        </ObjectSomeValuesFrom>
-        <Class IRI="#Identifier"/>
-    </SubClassOf>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#IDType</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/identifier</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#Identifier</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/identifier</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#hasIdentifier</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/identifier</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#hasIdentifierType</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/identifier</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#identifierAsText</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/identifier</Literal>
-    </AnnotationAssertion>
-</Ontology>
+     xmlns:opla-sd="http://ontologydesignpatterns.org/opla-sd#">
+    <owl:Ontology rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPosition -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionX -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionY -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#hasIdentifier -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#hasIdentifier">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#Something"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#Identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#hasIdentifierType -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#hasIdentifierType">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#Identifier"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#IDType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#identifierAsText -->
+
+    <owl:DatatypeProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#identifierAsText">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#Identifier"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">240.48321744658483</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">20.28151844071556</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#IDType -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#IDType">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">250.3069756546917</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">170.21993892624528</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#Identifier -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#Identifier">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">110.06705314625188</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">90.02008527223242</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#Something -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/identifier#Something">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">19.567176387578627</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">20.43967045927033</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+</rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
 

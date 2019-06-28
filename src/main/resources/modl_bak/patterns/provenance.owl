@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/provenance"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/provenance">
+    <Prefix name="" IRI="https://archive.org/services/purl/domain/modular_ontology_design_library/provenance"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#Agent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EntityWithProvenance"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ProvenanceActivity"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#attributedTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#generatedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#performedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#used"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#wasDerivedFrom"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#EntityWithProvenance"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#attributedTo"/>
+            <Class IRI="#Agent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EntityWithProvenance"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#generatedBy"/>
+            <Class IRI="#ProvenanceActivity"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ProvenanceActivity"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#performedBy"/>
+            <Class IRI="#Agent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ProvenanceActivity"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#used"/>
+            <Class IRI="#EntityWithProvenance"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#attributedTo"/>
+            <Class IRI="#Agent"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#EntityWithProvenance"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#generatedBy"/>
+            <Class IRI="#ProvenanceActivity"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#EntityWithProvenance"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#performedBy"/>
+            <Class IRI="#Agent"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#ProvenanceActivity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#used"/>
+            <Class IRI="#EntityWithProvenance"/>
+        </ObjectSomeValuesFrom>
+        <Class IRI="#ProvenanceActivity"/>
+    </SubClassOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#Agent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/provenance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
+        <IRI>#Agent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ofExternalType</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+        <IRI>#Agent</IRI>
+        <AnonymousIndividual nodeID="_:genid2147483652"/>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#EntityWithProvenance</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/provenance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+        <IRI>#EntityWithProvenance</IRI>
+        <AnonymousIndividual nodeID="_:genid2147483650"/>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#ProvenanceActivity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/provenance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:ofExternalType"/>
+        <IRI>#ProvenanceActivity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">ofExternalType</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+        <IRI>#ProvenanceActivity</IRI>
+        <AnonymousIndividual nodeID="_:genid2147483651"/>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#attributedTo</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/provenance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#generatedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/provenance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#performedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/provenance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#used</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/provenance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#wasDerivedFrom</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/provenance</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+        <AnonymousIndividual nodeID="_:genid2147483650"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">39.82216554522548</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+        <AnonymousIndividual nodeID="_:genid2147483650"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">259.5290647306154</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AnonymousIndividual nodeID="_:genid2147483650"/>
+        <Literal xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+        <AnonymousIndividual nodeID="_:genid2147483651"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">369.5395198753326</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+        <AnonymousIndividual nodeID="_:genid2147483651"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">259.95240489079436</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AnonymousIndividual nodeID="_:genid2147483651"/>
+        <Literal xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+        <AnonymousIndividual nodeID="_:genid2147483652"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">209.63255574468576</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+        <AnonymousIndividual nodeID="_:genid2147483652"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">49.69268241896657</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AnonymousIndividual nodeID="_:genid2147483652"/>
+        <Literal xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

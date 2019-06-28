@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/list"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/list">
+    <Prefix name="" IRI="https://archive.org/services/purl/domain/modular_ontology_design_library/list"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="opla:generatlizationOfPattern"/>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#FirstItem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LastItem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ListItem"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasNext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSuccessor"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:generatlizationOfPattern"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#FirstItem"/>
+        <Class IRI="#ListItem"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FirstItem"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#ListItem"/>
+            <ObjectComplementOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectInverseOf>
+                        <ObjectProperty IRI="#hasNext"/>
+                    </ObjectInverseOf>
+                    <Class abbreviatedIRI="owl:Thing"/>
+                </ObjectSomeValuesFrom>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LastItem"/>
+        <Class IRI="#ListItem"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LastItem"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#ListItem"/>
+            <ObjectComplementOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#hasNext"/>
+                    <Class abbreviatedIRI="owl:Thing"/>
+                </ObjectSomeValuesFrom>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ListItem"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasNext"/>
+            <Class IRI="#ListItem"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ListItem"/>
+        <ObjectAllValuesFrom>
+            <ObjectInverseOf>
+                <ObjectProperty IRI="#hasNext"/>
+            </ObjectInverseOf>
+            <Class IRI="#ListItem"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#ListItem"/>
+            <ObjectComplementOf>
+                <Class IRI="#FirstItem"/>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#ListItem"/>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectInverseOf>
+                    <ObjectProperty IRI="#hasNext"/>
+                </ObjectInverseOf>
+                <Class IRI="#ListItem"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#ListItem"/>
+            <ObjectComplementOf>
+                <Class IRI="#LastItem"/>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+        <ObjectIntersectionOf>
+            <Class IRI="#ListItem"/>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectProperty IRI="#hasNext"/>
+                <Class IRI="#ListItem"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasNext"/>
+        <ObjectProperty IRI="#hasSuccessor"/>
+    </SubObjectPropertyOf>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasSuccessor"/>
+    </IrreflexiveObjectProperty>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#hasNext"/>
+            <ObjectProperty IRI="#hasSuccessor"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#hasSuccessor"/>
+    </SubObjectPropertyOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#FirstItem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#LastItem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#ListItem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasNext</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
+        <IRI>#hasSuccessor</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+

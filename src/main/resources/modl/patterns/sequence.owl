@@ -1,167 +1,159 @@
 <?xml version="1.0"?>
-<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+<rdf:RDF xmlns="https://archive.org/services/purl/domain/modular_ontology_design_library/list#"
      xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/list"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/list">
-    <Prefix name="" IRI="https://archive.org/services/purl/domain/modular_ontology_design_library/list"/>
-    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
-    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
-    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
-    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
-    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
-    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
-    <Annotation>
-        <AnnotationProperty abbreviatedIRI="opla:generatlizationOfPattern"/>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/tree</Literal>
-    </Annotation>
-    <Declaration>
-        <Class IRI="#FirstItem"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#LastItem"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ListItem"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasNext"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasSuccessor"/>
-    </Declaration>
-    <Declaration>
-        <AnnotationProperty abbreviatedIRI="opla:generatlizationOfPattern"/>
-    </Declaration>
-    <Declaration>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-    </Declaration>
-    <SubClassOf>
-        <Class IRI="#FirstItem"/>
-        <Class IRI="#ListItem"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#FirstItem"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#ListItem"/>
-            <ObjectComplementOf>
-                <ObjectSomeValuesFrom>
-                    <ObjectInverseOf>
-                        <ObjectProperty IRI="#hasNext"/>
-                    </ObjectInverseOf>
-                    <Class abbreviatedIRI="owl:Thing"/>
-                </ObjectSomeValuesFrom>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#LastItem"/>
-        <Class IRI="#ListItem"/>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#LastItem"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#ListItem"/>
-            <ObjectComplementOf>
-                <ObjectSomeValuesFrom>
-                    <ObjectProperty IRI="#hasNext"/>
-                    <Class abbreviatedIRI="owl:Thing"/>
-                </ObjectSomeValuesFrom>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#ListItem"/>
-        <ObjectAllValuesFrom>
-            <ObjectProperty IRI="#hasNext"/>
-            <Class IRI="#ListItem"/>
-        </ObjectAllValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#ListItem"/>
-        <ObjectAllValuesFrom>
-            <ObjectInverseOf>
-                <ObjectProperty IRI="#hasNext"/>
-            </ObjectInverseOf>
-            <Class IRI="#ListItem"/>
-        </ObjectAllValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <ObjectIntersectionOf>
-            <Class IRI="#ListItem"/>
-            <ObjectComplementOf>
-                <Class IRI="#FirstItem"/>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
-        <ObjectIntersectionOf>
-            <Class IRI="#ListItem"/>
-            <ObjectExactCardinality cardinality="1">
-                <ObjectInverseOf>
-                    <ObjectProperty IRI="#hasNext"/>
-                </ObjectInverseOf>
-                <Class IRI="#ListItem"/>
-            </ObjectExactCardinality>
-        </ObjectIntersectionOf>
-    </SubClassOf>
-    <SubClassOf>
-        <ObjectIntersectionOf>
-            <Class IRI="#ListItem"/>
-            <ObjectComplementOf>
-                <Class IRI="#LastItem"/>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
-        <ObjectIntersectionOf>
-            <Class IRI="#ListItem"/>
-            <ObjectExactCardinality cardinality="1">
-                <ObjectProperty IRI="#hasNext"/>
-                <Class IRI="#ListItem"/>
-            </ObjectExactCardinality>
-        </ObjectIntersectionOf>
-    </SubClassOf>
-    <SubObjectPropertyOf>
-        <ObjectProperty IRI="#hasNext"/>
-        <ObjectProperty IRI="#hasSuccessor"/>
-    </SubObjectPropertyOf>
-    <IrreflexiveObjectProperty>
-        <ObjectProperty IRI="#hasSuccessor"/>
-    </IrreflexiveObjectProperty>
-    <SubObjectPropertyOf>
-        <ObjectPropertyChain>
-            <ObjectProperty IRI="#hasNext"/>
-            <ObjectProperty IRI="#hasSuccessor"/>
-        </ObjectPropertyChain>
-        <ObjectProperty IRI="#hasSuccessor"/>
-    </SubObjectPropertyOf>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#FirstItem</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#LastItem</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#ListItem</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#hasNext</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#hasSuccessor</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/list</Literal>
-    </AnnotationAssertion>
-</Ontology>
+     xmlns:opla-sd="http://ontologydesignpatterns.org/opla-sd#">
+    <owl:Ontology rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/list"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPosition -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionX -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionY -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/list#hasNext -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/list#hasNext">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/list#ListItem"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/list#ListItem"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/list#hasSuccessor -->
+
+    <owl:ObjectProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/list#hasSuccessor">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/list#ListItem"/>
+        <rdfs:range rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/list#ListItem"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/cogan/ontologies/2019/5/untitled-ontology-445#FirstItem -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/cogan/ontologies/2019/5/untitled-ontology-445#FirstItem">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/cogan/ontologies/2019/5/untitled-ontology-445#ListItem"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/cogan/ontologies/2019/5/untitled-ontology-445#ListItem -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/cogan/ontologies/2019/5/untitled-ontology-445#ListItem"/>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/list#FirstItem -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/list#FirstItem">
+        <rdfs:subClassOf rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/list#ListItem"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">182.03943499909494</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">237.0001106617264</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/list#LastItem -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/list#LastItem">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/cogan/ontologies/2019/5/untitled-ontology-445#ListItem"/>
+        <rdfs:subClassOf rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/list#ListItem"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">9.668945558905548</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">110.89963668291608</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/list#ListItem -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/list#ListItem">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">111.54125009782062</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">259.7215155156241</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">10.300075917083632</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">19.523960941814096</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">179.83680968792234</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">19.564876757540674</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">80.48732122168883</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">120.29486335117926</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+</rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
 

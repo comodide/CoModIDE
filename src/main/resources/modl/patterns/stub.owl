@@ -1,124 +1,107 @@
 <?xml version="1.0"?>
-<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+<rdf:RDF xmlns="https://archive.org/services/purl/domain/modular_ontology_design_library/stub#"
      xml:base="https://archive.org/services/purl/domain/modular_ontology_design_library/stub"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     ontologyIRI="https://archive.org/services/purl/domain/modular_ontology_design_library/stub">
-    <Prefix name="" IRI="http://www.semanticweb.org/demon_munchies/ontologies/2019/3/untitled-ontology-17"/>
-    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
-    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
-    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
-    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
-    <Prefix name="opla" IRI="http://ontologydesignpatterns.org/opla#"/>
-    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
-    <Declaration>
-        <Class IRI="#Stub"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#hasValue"/>
-    </Declaration>
-    <Declaration>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-    </Declaration>
-    <SubClassOf>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <DataAllValuesFrom>
-            <DataProperty IRI="#hasValue"/>
-            <DataUnionOf>
-                <Datatype abbreviatedIRI="rdf:PlainLiteral"/>
-                <Datatype abbreviatedIRI="rdf:XMLLiteral"/>
-                <Datatype abbreviatedIRI="rdfs:Literal"/>
-                <Datatype abbreviatedIRI="xsd:NCName"/>
-                <Datatype abbreviatedIRI="xsd:NMTOKEN"/>
-                <Datatype abbreviatedIRI="xsd:Name"/>
-                <Datatype abbreviatedIRI="xsd:anyURI"/>
-                <Datatype abbreviatedIRI="xsd:base64Binary"/>
-                <Datatype abbreviatedIRI="xsd:boolean"/>
-                <Datatype abbreviatedIRI="xsd:byte"/>
-                <Datatype abbreviatedIRI="xsd:dateTime"/>
-                <Datatype abbreviatedIRI="xsd:dateTimeStamp"/>
-                <Datatype abbreviatedIRI="xsd:decimal"/>
-                <Datatype abbreviatedIRI="xsd:double"/>
-                <Datatype abbreviatedIRI="xsd:float"/>
-                <Datatype abbreviatedIRI="xsd:hexBinary"/>
-                <Datatype abbreviatedIRI="xsd:int"/>
-                <Datatype abbreviatedIRI="xsd:integer"/>
-                <Datatype abbreviatedIRI="xsd:language"/>
-                <Datatype abbreviatedIRI="xsd:long"/>
-                <Datatype abbreviatedIRI="xsd:negativeInteger"/>
-                <Datatype abbreviatedIRI="xsd:nonNegativeInteger"/>
-                <Datatype abbreviatedIRI="xsd:nonPositiveInteger"/>
-                <Datatype abbreviatedIRI="xsd:normalizedString"/>
-                <Datatype abbreviatedIRI="xsd:positiveInteger"/>
-                <Datatype abbreviatedIRI="xsd:short"/>
-                <Datatype abbreviatedIRI="xsd:string"/>
-                <Datatype abbreviatedIRI="xsd:token"/>
-                <Datatype abbreviatedIRI="xsd:unsignedByte"/>
-                <Datatype abbreviatedIRI="xsd:unsignedInt"/>
-                <Datatype abbreviatedIRI="xsd:unsignedLong"/>
-                <Datatype abbreviatedIRI="xsd:unsignedShort"/>
-                <Datatype abbreviatedIRI="owl:rational"/>
-                <Datatype abbreviatedIRI="owl:real"/>
-            </DataUnionOf>
-        </DataAllValuesFrom>
-    </SubClassOf>
-    <SubClassOf>
-        <Class IRI="#Stub"/>
-        <DataSomeValuesFrom>
-            <DataProperty IRI="#hasValue"/>
-            <DataUnionOf>
-                <Datatype abbreviatedIRI="rdf:PlainLiteral"/>
-                <Datatype abbreviatedIRI="rdf:XMLLiteral"/>
-                <Datatype abbreviatedIRI="rdfs:Literal"/>
-                <Datatype abbreviatedIRI="xsd:NCName"/>
-                <Datatype abbreviatedIRI="xsd:NMTOKEN"/>
-                <Datatype abbreviatedIRI="xsd:Name"/>
-                <Datatype abbreviatedIRI="xsd:anyURI"/>
-                <Datatype abbreviatedIRI="xsd:base64Binary"/>
-                <Datatype abbreviatedIRI="xsd:boolean"/>
-                <Datatype abbreviatedIRI="xsd:byte"/>
-                <Datatype abbreviatedIRI="xsd:dateTime"/>
-                <Datatype abbreviatedIRI="xsd:dateTimeStamp"/>
-                <Datatype abbreviatedIRI="xsd:decimal"/>
-                <Datatype abbreviatedIRI="xsd:double"/>
-                <Datatype abbreviatedIRI="xsd:float"/>
-                <Datatype abbreviatedIRI="xsd:hexBinary"/>
-                <Datatype abbreviatedIRI="xsd:int"/>
-                <Datatype abbreviatedIRI="xsd:integer"/>
-                <Datatype abbreviatedIRI="xsd:language"/>
-                <Datatype abbreviatedIRI="xsd:long"/>
-                <Datatype abbreviatedIRI="xsd:negativeInteger"/>
-                <Datatype abbreviatedIRI="xsd:nonNegativeInteger"/>
-                <Datatype abbreviatedIRI="xsd:nonPositiveInteger"/>
-                <Datatype abbreviatedIRI="xsd:normalizedString"/>
-                <Datatype abbreviatedIRI="xsd:positiveInteger"/>
-                <Datatype abbreviatedIRI="xsd:short"/>
-                <Datatype abbreviatedIRI="xsd:string"/>
-                <Datatype abbreviatedIRI="xsd:token"/>
-                <Datatype abbreviatedIRI="xsd:unsignedByte"/>
-                <Datatype abbreviatedIRI="xsd:unsignedInt"/>
-                <Datatype abbreviatedIRI="xsd:unsignedLong"/>
-                <Datatype abbreviatedIRI="xsd:unsignedShort"/>
-                <Datatype abbreviatedIRI="owl:rational"/>
-                <Datatype abbreviatedIRI="owl:real"/>
-            </DataUnionOf>
-        </DataSomeValuesFrom>
-    </SubClassOf>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#Stub</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/stub</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="opla:isNativeTo"/>
-        <IRI>#hasValue</IRI>
-        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">https://archive.org/services/purl/domain/modular_ontology_design_library/stub</Literal>
-    </AnnotationAssertion>
-</Ontology>
+     xmlns:opla-sd="http://ontologydesignpatterns.org/opla-sd#">
+    <owl:Ontology rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/stub"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPosition -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPosition"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionX -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionX"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla-sd#entityPositionY -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla-sd#entityPositionY"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/stub#hasValue -->
+
+    <owl:DatatypeProperty rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/stub#hasValue">
+        <rdfs:domain rdf:resource="https://archive.org/services/purl/domain/modular_ontology_design_library/stub#Stub"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">281.6629124717004</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">87.24453080731348</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/stub#Stub -->
+
+    <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/stub#Stub">
+        <opla-sd:entityPosition>
+            <rdf:Description>
+                <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">154.69305107263668</opla-sd:entityPositionX>
+                <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">7.446107752077824</opla-sd:entityPositionY>
+                <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+            </rdf:Description>
+        </opla-sd:entityPosition>
+    </owl:Class>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">19.5854586021033</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">30.279185110718686</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description>
+        <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">220.28004460489427</opla-sd:entityPositionX>
+        <opla-sd:entityPositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">29.77311592063326</opla-sd:entityPositionY>
+        <rdfs:comment xml:lang="en">This is an entity positioning annotation generated by CoModIDE (https://comodide.com/). Removing this annotation will break rendering the CoModIDE schema diagram view.</rdfs:comment>
+    </rdf:Description>
+</rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
 
