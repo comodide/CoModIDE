@@ -1,5 +1,5 @@
-# XD for Protégé
+# CoModIDE for Protégé
 
-This repository contains the eXtreme Design for Protégé plugin for the Protégé Ontology Engineering environment.
+This repository contains the Comprehensive Modular Ontology IDE (CoModIDE) plugin for the Protégé Ontology Engineering environment.
 
-This plugin is a work in progress. Please check back later. 
+For more information about CoModIDE, please visit [comodide.com](https://comodide.com).

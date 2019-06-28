@@ -38,12 +38,10 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
     protected void initialiseOWLView() throws Exception {
     	this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		JLabel patternLibraryHeading = new JLabel("Pattern Library");
-		Font f = patternLibraryHeading.getFont();
-		patternLibraryHeading.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-		this.add(patternLibraryHeading);
-		
-		JLabel categorySelectorLabel = new JLabel("Pattern Category Selector:");
+		JLabel categorySelectorLabel = new JLabel("Pattern category selector:");
+		Font f = categorySelectorLabel.getFont();
+		categorySelectorLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		categorySelectorLabel.setAlignmentX(LEFT_ALIGNMENT);
         this.add(categorySelectorLabel);
         // This is a hack due to JComboBox misbehaving; see https://stackoverflow.com/questions/7581846/swing-boxlayout-problem-with-jcombobox-without-using-setxxxsize
         JComboBox<PatternCategory> categoryList = new JComboBox<PatternCategory>(patternLibrary.getPatternCategories()) {
@@ -63,13 +61,17 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 				patternsTableModel.update(patternLibrary.getPatternsForCategory(selectedCategory));				
 			}
         });
+        categoryList.setAlignmentX(LEFT_ALIGNMENT);
         this.add(categoryList);
 		
         JLabel patternsTableHeading = new JLabel("Patterns:");
+        patternsTableHeading.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+        patternsTableHeading.setAlignmentX(LEFT_ALIGNMENT);
         this.add(patternsTableHeading);
 		patternsTable = new PatternTable(patternsTableModel, this.getOWLModelManager());
 		JScrollPane patternsTableScrollPane = new JScrollPane(patternsTable);
 		patternsTable.setFillsViewportHeight(true);
+		patternsTableScrollPane.setAlignmentX(LEFT_ALIGNMENT);
         this.add(patternsTableScrollPane);
         
         log.info("Pattern Selector view initialized");
