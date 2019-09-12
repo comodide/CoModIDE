@@ -10,11 +10,16 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import com.comodide.editor.model.ClassCell;
+import com.comodide.editor.model.DatatypeCell;
+import com.comodide.editor.model.PropertyEdgeCell;
+import com.comodide.editor.model.SubClassEdgeCell;
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDNode;
@@ -186,12 +191,12 @@ public class SchemaDiagram extends mxGraph
 	
 	@Override
 	public boolean isCellConnectable(Object cell) {
-		// If this is a vertex but there is no SDNode attached to it, then it means
+		// If this is a vertex but there is no OWLEntity attached to it, then it means
 		// it was just dropped and has not been relabelled yet; if so, it should NOT be connectable.
 		if (cell instanceof mxCell) {
 			boolean isVertex = ((mxCell)cell).isVertex();
-			boolean hasSdNode = ((mxCell)cell).getValue() instanceof SDNode;
-			if (isVertex && !hasSdNode) {
+			boolean hasOwlEntity = ((mxCell)cell).getValue() instanceof OWLEntity;
+			if (isVertex && !hasOwlEntity) {
 				return false;
 			}
 		}
@@ -201,15 +206,10 @@ public class SchemaDiagram extends mxGraph
 
 	@Override
 	public boolean isValidSource(Object cell) {
-		// If this is a cell with an attached SDNode, and that SDNode is a datatype, 
-		// then it should NOT be a valid source of outgoing edges, return false.
-		if (cell instanceof mxCell) {
-			if (((mxCell)cell).getValue() instanceof SDNode) {
-				SDNode node = (SDNode)((mxCell)cell).getValue();
-				if (node.isDatatype()) {
-					return false;
-				}
-			}
+		// If this is a datatype cell then it should NOT be 
+		// a valid source of outgoing edges, return false.
+		if (cell instanceof DatatypeCell) {
+			return false;
 		}
 		// In all other cases, defer to parent method
 		return super.isValidSource(cell);
@@ -218,16 +218,12 @@ public class SchemaDiagram extends mxGraph
 	
 	@Override
 	public boolean isValidTarget(Object cell) {
-		// If this is a cell with an attached SDNode, and that SDNode is a datatype, 
-		// then it should have at most one incoming edge; if existing edge count > 0, return false.
-		if (cell instanceof mxCell) {
-			if (((mxCell)cell).getValue() instanceof SDNode) {
-				SDNode node = (SDNode)((mxCell)cell).getValue();
-				if (node.isDatatype()) {
-					if (((mxCell)cell).getEdgeCount() > 0) {
-						return false;
-					}
-				}
+		// If this is a datatype cell then it should have 
+		// at most one incoming edge; if existing 
+		// edge count > 0, return false.
+		if (cell instanceof DatatypeCell) {
+			if (((DatatypeCell)cell).getEdgeCount() > 0) {
+				return false;
 			}
 		}
 		// Do not defer to the parent method because it is broken by our 
@@ -303,17 +299,8 @@ public class SchemaDiagram extends mxGraph
 	{
 		mxCell theCell = (mxCell)cell;
 		
-		if (theCell.getValue() instanceof SDNode) {
-			SDNode node = (SDNode)theCell.getValue();
-			if (node.isDatatype()) {
-				return false;
-			}
-		}
-		if (theCell.getValue() instanceof SDEdge) {
-			SDEdge edge = (SDEdge)theCell.getValue();
-			if (edge.isSubclass()) {
-				return false;
-			}
+		if (theCell instanceof DatatypeCell || theCell instanceof SubClassEdgeCell) {
+			return false;
 		}
 		return super.isCellEditable(cell);
 	}
@@ -344,5 +331,29 @@ public class SchemaDiagram extends mxGraph
 		}
 
 		return super.createEdge(parent, id, value, source, target, style);
+	}
+	
+	public ClassCell addClass(OWLEntity owlEntity, double positionX, double positionY) {
+		ClassCell cell = new ClassCell(owlEntity, positionX, positionY);
+		this.addCell(cell);
+		return cell;
+	}
+
+	public DatatypeCell addDatatype(OWLEntity owlEntity, double positionX, double positionY) {
+		DatatypeCell cell = new DatatypeCell(owlEntity, positionX, positionY);
+		this.addCell(cell);
+		return cell;
+	}
+	
+	public SubClassEdgeCell addSubClassEdge(ClassCell parentClass, ClassCell subClass) {
+		SubClassEdgeCell edge = new SubClassEdgeCell();
+		this.addEdge(edge, this.getDefaultParent(), parentClass, subClass, null);
+		return edge;
+	}
+	
+	public PropertyEdgeCell addPropertyEdge(OWLProperty owlProperty, ClassCell domainCell, mxCell rangeCell) {
+		PropertyEdgeCell edge = new PropertyEdgeCell(owlProperty);
+		this.addEdge(edge, this.getDefaultParent(), domainCell, rangeCell, null);
+		return edge;
 	}
 }

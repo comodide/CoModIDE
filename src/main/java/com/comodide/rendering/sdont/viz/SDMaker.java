@@ -64,7 +64,7 @@ public class SDMaker
         // Create the visualizations of the nodes
         this.vertices = this.vertexMaker.makeVertexCells(nodeset);
         // Add them all to the graph
-        this.schemaDiagram.getModel().beginUpdate();
+        /*this.schemaDiagram.getModel().beginUpdate();
         try
         {
             for (Object vertex : this.vertices)
@@ -74,7 +74,7 @@ public class SDMaker
         } finally
         {
             this.schemaDiagram.getModel().endUpdate();
-        }
+        }*/
     }
 
     /**

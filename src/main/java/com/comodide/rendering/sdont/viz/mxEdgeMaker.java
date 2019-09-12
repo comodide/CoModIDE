@@ -4,21 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.comodide.rendering.editor.SDConstants;
+import org.semanticweb.owlapi.model.OWLEntity;
+
+import com.comodide.editor.model.ClassCell;
+import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.model.SDEdge;
-import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.model.mxCell;
-import com.mxgraph.view.mxGraph;
 
 public class mxEdgeMaker
 {	
-	private mxGraph graph;
-	private Object parent;
+	private SchemaDiagram graph;
 	
-	public mxEdgeMaker(mxGraph graph)
+	public mxEdgeMaker(SchemaDiagram graph)
 	{
 		this.graph = graph;
-		this.parent = this.graph.getDefaultParent();
 	}
 	
 	public Map<String, Object> makeEdges(Set<SDEdge> sdedges, Set<mxCell> vertices)
@@ -35,12 +34,12 @@ public class mxEdgeMaker
 				
 				// Iterate over all vertices to find the source cell to link from
 				for (mxCell potentialSourceOrTarget: vertices) {
-					if (potentialSourceOrTarget.getValue() instanceof SDNode) {
-						SDNode potentialSourceOrTargetNode = (SDNode)potentialSourceOrTarget.getValue();
-						if (potentialSourceOrTargetNode.equals(edge.getSource())) {
+					if (potentialSourceOrTarget.getValue() instanceof OWLEntity) {
+						OWLEntity potentialSourceOrTargetEntity = (OWLEntity)potentialSourceOrTarget.getValue();
+						if (potentialSourceOrTargetEntity.equals(edge.getSource().getOwlEntity())) {
 							source = potentialSourceOrTarget;
 						}
-						if (potentialSourceOrTargetNode.equals(edge.getTarget())) {
+						if (potentialSourceOrTargetEntity.equals(edge.getTarget().getOwlEntity())) {
 							target = potentialSourceOrTarget;
 						}
 						if (source != null && target !=null) {
@@ -52,11 +51,13 @@ public class mxEdgeMaker
 				if (source != null && target != null) {
 					if(edge.isSubclass())
 					{
-						this.graph.insertEdge(parent, edge.toString(), edge, source, target, SDConstants.subclassEdgeStyle);
+						this.graph.addSubClassEdge((ClassCell)source, (ClassCell)target);
+						//this.graph.insertEdge(parent, edge.toString(), edge, source, target, SDConstants.subclassEdgeStyle);
 					}
 					else
 					{
-						this.graph.insertEdge(parent, edge.toString(), edge, source, target, SDConstants.standardEdgeStyle);			
+						this.graph.addPropertyEdge(edge.getOwlProperty(), (ClassCell)source, target);
+						//this.graph.insertEdge(parent, edge.toString(), edge, source, target, SDConstants.standardEdgeStyle);			
 					}
 				}
 			}
