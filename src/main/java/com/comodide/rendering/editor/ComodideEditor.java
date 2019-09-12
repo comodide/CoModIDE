@@ -28,16 +28,16 @@ import com.mxgraph.util.mxEventObject;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.view.mxGraph;
 
-public class GraphEditor extends BasicGraphEditor
+public class ComodideEditor extends BasicGraphEditor
 {
     private static final long serialVersionUID = -4601740824088314699L;
 
-    public GraphEditor(SDontComponent sdComponent)
+    public ComodideEditor(SchemaDiagramComponent sdComponent)
     {
         this("Schema Diagram Editor", sdComponent);
     }
     
-    public GraphEditor(String appTitle, SDontComponent component)
+    public ComodideEditor(String appTitle, SchemaDiagramComponent component)
     {
         super(appTitle, component);
         final mxGraph graph = graphComponent.getGraph();
@@ -78,14 +78,14 @@ public class GraphEditor extends BasicGraphEditor
                 .addTemplate("Container", new ImageIcon(GraphEditor.class.getResource("/images/swimlane.png")),
                         "swimlane", 280, 280, "Container");*/
         coreConstructsPalette // class
-                .addTemplate("Class", new ImageIcon(GraphEditor.class.getResource("/images/rounded.png")),
+                .addTemplate("Class", new ImageIcon(ComodideEditor.class.getResource("/images/rounded.png")),
                         SDConstants.classStyle, 120, 30, "");
         coreConstructsPalette // relation
-                .addEdgeTemplate("Property", new ImageIcon(GraphEditor.class.getResource("/images/straight.png")),
+                .addEdgeTemplate("Property", new ImageIcon(ComodideEditor.class.getResource("/images/straight.png")),
                         SDConstants.standardEdgeStyle, 120, 120, "");
         OWLObjectProperty subClassOf = OWLManager.getOWLDataFactory().getOWLObjectProperty(OWLRDFVocabulary.RDFS_SUBCLASS_OF.getIRI());
         coreConstructsPalette // subclass
-                .addEdgeTemplate("Subclass", new ImageIcon(GraphEditor.class.getResource("/images/arrow.png")), SDConstants.subclassEdgeStyle,
+                .addEdgeTemplate("Subclass", new ImageIcon(ComodideEditor.class.getResource("/images/arrow.png")), SDConstants.subclassEdgeStyle,
                         120, 120, new SDEdge(null, null, true, subClassOf));
         
         // Factory and defaults for creating templates
@@ -95,31 +95,31 @@ public class GraphEditor extends BasicGraphEditor
         // xsd:string
         OWLDatatype xsdString = df.getOWLDatatype(XSDVocabulary.STRING.getIRI()); 
         xsdTypesPalette
-        		.addTemplate("string", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+        		.addTemplate("string", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
         				120, 30, new SDNode(xsdString, true, zeroCoordinates));
         
         // xsd:int
         OWLDatatype xsdInt = df.getOWLDatatype(XSDVocabulary.INT.getIRI());
         xsdTypesPalette
-				.addTemplate("int", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+				.addTemplate("int", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
 						120, 30, new SDNode(xsdInt, true, zeroCoordinates));
         
         // xsd:float
         OWLDatatype xsdFloat = df.getOWLDatatype(XSDVocabulary.FLOAT.getIRI());
         xsdTypesPalette
-			.addTemplate("float", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+			.addTemplate("float", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
 				120, 30, new SDNode(xsdFloat, true, zeroCoordinates));
         
         // xsd:float
         OWLDatatype xsdBoolean = df.getOWLDatatype(XSDVocabulary.BOOLEAN.getIRI());
         xsdTypesPalette
-			.addTemplate("boolean", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+			.addTemplate("boolean", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
 				120, 30, new SDNode(xsdBoolean, true, zeroCoordinates));
         
         // xsd:dateTime
         OWLDatatype xsdDateTime = df.getOWLDatatype(XSDVocabulary.DATE_TIME.getIRI());
         xsdTypesPalette
-			.addTemplate("dateTime", new ImageIcon(GraphEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
+			.addTemplate("dateTime", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
 				120, 30, new SDNode(xsdDateTime, true, zeroCoordinates));
     }
 
@@ -137,7 +137,7 @@ public class GraphEditor extends BasicGraphEditor
         mxSwingConstants.SHADOW_COLOR = Color.LIGHT_GRAY;
         mxConstants.W3C_SHADOWCOLOR = "#D3D3D3";
 
-        GraphEditor editor = new GraphEditor(new SDontComponent(null, null));
+        ComodideEditor editor = new ComodideEditor(new SchemaDiagramComponent(null, null));
         editor.createFrame(null).setVisible(true);
     }
 }

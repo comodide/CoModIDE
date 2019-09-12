@@ -1,13 +1,17 @@
 package com.comodide.rendering.sdont.viz;
 
+import java.util.List;
+
 import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 
 import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.model.SDGraph;
 import com.comodide.rendering.sdont.parsing.OntologyParser;
 
-public class SDManager
+public class ComodideEditorManager implements OWLOntologyChangeListener
 {
 	/** Model Manager */
 	private OWLModelManager modelManager;
@@ -18,31 +22,33 @@ public class SDManager
 	private SDMaker        maker;
 	private SchemaDiagram  schemaDiagram;
 
-	/** Empty Constructor */
-	public SDManager()
-	{
-
+	public SchemaDiagram getSchemaDiagram() {
+		return schemaDiagram;
 	}
 
 	/** Useful Constructor */
-	public SDManager(OWLModelManager modelManager)
+	public ComodideEditorManager(OWLModelManager modelManager)
 	{
 		this.modelManager = modelManager;
-	}
-
-	/** To be called initially */
-	public SchemaDiagram initialSchemaDiagram()
-	{
+		
+		/* Register as listener to detect changes in the ontology */
+		this.modelManager.addOntologyChangeListener(this);
+		
 		this.ontologyParser = new OntologyParser(this.modelManager);
 		this.graph = ontologyParser.parseOntology();
 		this.maker = new SDMaker(graph, modelManager);
 		this.schemaDiagram = maker.visualize();
-		return schemaDiagram;
 	}
 
 	/** Called when changes in the underlying ontology are detected. */
-	public void updateSchemaDiagramFromOntology(OWLOntologyChange change)
+	public void updateSchemaDiagramFromOntologyChange(OWLOntologyChange change)
 	{
 		this.schemaDiagram.updateSchemaDiagramFromOntology(change);
+	}
+	
+
+	@Override
+	public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException {
+		changes.forEach(change -> {if(change.isAxiomChange()) updateSchemaDiagramFromOntologyChange(change);});
 	}
 }

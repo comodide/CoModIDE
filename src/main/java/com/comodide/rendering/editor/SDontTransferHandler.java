@@ -128,7 +128,7 @@ public class SDontTransferHandler extends mxGraphTransferHandler
 						if (entity.isOWLClass() || entity.isOWLDataProperty())
 						{
 							PositioningOperations.calculateDropLocationAnnotations(activeOntology, pattern, entity,
-									getScaledDropLocation((SDontComponent) c));
+									getScaledDropLocation((SchemaDiagramComponent) c));
 						}
 					}
 				}

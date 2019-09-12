@@ -4,22 +4,18 @@ import java.awt.Color;
 import java.awt.Point;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.w3c.dom.Document;
-
-import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.handler.mxConnectionHandler;
-import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxGraph;
 
-public class SDontComponent extends mxGraphComponent
+public class SchemaDiagramComponent extends mxGraphComponent
 {
 	/** Bookkeeping */
 	private static final long serialVersionUID = -6833603133512882012L;
 
-	public SDontComponent(mxGraph graph, OWLModelManager modelManager)
+	public SchemaDiagramComponent(mxGraph graph, OWLModelManager modelManager)
 	{
 		super(graph);
 		// Overwrite super created transfer handler

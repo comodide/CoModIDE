@@ -12,7 +12,7 @@ public class SDConnectionHandler extends mxConnectionHandler
 	private final Logger log = LoggerFactory.getLogger(SDConnectionHandler.class);
 	private final String pf  = "[CoModIDE:SDConnectionHandler] ";
 	
-	public SDConnectionHandler(SDontComponent sdComponent)
+	public SDConnectionHandler(SchemaDiagramComponent sdComponent)
 	{
 		super(sdComponent);
 		log.info(pf + "SDConnectionHandler Initialized.");

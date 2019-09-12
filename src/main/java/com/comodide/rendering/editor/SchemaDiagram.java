@@ -180,7 +180,7 @@ public class SchemaDiagram extends mxGraph
 		
 		// Loads styling information from an external file.
 		mxCodec  codec = new mxCodec();
-		Document doc   = mxUtils.loadDocument(GraphEditor.class.getResource("/resources/comodide-style.xml").toString());
+		Document doc   = mxUtils.loadDocument(ComodideEditor.class.getResource("/resources/comodide-style.xml").toString());
 		codec.decode(doc.getDocumentElement(), getStylesheet());
 	}
 	
