@@ -25,10 +25,10 @@
 		<class value="com.comodide.views.ConfigurationView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
-	<extension id="RendererView"
+	<extension id="EditorView"
 		point="org.protege.editor.core.application.ViewComponent">
 		<label value="CoModIDE Schema Editor" />
-		<class value="com.comodide.views.RendererView" />
+		<class value="com.comodide.views.EditorView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
 

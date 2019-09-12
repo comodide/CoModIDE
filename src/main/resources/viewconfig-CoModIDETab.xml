@@ -3,7 +3,7 @@
     <VSNode splits="0.8 0.2">
         <CNode>
             <Component label="Schema Editor">
-                <Property id="pluginId" value="CoModIDE.RendererView"/>
+                <Property id="pluginId" value="CoModIDE.EditorView"/>
             </Component>
         </CNode>
         <HSNode splits="0.5 0.5">

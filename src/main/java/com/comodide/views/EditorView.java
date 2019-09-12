@@ -12,12 +12,12 @@ import com.comodide.rendering.editor.SchemaDiagramComponent;
 import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.viz.ComodideEditorManager;
 
-public class RendererView extends AbstractOWLViewComponent
+public class EditorView extends AbstractOWLViewComponent
 {
 	private static final long serialVersionUID = 965978729243157195L;
 
 	/** Logging */
-	private static final Logger log              = LoggerFactory.getLogger(RendererView.class);
+	private static final Logger log              = LoggerFactory.getLogger(EditorView.class);
 
 	/** Managers */
 	private OWLModelManager modelManager;
