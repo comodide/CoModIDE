@@ -26,12 +26,12 @@ public class ClassCell extends mxCell {
 	}
 	
 	public ClassCell(OWLEntity owlEntity, double positionX, double positionY) {
+		this.id = shortFormProvider.getShortForm(owlEntity);
+		
 		this.value = owlEntity;
 		
 		this.geometry = new mxGeometry(positionX, positionY, WIDTH, HEIGHT);
 		this.geometry.setRelative(false);
-		
-		this.id = shortFormProvider.getShortForm(owlEntity);
 		
 		this.style = STYLE;
 		
@@ -42,5 +42,9 @@ public class ClassCell extends mxCell {
 	@Override
 	public OWLEntity getValue() {
 		return (OWLEntity)this.value;
+	}
+	
+	public boolean isNamed() {
+		return !this.getValue().getIRI().toString().equalsIgnoreCase(OWLRDFVocabulary.OWL_CLASS.getIRI().toString());
 	}
 }

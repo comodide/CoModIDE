@@ -18,12 +18,12 @@ public class DatatypeCell extends mxCell {
 	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
 	
 	public DatatypeCell(OWLEntity owlEntity, double positionX, double positionY) {
+		this.id = shortFormProvider.getShortForm(owlEntity);
+		
 		this.value = owlEntity;
 		
 		this.geometry = new mxGeometry(positionX, positionY, WIDTH, HEIGHT);
 		this.geometry.setRelative(false);
-		
-		this.id = shortFormProvider.getShortForm(owlEntity);
 		
 		this.style = STYLE;
 		

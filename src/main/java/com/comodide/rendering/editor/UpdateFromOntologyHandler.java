@@ -29,10 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
+import com.comodide.editor.model.ClassCell;
+import com.comodide.editor.model.DatatypeCell;
 import com.comodide.rendering.PositioningOperations;
-import com.comodide.rendering.sdont.model.SDEdge;
-import com.comodide.rendering.sdont.model.SDNode;
-import com.comodide.rendering.sdont.viz.mxVertexMaker;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
 
@@ -51,23 +50,12 @@ public class UpdateFromOntologyHandler
 	/** Singleton reference to AxiomManager for parsing Axioms */
 	private AxiomManager axiomManager;
 
-	/** Used for creating the styled mxcells for the graph */
-	private mxVertexMaker vertexMaker;
-
-	/** Empty Constructor */
-	public UpdateFromOntologyHandler()
-	{
-
-	}
-
 	public UpdateFromOntologyHandler(SchemaDiagram schemaDiagram, OWLModelManager modelManager)
 	{
 		this.schemaDiagram = schemaDiagram;
 		this.graphModel = (mxGraphModel) schemaDiagram.getModel();
 
 		this.axiomManager = AxiomManager.getInstance(modelManager, schemaDiagram);
-
-		this.vertexMaker = new mxVertexMaker(schemaDiagram);
 	}
 
 	public void handle(OWLOntologyChange change)
@@ -144,8 +132,6 @@ public class UpdateFromOntologyHandler
 
 	private void handleClass(OWLOntology ontology, OWLAxiom axiom)
 	{
-		// The Cell representing the Class or Datatype
-		Object cell = null;
 		// Unpack data from Declaration
 		OWLDeclarationAxiom declaration = (OWLDeclarationAxiom) axiom;
 		OWLEntity           owlEntity   = declaration.getEntity();
@@ -162,10 +148,6 @@ public class UpdateFromOntologyHandler
 			// them right away.
 			PositioningOperations.updateXYCoordinateAnnotations(owlEntity, ontology, xyCoords.getLeft(),
 					xyCoords.getRight());
-			// Package the node
-			SDNode node = new SDNode(owlEntity, owlEntity.isOWLDatatype(), xyCoords);
-			// Create the node
-			cell = vertexMaker.makeNode(node);
 			// We do not want to add a duplicate cell at this time
 			// By adding this "catch" we prevent the loopback "feature" of adding a Class
 			// via CoModIDE propagating via this handler to add a duplicate cell
@@ -178,7 +160,12 @@ public class UpdateFromOntologyHandler
 				graphModel.beginUpdate();
 				try
 				{
-					schemaDiagram.addCell(cell);
+					if (owlEntity.isOWLClass()) {
+						schemaDiagram.addClass(owlEntity, xyCoords.getLeft(), xyCoords.getRight());
+					}
+					else {
+						schemaDiagram.addDatatype(owlEntity, xyCoords.getLeft(), xyCoords.getRight());
+					}
 				}
 				finally
 				{
@@ -197,54 +184,54 @@ public class UpdateFromOntologyHandler
 	{
 		log.info("[CoModIDE:UFOH] Handling property via GCI.");
 		// Parse the axiom
-		SDEdge edge = axiomManager.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
-
+		mxCell edge = axiomManager.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
+		mxCell sourceCell = (mxCell) edge.getSource();
+		mxCell targetCell = (mxCell) edge.getTarget();
+		
 		// Unpack
-		String id          = edge.toString();
-		SDNode sourceNode  = edge.getSource();
-		String sourceLabel = sourceNode.toString();
-		SDNode targetNode  = edge.getTarget();
-		String targetLabel = targetNode.toString();
-		String style       = edge.getStyle();
+		//String id          = edge.toString();
+		//String style       = edge.getStyle();
 
-		// Find corresponding cells on canvas (if they exist)
-		mxCell              sourceCell = null;
-		mxCell              targetCell = null;
+		// Find pre-existing cells on canvas, if any
+		boolean sourceCellFound = false;
+		boolean targetCellFound = false;
 		Map<String, Object> cells      = ((mxGraphModel) this.schemaDiagram.getModel()).getCells();
 		for (String key : cells.keySet())
 		{
 			mxCell cell = (mxCell) cells.get(key);
-			if (cell.getId().equals(sourceLabel))
+			if (cell.getId().equals(sourceCell.getId()))
 			{
-				sourceCell = cell;
+				edge.setSource(cell);
+				sourceCellFound = true;
 			}
-			if (cell.getId().equals(targetLabel))
+			if (cell.getId().equals(targetCell.getId()))
 			{
-				targetCell = cell;
+				edge.setTarget(cell);
+				targetCellFound = true;
 			}
-			if (sourceCell != null && targetCell != null)
+			// Optimization to break out once both pre-existing cells have been found
+			if (sourceCellFound && targetCellFound)
 			{
-				// We have found both ends of the edge
 				break;
 			}
 		}
 
-		if (sourceCell != null && targetCell != null)
+		// Update the SchemaDiagram
+		graphModel.beginUpdate();
+		try
 		{
-			// Update the SchemaDiagram
-			graphModel.beginUpdate();
-			try
-			{
-				// If null is passed as parent, a convenience function in the chain
-				// will call getDefaultParent()
-				schemaDiagram.insertEdge(null, id, edge, sourceCell, targetCell, style);
+			/*if (!sourceCellFound) {
+				schemaDiagram.addCell(sourceCell);
 			}
-			finally
-			{
-				graphModel.endUpdate();
-			}
+			if (!targetCellFound) {
+				schemaDiagram.addCell(targetCell);
+			}*/
+			schemaDiagram.addCell(edge);
 		}
-
+		finally
+		{
+			graphModel.endUpdate();
+		}
 	}
 
 	private void handleObjectPropertyDomainOrRange(OWLOntology ontology, HasProperty<OWLObjectPropertyExpression> axiom)
@@ -253,7 +240,6 @@ public class UpdateFromOntologyHandler
 				axiom.toString()));
 
 		OWLObjectProperty                 objectProperty = axiom.getProperty().asOWLObjectProperty();
-		String                            propertyName   = shortFormProvider.getShortForm(objectProperty);
 		Set<OWLObjectPropertyDomainAxiom> domainAxioms   = ontology.getObjectPropertyDomainAxioms(objectProperty);
 		Set<OWLObjectPropertyRangeAxiom>  rangeAxioms    = ontology.getObjectPropertyRangeAxioms(objectProperty);
 
@@ -302,26 +288,28 @@ public class UpdateFromOntologyHandler
 			// and target cells to draw the edge between
 			if (sourceCell != null && targetCell != null)
 			{
-				// Only proceed if the source and target cells have backing SDNodes
-				if (sourceCell.getValue() instanceof SDNode && targetCell.getValue() instanceof SDNode)
+				// Only proceed if the source and target cells are class cells
+				if (sourceCell instanceof ClassCell && targetCell instanceof ClassCell)
 				{
-					SDNode domainNode = (SDNode) sourceCell.getValue();
-					SDNode rangeNode  = (SDNode) targetCell.getValue();
-					SDEdge sdEdge     = new SDEdge(domainNode, rangeNode, false, objectProperty);
+					ClassCell sourceClassCell = (ClassCell)sourceCell;
+					ClassCell targetClassCell = (ClassCell)targetCell;
+					
+					// Only proceed if the source and target cells have identity assigned (i.e., not default name)
+					if (sourceClassCell.isNamed() && targetClassCell.isNamed()) {
 
-					// TODO: Check if locking would be needed here like for classes?
-					// Update the SchemaDiagram
-					graphModel.beginUpdate();
-					try
-					{
-						// If null is passed as parent, a convenience function in the chain
-						// will call getDefaultParent()
-						schemaDiagram.insertEdge(null, propertyName, sdEdge, sourceCell, targetCell,
-								SDConstants.standardEdgeStyle);
-					}
-					finally
-					{
-						graphModel.endUpdate();
+						// TODO: Check if locking would be needed here like for classes?
+						// Update the SchemaDiagram
+						graphModel.beginUpdate();
+						try
+						{
+							// If null is passed as parent, a convenience function in the chain
+							// will call getDefaultParent()
+							schemaDiagram.addPropertyEdge(objectProperty, sourceClassCell, targetClassCell);
+						}
+						finally
+						{
+							graphModel.endUpdate();
+						}
 					}
 				}
 			}
@@ -335,7 +323,6 @@ public class UpdateFromOntologyHandler
 				axiom.toString()));
 
 		OWLDataProperty                 dataProperty = axiom.getProperty().asOWLDataProperty();
-		String                          propertyName = shortFormProvider.getShortForm(dataProperty);
 		Set<OWLDataPropertyDomainAxiom> domainAxioms = ontology.getDataPropertyDomainAxioms(dataProperty);
 		Set<OWLDataPropertyRangeAxiom>  rangeAxioms  = ontology.getDataPropertyRangeAxioms(dataProperty);
 
@@ -389,29 +376,35 @@ public class UpdateFromOntologyHandler
 						xyCoords.getRight());
 
 				// Now, create a new node and corresponding cell for this datatype
-				SDNode rangeNode  = new SDNode(range, true, xyCoords);
-				Object targetCell = vertexMaker.makeNode(rangeNode);
+				DatatypeCell targetCell = new DatatypeCell(range, xyCoords.getLeft(), xyCoords.getRight());
+				//SDNode rangeNode  = new SDNode(range, true, xyCoords);
+				//Object targetCell = vertexMaker.makeNode(rangeNode);
 
 				// Only proceed if the sourceCell has a backing SDNode
-				if (sourceCell.getValue() instanceof SDNode)
+				if (sourceCell instanceof ClassCell)
 				{
-					SDNode domainNode = (SDNode) sourceCell.getValue();
-					SDEdge sdEdge     = new SDEdge(domainNode, rangeNode, false, dataProperty);
-
-					// TODO: Check if locking would be needed here like for classes?
-					// Update the SchemaDiagram
-					graphModel.beginUpdate();
-					try
-					{
-						schemaDiagram.addCell(targetCell);
-						// If null is passed as parent, a convenience function in the chain
-						// will call getDefaultParent()
-						schemaDiagram.insertEdge(null, propertyName, sdEdge, sourceCell, targetCell,
-								SDConstants.standardEdgeStyle);
-					}
-					finally
-					{
-						graphModel.endUpdate();
+					ClassCell sourceClassCell = (ClassCell)sourceCell; 
+					if (sourceClassCell.isNamed()) {
+						
+						//SDNode domainNode = (SDNode) sourceCell.getValue();
+						//SDEdge sdEdge     = new SDEdge(domainNode, rangeNode, false, dataProperty);
+	
+						// TODO: Check if locking would be needed here like for classes?
+						// Update the SchemaDiagram
+						graphModel.beginUpdate();
+						try
+						{
+							schemaDiagram.addCell(targetCell);
+							// If null is passed as parent, a convenience function in the chain
+							// will call getDefaultParent()
+							schemaDiagram.addPropertyEdge(dataProperty, sourceClassCell, targetCell);
+							//schemaDiagram.insertEdge(null, propertyName, sdEdge, sourceCell, targetCell,
+							//		SDConstants.standardEdgeStyle);
+						}
+						finally
+						{
+							graphModel.endUpdate();
+						}
 					}
 				}
 			}

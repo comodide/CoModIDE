@@ -1,6 +1,5 @@
 package com.comodide.axiomatization;
 
-import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.ClassExpressionType;
 import org.semanticweb.owlapi.model.HasFiller;
 import org.semanticweb.owlapi.model.HasProperty;
@@ -8,15 +7,15 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.rendering.sdont.model.SDEdge;
-import com.comodide.rendering.sdont.model.SDNode;
+import com.comodide.editor.model.ClassCell;
+import com.comodide.editor.model.PropertyEdgeCell;
+import com.comodide.editor.model.SubClassEdgeCell;
+import com.mxgraph.model.mxCell;
 
 public class SimpleAxiomParser
 {
@@ -44,10 +43,10 @@ public class SimpleAxiomParser
 	 * @return
 	 */
 	// @formatter:on
-	public SDEdge parseSimpleAxiom(OWLSubClassOfAxiom axiom)
+	public mxCell parseSimpleAxiom(OWLSubClassOfAxiom axiom)
 	{
 		// Edge to return
-		SDEdge edge;
+		mxCell edge;
 
 		OWLClassExpression left  = axiom.getSubClass();
 		OWLClassExpression right = axiom.getSuperClass();
@@ -78,23 +77,24 @@ public class SimpleAxiomParser
 		return edge;
 	}
 
-	private SDEdge atomicSubclass(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
+	private SubClassEdgeCell atomicSubclass(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
 		// Extract classes
 		OWLClass leftClass  = left.asOWLClass();
 		OWLClass rightClass = right.asOWLClass();
 		
 		// Construct wrappers for left/right nodes
-		SDNode sourceNode = new SDNode(leftClass, false, 0.0, 0.0);
-		SDNode targetNode = new SDNode(rightClass, false, 0.0, 0.0);
+		ClassCell subClassCell = new ClassCell(leftClass, 0.0, 0.0);
+		ClassCell superClassCell = new ClassCell(rightClass, 0.0, 0.0);
 		
 		// Make and return edge
-		OWLObjectProperty subClassOf = OWLManager.getOWLDataFactory().getOWLObjectProperty(OWLRDFVocabulary.RDFS_SUBCLASS_OF.getIRI());
-		SDEdge subclassEdge = new SDEdge(sourceNode, targetNode, true, subClassOf);
-		return subclassEdge;
+		SubClassEdgeCell subclassEdgeCell = new SubClassEdgeCell();
+		subclassEdgeCell.setSource(superClassCell);
+		subclassEdgeCell.setTarget(subClassCell);
+		return subclassEdgeCell;
 	}
 
-	private SDEdge leftComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
+	private PropertyEdgeCell leftComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
 		/* Parse Left */
 		// Extract Property
@@ -105,15 +105,17 @@ public class SimpleAxiomParser
 		OWLEntity rightClass = right.asOWLClass();
 
 		// Construct wrappers for left/right nodes
-		SDNode targetNode = new SDNode(leftClass, false, 0.0, 0.0);
-		SDNode sourceNode = new SDNode(rightClass, false, 0.0, 0.0);
+		ClassCell targetClassCell = new ClassCell(leftClass, 0.0, 0.0);
+		ClassCell sourceClassCell = new ClassCell(rightClass, 0.0, 0.0);
 		
 		// Construct and return edge
-		SDEdge relationEdge = new SDEdge(sourceNode, targetNode, false, property);
+		PropertyEdgeCell relationEdge = new PropertyEdgeCell(property);
+		relationEdge.setSource(sourceClassCell);
+		relationEdge.setTarget(targetClassCell);
 		return relationEdge;
 	}
 
-	private SDEdge rightComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
+	private PropertyEdgeCell rightComplex(OWLAxiom axiom, OWLClassExpression left, OWLClassExpression right)
 	{
 		// Extract left Class
 		OWLEntity leftClass = left.asOWLClass();
@@ -124,11 +126,13 @@ public class SimpleAxiomParser
 		OWLEntity rightClass = (OWLEntity) ((HasFiller<?>) right).getFiller();
 
 		// Construct wrappers for left/right nodes
-		SDNode sourceNode = new SDNode(leftClass, false, 0.0, 0.0);
-		SDNode targetNode = new SDNode(rightClass, false, 0.0, 0.0);
+		ClassCell sourceClassCell = new ClassCell(leftClass, 0.0, 0.0);
+		ClassCell targetClassCell = new ClassCell(rightClass, 0.0, 0.0);
 		
 		//Construct and return edge
-		SDEdge relationEdge = new SDEdge(sourceNode, targetNode, false, property);
+		PropertyEdgeCell relationEdge = new PropertyEdgeCell(property);
+		relationEdge.setSource(sourceClassCell);
+		relationEdge.setTarget(targetClassCell);
 		return relationEdge;
 	}
 }

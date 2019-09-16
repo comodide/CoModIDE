@@ -7,6 +7,7 @@ import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.model.mxCell;
 
+@Deprecated
 public class mxVertexMaker
 {
 	private SchemaDiagram				graph;

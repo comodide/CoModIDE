@@ -23,12 +23,12 @@ public class PropertyEdgeCell extends mxCell {
 	}
 	
 	public PropertyEdgeCell(OWLProperty owlProperty) {
+		this.id = shortFormProvider.getShortForm(owlProperty);
+		
 		this.value = owlProperty;
 		
 		this.geometry = new mxGeometry();
 		this.geometry.setRelative(true);
-		
-		this.id = shortFormProvider.getShortForm(owlProperty);
 		
 		this.style = STYLE;
 		this.setEdge(true);
@@ -37,5 +37,9 @@ public class PropertyEdgeCell extends mxCell {
 	@Override
 	public OWLProperty getValue() {
 		return (OWLProperty)this.value;
+	}
+	
+	public boolean isNamed() {
+		return !this.getValue().getIRI().toString().equalsIgnoreCase(OWLRDFVocabulary.OWL_OBJECT_PROPERTY.getIRI().toString());
 	}
 }
