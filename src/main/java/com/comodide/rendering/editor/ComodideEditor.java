@@ -78,10 +78,10 @@ public class ComodideEditor extends BasicGraphEditor
                         "swimlane", 280, 280, "Container");*/
         coreConstructsPalette // class
                 .addTemplate("Class", new ImageIcon(ComodideEditor.class.getResource("/images/rounded.png")),
-                        new ClassCell(null, 0.0, 0.0));
+                        new ClassCell());
         coreConstructsPalette // relation
                 .addTemplate("Property", new ImageIcon(ComodideEditor.class.getResource("/images/straight.png")),
-                        new PropertyEdgeCell(null));
+                        new PropertyEdgeCell());
         coreConstructsPalette // subclass
                 .addTemplate("Subclass", new ImageIcon(ComodideEditor.class.getResource("/images/arrow.png")), 
                 		new SubClassEdgeCell());

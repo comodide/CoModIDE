@@ -1,8 +1,11 @@
 package com.comodide.editor.model;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.EntityType;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import com.comodide.rendering.editor.SDConstants;
 import com.mxgraph.model.mxCell;
@@ -16,6 +19,11 @@ public class ClassCell extends mxCell {
 	private static final int HEIGHT = 30;
 	private static final String STYLE = SDConstants.classStyle;
 	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+	
+	public ClassCell() {
+		this(OWLManager.getOWLDataFactory().getOWLEntity(EntityType.CLASS, OWLRDFVocabulary.OWL_CLASS.getIRI()),
+				0.0, 0.0);
+	}
 	
 	public ClassCell(OWLEntity owlEntity, double positionX, double positionY) {
 		this.value = owlEntity;
