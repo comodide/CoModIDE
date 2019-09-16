@@ -5,6 +5,7 @@ import java.util.Set;
 import org.apache.commons.lang3.tuple.Pair;
 import org.semanticweb.owlapi.model.OWLProperty;
 
+@Deprecated
 public class SDEdgeFactory
 {
 	private Set<SDNode> nodes;

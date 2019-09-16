@@ -21,8 +21,6 @@ import com.comodide.editor.model.DatatypeCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.editor.model.SubClassEdgeCell;
 import com.comodide.rendering.PositioningOperations;
-import com.comodide.rendering.sdont.model.SDEdge;
-import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
@@ -66,31 +64,24 @@ public class SchemaDiagram extends mxGraph
 		public void invoke(Object sender, mxEventObject evt) {
 			Object[] cells = (Object[]) evt.getProperty("cells");
 			if (cells.length == 1) {
-				if (cells[0] instanceof mxCell) {
-					mxCell edgeCell = (mxCell)cells[0];
-					if (edgeCell.getValue() instanceof SDEdge) {
-						SDEdge edge = (SDEdge)edgeCell.getValue();
-						if (edge.isSubclass()) {
+				if (cells[0] instanceof SubClassEdgeCell) {
+					SubClassEdgeCell subclassEdgeCell = (SubClassEdgeCell)cells[0];
 
 							// Retrieve the terminals of this cell
-							mxICell sourceCell = edgeCell.getTerminal(true);
-							mxICell targetCell = edgeCell.getTerminal(false);
+							mxICell sourceCell = subclassEdgeCell.getTerminal(true);
+							mxICell targetCell = subclassEdgeCell.getTerminal(false);
 							
-							// Update the SDEdge user object
-							if (sourceCell.getValue() instanceof SDNode && targetCell.getValue() instanceof SDNode) {								
+							if (sourceCell instanceof ClassCell && targetCell instanceof ClassCell) {								
 								model.beginUpdate();
 								lock = true; // prevent loopback during addaxiom
 								try
 								{
-									SDNode sourceNode = (SDNode)sourceCell.getValue();
-									SDNode targetNode = (SDNode)targetCell.getValue();
-									edge.setSource(sourceNode);
-									edge.setTarget(targetNode);
-									model.setValue(edgeCell, edge);
 									
 									// Generate and add the subClassOf axioms to the active ontology
-									OWLClass subClass = sourceNode.getOwlEntity().asOWLClass();
-									OWLClass superClass = targetNode.getOwlEntity().asOWLClass();
+									ClassCell sourceClassCell = (ClassCell)sourceCell;
+									ClassCell targetClassCell = (ClassCell)targetCell;
+									OWLClass subClass = sourceClassCell.getValue().asOWLClass();
+									OWLClass superClass = targetClassCell.getValue().asOWLClass();
 									OWLOntology ontology = modelManager.getActiveOntology();
 									OWLOntologyManager ontologyManager = ontology.getOWLOntologyManager();
 									OWLSubClassOfAxiom newAxiom = ontologyManager.getOWLDataFactory().getOWLSubClassOfAxiom(subClass, superClass);
@@ -102,8 +93,6 @@ public class SchemaDiagram extends mxGraph
 									model.endUpdate();
 								}
 							}
-						}
-					}
 				}
 			}
 		}
@@ -129,27 +118,24 @@ public class SchemaDiagram extends mxGraph
 
 				// We want to update the position only if the cell is a "proper node"
 				// i.e. that the node is actually representing a class in the ontology
-				if (cell.getValue() instanceof SDNode)
+				if (cell instanceof ClassCell || cell instanceof DatatypeCell)
 				{
-					// Set the positions inside the node
-					SDNode node = (SDNode) cell.getValue();
-					node.setPositionX(newX);
-					node.setPositionY(newY);
 					
 					List<OWLEntity> positioningEntities = new ArrayList<OWLEntity>();
 					// If this is a datatype cell, put the OPLa-SD positioning annotations on the (implicitly ingoing) attached edges 
-					if (node.isDatatype()) {
+					if (cell instanceof DatatypeCell) {
 						for (int i = 0; i < cell.getEdgeCount(); i++) {
 							mxICell candidateEdge = cell.getEdgeAt(i);
-							if (candidateEdge.isEdge()) {
-								SDEdge edge = (SDEdge)candidateEdge.getValue();
-								positioningEntities.add(edge.getOwlProperty());
+							if (candidateEdge instanceof PropertyEdgeCell) {
+								PropertyEdgeCell propertyCell = (PropertyEdgeCell)candidateEdge;
+								positioningEntities.add(propertyCell.getValue());
 							}
 						}
 					}
 					// Else, if it is a class, just put them on the class
 					else {
-						positioningEntities.add(node.getOwlEntity());
+						ClassCell classCell = (ClassCell)cell;
+						positioningEntities.add(classCell.getValue());
 					}
 					
 					// Check which of the loaded ontologies that hosts the positioning entities
@@ -191,12 +177,10 @@ public class SchemaDiagram extends mxGraph
 	
 	@Override
 	public boolean isCellConnectable(Object cell) {
-		// If this is a vertex but there is no OWLEntity attached to it, then it means
+		// If this is a class cell but there is no OWLEntity attached to it, then it means
 		// it was just dropped and has not been relabelled yet; if so, it should NOT be connectable.
-		if (cell instanceof mxCell) {
-			boolean isVertex = ((mxCell)cell).isVertex();
-			boolean hasOwlEntity = ((mxCell)cell).getValue() instanceof OWLEntity;
-			if (isVertex && !hasOwlEntity) {
+		if (cell instanceof ClassCell) {
+			if (((ClassCell) cell).getValue() == null) {
 				return false;
 			}
 		}
@@ -215,7 +199,6 @@ public class SchemaDiagram extends mxGraph
 		return super.isValidSource(cell);
 	}
 	
-	
 	@Override
 	public boolean isValidTarget(Object cell) {
 		// If this is a datatype cell then it should have 
@@ -231,8 +214,7 @@ public class SchemaDiagram extends mxGraph
 		return (cell == null && allowDanglingEdges) || (cell != null
 				&& (!model.isEdge(cell) || isConnectableEdges())
 				&& isCellConnectable(cell));
-	}
-
+	}	
 	
 	@Override
 	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
@@ -247,9 +229,7 @@ public class SchemaDiagram extends mxGraph
 		try
 		{
 			// Handle the label change
-			Object updatedSdEdgeOrNode = labelChangeHandler.handle(changedCell, newLabel);
-			// Set the new value
-			model.setValue(cell, updatedSdEdgeOrNode);
+			labelChangeHandler.handle(changedCell, newLabel);
 			// Autosize, if necessary.
 			if (autoSize)
 			{
@@ -292,7 +272,7 @@ public class SchemaDiagram extends mxGraph
 	}
 	
 	/**
-	 * Overriding mxGraph to make datatype nodes non-editable
+	 * Overriding mxGraph to make datatype nodes and subclass edges non-editable
 	 */
 	@Override
 	public boolean isCellEditable(Object cell)

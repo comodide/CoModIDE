@@ -10,16 +10,15 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import org.semanticweb.owlapi.vocab.XSDVocabulary;
 
-import com.comodide.rendering.sdont.model.SDEdge;
-import com.comodide.rendering.sdont.model.SDNode;
+import com.comodide.editor.model.ClassCell;
+import com.comodide.editor.model.DatatypeCell;
+import com.comodide.editor.model.PropertyEdgeCell;
+import com.comodide.editor.model.SubClassEdgeCell;
 import com.mxgraph.swing.util.mxGraphTransferable;
 import com.mxgraph.swing.util.mxSwingConstants;
 import com.mxgraph.util.mxConstants;
@@ -79,48 +78,46 @@ public class ComodideEditor extends BasicGraphEditor
                         "swimlane", 280, 280, "Container");*/
         coreConstructsPalette // class
                 .addTemplate("Class", new ImageIcon(ComodideEditor.class.getResource("/images/rounded.png")),
-                        SDConstants.classStyle, 120, 30, "");
+                        new ClassCell(null, 0.0, 0.0));
         coreConstructsPalette // relation
-                .addEdgeTemplate("Property", new ImageIcon(ComodideEditor.class.getResource("/images/straight.png")),
-                        SDConstants.standardEdgeStyle, 120, 120, "");
-        OWLObjectProperty subClassOf = OWLManager.getOWLDataFactory().getOWLObjectProperty(OWLRDFVocabulary.RDFS_SUBCLASS_OF.getIRI());
+                .addTemplate("Property", new ImageIcon(ComodideEditor.class.getResource("/images/straight.png")),
+                        new PropertyEdgeCell(null));
         coreConstructsPalette // subclass
-                .addEdgeTemplate("Subclass", new ImageIcon(ComodideEditor.class.getResource("/images/arrow.png")), SDConstants.subclassEdgeStyle,
-                        120, 120, new SDEdge(null, null, true, subClassOf));
+                .addTemplate("Subclass", new ImageIcon(ComodideEditor.class.getResource("/images/arrow.png")), 
+                		new SubClassEdgeCell());
         
-        // Factory and defaults for creating templates
+        // Factory for creating templates
         OWLDataFactory df = OWLManager.getOWLDataFactory();
-        Pair<Double, Double> zeroCoordinates = Pair.of(0.0, 0.0);
         
         // xsd:string
         OWLDatatype xsdString = df.getOWLDatatype(XSDVocabulary.STRING.getIRI()); 
         xsdTypesPalette
-        		.addTemplate("string", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
-        				120, 30, new SDNode(xsdString, true, zeroCoordinates));
+        		.addTemplate("string", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), 
+        			new DatatypeCell(xsdString, 0.0, 0.0));
         
         // xsd:int
         OWLDatatype xsdInt = df.getOWLDatatype(XSDVocabulary.INT.getIRI());
         xsdTypesPalette
-				.addTemplate("int", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
-						120, 30, new SDNode(xsdInt, true, zeroCoordinates));
+				.addTemplate("int", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")),
+					new DatatypeCell(xsdInt, 0.0, 0.0));
         
         // xsd:float
         OWLDatatype xsdFloat = df.getOWLDatatype(XSDVocabulary.FLOAT.getIRI());
         xsdTypesPalette
-			.addTemplate("float", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
-				120, 30, new SDNode(xsdFloat, true, zeroCoordinates));
+			.addTemplate("float", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")),
+					new DatatypeCell(xsdFloat, 0.0, 0.0));
         
         // xsd:float
         OWLDatatype xsdBoolean = df.getOWLDatatype(XSDVocabulary.BOOLEAN.getIRI());
         xsdTypesPalette
-			.addTemplate("boolean", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
-				120, 30, new SDNode(xsdBoolean, true, zeroCoordinates));
+			.addTemplate("boolean", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), 
+					new DatatypeCell(xsdBoolean, 0.0, 0.0));
         
         // xsd:dateTime
         OWLDatatype xsdDateTime = df.getOWLDatatype(XSDVocabulary.DATE_TIME.getIRI());
         xsdTypesPalette
-			.addTemplate("dateTime", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), SDConstants.datatypeStyle,
-				120, 30, new SDNode(xsdDateTime, true, zeroCoordinates));
+			.addTemplate("dateTime", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), 
+					new DatatypeCell(xsdDateTime, 0.0, 0.0));
     }
 
     /** For debugging purposes */

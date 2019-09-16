@@ -7,6 +7,7 @@ import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import com.comodide.rendering.editor.SDConstants;
 
+@Deprecated
 public class SDEdge
 {
 	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();

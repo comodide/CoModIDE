@@ -2,6 +2,7 @@ package com.comodide.rendering.sdont.model;
 
 import java.util.Set;
 
+@Deprecated
 public class SDGraph
 {
 	private Set<SDNode> nodeSet;

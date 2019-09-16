@@ -23,4 +23,9 @@ public class PropertyEdgeCell extends mxCell {
 		this.style = STYLE;
 		this.setEdge(true);
 	}
+	
+	@Override
+	public OWLProperty getValue() {
+		return (OWLProperty)this.value;
+	}
 }

@@ -30,4 +30,9 @@ public class ClassCell extends mxCell {
 		this.vertex = true;
 		this.connectable = true;
 	}
+
+	@Override
+	public OWLEntity getValue() {
+		return (OWLEntity)this.value;
+	}
 }

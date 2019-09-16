@@ -5,6 +5,7 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
+@Deprecated
 public class SDNode
 {
 	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();

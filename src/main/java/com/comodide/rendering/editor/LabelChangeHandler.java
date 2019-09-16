@@ -9,10 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
+import com.comodide.editor.model.ClassCell;
+import com.comodide.editor.model.DatatypeCell;
 import com.comodide.rendering.PositioningOperations;
-import com.comodide.rendering.sdont.model.SDEdge;
-import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxICell;
 
 public class LabelChangeHandler
 {
@@ -31,41 +32,38 @@ public class LabelChangeHandler
 		this.modelManager = modelManager;
 	}
 
-	public Object handle(mxCell cell, String newLabel)
+	public void handle(mxCell cell, String newLabel)
 	{
 		cell.setId(newLabel);
 		if (cell.isEdge())
 		{
-			return handleEdgeLabelChange(cell, newLabel);
+			handleEdgeLabelChange(cell, newLabel);
 		}
 		else
 		{
-			return handleNodeLabelChange(cell, newLabel);
+			handleNodeLabelChange(cell, newLabel);
 		}
 	}
 
-	private SDEdge handleEdgeLabelChange(mxCell cell, String newLabel)
+	private void handleEdgeLabelChange(mxCell cell, String newLabel)
 	{
 		// Unpack useful things
-		SDNode source = (SDNode) cell.getSource().getValue();
-		SDNode target = (SDNode) cell.getTarget().getValue();
-		
-		// The edge to return
-		SDEdge edge = null;
+		mxICell sourceCell = cell.getSource();
+		mxICell targetCell = cell.getTarget();
 		
 		// Domain can not be a datatype
-		if(source.isDatatype())
+		if(sourceCell instanceof DatatypeCell)
 		{
 			log.warn("[CoModIDE:LabelChangeHandler] Cannot create axiom with datatype as domain.");
-			return null;
+			return;
 		}
 		
 		OWLProperty property = null;
-		OWLEntity domain = source.getOwlEntity();
-		OWLEntity range = target.getOwlEntity();
+		OWLEntity domain = (OWLEntity)sourceCell.getValue();
+		OWLEntity range = (OWLEntity)targetCell.getValue();
 		
 		// Create the property
-		if(target.isDatatype())
+		if(targetCell instanceof DatatypeCell)
 		{
 			property = this.axiomManager.handleDataProperty(newLabel, domain, range);
 			// Update positioning annotations for target which are stored on the data property
@@ -74,7 +72,7 @@ public class LabelChangeHandler
 			{
 				if (ontology.containsEntityInSignature(property.getIRI()))
 				{
-					PositioningOperations.updateXYCoordinateAnnotations(property, ontology, target.getPositionX(), target.getPositionY());
+					PositioningOperations.updateXYCoordinateAnnotations(property, ontology, targetCell.getGeometry().getX(), targetCell.getGeometry().getY());
 				}
 			}
 			
@@ -83,26 +81,20 @@ public class LabelChangeHandler
 		{
 			property = this.axiomManager.handleObjectProperty(newLabel, domain, range);
 		}
-		
-		edge = new SDEdge(source, target, false, property);
-
-		return edge;
 	}
 
-	private SDNode handleNodeLabelChange(mxCell cell, String newLabel)
+	private void handleNodeLabelChange(mxCell cell, String newLabel)
 	{
-		SDNode node = null;
-
 		Double newX = cell.getGeometry().getX();
 		Double newY = cell.getGeometry().getY();
 		
-		if (cell.getStyle().equals(SDConstants.classStyle))
+		if (cell instanceof ClassCell)
 		{
+			ClassCell classCell = (ClassCell)cell;
 			// Extract currentClass, if it is present
 			OWLClass currentClass = null;
-			if(cell.getValue() instanceof SDNode)
-			{
-				currentClass = ((SDNode) cell.getValue()).getOwlEntity().asOWLClass();
+			if (classCell.getValue() != null) {
+				currentClass = classCell.getValue().asOWLClass();
 			}
 			
 			// Pass the label onto the AxiomManager
@@ -119,18 +111,6 @@ public class LabelChangeHandler
 					PositioningOperations.updateXYCoordinateAnnotations(classEntity, ontology, newX, newY);
 				}
 			}
-			
-			// Wrap it in the intermediate layer (prevents ShortFormProvider reference) and return.
-			node = new SDNode(classEntity, false, newX, newY);
 		}
-		else if (cell.getStyle().equals(SDConstants.datatypeStyle))
-		{
-			// Add the new class to the ontology
-			OWLEntity datatypeEntity = this.axiomManager.findDatatype(newLabel);
-			// Create an SDNode wrapper for the Axiom
-			node = new SDNode(datatypeEntity, true, newX, newY);
-		}
-
-		return node;
 	}
 }

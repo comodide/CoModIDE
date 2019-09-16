@@ -33,7 +33,6 @@ import com.mxgraph.swing.util.mxSwingConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
 import com.mxgraph.util.mxEventSource;
-import com.mxgraph.util.mxPoint;
 import com.mxgraph.util.mxRectangle;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 
@@ -188,7 +187,7 @@ public class EditorPalette extends JPanel
 	 * @param height
 	 * @param value
 	 */
-	public void addEdgeTemplate(final String name, ImageIcon icon, String style, int width, int height, Object value)
+	/*public void addEdgeTemplate(final String name, ImageIcon icon, String style, int width, int height, Object value)
 	{
 		mxGeometry geometry = new mxGeometry(0, 0, width, height);
 		geometry.setTerminalPoint(new mxPoint(0, height), true);
@@ -199,24 +198,7 @@ public class EditorPalette extends JPanel
 		cell.setEdge(true);
 
 		addTemplate(name, icon, cell);
-	}
-
-	/**
-	 * 
-	 * @param name
-	 * @param icon
-	 * @param style
-	 * @param width
-	 * @param height
-	 * @param value
-	 */
-	public void addTemplate(final String name, ImageIcon icon, String style, int width, int height, Object value)
-	{
-		mxCell cell = new mxCell(value, new mxGeometry(0, 0, width, height), style);
-		cell.setVertex(true);
-
-		addTemplate(name, icon, cell);
-	}
+	}*/
 
 	/**
 	 * 
