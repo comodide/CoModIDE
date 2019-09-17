@@ -94,7 +94,7 @@ public class LabelChangeHandler
 			// Extract currentClass, if it is present
 			OWLClass currentClass = null;
 			if (classCell.getValue() != null) {
-				currentClass = classCell.getValue().asOWLClass();
+				currentClass = classCell.getOWLEntity().asOWLClass();
 			}
 			
 			// Pass the label onto the AxiomManager
