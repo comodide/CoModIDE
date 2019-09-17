@@ -11,6 +11,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.rendering.sdont.model.SDNode;
 
+@Deprecated
 public class ConceptParser
 {
 	private OWLConnector connector;

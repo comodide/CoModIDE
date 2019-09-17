@@ -11,6 +11,7 @@ import com.comodide.rendering.sdont.model.SDNode;
 import com.mxgraph.layout.mxFastOrganicLayout;
 import com.mxgraph.model.mxCell;
 
+@Deprecated
 public class SDMaker
 {
     private SDGraph sdGraph;

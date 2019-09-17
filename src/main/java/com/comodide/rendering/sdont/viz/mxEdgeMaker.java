@@ -11,6 +11,7 @@ import com.comodide.rendering.editor.SchemaDiagram;
 import com.comodide.rendering.sdont.model.SDEdge;
 import com.mxgraph.model.mxCell;
 
+@Deprecated
 public class mxEdgeMaker
 {	
 	private SchemaDiagram graph;

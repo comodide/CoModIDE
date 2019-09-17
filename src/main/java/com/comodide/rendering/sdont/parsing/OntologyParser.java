@@ -10,6 +10,7 @@ import com.comodide.rendering.sdont.model.SDEdge;
 import com.comodide.rendering.sdont.model.SDGraph;
 import com.comodide.rendering.sdont.model.SDNode;
 
+@Deprecated
 public class OntologyParser
 {
 	private OWLConnector	connector;
