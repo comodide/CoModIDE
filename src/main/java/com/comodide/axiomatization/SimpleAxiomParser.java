@@ -89,8 +89,8 @@ public class SimpleAxiomParser
 		
 		// Make and return edge
 		SubClassEdgeCell subclassEdgeCell = new SubClassEdgeCell();
-		subclassEdgeCell.setSource(superClassCell);
-		subclassEdgeCell.setTarget(subClassCell);
+		subclassEdgeCell.setSource(subClassCell);
+		subclassEdgeCell.setTarget(superClassCell);
 		return subclassEdgeCell;
 	}
 
