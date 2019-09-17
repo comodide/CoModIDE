@@ -3,6 +3,7 @@ package com.comodide.editor.model;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLEntity;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGeometry;
 
 public abstract class ComodideCell extends mxCell {
 
@@ -11,6 +12,7 @@ public abstract class ComodideCell extends mxCell {
 	public ComodideCell(OWLEntity owlEntity) {
 		this.id = owlEntity.toString();
 		this.value = new WrappedOWLEntity(owlEntity);
+		this.geometry = new mxGeometry();
 	}
 
 	@Override
