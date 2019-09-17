@@ -1,4 +1,4 @@
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import java.util.ArrayList;
 import java.util.List;

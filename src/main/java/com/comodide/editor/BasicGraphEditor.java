@@ -1,4 +1,4 @@
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Point;

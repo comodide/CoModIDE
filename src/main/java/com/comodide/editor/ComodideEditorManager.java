@@ -1,4 +1,4 @@
-package com.comodide.rendering.sdont.viz;
+package com.comodide.editor;
 
 import java.util.List;
 
@@ -7,9 +7,6 @@ import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
-
-import com.comodide.rendering.editor.SchemaDiagram;
-import com.comodide.rendering.editor.UpdateFromOntologyHandler;
 
 public class ComodideEditorManager implements OWLOntologyChangeListener
 {

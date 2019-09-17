@@ -1,4 +1,4 @@
-package com.comodide.rendering.sdont.parsing;
+package com.comodide.deprecated;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,9 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.rendering.PositioningOperations;
-import com.comodide.rendering.sdont.model.SDEdge;
-import com.comodide.rendering.sdont.model.SDEdgeFactory;
-import com.comodide.rendering.sdont.model.SDNode;
 
 @Deprecated
 public class AxiomParser

@@ -1,4 +1,4 @@
-package com.comodide.rendering.sdont.viz;
+package com.comodide.deprecated;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,9 +6,8 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLEntity;
 
+import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
-import com.comodide.rendering.editor.SchemaDiagram;
-import com.comodide.rendering.sdont.model.SDEdge;
 import com.mxgraph.model.mxCell;
 
 @Deprecated

@@ -1,5 +1,6 @@
-package com.comodide.rendering.sdont.viz;
+package com.comodide.deprecated;
 
+@Deprecated
 public class UpdateFailureException extends Exception
 {
     /** Bookkeeping */

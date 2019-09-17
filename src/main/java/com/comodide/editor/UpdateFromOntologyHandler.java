@@ -1,4 +1,4 @@
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import java.util.Map;
 import java.util.Set;

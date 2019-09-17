@@ -1,4 +1,4 @@
-package com.comodide.rendering.sdont.parsing;
+package com.comodide.deprecated;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
+@Deprecated
 public class OWLConnector
 {
 	private OWLOntology			ontology;
@@ -92,13 +93,11 @@ public class OWLConnector
 		return asList(this.ontology.getAxioms(AxiomType.SUBCLASS_OF));
 	}
 	
-	@SuppressWarnings("deprecation")
     public List<OWLObjectPropertyAxiom> retreiveAxiomsRelatedToObjProp(OWLObjectProperty op)
 	{
 		return asList(this.ontology.getAxioms(op));
 	}
 	
-	@SuppressWarnings("deprecation")
     public List<OWLDataPropertyAxiom> retreiveAxiomsRelatedToDataProp(OWLDataProperty dp)
 	{
 		return asList(this.ontology.getAxioms(dp));

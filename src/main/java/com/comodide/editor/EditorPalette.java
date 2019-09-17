@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2007-2012, JGraph Ltd
  */
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import java.awt.Color;
 import java.awt.Dimension;

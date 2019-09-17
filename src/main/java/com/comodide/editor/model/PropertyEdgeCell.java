@@ -7,7 +7,7 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
-import com.comodide.rendering.editor.SDConstants;
+import com.comodide.editor.SDConstants;
 import com.mxgraph.model.mxGeometry;
 
 public class PropertyEdgeCell extends ComodideCell {

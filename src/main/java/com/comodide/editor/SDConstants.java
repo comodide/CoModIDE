@@ -1,4 +1,4 @@
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 public class SDConstants
 {

@@ -1,4 +1,4 @@
-package com.comodide.rendering.sdont.parsing;
+package com.comodide.deprecated;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLProperty;
@@ -10,6 +10,7 @@ import org.semanticweb.owlapi.model.OWLProperty;
  * This object is used for passing source to target via role edges from a Parser to a Visualizer
  *
  */
+@Deprecated
 public class Triple
 {
 	private String fr;

@@ -1,10 +1,9 @@
-package com.comodide.rendering.sdont.viz;
+package com.comodide.deprecated;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.comodide.rendering.editor.SchemaDiagram;
-import com.comodide.rendering.sdont.model.SDNode;
+import com.comodide.editor.SchemaDiagram;
 import com.mxgraph.model.mxCell;
 
 @Deprecated

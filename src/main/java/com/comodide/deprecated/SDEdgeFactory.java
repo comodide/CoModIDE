@@ -1,4 +1,4 @@
-package com.comodide.rendering.sdont.model;
+package com.comodide.deprecated;
 
 import java.util.Set;
 

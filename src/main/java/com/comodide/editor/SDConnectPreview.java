@@ -1,4 +1,4 @@
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;

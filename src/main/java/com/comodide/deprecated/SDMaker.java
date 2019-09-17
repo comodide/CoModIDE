@@ -1,13 +1,10 @@
-package com.comodide.rendering.sdont.viz;
+package com.comodide.deprecated;
 
 import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
 
-import com.comodide.rendering.editor.SchemaDiagram;
-import com.comodide.rendering.sdont.model.SDEdge;
-import com.comodide.rendering.sdont.model.SDGraph;
-import com.comodide.rendering.sdont.model.SDNode;
+import com.comodide.editor.SchemaDiagram;
 import com.mxgraph.layout.mxFastOrganicLayout;
 import com.mxgraph.model.mxCell;
 

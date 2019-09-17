@@ -1,14 +1,10 @@
-package com.comodide.rendering.sdont.parsing;
+package com.comodide.deprecated;
 
 import java.io.File;
 import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-
-import com.comodide.rendering.sdont.model.SDEdge;
-import com.comodide.rendering.sdont.model.SDGraph;
-import com.comodide.rendering.sdont.model.SDNode;
 
 @Deprecated
 public class OntologyParser

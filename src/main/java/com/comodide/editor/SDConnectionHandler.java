@@ -1,4 +1,4 @@
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

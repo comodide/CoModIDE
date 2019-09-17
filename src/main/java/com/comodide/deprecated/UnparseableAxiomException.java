@@ -1,6 +1,7 @@
-package com.comodide.rendering.sdont.parsing;
+package com.comodide.deprecated;
 
 @SuppressWarnings("serial")
+@Deprecated
 public class UnparseableAxiomException extends Exception
 {
 	public UnparseableAxiomException()

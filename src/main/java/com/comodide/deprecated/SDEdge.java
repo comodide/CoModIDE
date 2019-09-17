@@ -1,11 +1,11 @@
-package com.comodide.rendering.sdont.model;
+package com.comodide.deprecated;
 
 import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
-import com.comodide.rendering.editor.SDConstants;
+import com.comodide.editor.SDConstants;
 
 @Deprecated
 public class SDEdge

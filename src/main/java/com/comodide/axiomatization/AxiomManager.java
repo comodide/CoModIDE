@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import com.comodide.ComodideConfiguration;
 import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
-import com.comodide.rendering.editor.SchemaDiagram;
+import com.comodide.editor.SchemaDiagram;
 import com.mxgraph.model.mxCell;
 
 /**

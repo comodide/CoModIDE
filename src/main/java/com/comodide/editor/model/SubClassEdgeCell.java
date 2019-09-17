@@ -2,7 +2,7 @@ package com.comodide.editor.model;
 
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
-import com.comodide.rendering.editor.SDConstants;
+import com.comodide.editor.SDConstants;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 

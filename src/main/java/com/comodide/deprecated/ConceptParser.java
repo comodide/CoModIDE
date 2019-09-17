@@ -1,4 +1,4 @@
-package com.comodide.rendering.sdont.parsing;
+package com.comodide.deprecated;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,6 @@ import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import com.comodide.rendering.PositioningOperations;
-import com.comodide.rendering.sdont.model.SDNode;
 
 @Deprecated
 public class ConceptParser

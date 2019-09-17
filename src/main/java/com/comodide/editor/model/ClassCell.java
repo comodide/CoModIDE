@@ -7,7 +7,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
-import com.comodide.rendering.editor.SDConstants;
+import com.comodide.editor.SDConstants;
 import com.mxgraph.model.mxGeometry;
 
 public class ClassCell extends ComodideCell {

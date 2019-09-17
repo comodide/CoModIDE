@@ -1,4 +1,4 @@
-package com.comodide.rendering.sdont.model;
+package com.comodide.deprecated;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.semanticweb.owlapi.model.OWLEntity;

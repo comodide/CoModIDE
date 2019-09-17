@@ -1,4 +1,4 @@
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -19,7 +19,7 @@ public class SchemaDiagramComponent extends mxGraphComponent
 	{
 		super(graph);
 		// Overwrite super created transfer handler
-		super.setTransferHandler(new SDontTransferHandler(modelManager));
+		super.setTransferHandler(new SDTransferHandler(modelManager));
 		
 		// Sets switches typically used in an editor
 		setPageVisible(true);

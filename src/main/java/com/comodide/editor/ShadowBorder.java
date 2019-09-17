@@ -8,7 +8,7 @@
  * installation directory. If you are unable to locate this file please
  * contact JGraph sales for another copy.
  */
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import java.awt.Color;
 import java.awt.Component;

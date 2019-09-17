@@ -1,4 +1,4 @@
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -38,24 +38,24 @@ import com.mxgraph.swing.util.mxGraphTransferable;
 import com.mxgraph.util.mxPoint;
 import com.mxgraph.view.mxGraph;
 
-public class SDontTransferHandler extends mxGraphTransferHandler
+public class SDTransferHandler extends mxGraphTransferHandler
 {
 	/** Bookkeeping */
 	private static final long serialVersionUID = 1L;
 
 	/** Logging */
-	private static final Logger log = LoggerFactory.getLogger(SDontTransferHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(SDTransferHandler.class);
 
 	/** OWLAPI Integration */
 	private OWLModelManager modelManager;
 
 	/** Empty Constructor */
-	public SDontTransferHandler()
+	public SDTransferHandler()
 	{
 
 	}
 
-	public SDontTransferHandler(OWLModelManager modelManager)
+	public SDTransferHandler(OWLModelManager modelManager)
 	{
 		super();
 		this.modelManager = modelManager;

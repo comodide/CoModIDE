@@ -7,10 +7,10 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.rendering.editor.ComodideEditor;
-import com.comodide.rendering.editor.SchemaDiagramComponent;
-import com.comodide.rendering.editor.SchemaDiagram;
-import com.comodide.rendering.sdont.viz.ComodideEditorManager;
+import com.comodide.editor.ComodideEditor;
+import com.comodide.editor.ComodideEditorManager;
+import com.comodide.editor.SchemaDiagram;
+import com.comodide.editor.SchemaDiagramComponent;
 
 public class EditorView extends AbstractOWLViewComponent
 {

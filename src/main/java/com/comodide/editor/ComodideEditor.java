@@ -3,7 +3,7 @@
  * https://github.com/jgraph/jgraphx
  * Copyright (c) 2006-2012, JGraph Ltd 
  * */
-package com.comodide.rendering.editor;
+package com.comodide.editor;
 
 import java.awt.Color;
 
