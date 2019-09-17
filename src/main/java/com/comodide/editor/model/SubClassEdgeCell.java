@@ -9,13 +9,11 @@ import com.mxgraph.model.mxGeometry;
 public class SubClassEdgeCell extends mxCell {
 
 	private static final long serialVersionUID = -967537018367040076L;
-	
 	private static final String STYLE = SDConstants.subclassEdgeStyle;
 	
 	public SubClassEdgeCell() {
 		this.id = OWLRDFVocabulary.RDFS_SUBCLASS_OF.getIRI().toString();
-		
-		this.value = this.id;
+		this.value = "subClassOf";
 		
 		this.geometry = new mxGeometry();
 		this.geometry.setRelative(true);
