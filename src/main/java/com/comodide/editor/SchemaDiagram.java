@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.DatatypeCell;
 import com.comodide.editor.model.PropertyEdgeCell;
@@ -76,8 +77,8 @@ public class SchemaDiagram extends mxGraph
 									// Generate and add the subClassOf axioms to the active ontology
 									ClassCell sourceClassCell = (ClassCell)sourceCell;
 									ClassCell targetClassCell = (ClassCell)targetCell;
-									OWLClass subClass = sourceClassCell.getOWLEntity().asOWLClass();
-									OWLClass superClass = targetClassCell.getOWLEntity().asOWLClass();
+									OWLClass subClass = sourceClassCell.getEntity().asOWLClass();
+									OWLClass superClass = targetClassCell.getEntity().asOWLClass();
 									OWLOntology ontology = modelManager.getActiveOntology();
 									OWLOntologyManager ontologyManager = ontology.getOWLOntologyManager();
 									OWLSubClassOfAxiom newAxiom = ontologyManager.getOWLDataFactory().getOWLSubClassOfAxiom(subClass, superClass);
@@ -124,14 +125,14 @@ public class SchemaDiagram extends mxGraph
 							mxICell candidateEdge = cell.getEdgeAt(i);
 							if (candidateEdge instanceof PropertyEdgeCell) {
 								PropertyEdgeCell propertyCell = (PropertyEdgeCell)candidateEdge;
-								positioningEntities.add(propertyCell.getOWLEntity());
+								positioningEntities.add(propertyCell.getEntity());
 							}
 						}
 					}
 					// Else, if it is a class, just put them on the class
 					else {
 						ClassCell classCell = (ClassCell)cell;
-						positioningEntities.add(classCell.getOWLEntity());
+						positioningEntities.add(classCell.getEntity());
 					}
 					
 					// Check which of the loaded ontologies that hosts the positioning entities
@@ -172,10 +173,10 @@ public class SchemaDiagram extends mxGraph
 	
 	@Override
 	public boolean isCellConnectable(Object cell) {
-		// If this is a class cell but there is no OWLEntity attached to it, then it means
-		// it was just dropped and has not been relabelled yet; if so, it should NOT be connectable.
+		// If this is a class cell but it has not yet been named, then it means
+		// it was just dropped and if so, it should NOT be connectable.
 		if (cell instanceof ClassCell) {
-			if (((ClassCell) cell).getValue() == null) {
+			if (!((ClassCell) cell).isNamed()) {
 				return false;
 			}
 		}

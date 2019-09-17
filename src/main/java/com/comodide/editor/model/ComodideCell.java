@@ -2,30 +2,34 @@ package com.comodide.editor.model;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 
 public abstract class ComodideCell extends mxCell {
-
-	private static final long serialVersionUID = 8089893998863898138L;	
+	
+	private static final long serialVersionUID = 8089893998863898138L;
+	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+	private OWLEntity entity;
 
 	public ComodideCell(OWLEntity owlEntity) {
+		setEntity(owlEntity);
 		this.id = owlEntity.toString();
-		this.value = new WrappedOWLEntity(owlEntity);
+		this.value = shortFormProvider.getShortForm(owlEntity);
 		this.geometry = new mxGeometry();
 	}
-
-	@Override
-	public WrappedOWLEntity getValue() {
-		return (WrappedOWLEntity)this.value;
+	
+	public void setEntity(OWLEntity entity) {
+		this.entity = entity;
 	}
 	
-	public OWLEntity getOWLEntity() {
-		return this.getValue().getEntity();
+	public OWLEntity getEntity() {
+		return this.entity;
 	}
 	
 	public boolean isNamed() {
-		return !this.getValue().getEntity().getIRI().toString().equalsIgnoreCase(this.defaultIRI().toString());
+		return !this.getEntity().getIRI().toString().equalsIgnoreCase(this.defaultIRI().toString());
 	}
 	
 	public abstract IRI defaultIRI();

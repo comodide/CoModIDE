@@ -1,4 +1,4 @@
-package com.comodide.editor;
+package com.comodide.editor.changehandlers;
 
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
+import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.DatatypeCell;
 import com.comodide.rendering.PositioningOperations;
@@ -261,9 +262,9 @@ public class UpdateFromOntologyHandler
 		{
 			// Get the things we will be linking up
 			OWLClass domain      = ((OWLObjectPropertyDomainAxiom) domainAxioms.toArray()[0]).getDomain().asOWLClass();
-			String   domainLabel = shortFormProvider.getShortForm(domain);
+			String   domainLabel = domain.toString();
 			OWLClass range       = ((OWLObjectPropertyRangeAxiom) rangeAxioms.toArray()[0]).getRange().asOWLClass();
-			String   rangeLabel  = shortFormProvider.getShortForm(range);
+			String   rangeLabel  = range.toString();
 
 			// Iterate through all cells on the canvas to find the nodes whose IDs matches
 			// the domain/range we want to link from/to
@@ -344,7 +345,7 @@ public class UpdateFromOntologyHandler
 		{
 			// Get the things we will be linking up
 			OWLClass    domain      = ((OWLDataPropertyDomainAxiom) domainAxioms.toArray()[0]).getDomain().asOWLClass();
-			String      domainLabel = shortFormProvider.getShortForm(domain);
+			String      domainLabel = domain.toString();
 			OWLDatatype range       = ((OWLDataPropertyRangeAxiom) rangeAxioms.toArray()[0]).getRange().asOWLDatatype();
 
 			// Iterate through all cells on the canvas to find the node whose ID matches the
@@ -393,9 +394,6 @@ public class UpdateFromOntologyHandler
 				{
 					ClassCell sourceClassCell = (ClassCell)sourceCell; 
 					if (sourceClassCell.isNamed()) {
-						
-						//SDNode domainNode = (SDNode) sourceCell.getValue();
-						//SDEdge sdEdge     = new SDEdge(domainNode, rangeNode, false, dataProperty);
 	
 						// TODO: Check if locking would be needed here like for classes?
 						// Update the SchemaDiagram

@@ -8,6 +8,8 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 
+import com.comodide.editor.changehandlers.UpdateFromOntologyHandler;
+
 public class ComodideEditorManager implements OWLOntologyChangeListener
 {
 	private final SchemaDiagram  schemaDiagram;

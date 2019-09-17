@@ -1,4 +1,4 @@
-package com.comodide.editor;
+package com.comodide.editor.changehandlers;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -9,11 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
+import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
+import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.DatatypeCell;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
-import com.mxgraph.model.mxICell;
 
 public class LabelChangeHandler
 {
@@ -48,8 +49,8 @@ public class LabelChangeHandler
 	private void handleEdgeLabelChange(mxCell cell, String newLabel)
 	{
 		// Unpack useful things
-		mxICell sourceCell = cell.getSource();
-		mxICell targetCell = cell.getTarget();
+		ComodideCell sourceCell = (ComodideCell)cell.getSource();
+		ComodideCell targetCell = (ComodideCell)cell.getTarget();
 		
 		// Domain can not be a datatype
 		if(sourceCell instanceof DatatypeCell)
@@ -59,8 +60,8 @@ public class LabelChangeHandler
 		}
 		
 		OWLProperty property = null;
-		OWLEntity domain = (OWLEntity)sourceCell.getValue();
-		OWLEntity range = (OWLEntity)targetCell.getValue();
+		OWLEntity domain = sourceCell.getEntity();
+		OWLEntity range = targetCell.getEntity();
 		
 		// Create the property
 		if(targetCell instanceof DatatypeCell)
@@ -91,10 +92,11 @@ public class LabelChangeHandler
 		if (cell instanceof ClassCell)
 		{
 			ClassCell classCell = (ClassCell)cell;
-			// Extract currentClass, if it is present
+			// Extract current class, if it is present
+			// THis is a bit ugly and should be refactored deeper down in the code
 			OWLClass currentClass = null;
-			if (classCell.getValue() != null) {
-				currentClass = classCell.getOWLEntity().asOWLClass();
+			if (classCell.isNamed()) {
+				currentClass = classCell.getEntity().asOWLClass();
 			}
 			
 			// Pass the label onto the AxiomManager
