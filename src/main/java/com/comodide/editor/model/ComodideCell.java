@@ -15,13 +15,13 @@ public abstract class ComodideCell extends mxCell {
 
 	public ComodideCell(OWLEntity owlEntity) {
 		setEntity(owlEntity);
-		this.id = owlEntity.toString();
-		this.value = shortFormProvider.getShortForm(owlEntity);
 		this.geometry = new mxGeometry();
 	}
 	
 	public void setEntity(OWLEntity entity) {
 		this.entity = entity;
+		this.id = entity.toString();
+		this.value = shortFormProvider.getShortForm(entity);
 	}
 	
 	public OWLEntity getEntity() {

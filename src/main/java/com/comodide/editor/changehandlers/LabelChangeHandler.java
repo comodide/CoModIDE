@@ -33,20 +33,20 @@ public class LabelChangeHandler
 		this.modelManager = modelManager;
 	}
 
-	public void handle(mxCell cell, String newLabel)
+	public OWLEntity handle(mxCell cell, String newLabel)
 	{
 		cell.setId(newLabel);
 		if (cell.isEdge())
 		{
-			handleEdgeLabelChange(cell, newLabel);
+			return handleEdgeLabelChange(cell, newLabel);
 		}
 		else
 		{
-			handleNodeLabelChange(cell, newLabel);
+			return handleNodeLabelChange(cell, newLabel);
 		}
 	}
 
-	private void handleEdgeLabelChange(mxCell cell, String newLabel)
+	private OWLEntity handleEdgeLabelChange(mxCell cell, String newLabel)
 	{
 		// Unpack useful things
 		ComodideCell sourceCell = (ComodideCell)cell.getSource();
@@ -56,7 +56,7 @@ public class LabelChangeHandler
 		if(sourceCell instanceof DatatypeCell)
 		{
 			log.warn("[CoModIDE:LabelChangeHandler] Cannot create axiom with datatype as domain.");
-			return;
+			return null;
 		}
 		
 		OWLProperty property = null;
@@ -82,9 +82,10 @@ public class LabelChangeHandler
 		{
 			property = this.axiomManager.handleObjectProperty(newLabel, domain, range);
 		}
+		return property;
 	}
 
-	private void handleNodeLabelChange(mxCell cell, String newLabel)
+	private OWLEntity handleNodeLabelChange(mxCell cell, String newLabel)
 	{
 		Double newX = cell.getGeometry().getX();
 		Double newY = cell.getGeometry().getY();
@@ -113,6 +114,9 @@ public class LabelChangeHandler
 					PositioningOperations.updateXYCoordinateAnnotations(classEntity, ontology, newX, newY);
 				}
 			}
+			
+			return classEntity;
 		}
+		return null;
 	}
 }

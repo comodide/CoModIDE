@@ -17,6 +17,7 @@ import org.w3c.dom.Document;
 
 import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
+import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.DatatypeCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.editor.model.SubClassEdgeCell;
@@ -214,7 +215,7 @@ public class SchemaDiagram extends mxGraph
 	{
 		log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
 		/* Process object into useful formats. */
-		mxCell changedCell = (mxCell) cell;
+		ComodideCell changedCell = (ComodideCell) cell;
 		String newLabel    = (String) newValue;
 
 		model.beginUpdate();
@@ -222,7 +223,10 @@ public class SchemaDiagram extends mxGraph
 		try
 		{
 			// Handle the label change
-			labelChangeHandler.handle(changedCell, newLabel);
+			OWLEntity entity = labelChangeHandler.handle(changedCell, newLabel);
+			changedCell.setEntity(entity);
+			model.setValue(cell, newLabel);
+			
 			// Autosize, if necessary.
 			if (autoSize)
 			{
