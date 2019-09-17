@@ -2,34 +2,30 @@ package com.comodide.editor.model;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.EntityType;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.util.ShortFormProvider;
-import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import com.comodide.rendering.editor.SDConstants;
-import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 
-public class ClassCell extends mxCell {
-
-	private static final long serialVersionUID = -7150369287823549102L;
+public class ClassCell extends ComodideCell {
 	
+	private static final long serialVersionUID = 4458786422295695195L;
 	private static final int WIDTH = 75;
 	private static final int HEIGHT = 30;
 	private static final String STYLE = SDConstants.classStyle;
-	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+	private static IRI DEFAULT_IRI =  OWLRDFVocabulary.OWL_CLASS.getIRI();
+	private static EntityType<OWLClass> DEFAULT_TYPE = EntityType.CLASS;
 	
 	public ClassCell() {
-		this(OWLManager.getOWLDataFactory().getOWLEntity(EntityType.CLASS, OWLRDFVocabulary.OWL_CLASS.getIRI()),
-				0.0, 0.0);
+		super(OWLManager.getOWLDataFactory().getOWLEntity(DEFAULT_TYPE, DEFAULT_IRI));
 	}
 	
 	public ClassCell(OWLEntity owlEntity, double positionX, double positionY) {
-		this.id = shortFormProvider.getShortForm(owlEntity);
-		
-		this.value = owlEntity;
-		
+		super(owlEntity);
+
 		this.geometry = new mxGeometry(positionX, positionY, WIDTH, HEIGHT);
 		this.geometry.setRelative(false);
 		
@@ -39,12 +35,7 @@ public class ClassCell extends mxCell {
 		this.connectable = true;
 	}
 
-	@Override
-	public OWLEntity getValue() {
-		return (OWLEntity)this.value;
-	}
-	
-	public boolean isNamed() {
-		return !this.getValue().getIRI().toString().equalsIgnoreCase(OWLRDFVocabulary.OWL_CLASS.getIRI().toString());
+	public IRI defaultIRI() {
+		return DEFAULT_IRI;
 	}
 }

@@ -13,9 +13,9 @@ public class SubClassEdgeCell extends mxCell {
 	private static final String STYLE = SDConstants.subclassEdgeStyle;
 	
 	public SubClassEdgeCell() {
-		this.id = "subClassOf";
+		this.id = OWLRDFVocabulary.RDFS_SUBCLASS_OF.getIRI().toString();
 		
-		this.value = OWLRDFVocabulary.RDFS_SUBCLASS_OF;
+		this.value = this.id;
 		
 		this.geometry = new mxGeometry();
 		this.geometry.setRelative(true);

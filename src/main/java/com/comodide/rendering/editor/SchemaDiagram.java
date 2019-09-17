@@ -80,8 +80,8 @@ public class SchemaDiagram extends mxGraph
 									// Generate and add the subClassOf axioms to the active ontology
 									ClassCell sourceClassCell = (ClassCell)sourceCell;
 									ClassCell targetClassCell = (ClassCell)targetCell;
-									OWLClass subClass = sourceClassCell.getValue().asOWLClass();
-									OWLClass superClass = targetClassCell.getValue().asOWLClass();
+									OWLClass subClass = sourceClassCell.getOWLEntity().asOWLClass();
+									OWLClass superClass = targetClassCell.getOWLEntity().asOWLClass();
 									OWLOntology ontology = modelManager.getActiveOntology();
 									OWLOntologyManager ontologyManager = ontology.getOWLOntologyManager();
 									OWLSubClassOfAxiom newAxiom = ontologyManager.getOWLDataFactory().getOWLSubClassOfAxiom(subClass, superClass);
@@ -128,14 +128,14 @@ public class SchemaDiagram extends mxGraph
 							mxICell candidateEdge = cell.getEdgeAt(i);
 							if (candidateEdge instanceof PropertyEdgeCell) {
 								PropertyEdgeCell propertyCell = (PropertyEdgeCell)candidateEdge;
-								positioningEntities.add(propertyCell.getValue());
+								positioningEntities.add(propertyCell.getOWLEntity());
 							}
 						}
 					}
 					// Else, if it is a class, just put them on the class
 					else {
 						ClassCell classCell = (ClassCell)cell;
-						positioningEntities.add(classCell.getValue());
+						positioningEntities.add(classCell.getOWLEntity());
 					}
 					
 					// Check which of the loaded ontologies that hosts the positioning entities
