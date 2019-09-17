@@ -8,7 +8,6 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
@@ -44,9 +43,6 @@ public class SchemaDiagram extends mxGraph
 
 	/** Used for handling the changes to cell lables. i.e. add/remove axioms */
 	private LabelChangeHandler labelChangeHandler;
-
-	/** Used for handling changes originating in the ontology */
-	private UpdateFromOntologyHandler updateFromOntologyHandler;
 
 	/** Used to interoperate with loaded ontologies. */
 	private final OWLModelManager modelManager;
@@ -164,7 +160,6 @@ public class SchemaDiagram extends mxGraph
 		//setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical");
 		this.modelManager = modelManager;
 		this.labelChangeHandler = new LabelChangeHandler(modelManager, this);
-		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(this, modelManager);
 		this.allowDanglingEdges = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
@@ -241,11 +236,6 @@ public class SchemaDiagram extends mxGraph
 			this.lock = false; // always make sure unlocked at this stage
 			model.endUpdate();
 		}
-	}
-
-	public void updateSchemaDiagramFromOntology(OWLOntologyChange change)
-	{
-		updateFromOntologyHandler.handle(change);
 	}
 
 	/** This method is a convenience (but necessary) method for finding a cell in the schema diagram.

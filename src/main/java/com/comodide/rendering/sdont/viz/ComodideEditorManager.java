@@ -4,51 +4,46 @@ import java.util.List;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 
 import com.comodide.rendering.editor.SchemaDiagram;
-import com.comodide.rendering.sdont.model.SDGraph;
-import com.comodide.rendering.sdont.parsing.OntologyParser;
+import com.comodide.rendering.editor.UpdateFromOntologyHandler;
 
 public class ComodideEditorManager implements OWLOntologyChangeListener
 {
-	/** Model Manager */
-	private OWLModelManager modelManager;
-
-	/** SDont objects to manage */
-	private OntologyParser ontologyParser;
-	private SDGraph        graph;
-	private SDMaker        maker;
-	private SchemaDiagram  schemaDiagram;
+	private final SchemaDiagram  schemaDiagram;
+	private final UpdateFromOntologyHandler updateFromOntologyHandler;
 
 	public SchemaDiagram getSchemaDiagram() {
 		return schemaDiagram;
 	}
 
-	/** Useful Constructor */
 	public ComodideEditorManager(OWLModelManager modelManager)
 	{
-		this.modelManager = modelManager;
+		// Create a new schema diagram to work with
+		this.schemaDiagram = new SchemaDiagram(modelManager);
 		
-		/* Register as listener to detect changes in the ontology */
-		this.modelManager.addOntologyChangeListener(this);
+		// Assign a handler that renders updates from the underlying ontology onto the schema diagram 
+		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(schemaDiagram, modelManager);
 		
-		this.ontologyParser = new OntologyParser(this.modelManager);
-		this.graph = ontologyParser.parseOntology();
-		this.maker = new SDMaker(graph, modelManager);
-		this.schemaDiagram = maker.visualize();
+		// Register as listener to detect changes in the ontology that trigger the above updates
+		modelManager.addOntologyChangeListener(this);
+		
+		// Parse and render the active ontology initially (naïve implementation)
+		OWLOntology ontology = modelManager.getActiveOntology();
+		ontology.getAxioms().forEach(axiom -> {
+			this.updateFromOntologyHandler.handleAddAxiom(axiom, ontology);
+		});
 	}
-
-	/** Called when changes in the underlying ontology are detected. */
-	public void updateSchemaDiagramFromOntologyChange(OWLOntologyChange change)
-	{
-		this.schemaDiagram.updateSchemaDiagramFromOntology(change);
-	}
-	
 
 	@Override
 	public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException {
-		changes.forEach(change -> {if(change.isAxiomChange()) updateSchemaDiagramFromOntologyChange(change);});
+		changes.forEach(change -> {
+			if (change.isAxiomChange()) {
+				this.updateFromOntologyHandler.handle(change);
+			}
+		});
 	}
 }

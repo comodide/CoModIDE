@@ -57,6 +57,46 @@ public class UpdateFromOntologyHandler
 
 		this.axiomManager = AxiomManager.getInstance(modelManager, schemaDiagram);
 	}
+	
+	public void handleAddAxiom(OWLAxiom axiom, OWLOntology ontology) {
+		// When a class is created it is declared. We extract the OWLEntity
+		// From the declaration. It does not render declared properties.
+		if (axiom.isOfType(AxiomType.DECLARATION))
+		{
+			handleClass(ontology, axiom);
+		}
+		// General class axioms are parsed and rendered as an edge
+		else if (axiom.isOfType(AxiomType.SUBCLASS_OF))
+		{
+			handleGeneralAxiom(ontology, axiom);
+		}
+		else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN))
+		{
+			handleObjectPropertyDomainOrRange(ontology, (OWLObjectPropertyDomainAxiom) axiom);
+		}
+		else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_RANGE))
+		{
+			handleObjectPropertyDomainOrRange(ontology, (OWLObjectPropertyRangeAxiom) axiom);
+		}
+		else if (axiom.isOfType(AxiomType.DATA_PROPERTY_DOMAIN))
+		{
+			handleDataPropertyDomainOrRange(ontology, (OWLDataPropertyDomainAxiom) axiom);
+		}
+		else if (axiom.isOfType(AxiomType.DATA_PROPERTY_RANGE))
+		{
+			handleDataPropertyDomainOrRange(ontology, (OWLDataPropertyRangeAxiom) axiom);
+		}
+		else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
+		{
+			// Do nothing
+			// Code to change positions in SchemaDiagram based on changes to EntityPosition
+			// could possibly go here.
+		}
+		else
+		{
+			log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
+		}
+	}
 
 	public void handle(OWLOntologyChange change)
 	{
@@ -71,62 +111,30 @@ public class UpdateFromOntologyHandler
 		}
 		else if (change.isAddAxiom())
 		{
-			// When a class is created it is declared. We extract the OWLEntity
-			// From the declaration. It does not render declared properties.
-			if (axiom.isOfType(AxiomType.DECLARATION))
-			{
-				handleClass(ontology, axiom);
-			}
-			// General class axioms are parsed and rendered as an edge
-			else if (axiom.isOfType(AxiomType.SUBCLASS_OF))
-			{
-				handleGeneralAxiom(ontology, axiom);
-			}
-			else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN))
-			{
-				handleObjectPropertyDomainOrRange(ontology, (OWLObjectPropertyDomainAxiom) axiom);
-			}
-			else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_RANGE))
-			{
-				handleObjectPropertyDomainOrRange(ontology, (OWLObjectPropertyRangeAxiom) axiom);
-			}
-			else if (axiom.isOfType(AxiomType.DATA_PROPERTY_DOMAIN))
-			{
-				handleDataPropertyDomainOrRange(ontology, (OWLDataPropertyDomainAxiom) axiom);
-			}
-			else if (axiom.isOfType(AxiomType.DATA_PROPERTY_RANGE))
-			{
-				handleDataPropertyDomainOrRange(ontology, (OWLDataPropertyRangeAxiom) axiom);
-			}
-			else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
-			{
-				// Do nothing
-				// Code to change positions in SchemaDiagram based on changes to EntityPosition
-				// could possibly go here.
-			}
-			else
-			{
-				log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
-			}
+			handleAddAxiom(axiom, ontology);
 		}
 		else if (change.isRemoveAxiom())
 		{
-			// TODO removeAxiom implementation in Progress
-			if (axiom.isOfType(AxiomType.DECLARATION))
-			{
-				removeClass(axiom);
-			}
-			else
-			{
-				if (!axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
-				{
-					log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
-				}
-			}
+			handleRemoveAxiom(axiom);
 		}
 		else
 		{
 			log.warn("[CoModIDE:UFOH] Unsupported change to the ontology.");
+		}
+	}
+
+	public void handleRemoveAxiom(OWLAxiom axiom) {
+		// TODO removeAxiom implementation in Progress
+		if (axiom.isOfType(AxiomType.DECLARATION))
+		{
+			removeClass(axiom);
+		}
+		else
+		{
+			if (!axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
+			{
+				log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
+			}
 		}
 	}
 
