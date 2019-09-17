@@ -21,7 +21,8 @@ public class DatatypeCell extends ComodideCell {
 	private static EntityType<OWLDatatype> DEFAULT_TYPE = EntityType.DATATYPE;
 	
 	public DatatypeCell() {
-		super(OWLManager.getOWLDataFactory().getOWLEntity(DEFAULT_TYPE, DEFAULT_IRI));
+		this(OWLManager.getOWLDataFactory().getOWLEntity(DEFAULT_TYPE, DEFAULT_IRI),
+				0.0, 0.0);
 	}
 	
 	public DatatypeCell(OWLEntity owlEntity, double positionX, double positionY) {

@@ -20,7 +20,8 @@ public class ClassCell extends ComodideCell {
 	private static EntityType<OWLClass> DEFAULT_TYPE = EntityType.CLASS;
 	
 	public ClassCell() {
-		super(OWLManager.getOWLDataFactory().getOWLEntity(DEFAULT_TYPE, DEFAULT_IRI));
+		this(OWLManager.getOWLDataFactory().getOWLEntity(DEFAULT_TYPE, DEFAULT_IRI),
+				0.0, 0.0);
 	}
 	
 	public ClassCell(OWLEntity owlEntity, double positionX, double positionY) {

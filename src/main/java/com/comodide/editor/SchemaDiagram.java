@@ -51,7 +51,6 @@ public class SchemaDiagram extends mxGraph
 	/** Used to prevent loopback from adding a class via tab */
 	private boolean lock = false;
 
-	
 	/**
 	 * Listener for mxEvents.CELLS_ADDED event; used to add subClassOf axiom to the model when
 	 * a new subClassOf edge is drawn on the canvas.
@@ -73,7 +72,6 @@ public class SchemaDiagram extends mxGraph
 								lock = true; // prevent loopback during addaxiom
 								try
 								{
-									
 									// Generate and add the subClassOf axioms to the active ontology
 									ClassCell sourceClassCell = (ClassCell)sourceCell;
 									ClassCell targetClassCell = (ClassCell)targetCell;
@@ -117,7 +115,6 @@ public class SchemaDiagram extends mxGraph
 				// i.e. that the node is actually representing a class in the ontology
 				if (cell instanceof ClassCell || cell instanceof DatatypeCell)
 				{
-					
 					List<OWLEntity> positioningEntities = new ArrayList<OWLEntity>();
 					// If this is a datatype cell, put the OPLa-SD positioning annotations on the (implicitly ingoing) attached edges 
 					if (cell instanceof DatatypeCell) {
