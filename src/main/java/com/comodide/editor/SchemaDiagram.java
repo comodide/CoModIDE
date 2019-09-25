@@ -263,6 +263,20 @@ public class SchemaDiagram extends mxGraph
 		return null;
 	}
 	
+	public List<mxCell> findCellsById(String id) {
+		List<mxCell> foundCells = new ArrayList<mxCell>();
+		Map<String, Object> cellsOnDiagram = ((mxGraphModel) model).getCells();
+		for(Object o : cellsOnDiagram.values())
+		{
+			mxCell candidateCell = (mxCell) o;
+			if(candidateCell.getId().equals(id))
+			{
+				foundCells.add(candidateCell);
+			}
+		}
+		return foundCells;
+	}
+	
 	/**
 	 * Overriding mxGraph to make datatype nodes and subclass edges non-editable
 	 */

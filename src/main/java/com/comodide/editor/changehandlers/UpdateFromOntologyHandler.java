@@ -1,5 +1,7 @@
 package com.comodide.editor.changehandlers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,8 +25,6 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.util.ShortFormProvider;
-import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,9 +40,6 @@ public class UpdateFromOntologyHandler
 {
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(UpdateFromOntologyHandler.class);
-
-	/** Used for obtaining human readable lables */
-	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
 
 	/** Used for updating the graph when handling changes */
 	private SchemaDiagram schemaDiagram;
@@ -128,7 +125,7 @@ public class UpdateFromOntologyHandler
 		// TODO removeAxiom implementation in Progress
 		if (axiom.isOfType(AxiomType.DECLARATION))
 		{
-			removeClass(axiom);
+			removeDeclaration(axiom);
 		}
 		else
 		{
@@ -181,11 +178,6 @@ public class UpdateFromOntologyHandler
 					graphModel.endUpdate();
 				}
 			}
-		}
-		else
-		{
-			// Do Nothing
-			// We do not want to add properties as nodes.
 		}
 	}
 
@@ -417,34 +409,42 @@ public class UpdateFromOntologyHandler
 		}
 	}
 
-	private void removeClass(OWLAxiom axiom)
+	private void removeDeclaration(OWLAxiom axiom)
 	{
-		// Unpack
+		// Unpack.
 		OWLDeclarationAxiom declarationAxiom = (OWLDeclarationAxiom) axiom;
 		OWLEntity           owlEntity        = declarationAxiom.getEntity();
 
-		// Act only if class
-		if (owlEntity.isOWLClass())
+		// Figure out which cells that need to be removed.
+		List<mxCell> cellsToRemove = new ArrayList<mxCell>();
+		if (owlEntity.isOWLClass() || owlEntity.isOWLObjectProperty())
 		{
-			// Get the label
-			String className = shortFormProvider.getShortForm(owlEntity);
-			// Find the associated cell
-			Object classCell = this.schemaDiagram.getCell(className);
+			log.info("[CoModIDE:UFOH] Removing class or object property cells for '" + owlEntity.toString() + "'");
+			cellsToRemove.addAll(schemaDiagram.findCellsById(owlEntity.toString()));
+		}
+		else if (owlEntity.isOWLDataProperty()) {
+			log.info("[CoModIDE:UFOH] Removing data property cells for '" + owlEntity.toString() + "'");
+			List<mxCell> dataPropertyCellsToRemove = schemaDiagram.findCellsById(owlEntity.toString());
+			List<mxCell> dataTypeCellsToRemove = new ArrayList<mxCell>();
+			for (mxCell dataPropertyCell: dataPropertyCellsToRemove) {
+				dataTypeCellsToRemove.add((mxCell)dataPropertyCell.getTarget());
+			}
+			cellsToRemove.addAll(dataTypeCellsToRemove);
+			cellsToRemove.addAll(dataPropertyCellsToRemove);
+		}
 
-			// Remove that cell from the schema diagram
+		// If diagram is unlocked, proceed with cell deletion.
+		if (!this.schemaDiagram.isLock())
+		{
 			graphModel.beginUpdate();
 			try
 			{
-				schemaDiagram.removeCells(new Object[] { classCell });
+				schemaDiagram.removeCells(cellsToRemove.toArray());
 			}
 			finally
 			{
 				graphModel.endUpdate();
 			}
-		}
-		else
-		{
-			log.warn("debug:ufoh wasn't owl class as expected");
 		}
 	}
 }
