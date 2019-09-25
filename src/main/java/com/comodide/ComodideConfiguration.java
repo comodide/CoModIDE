@@ -34,14 +34,22 @@ public class ComodideConfiguration {
 	    public String toString() {
 	        return fieldDescription;
 	    }
+	    
+	    public static List<String> getDefault() {
+	    	ArrayList<String> defaultSelection = new ArrayList<String>();
+	    	defaultSelection.add("RDFS_DOMAIN");
+	    	defaultSelection.add("RDFS_RANGE");
+	    	return defaultSelection;
+	    }
 	}
 	
 	// Keys used for the Java Preferences API
 	private static final String PREFERENCES_SET_ID = "com.comodide.comodide";
-	private static final String INSTANTIATION_PREFERENCES_KEY = "instantiation_configuration";
+	private static final String INSTANTIATION_PREFERENCES_KEY = "comodide_configuration";
 	private static final String EDGE_CREATION_AXIOMS_KEY = "edge_creation_axioms";
 	private static final String USE_TARGET_NAMESPACE_KEY = "use_target_namespace";
 	private static final String MODULE_METADATA_EXTERNAL_KEY = "module_metadata_external";
+	private static final String DELETE_PROPERTY_DECLARATIONS_KEY = "delete_property_declarations";
 	
 	// Preference manager and set of preferences for the CoModIDE plugin's instantiation configuration
 	private static final PreferencesManager PREFERENCES_MANAGER = PreferencesManager.getInstance();
@@ -53,7 +61,7 @@ public class ComodideConfiguration {
 	 */
 	public static Set<EdgeCreationAxiom> getSelectedEdgeCreationAxioms() {
 		Set<EdgeCreationAxiom> retVal = new HashSet<EdgeCreationAxiom>();
-		for (String s: PREFERENCES.getStringList(EDGE_CREATION_AXIOMS_KEY, new ArrayList<String>())) {
+		for (String s: PREFERENCES.getStringList(EDGE_CREATION_AXIOMS_KEY, EdgeCreationAxiom.getDefault())) {
 			retVal.add(EdgeCreationAxiom.valueOf(s));
 		}
 		return retVal;
@@ -81,6 +89,19 @@ public class ComodideConfiguration {
 			listToStore.add(e.name());
 		}
 		PREFERENCES.putStringList(EDGE_CREATION_AXIOMS_KEY, listToStore);
+	}
+	
+	/**
+	 * Whether to delete the property declaration when an edge is deleted from the schema diagram.
+	 * If false, only domains and ranges (rdfs or scoped) will be deleted but the property itself kept
+	 * in the ontology.
+	 */
+	public static Boolean getDeletePropertyDeclarations() {
+		return PREFERENCES.getBoolean(DELETE_PROPERTY_DECLARATIONS_KEY, true);
+	}
+	
+	public static void setDeletePropertyDeclarations(Boolean value) {
+		PREFERENCES.putBoolean(DELETE_PROPERTY_DECLARATIONS_KEY, value);
 	}
 	
 	/**

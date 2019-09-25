@@ -35,6 +35,8 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 	private static final String KEEP_PATTERN_NAMESPACE_ACTION = "keepPattern";
 	private static final String METADATA_EXTERNAL_ACTION = "metadataExternal";
 	private static final String METADATA_INTERNAL_ACTION = "metadataInternal";
+	private static final String DELETE_PROPERTY_DECLARATIONS_ACTION = "deleteDeclarations";
+	private static final String KEEP_PROPERTY_DECLARATIONS_ACTION = "keepDeclarations";
 	
 	private static final ActionListener namespaceButtonsListener = new ActionListener() {
 		@Override
@@ -48,6 +50,13 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		public void actionPerformed(ActionEvent e) {
 			Boolean metadataExternal = (e.getActionCommand().equals(METADATA_EXTERNAL_ACTION));
 			ComodideConfiguration.setModuleMetadataExternal(metadataExternal);
+		}
+	};
+	private static final ActionListener edgeDeletionPolicyListener = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Boolean deletePropertyDeclarations = (e.getActionCommand().equals(DELETE_PROPERTY_DECLARATIONS_ACTION));
+			ComodideConfiguration.setDeletePropertyDeclarations( deletePropertyDeclarations);
 		}
 	};
 
@@ -117,6 +126,26 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 			});
 			this.add(box);
 		}
+		
+		JLabel edgeDeletionLabel = new JLabel("Edge deletion policy:");
+		edgeDeletionLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		this.add(edgeDeletionLabel);
+		
+		Boolean deletePropertyDeclarations = ComodideConfiguration.getDeletePropertyDeclarations();
+		ButtonGroup edgeDeletionPolicyGroup = new ButtonGroup();
+		JRadioButton deletePropertyDeclarationButton = new JRadioButton("Delete property declarations");
+		deletePropertyDeclarationButton.setActionCommand(DELETE_PROPERTY_DECLARATIONS_ACTION);
+		deletePropertyDeclarationButton.addActionListener(edgeDeletionPolicyListener);
+		edgeDeletionPolicyGroup.add(deletePropertyDeclarationButton);
+		deletePropertyDeclarationButton.setSelected(deletePropertyDeclarations);
+		this.add(deletePropertyDeclarationButton);
+		
+		JRadioButton keepPropertyDeclarationsButton = new JRadioButton("Keep property declarations");
+		keepPropertyDeclarationsButton.setActionCommand(KEEP_PROPERTY_DECLARATIONS_ACTION);
+		keepPropertyDeclarationsButton.addActionListener(edgeDeletionPolicyListener);
+		edgeDeletionPolicyGroup.add(keepPropertyDeclarationsButton);
+		keepPropertyDeclarationsButton.setSelected(!deletePropertyDeclarationButton.isSelected());
+		this.add(keepPropertyDeclarationsButton);
 		
 		log.info("Configuration view initialized");
 	}
