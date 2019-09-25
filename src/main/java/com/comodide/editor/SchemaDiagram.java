@@ -320,12 +320,17 @@ public class SchemaDiagram extends mxGraph
 	}
 	
 	public ClassCell addClass(OWLEntity owlEntity, double positionX, double positionY) {
+		log.info("[CoModIDE:SchemaDiagram] Adding OWL Class" + owlEntity.toString());
+		if (getCell(owlEntity.toString())!= null) {
+			return (ClassCell)getCell(owlEntity.toString());
+		}
 		ClassCell cell = new ClassCell(owlEntity, positionX, positionY);
 		this.addCell(cell);
 		return cell;
 	}
 
 	public DatatypeCell addDatatype(OWLEntity owlEntity, double positionX, double positionY) {
+		log.info("[CoModIDE:SchemaDiagram] Adding OWL Datatype " + owlEntity.toString());
 		DatatypeCell cell = new DatatypeCell(owlEntity, positionX, positionY);
 		this.addCell(cell);
 		return cell;
@@ -338,6 +343,7 @@ public class SchemaDiagram extends mxGraph
 	}
 	
 	public PropertyEdgeCell addPropertyEdge(OWLProperty owlProperty, ClassCell domainCell, mxCell rangeCell) {
+		log.info("[CoModIDE:SchemaDiagram] Adding OWL Property " + owlProperty.toString());
 		PropertyEdgeCell edge = new PropertyEdgeCell(owlProperty);
 		this.addEdge(edge, this.getDefaultParent(), domainCell, rangeCell, null);
 		return edge;

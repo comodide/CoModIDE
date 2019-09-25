@@ -62,6 +62,7 @@ public class UpdateFromOntologyHandler
 	}
 	
 	public void handleAddAxiom(OWLAxiom axiom, OWLOntology ontology) {
+		log.info("[CoModIDE:UFOH] Adding axiom: " + axiom.getAxiomWithoutAnnotations().toString() );
 		// When a class is created it is declared. We extract the OWLEntity
 		// From the declaration. It does not render declared properties.
 		if (axiom.isOfType(AxiomType.DECLARATION))
@@ -73,7 +74,27 @@ public class UpdateFromOntologyHandler
 		{
 			handleGeneralAxiom(ontology, axiom);
 		}
-		else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN))
+		/*else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN, AxiomType.OBJECT_PROPERTY_RANGE, AxiomType.DATA_PROPERTY_DOMAIN, AxiomType.DATA_PROPERTY_RANGE)) {
+			// Unpack the property concerned
+			@SuppressWarnings("unchecked")
+			OWLUnaryPropertyAxiom<OWLProperty> propertyAxiom = (OWLUnaryPropertyAxiom<OWLProperty>)axiom;
+			OWLProperty property = propertyAxiom.getProperty();
+			
+			// Check whether there is exactly one domain and one range; if so, render
+			Pair<Set<OWLEntity>,Set<OWLEntity>> domainsAndRanges = getDomainsAndRanges(property, ontology);
+			if (domainsAndRanges.getLeft().size() == 1 || domainsAndRanges.getRight().size() == 1) {
+				OWLEntity domain = domainsAndRanges.getLeft().iterator().next();
+				Pair<Double,Double> domainCellPosition = PositioningOperations.getXYCoordsForEntity(domain, ontology);
+				ClassCell domainCell = schemaDiagram.addClass(domain, domainCellPosition.getLeft(), domainCellPosition.getRight());
+				
+				OWLEntity range = domainsAndRanges.getRight().iterator().next();
+				Pair<Double,Double> rangeCellPosition = PositioningOperations.getXYCoordsForEntity(range, ontology);
+				ClassCell rangeCell = schemaDiagram.addClass(range, rangeCellPosition.getLeft(), rangeCellPosition.getRight());
+				
+				
+			}
+		}*/
+ 		else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN))
 		{
 			handleObjectPropertyDomainOrRange(ontology, (OWLObjectPropertyDomainAxiom) axiom);
 		}
@@ -83,6 +104,7 @@ public class UpdateFromOntologyHandler
 		}
 		else if (axiom.isOfType(AxiomType.DATA_PROPERTY_DOMAIN))
 		{
+			log.info("This is a DATA_PROPERTY_DOMAIN " +axiom.getAxiomWithoutAnnotations().toString() );
 			handleDataPropertyDomainOrRange(ontology, (OWLDataPropertyDomainAxiom) axiom);
 		}
 		else if (axiom.isOfType(AxiomType.DATA_PROPERTY_RANGE))
