@@ -1,30 +1,35 @@
 package com.comodide.editor.changehandlers;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.HasProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLUnaryPropertyAxiom;
+import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
+import org.semanticweb.owlapi.util.OWLClassExpressionVisitorAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +118,7 @@ public class UpdateFromOntologyHandler
 		}
 		else if (change.isRemoveAxiom())
 		{
-			handleRemoveAxiom(axiom);
+			handleRemoveAxiom(axiom, ontology);
 		}
 		else
 		{
@@ -121,19 +126,122 @@ public class UpdateFromOntologyHandler
 		}
 	}
 
-	public void handleRemoveAxiom(OWLAxiom axiom) {
-		// TODO removeAxiom implementation in Progress
+	public void handleRemoveAxiom(OWLAxiom axiom, OWLOntology ontology) {
 		if (axiom.isOfType(AxiomType.DECLARATION))
 		{
-			removeDeclaration(axiom);
+			OWLDeclarationAxiom declarationAxiom = (OWLDeclarationAxiom) axiom;
+			OWLEntity owlEntity = declarationAxiom.getEntity();
+			schemaDiagram.removeOwlEntity(owlEntity);
 		}
-		else
+		else if (axiom.isOfType(AxiomType.SUBCLASS_OF))
 		{
-			if (!axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
-			{
-				log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
+			// TODO: Implement me
+			log.warn("[CoModIDE:UFOH] Subclass axiom removal TBD.");
+		}
+		else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN, AxiomType.OBJECT_PROPERTY_RANGE, AxiomType.DATA_PROPERTY_DOMAIN, AxiomType.DATA_PROPERTY_RANGE))
+		{
+			// Unpack the property concerned
+			@SuppressWarnings("unchecked")
+			OWLUnaryPropertyAxiom<OWLProperty> propertyAxiom = (OWLUnaryPropertyAxiom<OWLProperty>)axiom;
+			OWLProperty property = propertyAxiom.getProperty();
+			
+			// Check whether there is enough support for rendering an edge; otherwise remove
+			if (!rendersEdgeOnSchema(property, ontology)) {
+				schemaDiagram.removeOwlEntity(property);
 			}
 		}
+	}
+	
+	/**
+	 * This method traverses the ontology to see if it contains sufficient axioms to render an edge
+	 * on the schema diagram for a certain property (including domain/range and scoped domain/range).
+	 * @param property
+	 * @param ontology
+	 * @return
+	 */
+	private boolean rendersEdgeOnSchema(OWLProperty property, OWLOntology ontology) {
+		
+		// Check how many domains and ranges are in the ontology; only render if both are 1
+		int domainCount = 0;
+		int rangeCount = 0;
+		if (property instanceof OWLObjectProperty) {
+			OWLObjectProperty objectProperty = (OWLObjectProperty)property;
+			domainCount = ontology.getObjectPropertyDomainAxioms(objectProperty).size();
+			rangeCount = ontology.getObjectPropertyRangeAxioms(objectProperty).size();
+			
+		}
+		else if (property instanceof OWLDataProperty) {
+			OWLDataProperty dataProperty = (OWLDataProperty)property;
+			domainCount = ontology.getDataPropertyDomainAxioms(dataProperty).size();
+			rangeCount = ontology.getDataPropertyRangeAxioms(dataProperty).size();
+		}
+		if (domainCount == 1 && rangeCount == 1) {
+			return true;
+		}
+		
+		// Walk through the ontology, looking for scoped domains/ranges
+		boolean hasScopedDomain = false;
+		boolean hasScopedRange = false;
+		for( OWLAxiom axiom : ontology.getAxioms()) {
+			axiom.accept(new OWLAxiomVisitorAdapter() {
+				public void visit( OWLSubClassOfAxiom subClassAxiom ) {
+					// If the subclass is named and superclass is an expression, visit and figure out if a scoped range exists
+					if (subClassAxiom.getSubClass().isNamed() && subClassAxiom.getSuperClass().isAnonymous()) {
+						subClassAxiom.getSuperClass().accept(new OWLClassExpressionVisitorAdapter() {
+							public void visit (OWLObjectAllValuesFrom restriction) {
+								if (restriction.getProperty().isNamed()) {
+									// TODO: Verify that the equals() below actually works w/ objects w/ different in-memory identity
+									if (restriction.getProperty().asOWLObjectProperty().equals(property) && restriction.getFiller().isNamed()) {
+										hasScopedRange = true;
+										// TODO: How to report back here??
+									}
+								}
+							}
+							public void visit (OWLDataAllValuesFrom restriction) {
+								if (restriction.getProperty().isNamed()) {
+									// TODO: Verify that the equals() below actually works w/ objects w/ different in-memory identity
+									if (restriction.getProperty().asOWLDataProperty().equals(property) && restriction.getFiller().isNamed()) {
+										// TODO: How to report back here??
+										hasScopedRange = true;
+									}
+								}
+							}
+						});
+					}
+					// If the superclass is named and the subclass is anonymous, then this is a GCI; visit and figure out if 
+					// a scoped domain exists.
+					if (subClassAxiom.getSuperClass().isNamed() && subClassAxiom.getSubClass().isAnonymous()) {
+						subClassAxiom.getSubClass().accept(new OWLClassExpressionVisitorAdapter() {
+							public void visit (OWLObjectSomeValuesFrom restriction) {
+								if (restriction.getProperty().isNamed()) {
+									// TODO: Verify that the equals() below actually works w/ objects w/ different in-memory identity
+									if (restriction.getProperty().asOWLObjectProperty().equals(property) && restriction.getFiller().isNamed()) {
+										// TODO: How to report back here??
+										hasScopedDomain = true;
+									}
+								}
+							}
+							public void visit (OWLDataSomeValuesFrom restriction) {
+								if (restriction.getProperty().isNamed()) {
+									// TODO: Verify that the equals() below actually works w/ objects w/ different in-memory identity
+									if (restriction.getProperty().asOWLDataProperty().equals(property) && restriction.getFiller().isNamed()) {
+										// TODO: How to report back here??
+										hasScopedDomain = true;
+									}
+								}
+							}
+						});
+					}
+				}
+			});
+		}
+		// If both a scoped domain and scoped range have been found, render.
+		if (hasScopedDomain && hasScopedRange) {
+			return true;
+		}
+		
+		// By default we don't render anything
+		return false;
 	}
 
 	private void handleClass(OWLOntology ontology, OWLAxiom axiom)
@@ -405,45 +513,6 @@ public class UpdateFromOntologyHandler
 						}
 					}
 				}
-			}
-		}
-	}
-
-	private void removeDeclaration(OWLAxiom axiom)
-	{
-		// Unpack.
-		OWLDeclarationAxiom declarationAxiom = (OWLDeclarationAxiom) axiom;
-		OWLEntity           owlEntity        = declarationAxiom.getEntity();
-
-		// Figure out which cells that need to be removed.
-		List<mxCell> cellsToRemove = new ArrayList<mxCell>();
-		if (owlEntity.isOWLClass() || owlEntity.isOWLObjectProperty())
-		{
-			log.info("[CoModIDE:UFOH] Removing class or object property cells for '" + owlEntity.toString() + "'");
-			cellsToRemove.addAll(schemaDiagram.findCellsById(owlEntity.toString()));
-		}
-		else if (owlEntity.isOWLDataProperty()) {
-			log.info("[CoModIDE:UFOH] Removing data property cells for '" + owlEntity.toString() + "'");
-			List<mxCell> dataPropertyCellsToRemove = schemaDiagram.findCellsById(owlEntity.toString());
-			List<mxCell> dataTypeCellsToRemove = new ArrayList<mxCell>();
-			for (mxCell dataPropertyCell: dataPropertyCellsToRemove) {
-				dataTypeCellsToRemove.add((mxCell)dataPropertyCell.getTarget());
-			}
-			cellsToRemove.addAll(dataTypeCellsToRemove);
-			cellsToRemove.addAll(dataPropertyCellsToRemove);
-		}
-
-		// If diagram is unlocked, proceed with cell deletion.
-		if (!this.schemaDiagram.isLock())
-		{
-			graphModel.beginUpdate();
-			try
-			{
-				schemaDiagram.removeCells(cellsToRemove.toArray());
-			}
-			finally
-			{
-				graphModel.endUpdate();
 			}
 		}
 	}

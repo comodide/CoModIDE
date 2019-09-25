@@ -342,4 +342,38 @@ public class SchemaDiagram extends mxGraph
 		this.addEdge(edge, this.getDefaultParent(), domainCell, rangeCell, null);
 		return edge;
 	}
+	
+	public void removeOwlEntity(OWLEntity owlEntity) {
+		// Figure out which cells that need to be removed.
+		List<mxCell> cellsToRemove = new ArrayList<mxCell>();
+		if (owlEntity.isOWLClass() || owlEntity.isOWLObjectProperty())
+		{
+			log.info("[CoModIDE:SchemaDiagram] Removing class or object property cells for '" + owlEntity.toString() + "'");
+			cellsToRemove.addAll(findCellsById(owlEntity.toString()));
+		}
+		else if (owlEntity.isOWLDataProperty()) {
+			log.info("[CoModIDE:UFOH] Removing data property cells for '" + owlEntity.toString() + "'");
+			List<mxCell> dataPropertyCellsToRemove = findCellsById(owlEntity.toString());
+			List<mxCell> dataTypeCellsToRemove = new ArrayList<mxCell>();
+			for (mxCell dataPropertyCell: dataPropertyCellsToRemove) {
+				dataTypeCellsToRemove.add((mxCell)dataPropertyCell.getTarget());
+			}
+			cellsToRemove.addAll(dataTypeCellsToRemove);
+			cellsToRemove.addAll(dataPropertyCellsToRemove);
+		}
+
+		// If diagram is unlocked, proceed with cell deletion.
+		if (!isLock())
+		{
+			model.beginUpdate();
+			try
+			{
+				removeCells(cellsToRemove.toArray());
+			}
+			finally
+			{
+				model.endUpdate();
+			}
+		}
+	}
 }
