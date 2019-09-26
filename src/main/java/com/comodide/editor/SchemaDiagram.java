@@ -338,7 +338,7 @@ public class SchemaDiagram extends mxGraph
 	
 	public SubClassEdgeCell addSubClassEdge(ClassCell parentClass, ClassCell subClass) {
 		SubClassEdgeCell edge = new SubClassEdgeCell();
-		this.addEdge(edge, this.getDefaultParent(), parentClass, subClass, null);
+		this.addEdge(edge, this.getDefaultParent(), subClass, parentClass, null);
 		return edge;
 	}
 	
