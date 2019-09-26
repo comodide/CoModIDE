@@ -1,16 +1,20 @@
 package com.comodide.editor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -155,7 +159,48 @@ public class SchemaDiagram extends mxGraph
 		@Override
 		public void invoke(Object sender, mxEventObject evt) {
 			log.warn("[CoModIDE:SchemaDiagram] CELLS_REMOVED caught.");
-			// TODO: Implement me.
+			Object[] cells = (Object[]) evt.getProperty("cells");
+			OWLOntology ontology = modelManager.getActiveOntology();
+			Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
+			ontologies.add(ontology);
+			OWLEntityRemover remover = new OWLEntityRemover(ontologies);
+			model.beginUpdate();
+			lock = true; // prevent loopback during addaxiom
+			try
+			{
+				for (Object c : cells)
+				{
+					// Unpack data from cells
+					mxCell cell = (mxCell) c;
+					
+					// If we are removing a cell
+					if (cell instanceof ClassCell) {
+						ClassCell classCell = (ClassCell)cell;
+						OWLClass classToRemove = classCell.getEntity().asOWLClass();
+						classToRemove.accept(remover);
+					}
+					else if (cell instanceof SubClassEdgeCell) {
+						log.warn("[CoModIDE:SchemaDiagram] Removal of SubClassEdgeCell unsupported.");
+					}
+					else if (cell instanceof DatatypeCell) {
+						DatatypeCell cellToRemove = (DatatypeCell)cell;
+						OWLDatatype datatypeToRemove = cellToRemove.getEntity().asOWLDatatype();
+						// We only remove from the ontology if this is a custom datatype.
+						if (!datatypeToRemove.isBuiltIn()) {
+							datatypeToRemove.accept(remover);
+						}
+					}
+					else if (cell instanceof PropertyEdgeCell) {
+						log.warn("[CoModIDE:SchemaDiagram] Removal of PropertyEdgeCell unsupported.");
+					}
+				}		
+			}
+			finally
+			{
+				modelManager.applyChanges(remover.getChanges());
+				lock = false; // always make sure unlocked at this stage
+				model.endUpdate();
+			}
 		}
 	};
 
