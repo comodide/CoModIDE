@@ -7,10 +7,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLProperty;
@@ -20,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import com.comodide.ComodideConfiguration;
 import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
@@ -159,9 +163,9 @@ public class SchemaDiagram extends mxGraph
 
 		@Override
 		public void invoke(Object sender, mxEventObject evt) {
-			log.warn("[CoModIDE:SchemaDiagram] CELLS_REMOVED caught.");
 			Object[] cells = (Object[]) evt.getProperty("cells");
 			OWLOntology ontology = modelManager.getActiveOntology();
+			OWLOntologyManager ontologyManager = modelManager.getOWLOntologyManager();
 			Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
 			ontologies.add(ontology);
 			OWLEntityRemover remover = new OWLEntityRemover(ontologies);
@@ -174,7 +178,6 @@ public class SchemaDiagram extends mxGraph
 					// Unpack data from cells
 					mxCell cell = (mxCell) c;
 					
-					// If we are removing a cell
 					if (cell instanceof ClassCell) {
 						ClassCell classCell = (ClassCell)cell;
 						OWLClass classToRemove = classCell.getEntity().asOWLClass();
@@ -184,11 +187,8 @@ public class SchemaDiagram extends mxGraph
 						SubClassEdgeCell subClassEdgeCell = (SubClassEdgeCell)cell;
 						OWLClass subClass = ((ClassCell)subClassEdgeCell.getSource()).getEntity().asOWLClass();
 						OWLClass superClass = ((ClassCell)subClassEdgeCell.getTarget()).getEntity().asOWLClass();
-						for (OWLSubClassOfAxiom axiom: ontology.getAxioms(AxiomType.SUBCLASS_OF)) {
-							if (axiom.getSuperClass().equals(superClass) && axiom.getSubClass().equals(subClass)) {
-								modelManager.getOWLOntologyManager().removeAxiom(ontology, axiom);
-							}
-						}
+						OWLSubClassOfAxiom subClassAxiomToRemove = ontologyManager.getOWLDataFactory().getOWLSubClassOfAxiom(subClass, superClass);
+						ontologyManager.removeAxiom(ontology, subClassAxiomToRemove);
 					}
 					else if (cell instanceof DatatypeCell) {
 						DatatypeCell cellToRemove = (DatatypeCell)cell;
@@ -199,7 +199,35 @@ public class SchemaDiagram extends mxGraph
 						}
 					}
 					else if (cell instanceof PropertyEdgeCell) {
-						log.warn("[CoModIDE:SchemaDiagram] Removal of PropertyEdgeCell unsupported.");
+						PropertyEdgeCell cellToRemove = (PropertyEdgeCell)cell;
+						if (cellToRemove.getTarget() instanceof DatatypeCell) {
+							// This is a data property; remove the dangling datatype cell also
+							removeCells(new Object[] {cellToRemove.getTarget()});
+						}
+						
+						// If we are configured to delete the property declarations, simply delete 
+						// the property; any other axioms will disappear along with it.
+						if (ComodideConfiguration.getDeletePropertyDeclarations()) {
+							cellToRemove.getEntity().accept(remover);
+						}
+						else {
+							Set<OWLAxiom> axiomsToRemove = new HashSet<OWLAxiom>();
+							if (cellToRemove.getEntity() instanceof OWLObjectProperty) {
+								OWLObjectProperty property = (OWLObjectProperty)cellToRemove.getEntity();
+								axiomsToRemove.addAll(ontology.getObjectPropertyDomainAxioms(property));
+								axiomsToRemove.addAll(ontology.getObjectPropertyRangeAxioms(property));
+							}
+							else if (cellToRemove.getEntity() instanceof OWLDataProperty) {
+								OWLDataProperty property = (OWLDataProperty)cellToRemove.getEntity();
+								axiomsToRemove.addAll(ontology.getDataPropertyDomainAxioms(property));
+								axiomsToRemove.addAll(ontology.getDataPropertyRangeAxioms(property));
+							}
+							
+							// TODO: Find and kill all scoped axioms also
+							ontologyManager.removeAxioms(ontology, axiomsToRemove);
+							
+							log.warn("[CoModIDE:SchemaDiagram] Removal of scoped domains/ranges as yet unsupported.");
+						}
 					}
 				}		
 			}
