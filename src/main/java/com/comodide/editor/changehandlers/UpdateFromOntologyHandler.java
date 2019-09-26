@@ -127,7 +127,7 @@ public class UpdateFromOntologyHandler
 			OWLProperty property = propertyAxiom.getProperty();
 			
 			// Remove any edges that are no longer supported
-			removeUnsupportedPropertyEdges(property, ontology);
+			reRenderAllPropertyEdges(property, ontology);
 		}
 	}
 	
@@ -329,17 +329,19 @@ public class UpdateFromOntologyHandler
 			OWLPropertyExpression pe = restriction.getProperty();
 			if (pe.isNamed()) {
 				OWLProperty property = (OWLProperty)pe;
-				removeUnsupportedPropertyEdges(property, ontology);
+				reRenderAllPropertyEdges(property, ontology);
 			}	
 		}
 	}
 	
-	private void removeUnsupportedPropertyEdges(OWLProperty property, OWLOntology ontology) {
+	private void reRenderAllPropertyEdges(OWLProperty property, OWLOntology ontology) {
 		Set<Pair<OWLEntity,OWLEntity>> stillValidEdges = getEdgeSourcesAndTargets(property, ontology);
 		
 		// Iterate over all existing cells on the diagram. For each cell that is an edge, construct 
 		// a pair of source and target OWL entities representing that edge.
 		// If that pair is not in the set of still valid edges computed above, remove it.
+		// For each still valid edge that is found on the canvas, remove it from the set above
+		// such that at the end of this loop, only un-rendered edges remain in the set.
 		List<mxCell> currentEdges = schemaDiagram.findCellsById(property.toString());
 		for (mxCell cell: currentEdges) {
 			if (cell instanceof PropertyEdgeCell) {
@@ -350,7 +352,32 @@ public class UpdateFromOntologyHandler
 				if (!stillValidEdges.contains(currentEdgeAsPair)) {
 					schemaDiagram.removeCells(new Object[] {cell});
 				}
+				else {
+					stillValidEdges.remove(currentEdgeAsPair);
+				}
 			}
+		}
+		// For each remaining un-rendered edge, render it.
+		for (Pair<OWLEntity,OWLEntity> nonRenderedEdge: stillValidEdges) {
+			OWLEntity source = nonRenderedEdge.getLeft();
+			OWLEntity target = nonRenderedEdge.getRight();
+			Pair<Double,Double> sourcePosition = PositioningOperations.getXYCoordsForEntity(source, ontology);
+			
+			// Get the source cell. Note that it may exist on canvas already, in which case the existing cell is returned. 
+			ClassCell sourceCell = schemaDiagram.addClass(source, sourcePosition.getLeft(), sourcePosition.getRight());
+			
+			// The target cell differs depending on type -- datatype cells 
+			// have positions given on the data property, and can be duplicated
+			mxCell targetCell;
+			if (target instanceof OWLDatatype) {
+				Pair<Double,Double> targetPosition = PositioningOperations.getXYCoordsForEntity(property, ontology);
+				targetCell = schemaDiagram.addDatatype(target, targetPosition.getLeft(), targetPosition.getRight());
+			}
+			else {
+				Pair<Double,Double> targetPosition = PositioningOperations.getXYCoordsForEntity(target, ontology);
+				targetCell = schemaDiagram.addClass(target, targetPosition.getLeft(), targetPosition.getRight());
+			}
+			schemaDiagram.addPropertyEdge(property, sourceCell, targetCell);
 		}
 	}
 	
@@ -375,6 +402,21 @@ public class UpdateFromOntologyHandler
 			{
 				graphModel.endUpdate();
 			}
+		}
+		else if (superClassExpression instanceof OWLRestriction || subClassExpression instanceof OWLRestriction) {
+			OWLRestriction restriction;
+			if (superClassExpression instanceof OWLRestriction) {
+				restriction = (OWLRestriction)superClassExpression;
+			}
+			else {
+				restriction = (OWLRestriction)subClassExpression;
+			}
+			
+			OWLPropertyExpression pe = restriction.getProperty();
+			if (pe.isNamed()) {
+				OWLProperty property = (OWLProperty)pe;
+				reRenderAllPropertyEdges(property, ontology);
+			}	
 		}
 	}
 }
