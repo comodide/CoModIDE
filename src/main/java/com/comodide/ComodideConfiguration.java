@@ -20,8 +20,7 @@ public class ComodideConfiguration {
 	 * @author Karl Hammar <karl@karlhammar.com>
 	 */
 	public static enum EdgeCreationAxiom {
-		RDFS_RANGE("RDFS Range"),
-		RDFS_DOMAIN("RDFS Domain"),
+		RDFS_DOMAIN_RANGE("RDFS Domain/Range"),
 		SCOPED_RANGE("AllValuesFrom constraint"),
 		SCOPED_DOMAIN("SomeValuesFrom constraint");
 		
@@ -37,8 +36,7 @@ public class ComodideConfiguration {
 	    
 	    public static List<String> getDefault() {
 	    	ArrayList<String> defaultSelection = new ArrayList<String>();
-	    	defaultSelection.add("RDFS_DOMAIN");
-	    	defaultSelection.add("RDFS_RANGE");
+	    	defaultSelection.add("RDFS_DOMAIN_RANGE");
 	    	return defaultSelection;
 	    }
 	}

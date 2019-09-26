@@ -1,6 +1,7 @@
 package com.comodide.axiomatization;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -318,26 +319,19 @@ public class AxiomManager
 			 * These if statements will add an axiom for each of the EdgeCreationAxioms as
 			 * selected in the Pattern Configuration view
 			 */
-			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.RDFS_DOMAIN))
+			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.RDFS_DOMAIN_RANGE))
 			{
-				// Create the OWLAPI construct for the property domain restriction
+				// Create the OWLAPI construct for the property domain/range restriction
 				OWLObjectPropertyDomainAxiom opda = this.owlDataFactory.getOWLObjectPropertyDomainAxiom(property,
 						domain.asOWLClass());
-				// Package into AddAxiom
-				AddAxiom addAxiom = new AddAxiom(this.owlOntology, opda);
-				// Make the change to the ontology
-				this.modelManager.applyChange(addAxiom);
-			}
-
-			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.RDFS_RANGE))
-			{
-				// Create the OWLAPI construct for the property range restriction
 				OWLObjectPropertyRangeAxiom opra = this.owlDataFactory.getOWLObjectPropertyRangeAxiom(property,
 						range.asOWLClass());
-				// Package into AddAxiom
-				AddAxiom addAxiom = new AddAxiom(this.owlOntology, opra);
+				// Package into AddAxioms
+				AddAxiom addDomainAxiom = new AddAxiom(this.owlOntology, opda);
+				AddAxiom addRangeAxiom = new AddAxiom(this.owlOntology, opra);
 				// Make the change to the ontology
-				this.modelManager.applyChange(addAxiom);
+				ArrayList<AddAxiom> changes = new ArrayList<AddAxiom>(Arrays.asList(addDomainAxiom, addRangeAxiom));
+				this.modelManager.applyChanges(changes);
 			}
 			
 			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_DOMAIN)) {
@@ -411,30 +405,21 @@ public class AxiomManager
 			 * These if statements will add an axiom for each of the EdgeCreationAxioms as
 			 * selected in the Pattern Configuration view
 			 */
-			if (axioms.contains(EdgeCreationAxiom.RDFS_DOMAIN))
+			if (axioms.contains(EdgeCreationAxiom.RDFS_DOMAIN_RANGE))
 			{
-				// Create the OWLAPI construct for the property domain restriction
+				// Create the OWLAPI construct for the property domain/range restriction
 				OWLDataPropertyDomainAxiom opda = this.owlDataFactory.getOWLDataPropertyDomainAxiom(dataProperty,
 						domain.asOWLClass());
-				// Package into AddAxiom
-				AddAxiom addAxiom = new AddAxiom(this.owlOntology, opda);
-				// Make the change to the ontology
-				this.modelManager.applyChange(addAxiom);
-			}
-
-			if (axioms.contains(EdgeCreationAxiom.RDFS_RANGE))
-			{
-				// Create the OWLAPI construct for the property range restriction
 				OWLDataPropertyRangeAxiom opra = this.owlDataFactory.getOWLDataPropertyRangeAxiom(dataProperty,
 						range.asOWLDatatype());
-				// Package into AddAxiom
-				AddAxiom addAxiom = new AddAxiom(this.owlOntology, opra);
+				// Package into AddAxioms
+				AddAxiom addDomainAxiom = new AddAxiom(this.owlOntology, opda);
+				AddAxiom addRangeAxiom = new AddAxiom(this.owlOntology, opra);
 				// Make the change to the ontology
-				this.modelManager.applyChange(addAxiom);
+				ArrayList<AddAxiom> changes = new ArrayList<AddAxiom>(Arrays.asList(addDomainAxiom, addRangeAxiom));
+				this.modelManager.applyChanges(changes);
 			}
-
 		}
-
 		return dataProperty;
 	}
 
