@@ -1,6 +1,7 @@
 package com.comodide.editor.changehandlers;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
@@ -25,6 +26,8 @@ import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLProperty;
+import org.semanticweb.owlapi.model.OWLPropertyExpression;
+import org.semanticweb.owlapi.model.OWLRestriction;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLUnaryPropertyAxiom;
 import org.slf4j.Logger;
@@ -32,6 +35,8 @@ import org.slf4j.LoggerFactory;
 
 import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
+import com.comodide.editor.model.ComodideCell;
+import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
@@ -314,8 +319,43 @@ public class UpdateFromOntologyHandler
 		}
 		// This is potentially a scoped domain/range. Recompute and re-render all 
 		// still-valid occurrences of this edge in the diagram
-		else {
-			// TODO: Build me
+		// Note that we only handle subclasses where one of two involves expressions are restrictions, not nested
+		// expressions where both are.
+		else if (superClassExpression instanceof OWLRestriction || subClassExpression instanceof OWLRestriction) {
+			
+			OWLRestriction restriction;
+			if (superClassExpression instanceof OWLRestriction) {
+				restriction = (OWLRestriction)superClassExpression;
+			}
+			else {
+				restriction = (OWLRestriction)subClassExpression;
+			}
+			
+			OWLPropertyExpression pe = restriction.getProperty();
+			if (pe.isNamed()) {
+				OWLProperty property = (OWLProperty)pe;
+				reRenderPropertyEdges(property, ontology);
+			}	
+		}
+	}
+	
+	private void reRenderPropertyEdges(OWLProperty property, OWLOntology ontology) {
+		Set<Pair<OWLEntity,OWLEntity>> stillValidEdges = getEdgeSourcesAndTargets(property, ontology);
+		
+		// Iterate over all existing cells on the diagram. For each cell that is an edge, construct 
+		// a pair of source and target OWL entities representing that edge.
+		// If that pair is not in the set of still valid edges computed above, remove it.
+		List<mxCell> currentEdges = schemaDiagram.findCellsById(property.toString());
+		for (mxCell cell: currentEdges) {
+			if (cell instanceof PropertyEdgeCell) {
+				PropertyEdgeCell currentEdgeCell = (PropertyEdgeCell)cell;
+				OWLEntity currentEdgeSource = ((ComodideCell)currentEdgeCell.getSource()).getEntity();
+				OWLEntity currentEdgeTarget = ((ComodideCell)currentEdgeCell.getTarget()).getEntity();
+				Pair<OWLEntity,OWLEntity> currentEdgeAsPair = Pair.of(currentEdgeSource, currentEdgeTarget);
+				if (!stillValidEdges.contains(currentEdgeAsPair)) {
+					schemaDiagram.removeCells(new Object[] {cell});
+				}
+			}
 		}
 	}
 	
