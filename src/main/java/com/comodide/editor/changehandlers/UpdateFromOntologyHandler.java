@@ -121,18 +121,13 @@ public class UpdateFromOntologyHandler
 		}
 		else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN, AxiomType.OBJECT_PROPERTY_RANGE, AxiomType.DATA_PROPERTY_DOMAIN, AxiomType.DATA_PROPERTY_RANGE))
 		{
-			log.warn("[CoModIDE:UFOH] Removing axiom "  + axiom.getAxiomWithoutAnnotations().toString() + " TBD");
 			// Unpack the property concerned
 			@SuppressWarnings("unchecked")
 			OWLUnaryPropertyAxiom<OWLProperty> propertyAxiom = (OWLUnaryPropertyAxiom<OWLProperty>)axiom;
 			OWLProperty property = propertyAxiom.getProperty();
 			
-			// TODO: Implement me; update canvas removing no longer supported nodes
-			// Check whether there is at least one domain and one range; if not, remove
-			/*Pair<Set<OWLEntity>,Set<OWLEntity>> domainsAndRanges = getDomainsAndRanges(property, ontology);
-			if (domainsAndRanges.getLeft().size() < 1 || domainsAndRanges.getRight().size() < 1) {
-				schemaDiagram.removeOwlEntity(property);
-			}*/
+			// Remove any edges that are no longer supported
+			removeUnsupportedPropertyEdges(property, ontology);
 		}
 	}
 	
@@ -317,8 +312,8 @@ public class UpdateFromOntologyHandler
 			ClassCell subClassCell = (ClassCell)schemaDiagram.getCell(subClassExpression.asOWLClass().toString());
 			schemaDiagram.removeSubClassEdge(superClassCell, subClassCell);
 		}
-		// This is potentially a scoped domain/range. Recompute and re-render all 
-		// still-valid occurrences of this edge in the diagram
+		// This is potentially a scoped domain/range. Recompute valid edges and 
+		// remove any non-valid occurrences of this edge in the diagram
 		// Note that we only handle subclasses where one of two involves expressions are restrictions, not nested
 		// expressions where both are.
 		else if (superClassExpression instanceof OWLRestriction || subClassExpression instanceof OWLRestriction) {
@@ -334,12 +329,12 @@ public class UpdateFromOntologyHandler
 			OWLPropertyExpression pe = restriction.getProperty();
 			if (pe.isNamed()) {
 				OWLProperty property = (OWLProperty)pe;
-				reRenderPropertyEdges(property, ontology);
+				removeUnsupportedPropertyEdges(property, ontology);
 			}	
 		}
 	}
 	
-	private void reRenderPropertyEdges(OWLProperty property, OWLOntology ontology) {
+	private void removeUnsupportedPropertyEdges(OWLProperty property, OWLOntology ontology) {
 		Set<Pair<OWLEntity,OWLEntity>> stillValidEdges = getEdgeSourcesAndTargets(property, ontology);
 		
 		// Iterate over all existing cells on the diagram. For each cell that is an edge, construct 
