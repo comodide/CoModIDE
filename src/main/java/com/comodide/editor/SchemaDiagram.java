@@ -150,6 +150,15 @@ public class SchemaDiagram extends mxGraph
 		}
 	};
 
+	private mxIEventListener cellsRemovedHandler = new mxIEventListener() {
+
+		@Override
+		public void invoke(Object sender, mxEventObject evt) {
+			log.warn("[CoModIDE:SchemaDiagram] CELLS_REMOVED caught.");
+			// TODO: Implement me.
+		}
+	};
+
 	/**
 	 * Custom graph that defines the alternate edge style to be used when the middle
 	 * control point of edges is double clicked (flipped).
@@ -162,6 +171,7 @@ public class SchemaDiagram extends mxGraph
 		this.allowDanglingEdges = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
+		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);
 		
 		// Loads styling information from an external file.
 		mxCodec  codec = new mxCodec();
