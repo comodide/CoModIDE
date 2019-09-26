@@ -7,13 +7,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLProperty;
@@ -212,21 +216,43 @@ public class SchemaDiagram extends mxGraph
 						}
 						else {
 							Set<OWLAxiom> axiomsToRemove = new HashSet<OWLAxiom>();
+							OWLEntity targetEntity = ((ComodideCell)cellToRemove.getTarget()).getEntity();
 							if (cellToRemove.getEntity() instanceof OWLObjectProperty) {
 								OWLObjectProperty property = (OWLObjectProperty)cellToRemove.getEntity();
 								axiomsToRemove.addAll(ontology.getObjectPropertyDomainAxioms(property));
 								axiomsToRemove.addAll(ontology.getObjectPropertyRangeAxioms(property));
+								
+								OWLObjectAllValuesFrom allValuesFrom = ontologyManager.getOWLDataFactory().getOWLObjectAllValuesFrom(property, targetEntity.asOWLClass());
+								OWLObjectSomeValuesFrom someValuesFrom = ontologyManager.getOWLDataFactory().getOWLObjectSomeValuesFrom(property, targetEntity.asOWLClass());
+								
+								for (OWLSubClassOfAxiom subClassAxiom: ontology.getAxioms(AxiomType.SUBCLASS_OF)) {
+									if (subClassAxiom.getSubClass().equals(allValuesFrom) || 
+											subClassAxiom.getSuperClass().equals(allValuesFrom) ||
+											subClassAxiom.getSubClass().equals(someValuesFrom) ||
+											subClassAxiom.getSuperClass().equals(someValuesFrom)) {
+										axiomsToRemove.add(subClassAxiom);
+									}
+								}
+								
 							}
 							else if (cellToRemove.getEntity() instanceof OWLDataProperty) {
 								OWLDataProperty property = (OWLDataProperty)cellToRemove.getEntity();
 								axiomsToRemove.addAll(ontology.getDataPropertyDomainAxioms(property));
 								axiomsToRemove.addAll(ontology.getDataPropertyRangeAxioms(property));
+								
+								OWLDataAllValuesFrom allValuesFrom = ontologyManager.getOWLDataFactory().getOWLDataAllValuesFrom(property, targetEntity.asOWLDatatype());
+								OWLDataSomeValuesFrom someValuesFrom = ontologyManager.getOWLDataFactory().getOWLDataSomeValuesFrom(property, targetEntity.asOWLDatatype());
+								
+								for (OWLSubClassOfAxiom subClassAxiom: ontology.getAxioms(AxiomType.SUBCLASS_OF)) {
+									if (subClassAxiom.getSubClass().equals(allValuesFrom) || 
+											subClassAxiom.getSuperClass().equals(allValuesFrom) ||
+											subClassAxiom.getSubClass().equals(someValuesFrom) ||
+											subClassAxiom.getSuperClass().equals(someValuesFrom)) {
+										axiomsToRemove.add(subClassAxiom);
+									}
+								}
 							}
-							
-							// TODO: Find and kill all scoped axioms also
 							ontologyManager.removeAxioms(ontology, axiomsToRemove);
-							
-							log.warn("[CoModIDE:SchemaDiagram] Removal of scoped domains/ranges as yet unsupported.");
 						}
 					}
 				}		
