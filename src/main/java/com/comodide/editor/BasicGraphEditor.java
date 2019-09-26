@@ -184,7 +184,7 @@ public class BasicGraphEditor extends JPanel
 	protected void installHandlers()
 	{
 		rubberband = new mxRubberband(graphComponent);
-//		keyboardHandler = new EditorKeyboardHandler(graphComponent);
+		keyboardHandler = new EditorKeyboardHandler(graphComponent);
 	}
 
 	protected void installToolBar()
@@ -579,7 +579,7 @@ public class BasicGraphEditor extends JPanel
 				SwingUtilities.updateComponentTreeUI(frame);
 
 				// Needs to assign the key bindings again
-//				keyboardHandler = new EditorKeyboardHandler(graphComponent);
+				keyboardHandler = new EditorKeyboardHandler(graphComponent);
 			}
 			catch (Exception e1)
 			{
