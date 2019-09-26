@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
+import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -180,7 +181,14 @@ public class SchemaDiagram extends mxGraph
 						classToRemove.accept(remover);
 					}
 					else if (cell instanceof SubClassEdgeCell) {
-						log.warn("[CoModIDE:SchemaDiagram] Removal of SubClassEdgeCell unsupported.");
+						SubClassEdgeCell subClassEdgeCell = (SubClassEdgeCell)cell;
+						OWLClass subClass = ((ClassCell)subClassEdgeCell.getSource()).getEntity().asOWLClass();
+						OWLClass superClass = ((ClassCell)subClassEdgeCell.getTarget()).getEntity().asOWLClass();
+						for (OWLSubClassOfAxiom axiom: ontology.getAxioms(AxiomType.SUBCLASS_OF)) {
+							if (axiom.getSuperClass().equals(superClass) && axiom.getSubClass().equals(subClass)) {
+								modelManager.getOWLOntologyManager().removeAxiom(ontology, axiom);
+							}
+						}
 					}
 					else if (cell instanceof DatatypeCell) {
 						DatatypeCell cellToRemove = (DatatypeCell)cell;
