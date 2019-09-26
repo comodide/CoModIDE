@@ -52,94 +52,58 @@ public class UpdateFromOntologyHandler
 	}
 	
 	public void handleAddAxiom(OWLAxiom axiom, OWLOntology ontology) {
-		log.info("[CoModIDE:UFOH] Adding axiom: " + axiom.getAxiomWithoutAnnotations().toString() );
-		// When a class is created it is declared. We extract the OWLEntity
-		// From the declaration. It does not render declared properties.
-		if (axiom.isOfType(AxiomType.DECLARATION))
+		// If we're open for business
+		if (!this.schemaDiagram.isLock())
 		{
-			handleAddDeclaration(ontology, axiom);
-		}
-		// General class axioms are parsed and rendered as an edge
-		else if (axiom.isOfType(AxiomType.SUBCLASS_OF))
-		{
-			handleAddSubClassOfAxiom((OWLSubClassOfAxiom) axiom, ontology);
-		}
-		/*else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN, AxiomType.OBJECT_PROPERTY_RANGE, AxiomType.DATA_PROPERTY_DOMAIN, AxiomType.DATA_PROPERTY_RANGE)) {
-			// Unpack the property concerned
-			@SuppressWarnings("unchecked")
-			OWLUnaryPropertyAxiom<OWLProperty> propertyAxiom = (OWLUnaryPropertyAxiom<OWLProperty>)axiom;
-			OWLProperty property = propertyAxiom.getProperty();
-			
-			// Check whether there is exactly one domain and one range; if so, render
-			Pair<Set<OWLEntity>,Set<OWLEntity>> domainsAndRanges = getDomainsAndRanges(property, ontology);
-			if (domainsAndRanges.getLeft().size() == 1 || domainsAndRanges.getRight().size() == 1) {
-				OWLEntity domain = domainsAndRanges.getLeft().iterator().next();
-				Pair<Double,Double> domainCellPosition = PositioningOperations.getXYCoordsForEntity(domain, ontology);
-				ClassCell domainCell = schemaDiagram.addClass(domain, domainCellPosition.getLeft(), domainCellPosition.getRight());
-				
-				OWLEntity range = domainsAndRanges.getRight().iterator().next();
-				Pair<Double,Double> rangeCellPosition = PositioningOperations.getXYCoordsForEntity(range, ontology);
-				ClassCell rangeCell = schemaDiagram.addClass(range, rangeCellPosition.getLeft(), rangeCellPosition.getRight());
-				
-				
+		
+			// Handle class, datatype, or property declarations
+			if (axiom.isOfType(AxiomType.DECLARATION))
+			{
+				handleAddDeclaration(ontology, axiom);
 			}
-		}*/
- 		/*else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN))
-		{
-			handleObjectPropertyDomainOrRange(ontology, (OWLObjectPropertyDomainAxiom) axiom);
-		}
-		else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_RANGE))
-		{
-			handleObjectPropertyDomainOrRange(ontology, (OWLObjectPropertyRangeAxiom) axiom);
-		}
-		else if (axiom.isOfType(AxiomType.DATA_PROPERTY_DOMAIN))
-		{
-			log.info("This is a DATA_PROPERTY_DOMAIN " +axiom.getAxiomWithoutAnnotations().toString() );
-			handleDataPropertyDomainOrRange(ontology, (OWLDataPropertyDomainAxiom) axiom);
-		}
-		else if (axiom.isOfType(AxiomType.DATA_PROPERTY_RANGE))
-		{
-			handleDataPropertyDomainOrRange(ontology, (OWLDataPropertyRangeAxiom) axiom);
-		}*/
-		else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
-		{
-			// Do nothing
-			// Code to change positions in SchemaDiagram based on changes to EntityPosition
-			// could possibly go here.
-		}
-		else
-		{
-			log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
+			// Handle subclasses (simple subclasses and restriction-based scoped domains/ranges)
+			else if (axiom.isOfType(AxiomType.SUBCLASS_OF))
+			{
+				handleAddSubClassOfAxiom((OWLSubClassOfAxiom) axiom, ontology);
+			}
+			else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
+			{
+				// Do nothing
+				// Code to change positions in SchemaDiagram based on changes to EntityPosition
+				// could possibly go here.
+			}
+			else
+			{
+				log.info("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
+			}
 		}
 	}
 
 	public void handle(OWLOntologyChange change)
 	{
-		/* Determine the type of OntologyChange */
 		// Unpack the OntologyChange
 		OWLOntology ontology = change.getOntology();
 		OWLAxiom    axiom    = change.getAxiom();
-		// Add or remove from graph
-		if (this.schemaDiagram.isLock())
+		
+		// If we're open for business
+		if (!this.schemaDiagram.isLock())
 		{
-			// Do nothing
-		}
-		else if (change.isAddAxiom())
-		{
-			handleAddAxiom(axiom, ontology);
-		}
-		else if (change.isRemoveAxiom())
-		{
-			handleRemoveAxiom(axiom, ontology);
-		}
-		else
-		{
-			log.warn("[CoModIDE:UFOH] Unsupported change to the ontology.");
+			if (change.isAddAxiom())
+			{
+				handleAddAxiom(axiom, ontology);
+			}
+			else if (change.isRemoveAxiom())
+			{
+				handleRemoveAxiom(axiom, ontology);
+			}
+			else
+			{
+				log.info("[CoModIDE:UFOH] Unsupported change to the ontology.");
+			}
 		}
 	}
 
-	public void handleRemoveAxiom(OWLAxiom axiom, OWLOntology ontology) {
-		log.warn("[CoModIDE:UFOH] I am being told to remove: " + axiom.getAxiomWithoutAnnotations().toString());
+	private void handleRemoveAxiom(OWLAxiom axiom, OWLOntology ontology) {
 		if (axiom.isOfType(AxiomType.DECLARATION))
 		{
 			OWLDeclarationAxiom declarationAxiom = (OWLDeclarationAxiom) axiom;
@@ -148,8 +112,7 @@ public class UpdateFromOntologyHandler
 		}
 		else if (axiom.isOfType(AxiomType.SUBCLASS_OF))
 		{
-			// TODO: Implement me
-			log.warn("[CoModIDE:UFOH] Subclass axiom removal TBD.");
+			handleRemoveSubClassOfAxiom((OWLSubClassOfAxiom)axiom, ontology);
 		}
 		else if (axiom.isOfType(AxiomType.OBJECT_PROPERTY_DOMAIN, AxiomType.OBJECT_PROPERTY_RANGE, AxiomType.DATA_PROPERTY_DOMAIN, AxiomType.DATA_PROPERTY_RANGE))
 		{
@@ -266,16 +229,16 @@ public class UpdateFromOntologyHandler
 		return retVal;
 	}
 
+	
 	private void handleAddDeclaration(OWLOntology ontology, OWLAxiom axiom)
 	{
 		// Unpack data from Declaration
 		OWLDeclarationAxiom declaration = (OWLDeclarationAxiom) axiom;
 		OWLEntity           owlEntity   = declaration.getEntity();
-		// Only handle Class or Datatype
+		
+		// Handle Class or Datatype
 		if (owlEntity.isOWLClass() || owlEntity.isOWLDatatype())
 		{
-			log.info("[CoModIDE:UFOH] Handling class or datatype change.");
-
 			// Retrieve the opla-sd annotations for positions
 			Pair<Double, Double> xyCoords = PositioningOperations.getXYCoordsForEntity(owlEntity, ontology);
 			// The given coordinates might come from the ontology, or they might have been
@@ -285,85 +248,97 @@ public class UpdateFromOntologyHandler
 			PositioningOperations.updateXYCoordinateAnnotations(owlEntity, ontology, xyCoords.getLeft(),
 					xyCoords.getRight());
 			
-			// By adding this "catch" we prevent the loopback "feature" of adding a Class
-			// via CoModIDE propagating via this handler to add a duplicate cell
-			if (!this.schemaDiagram.isLock())
+			graphModel.beginUpdate();
+			try
 			{
-				graphModel.beginUpdate();
-				try
-				{
-					if (owlEntity.isOWLClass()) {
-						schemaDiagram.addClass(owlEntity, xyCoords.getLeft(), xyCoords.getRight());
-					}
-					else {
-						schemaDiagram.addDatatype(owlEntity, xyCoords.getLeft(), xyCoords.getRight());
-					}
+				if (owlEntity.isOWLClass()) {
+					schemaDiagram.addClass(owlEntity, xyCoords.getLeft(), xyCoords.getRight());
 				}
-				finally
-				{
-					graphModel.endUpdate();
+				else {
+					schemaDiagram.addDatatype(owlEntity, xyCoords.getLeft(), xyCoords.getRight());
 				}
 			}
+			finally
+			{
+				graphModel.endUpdate();
+			}
 		}
+		// Handle properties
 		else if (owlEntity.isOWLObjectProperty() || owlEntity.isOWLDataProperty()) {
 			OWLProperty property = (OWLProperty)owlEntity;
 			
+			// Get the edges that should be rendered for this property
 			Set<Pair<OWLEntity,OWLEntity>> edgeSourcesAndTargets = getEdgeSourcesAndTargets(property, ontology);
 			
-			if (!this.schemaDiagram.isLock()) {
-				graphModel.beginUpdate();
-				try
-				{
-					for (Pair<OWLEntity,OWLEntity> edgeToRender: edgeSourcesAndTargets) {
-						OWLEntity source = edgeToRender.getLeft();
-						OWLEntity target = edgeToRender.getRight();
-						Pair<Double,Double> sourcePosition = PositioningOperations.getXYCoordsForEntity(source, ontology);
-						ClassCell sourceCell = schemaDiagram.addClass(source, sourcePosition.getLeft(), sourcePosition.getRight());
-						
-						mxCell targetCell;
-						if (target instanceof OWLDatatype) {
-							
-							Pair<Double,Double> targetPosition = PositioningOperations.getXYCoordsForEntity(property, ontology);
-							log.warn("Adding Datatype cell " + target.toString() + "("+targetPosition.getLeft()+","+targetPosition.getRight()+") for property " + property.toString());
-							targetCell = schemaDiagram.addDatatype(target, targetPosition.getLeft(), targetPosition.getRight());
-						}
-						else {
-							Pair<Double,Double> targetPosition = PositioningOperations.getXYCoordsForEntity(target, ontology);
-							targetCell = schemaDiagram.addClass(target, targetPosition.getLeft(), targetPosition.getRight());
-						}
-						schemaDiagram.addPropertyEdge(property, sourceCell, targetCell);
+			graphModel.beginUpdate();
+			try
+			{
+				for (Pair<OWLEntity,OWLEntity> edgeToRender: edgeSourcesAndTargets) {
+					OWLEntity source = edgeToRender.getLeft();
+					OWLEntity target = edgeToRender.getRight();
+					Pair<Double,Double> sourcePosition = PositioningOperations.getXYCoordsForEntity(source, ontology);
+					
+					// Get the source cell. Note that it may exist on canvas already, in which case the existing cell is returned. 
+					ClassCell sourceCell = schemaDiagram.addClass(source, sourcePosition.getLeft(), sourcePosition.getRight());
+					
+					// The target cell differs depending on type -- datatype cells 
+					// have positions given on the data property, and can be duplicated
+					mxCell targetCell;
+					if (target instanceof OWLDatatype) {
+						Pair<Double,Double> targetPosition = PositioningOperations.getXYCoordsForEntity(property, ontology);
+						targetCell = schemaDiagram.addDatatype(target, targetPosition.getLeft(), targetPosition.getRight());
 					}
+					else {
+						Pair<Double,Double> targetPosition = PositioningOperations.getXYCoordsForEntity(target, ontology);
+						targetCell = schemaDiagram.addClass(target, targetPosition.getLeft(), targetPosition.getRight());
+					}
+					schemaDiagram.addPropertyEdge(property, sourceCell, targetCell);
 				}
-				finally
-				{
-					graphModel.endUpdate();
-				}
+			}
+			finally
+			{
+				graphModel.endUpdate();
 			}
 		}
 	}
 
+	private void handleRemoveSubClassOfAxiom(OWLSubClassOfAxiom axiom, OWLOntology ontology) {
+		OWLClassExpression superClassExpression = axiom.getSuperClass();
+		OWLClassExpression subClassExpression = axiom.getSubClass();
+		
+		// This is a simple subclass edge between two nodes, find it and kill it
+		if (superClassExpression.isNamed() && subClassExpression.isNamed()) {
+			ClassCell superClassCell = (ClassCell)schemaDiagram.getCell(superClassExpression.asOWLClass().toString());
+			ClassCell subClassCell = (ClassCell)schemaDiagram.getCell(subClassExpression.asOWLClass().toString());
+			schemaDiagram.removeSubClassEdge(superClassCell, subClassCell);
+		}
+		// This is potentially a scoped domain/range. Recompute and re-render all 
+		// still-valid occurrences of this edge in the diagram
+		else {
+			// TODO: Build me
+		}
+	}
+	
 	private void handleAddSubClassOfAxiom(OWLSubClassOfAxiom axiom, OWLOntology ontology)
 	{
 		OWLClassExpression superClassExpression = axiom.getSuperClass();
 		OWLClassExpression subClassExpression = axiom.getSubClass();
 		
 		if (superClassExpression.isNamed() && subClassExpression.isNamed()) {
-			if (!this.schemaDiagram.isLock()) {
-				graphModel.beginUpdate();
-				try
-				{
-					OWLClass superClass = superClassExpression.asOWLClass();
-					OWLClass subClass = subClassExpression.asOWLClass();
-					Pair<Double,Double> superClassPosition = PositioningOperations.getXYCoordsForEntity(superClass, ontology);
-					ClassCell superClassCell = schemaDiagram.addClass(superClass, superClassPosition.getLeft(), superClassPosition.getRight());
-					Pair<Double,Double> subClassPosition = PositioningOperations.getXYCoordsForEntity(subClass, ontology);
-					ClassCell subClassCell = schemaDiagram.addClass(subClass, subClassPosition.getLeft(), subClassPosition.getRight());
-					schemaDiagram.addSubClassEdge(superClassCell, subClassCell);
-				}
-				finally
-				{
-					graphModel.endUpdate();
-				}
+			graphModel.beginUpdate();
+			try
+			{
+				OWLClass superClass = superClassExpression.asOWLClass();
+				OWLClass subClass = subClassExpression.asOWLClass();
+				Pair<Double,Double> superClassPosition = PositioningOperations.getXYCoordsForEntity(superClass, ontology);
+				ClassCell superClassCell = schemaDiagram.addClass(superClass, superClassPosition.getLeft(), superClassPosition.getRight());
+				Pair<Double,Double> subClassPosition = PositioningOperations.getXYCoordsForEntity(subClass, ontology);
+				ClassCell subClassCell = schemaDiagram.addClass(subClass, subClassPosition.getLeft(), subClassPosition.getRight());
+				schemaDiagram.addSubClassEdge(superClassCell, subClassCell);
+			}
+			finally
+			{
+				graphModel.endUpdate();
 			}
 		}
 	}

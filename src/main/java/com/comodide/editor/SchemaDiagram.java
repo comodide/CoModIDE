@@ -342,6 +342,27 @@ public class SchemaDiagram extends mxGraph
 		return edge;
 	}
 	
+	public void removeSubClassEdge(ClassCell parentClass, ClassCell subClass) {
+		Object[] edges = this.getEdgesBetween(subClass, parentClass);
+		for (Object edge: edges) {
+			if (edge instanceof SubClassEdgeCell) {
+				// If diagram is unlocked, proceed with cell deletion.
+				if (!isLock())
+				{
+					model.beginUpdate();
+					try
+					{
+						removeCells(new Object[] {edge});
+					}
+					finally
+					{
+						model.endUpdate();
+					}
+				}
+			}
+		}
+	}
+	
 	public PropertyEdgeCell addPropertyEdge(OWLProperty owlProperty, ClassCell domainCell, mxCell rangeCell) {
 		log.info("[CoModIDE:SchemaDiagram] Adding OWL Property " + owlProperty.toString());
 		PropertyEdgeCell edge = new PropertyEdgeCell(owlProperty);
