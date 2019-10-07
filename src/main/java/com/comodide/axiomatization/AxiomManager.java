@@ -51,6 +51,7 @@ import com.mxgraph.model.mxCell;
  */
 public class AxiomManager
 {
+	
 	/** AxiomManager is a singleton class */
 	private static AxiomManager instance = null;
 
@@ -362,7 +363,6 @@ public class AxiomManager
 				this.modelManager.applyChange(addAxiomChange);
 			}
 		}
-
 		return property;
 	}
 
