@@ -65,6 +65,13 @@ public class SchemaDiagram extends mxGraph
 	/** Used to prevent loopback from adding a class via tab */
 	private boolean lock = false;
 
+	/**
+	 * Used to clear out the schema diagram (needed when re-rendering
+	 * a new ontology). 
+	 * 
+	 * Turns off the CoModIDE listener for CELLS_REMOVED first, so no changes
+	 * to the underlying ontology is carried out if this method is called. 
+	 */
 	public void Clear() {
 		this.removeListener(cellsRemovedHandler);
 		this.removeCells(this.getChildVertices(this.getDefaultParent()));
