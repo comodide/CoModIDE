@@ -65,6 +65,12 @@ public class SchemaDiagram extends mxGraph
 	/** Used to prevent loopback from adding a class via tab */
 	private boolean lock = false;
 
+	public void Clear() {
+		this.removeListener(cellsRemovedHandler);
+		this.removeCells(this.getChildVertices(this.getDefaultParent()));
+		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);
+	}
+	
 	/**
 	 * Listener for mxEvents.CELLS_ADDED event; used to add subClassOf axiom to the model when
 	 * a new subClassOf edge is drawn on the canvas.
