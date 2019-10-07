@@ -13,6 +13,8 @@ import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.DatatypeCell;
+import com.comodide.exceptions.MultipleMatchesException;
+import com.comodide.exceptions.NameClashException;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
 
@@ -33,8 +35,12 @@ public class LabelChangeHandler
 		this.modelManager = modelManager;
 	}
 
-	public OWLEntity handle(mxCell cell, String newLabel)
+	public OWLEntity handle(mxCell cell, String newLabel) throws NameClashException, MultipleMatchesException
 	{
+		OWLEntity existingEntityWithName = this.axiomManager.findEntity(newLabel);
+		if (existingEntityWithName != null) {
+			throw new NameClashException(String.format("[CoModIDE:LabelChangeHandler] An OWL entity with the identifier '%s' already exists; unable to add another one.", newLabel));
+		}
 		cell.setId(newLabel);
 		if (cell.isEdge())
 		{

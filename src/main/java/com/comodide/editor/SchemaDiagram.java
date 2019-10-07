@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -34,6 +36,7 @@ import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.DatatypeCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.editor.model.SubClassEdgeCell;
+import com.comodide.exceptions.ComodideException;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
@@ -362,6 +365,9 @@ public class SchemaDiagram extends mxGraph
 			{
 				cellSizeUpdated(changedCell, false);
 			}
+		} catch (ComodideException ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+			log.info(ex.getMessage());
 		}
 		finally
 		{

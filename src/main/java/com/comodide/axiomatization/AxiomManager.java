@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import com.comodide.ComodideConfiguration;
 import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
 import com.comodide.editor.SchemaDiagram;
+import com.comodide.exceptions.MultipleMatchesException;
 import com.mxgraph.model.mxCell;
 
 /**
@@ -187,6 +188,19 @@ public class AxiomManager
 		return owlClass;
 	}
 
+	public OWLEntity findEntity(String entity) throws MultipleMatchesException {
+		Set<OWLEntity> foundEntities = this.owlEntityFinder.getMatchingOWLEntities(entity);
+		if (foundEntities.size() > 1) {
+			throw new MultipleMatchesException(String.format("[CoModIDE:AxiomManager] There are multiple OWL entities matching the identifier %s.",entity));
+		}
+		else if (foundEntities.isEmpty()) {
+			return null;
+		}
+		else {
+			return foundEntities.iterator().next();
+		}
+	}
+	
 	public OWLClass findClass(String clazz)
 	{
 		// Get the list of matches
