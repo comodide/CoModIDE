@@ -30,15 +30,10 @@ import com.mxgraph.view.mxGraph;
 public class ComodideEditor extends BasicGraphEditor
 {
     private static final long serialVersionUID = -4601740824088314699L;
-
-    public ComodideEditor(SchemaDiagramComponent sdComponent)
-    {
-        this("Schema Diagram Editor", sdComponent);
-    }
     
-    public ComodideEditor(String appTitle, SchemaDiagramComponent component)
+    public ComodideEditor(SchemaDiagramComponent component)
     {
-        super(appTitle, component);
+        super(component);
         final mxGraph graph = graphComponent.getGraph();
 
         // Creates the shapes palette
@@ -120,7 +115,7 @@ public class ComodideEditor extends BasicGraphEditor
 					new DatatypeCell(xsdDateTime, 0.0, 0.0));
     }
 
-    /** For debugging purposes */
+	/** For debugging purposes */
     public static void main(String[] args)
     {
         try

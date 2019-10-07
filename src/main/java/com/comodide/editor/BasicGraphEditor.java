@@ -78,7 +78,6 @@ public class BasicGraphEditor extends JPanel
 	protected mxGraphOutline    graphOutline;
 	protected JTabbedPane       libraryPane;
 	protected mxUndoManager     undoManager;
-	protected String            appTitle;
 	protected JLabel            statusBar;
 	protected File              currentFile;
 	/** Flag indicating whether the current graph has been modified */
@@ -102,11 +101,8 @@ public class BasicGraphEditor extends JPanel
 		}
 	};
 
-	public BasicGraphEditor(String appTitle, mxGraphComponent component)
+	public BasicGraphEditor(mxGraphComponent component)
 	{
-		// Stores and updates the frame title
-		this.appTitle = appTitle;
-
 		// Stores a reference to the graph and creates the command history
 		graphComponent = component;
 		final mxGraph graph = graphComponent.getGraph();
@@ -173,7 +169,6 @@ public class BasicGraphEditor extends JPanel
 		// keystrokes such as F2, Control-C, -V, X, A etc.
 		installHandlers();
 		installListeners();
-		updateTitle();
 	}
 
 	protected mxUndoManager createUndoManager()
@@ -437,11 +432,6 @@ public class BasicGraphEditor extends JPanel
 		currentFile = file;
 
 		firePropertyChange("currentFile", oldValue, file);
-
-		if (oldValue != file)
-		{
-			updateTitle();
-		}
 	}
 
 	public File getCurrentFile()
@@ -455,11 +445,6 @@ public class BasicGraphEditor extends JPanel
 		this.modified = modified;
 
 		firePropertyChange("modified", oldValue, modified);
-
-		if (oldValue != modified)
-		{
-			updateTitle();
-		}
 	}
 
 	public boolean isModified()
@@ -526,23 +511,6 @@ public class BasicGraphEditor extends JPanel
 		statusBar.setText(msg);
 	}
 
-	public void updateTitle()
-	{
-		JFrame frame = (JFrame) SwingUtilities.windowForComponent(this);
-
-		if (frame != null)
-		{
-			String title = (currentFile != null) ? currentFile.getAbsolutePath() : mxResources.get("newDiagram");
-
-			if (modified)
-			{
-				title += "*";
-			}
-
-			frame.setTitle(title + " - " + appTitle);
-		}
-	}
-
 	/*
 	 * public void about() { JFrame frame = (JFrame)
 	 * SwingUtilities.windowForComponent(this);
@@ -595,9 +563,6 @@ public class BasicGraphEditor extends JPanel
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		frame.setJMenuBar(menuBar);
 		frame.setSize(870, 640);
-
-		// Updates the frame title
-		updateTitle();
 
 		return frame;
 	}
