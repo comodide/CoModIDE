@@ -1,6 +1,6 @@
-package com.comodide.axiomatization;
+package com.comodide.exceptions;
 
-public class MultipleMatchesException extends Exception
+public class MultipleMatchesException extends ComodideException
 {
 	/** Bookkeeping */
 	private static final long serialVersionUID = 4174799684271995954L;
