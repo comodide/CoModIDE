@@ -69,7 +69,7 @@ public class LabelChangeHandler
 		ComodideCell edgeCell = (ComodideCell)cell;
 		OWLEntity property = edgeCell.getEntity();
 
-		if (property != null) {
+		if (property != null && property.isNamed() && !property.getIRI().equals(edgeCell.defaultIRI())) {
 			// This is a renaming operation.
 			// Construct new property IRI
 			OWLOntology activeOntology = modelManager.getActiveOntology();
@@ -92,7 +92,6 @@ public class LabelChangeHandler
 		}
 		else {
 			// This is a new property creation operation. 
-		
 			ComodideCell sourceCell = (ComodideCell)cell.getSource();
 			ComodideCell targetCell = (ComodideCell)cell.getTarget();
 			
