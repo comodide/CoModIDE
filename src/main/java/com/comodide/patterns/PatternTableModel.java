@@ -54,7 +54,7 @@ public class PatternTableModel extends AbstractTableModel {
 		case 0:
 			return pattern.getLabel();
 		case 1:
-			return "Documentation";
+			return "Docs";
 		default:
 			return pattern.getIri().toString();
 		}

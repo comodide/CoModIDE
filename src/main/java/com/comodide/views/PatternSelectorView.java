@@ -1,14 +1,26 @@
 package com.comodide.views;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ToolTipManager;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,10 +76,33 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
         categoryList.setAlignmentX(LEFT_ALIGNMENT);
         this.add(categoryList);
 		
-        JLabel patternsTableHeading = new JLabel("Patterns:");
-        patternsTableHeading.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-        patternsTableHeading.setAlignmentX(LEFT_ALIGNMENT);
-        this.add(patternsTableHeading);
+        JPanel patternsTableHeader = new JPanel();
+        patternsTableHeader.setLayout(new BoxLayout(patternsTableHeader, BoxLayout.X_AXIS));
+        patternsTableHeader.setAlignmentX(LEFT_ALIGNMENT);
+        this.add(patternsTableHeader);
+        
+        JLabel patternsLabel = new JLabel("Patterns:");
+        patternsLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+        patternsTableHeader.add(patternsLabel);
+        
+        patternsTableHeader.add(Box.createHorizontalGlue());
+        
+        InfoIcon infoIcon = new InfoIcon(20, Color.BLACK);
+        JLabel patternsInfobox = new JLabel(infoIcon);
+        
+        patternsInfobox.setToolTipText("<html>Click and drag drag a row in<br/> this table onto the canvas to<br/> instantiate the pattern.</html>");
+        final int defaultInitialDelay = ToolTipManager.sharedInstance().getInitialDelay();
+        patternsInfobox.addMouseListener(new MouseAdapter() {
+        	public void mouseEntered(MouseEvent me) {
+        	    ToolTipManager.sharedInstance().setInitialDelay(0);
+        	  }
+
+        	  public void mouseExited(MouseEvent me) {
+        	    ToolTipManager.sharedInstance().setInitialDelay(defaultInitialDelay);
+        	  }
+        });
+        patternsTableHeader.add(patternsInfobox);
+        
 		patternsTable = new PatternTable(patternsTableModel, this.getOWLModelManager());
 		JScrollPane patternsTableScrollPane = new JScrollPane(patternsTable);
 		patternsTable.setFillsViewportHeight(true);
@@ -81,4 +116,48 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 	protected void disposeOWLView() {
 		log.info("Pattern Selector view disposed");
 	}
+	
+	private static class InfoIcon implements Icon {
+
+        private int size;
+        private Color color;
+
+        public InfoIcon(int size, Color color) {
+            this.size = size;
+            this.color = color;
+        }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+        	// Configure drawing settings and draw circle
+        	int padding = 2;
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setColor(color);
+            g2d.setStroke(new BasicStroke(2));
+            g2d.drawOval(x + padding, y + padding, size - 2 * padding, size - 2 * padding);
+            
+            // Calculate position of and draw text
+            String text = "i";
+            int fontSize = Math.round((float)size / 2);
+            Font font = new Font(Font.MONOSPACED, Font.BOLD, fontSize);
+            FontMetrics metrics = g.getFontMetrics(font);
+            int stringX = x + (size - metrics.stringWidth(text)) / 2;
+            int stringY = y + ((size - metrics.getHeight()) / 2) + metrics.getAscent();
+            g2d.setFont(font);
+            g2d.drawString(text, stringX, stringY);
+        }
+        
+        @Override
+        public int getIconWidth() {
+            return size;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return size;
+        }
+    }
 }

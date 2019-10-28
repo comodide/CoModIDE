@@ -14,7 +14,6 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
-import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
 import org.protege.editor.owl.model.OWLModelManager;
@@ -43,6 +42,9 @@ public class PatternTable extends JTable {
 		setRowSelectionAllowed(true);
 		getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setDragEnabled(true);
+		
+		// Set column widths
+		this.getColumnModel().getColumn(1).setMaxWidth(40);
 		
 		// Transfer handler supporting dragging of patterns out of the table.
 		this.setTransferHandler(new TransferHandler() {
@@ -92,13 +94,6 @@ public class PatternTable extends JTable {
 
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
-			if (isSelected) {
-				setForeground(table.getSelectionForeground());
-				setBackground(table.getSelectionBackground());
-			} else {
-				setForeground(table.getForeground());
-				setBackground(UIManager.getColor("Button.background"));
-			}
 			setText((value == null) ? "" : value.toString());
 			return this;
 		}
