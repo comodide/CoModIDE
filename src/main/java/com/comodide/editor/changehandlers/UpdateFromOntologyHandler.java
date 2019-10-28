@@ -12,6 +12,7 @@ import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnnotationSubject;
 import org.semanticweb.owlapi.model.OWLAnnotationValue;
+import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -44,6 +45,7 @@ import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGeometry;
 import com.mxgraph.model.mxGraphModel;
 
 public class UpdateFromOntologyHandler
@@ -78,6 +80,7 @@ public class UpdateFromOntologyHandler
 			}
 			else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
 			{
+				log.warn("Processing: " + axiom.toString());
 				handleAddAnnotationAssertionAxiom((OWLAnnotationAssertionAxiom)axiom, ontology);
 			}
 			else
@@ -385,35 +388,51 @@ public class UpdateFromOntologyHandler
 	}
 	
 	private void handleAddAnnotationAssertionAxiom(OWLAnnotationAssertionAxiom axiom, OWLOntology ontology) {
-		
-		//log.warn("Treating assertion: " + axiom);
-		
-		// The assertions that we care about are only position changes
+	
+		// Unpack the handled assertion; if it is a a nested
+		// entity positioning assertion with a double value proceed
 		OWLAnnotationSubject subject = axiom.getSubject();
 		OWLAnnotationProperty property = axiom.getProperty();
 		OWLAnnotationValue value = axiom.getValue();
-		
 		if ((property.equals(PositioningOperations.entityPositionX) || property.equals(PositioningOperations.entityPositionY)) &&
-				subject instanceof IRI &&
+				subject instanceof OWLAnonymousIndividual &&
 				value.isLiteral() && 
 				value.asLiteral().get().isDouble()) {
-			
-			//log.warn("Passed sanity checks");
-			
-			IRI subjectIRI = (IRI)subject;
-			double position = value.asLiteral().get().parseDouble();
-			//log.warn("Looking for id: " + subjectIRI.toString());
-			for (mxCell cell: schemaDiagram.findCellsById(subjectIRI.toString())) {
-				// TODO: Understand why the above does not return any cells that we can move
-				//log.warn("Found " + cell);
-				if (cell instanceof ComodideCell) {
-					if (property.equals(PositioningOperations.entityPositionX)) {
-						//log.warn(String.format("Moving %s to x = %s", cell, position));
-						cell.getGeometry().setX(position);
-					}
-					else {
-						//log.warn(String.format("Moving %s to y = %s", cell, position));
-						cell.getGeometry().setY(position);
+			log.warn("Outer sanity check passed");
+			// Extract the parent annotation assertion
+			OWLAnonymousIndividual subjectIndividual = (OWLAnonymousIndividual)subject;
+			for (OWLAnnotationAssertionAxiom candidateParentAssertion: ontology.getAxioms(AxiomType.ANNOTATION_ASSERTION) ) {
+				if (candidateParentAssertion.getValue().equals(subjectIndividual) &&
+						candidateParentAssertion.getSubject() instanceof IRI) {
+					log.warn("Inner sanity check passed");
+					// If the parent assertion is on an IRI entity, that is the actual entity
+					// that our positiong assertion concerns. Find and update the corresponding
+					// cell on the canvas.
+					IRI subjectIRI = (IRI)candidateParentAssertion.getSubject();
+					double position = value.asLiteral().get().parseDouble();
+					for (mxCell cell: schemaDiagram.findCellsById(String.format("<%s>",subjectIRI.toString()))) {
+						if (cell instanceof ComodideCell) {
+							graphModel.beginUpdate();
+							try
+							{
+								mxGeometry geo = cell.getGeometry();
+								if (geo != null) {
+									mxGeometry newGeo = (mxGeometry) geo.clone();
+									if (property.equals(PositioningOperations.entityPositionX)) {
+										newGeo.setX(position);
+									}
+									else {
+										newGeo.setY(position);
+									}
+									log.warn(String.format("Moved %s to (%s,%s)", cell, newGeo.getX(), newGeo.getY()));
+									graphModel.setGeometry(cell, newGeo);
+								}
+							}
+							finally
+							{
+								graphModel.endUpdate();
+							}
+						}
 					}
 				}
 			}
