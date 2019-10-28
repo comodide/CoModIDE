@@ -7,6 +7,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.ClassExpressionType;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotationSubject;
+import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -73,9 +78,7 @@ public class UpdateFromOntologyHandler
 			}
 			else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
 			{
-				// Do nothing
-				// Code to change positions in SchemaDiagram based on changes to EntityPosition
-				// could possibly go here.
+				handleAddAnnotationAssertionAxiom((OWLAnnotationAssertionAxiom)axiom, ontology);
 			}
 			else
 			{
@@ -378,6 +381,42 @@ public class UpdateFromOntologyHandler
 				targetCell = schemaDiagram.addClass(target, targetPosition.getLeft(), targetPosition.getRight());
 			}
 			schemaDiagram.addPropertyEdge(property, sourceCell, targetCell);
+		}
+	}
+	
+	private void handleAddAnnotationAssertionAxiom(OWLAnnotationAssertionAxiom axiom, OWLOntology ontology) {
+		
+		//log.warn("Treating assertion: " + axiom);
+		
+		// The assertions that we care about are only position changes
+		OWLAnnotationSubject subject = axiom.getSubject();
+		OWLAnnotationProperty property = axiom.getProperty();
+		OWLAnnotationValue value = axiom.getValue();
+		
+		if ((property.equals(PositioningOperations.entityPositionX) || property.equals(PositioningOperations.entityPositionY)) &&
+				subject instanceof IRI &&
+				value.isLiteral() && 
+				value.asLiteral().get().isDouble()) {
+			
+			//log.warn("Passed sanity checks");
+			
+			IRI subjectIRI = (IRI)subject;
+			double position = value.asLiteral().get().parseDouble();
+			//log.warn("Looking for id: " + subjectIRI.toString());
+			for (mxCell cell: schemaDiagram.findCellsById(subjectIRI.toString())) {
+				// TODO: Understand why the above does not return any cells that we can move
+				//log.warn("Found " + cell);
+				if (cell instanceof ComodideCell) {
+					if (property.equals(PositioningOperations.entityPositionX)) {
+						//log.warn(String.format("Moving %s to x = %s", cell, position));
+						cell.getGeometry().setX(position);
+					}
+					else {
+						//log.warn(String.format("Moving %s to y = %s", cell, position));
+						cell.getGeometry().setY(position);
+					}
+				}
+			}
 		}
 	}
 	

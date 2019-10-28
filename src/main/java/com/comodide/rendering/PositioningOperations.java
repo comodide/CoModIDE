@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.protege.editor.owl.model.entity.EntityCreationPreferences;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -16,16 +15,10 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.search.EntitySearcher;
-import org.semanticweb.owlapi.util.ShortFormProvider;
-import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.comodide.patterns.Pattern;
-import com.comodide.patterns.PatternLibrary;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 
@@ -40,18 +33,15 @@ public class PositioningOperations
 {
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(PositioningOperations.class);
-
-	/** Used for creating human readable labels. */
-	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
 	
 	private static OWLDataFactory factory = new OWLDataFactoryImpl();
 
 	private static String                OPLA_SD_NAMESPACE = "http://ontologydesignpatterns.org/opla-sd#";
-	private static OWLAnnotationProperty entityPosition    = factory
+	public static OWLAnnotationProperty entityPosition    = factory
 			.getOWLAnnotationProperty(IRI.create(String.format("%sentityPosition", OPLA_SD_NAMESPACE)));
-	private static OWLAnnotationProperty entityPositionX   = factory
+	public static OWLAnnotationProperty entityPositionX   = factory
 			.getOWLAnnotationProperty(IRI.create(String.format("%sentityPositionX", OPLA_SD_NAMESPACE)));
-	private static OWLAnnotationProperty entityPositionY   = factory
+	public static OWLAnnotationProperty entityPositionY   = factory
 			.getOWLAnnotationProperty(IRI.create(String.format("%sentityPositionY", OPLA_SD_NAMESPACE)));
 
 //	private static OWLAnnotationProperty entityPosition  = createOplasdProperty("entityPosition");
@@ -187,43 +177,10 @@ public class PositioningOperations
 		// 4. Add the new axioms
 		manager.addAxioms(ontology, newAxioms);
 	}
-
-	public static void calculateDropLocationAnnotations(OWLOntology activeOntology, Pattern pattern, OWLEntity entity, Pair<Double, Double> dropLocation)
-	{
-		OWLOntology patternOntology;
-		try
-		{
-			// Get the pattern version of the entity (this is annoying)
-			IRI patternIRI = pattern.getIri();
-			String separator = EntityCreationPreferences.getDefaultSeparator();
-			String patternEntityString = patternIRI + separator + shortFormProvider.getShortForm(entity);
-			IRI patternEntityIRI = IRI.create(patternEntityString);
-			OWLEntity patternEntity = activeOntology.getOWLOntologyManager().getOWLDataFactory().getOWLEntity(entity.getEntityType(), patternEntityIRI);
-			
-			// Get the annotations for location from the pattern
-			patternOntology = PatternLibrary.getInstance().getOwlRepresentation(pattern);
-			Pair<Double, Double> annotationLocation = getXYCoordsForEntity(patternEntity, patternOntology);
-		
-			// Calculate the new drop locations
-			Double newX = annotationLocation.getLeft() + dropLocation.getLeft();
-			Double newY = annotationLocation.getRight() + dropLocation.getRight();
-			
-			updateXYCoordinateAnnotations(entity, activeOntology, newX, newY);
-		}
-		catch (OWLOntologyCreationException e)
-		{
-			log.error("[CoModIDE:PositioningOperations] Pattern Ontology could not be created.", e);
-		}
-	}
 	
 	private static double getRandomDoubleBetweenRange(double min, double max)
 	{
 		double x = (Math.random() * ((max - min) + 1)) + min;
 		return x;
-	}
-	
-	public static OWLAnnotationProperty provideEntityPositionProperty()
-	{
-		return entityPosition;
 	}
 }

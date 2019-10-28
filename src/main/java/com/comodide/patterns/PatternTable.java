@@ -63,7 +63,7 @@ public class PatternTable extends JTable {
 					PatternInstantiator pi = new PatternInstantiator(selectedPatternOntology, selectedPattern.getLabel(), modelManager);
 					Set<OWLAxiom> instantiationAxioms = pi.getInstantiationAxioms();
 					Set<OWLAxiom> modularizationAxioms = pi.getModuleAnnotationAxioms();
-					return new PatternTransferable(selectedPattern, instantiationAxioms, modularizationAxioms);
+					return new PatternTransferable(instantiationAxioms, modularizationAxioms);
 				}
 				catch (OWLOntologyCreationException ooce) {
 					log.error("The pattern could not be loaded as an OWLAPI OWLOntology: " + ooce.getLocalizedMessage());

@@ -17,11 +17,15 @@ import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotationSubject;
+import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -32,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.ComodideConfiguration;
-import com.comodide.patterns.Pattern;
 import com.comodide.patterns.PatternTransferable;
 import com.comodide.rendering.PositioningOperations;
 import com.google.common.base.Optional;
@@ -41,6 +44,9 @@ import com.mxgraph.swing.handler.mxGraphTransferHandler;
 import com.mxgraph.swing.util.mxGraphTransferable;
 import com.mxgraph.util.mxPoint;
 import com.mxgraph.view.mxGraph;
+
+import uk.ac.manchester.cs.owl.owlapi.OWLAnnotationAssertionAxiomImpl;
+import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplDouble;
 
 public class SDTransferHandler extends mxGraphTransferHandler
 {
@@ -102,10 +108,10 @@ public class SDTransferHandler extends mxGraphTransferHandler
 		{
 			try
 			{
+				Pair<Double,Double> dropLocation = getScaledDropLocation((SchemaDiagramComponent) c);
 				// Extract from TransferHandler
 				PatternTransferable pt = (PatternTransferable) t.getTransferData(PatternTransferable.dataFlavor);
 				// Unpack from Transferable
-				Pattern       pattern                        = pt.getPattern();
 				Set<OWLAxiom> instantiationAxioms            = pt.getInstantiationAxioms();
 				Set<OWLAxiom> modularizationAnnotationAxioms = pt.getModularisationAnnotationAxioms();
 				// Axioms should be sorted, i.e. declarations, then GCI, etc.
@@ -119,22 +125,38 @@ public class SDTransferHandler extends mxGraphTransferHandler
 				List<OWLOntologyChange> newAxioms      = new ArrayList<OWLOntologyChange>();
 				for (OWLAxiom instantiationAxiom : sortedInstantiationAxioms)
 				{
-					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
-				}
-
-				for (OWLAxiom instantiationAxiom : sortedInstantiationAxioms)
-				{
-					if (instantiationAxiom.isOfType(AxiomType.DECLARATION))
-					{
-						OWLDeclarationAxiom oda    = (OWLDeclarationAxiom) instantiationAxiom;
-						OWLEntity           entity = oda.getEntity();
-
-						if (entity.isOWLClass() || entity.isOWLDataProperty())
-						{
-							PositioningOperations.calculateDropLocationAnnotations(activeOntology, pattern, entity,
-									getScaledDropLocation((SchemaDiagramComponent) c));
+				
+					// The below code replaces positioning annotation assertions from the dropped
+					// pattern by new ones that take into account the offset caused by the drop 
+					// position on the canvas
+					if (instantiationAxiom.isOfType(AxiomType.ANNOTATION_ASSERTION)) {
+						OWLAnnotationAssertionAxiom annotationAxiom = (OWLAnnotationAssertionAxiom)instantiationAxiom;
+						OWLAnnotationSubject subject = annotationAxiom.getSubject();
+						OWLAnnotationProperty property = annotationAxiom.getProperty();
+						OWLAnnotationValue value = annotationAxiom.getValue();
+						Set<OWLAnnotation> annotations = annotationAxiom.getAnnotations();
+						
+						if (property.equals(PositioningOperations.entityPositionX) ||
+								property.equals(PositioningOperations.entityPositionY)) {
+							double positionOffset;
+							if (property.equals(PositioningOperations.entityPositionX)) {
+								positionOffset = dropLocation.getLeft();
+							}
+							else {
+								positionOffset = dropLocation.getRight();
+							}
+							if (value.isLiteral()) {
+								OWLLiteral valueLiteral = value.asLiteral().get();
+								if (valueLiteral.isDouble()) {
+									double sourcePosition = valueLiteral.parseDouble();
+									double newPosition = sourcePosition + positionOffset;
+									OWLAnnotationValue newValue = new OWLLiteralImplDouble(newPosition, valueLiteral.getDatatype());
+									instantiationAxiom = new OWLAnnotationAssertionAxiomImpl(subject, property, newValue, annotations);
+								}
+							}
 						}
 					}
+					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
 				}
 
 				// Depending on user configuration, add modularization axioms either to separate
