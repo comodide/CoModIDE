@@ -17,14 +17,12 @@ import org.semanticweb.owlapi.model.OWLAxiom;
  */
 public class PatternTransferable implements Transferable {
 
-	private Pattern pattern;
 	private Set<OWLAxiom> instantiationAxioms;
 	private Set<OWLAxiom> modularisationAnnotationAxioms;
 	public static DataFlavor dataFlavor;
 	
-	public PatternTransferable(Pattern pattern, Set<OWLAxiom> instantiationAxioms, Set<OWLAxiom> modularisationAnnotationAxioms) {
+	public PatternTransferable(Set<OWLAxiom> instantiationAxioms, Set<OWLAxiom> modularisationAnnotationAxioms) {
 		super();
-		this.pattern = pattern;
 		this.instantiationAxioms = instantiationAxioms;
 		this.modularisationAnnotationAxioms = modularisationAnnotationAxioms;
 	}
@@ -52,10 +50,6 @@ public class PatternTransferable implements Transferable {
 		else {
 			return false;
 		}
-	}
-	
-	public Pattern getPattern() {
-		return pattern;
 	}
 
 	public Set<OWLAxiom> getInstantiationAxioms() {

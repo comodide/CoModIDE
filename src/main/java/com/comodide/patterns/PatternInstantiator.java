@@ -45,6 +45,7 @@ public class PatternInstantiator {
 	private final String entitySeparator;
 	
 	private static final String OPLA_NAMESPACE = "http://ontologydesignpatterns.org/opla#";
+	private static final String OPLA_SD_NAMESPACE = "http://ontologydesignpatterns.org/opla-sd#";
 	
 	public PatternInstantiator(OWLOntology pattern, String patternLabel, OWLModelManager modelManager) {
 		super();
@@ -70,7 +71,9 @@ public class PatternInstantiator {
 			OWLOntologyManager patternManager = pattern.getOWLOntologyManager();
 			OWLEntityRenamer renamer = new OWLEntityRenamer(patternManager, Collections.singleton(pattern));
 			for (OWLEntity entity: pattern.getSignature()) {
-				if (!entity.isBuiltIn() && !entity.getIRI().toString().contains(OPLA_NAMESPACE)) {
+				if (!entity.isBuiltIn() && 
+						!entity.getIRI().toString().contains(OPLA_NAMESPACE) &&
+						!entity.getIRI().toString().contains(OPLA_SD_NAMESPACE)) {
 					
 					String entityShortName = entity.getIRI().getShortForm();
 					// If the entity is a property, ensure that it does not clash with a property

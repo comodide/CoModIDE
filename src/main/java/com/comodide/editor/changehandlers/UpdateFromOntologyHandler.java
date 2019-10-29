@@ -7,6 +7,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.ClassExpressionType;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotationSubject;
+import org.semanticweb.owlapi.model.OWLAnnotationValue;
+import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -39,6 +45,7 @@ import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGeometry;
 import com.mxgraph.model.mxGraphModel;
 
 public class UpdateFromOntologyHandler
@@ -73,9 +80,8 @@ public class UpdateFromOntologyHandler
 			}
 			else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
 			{
-				// Do nothing
-				// Code to change positions in SchemaDiagram based on changes to EntityPosition
-				// could possibly go here.
+				log.warn("Processing: " + axiom.toString());
+				handleAddAnnotationAssertionAxiom((OWLAnnotationAssertionAxiom)axiom, ontology);
 			}
 			else
 			{
@@ -378,6 +384,58 @@ public class UpdateFromOntologyHandler
 				targetCell = schemaDiagram.addClass(target, targetPosition.getLeft(), targetPosition.getRight());
 			}
 			schemaDiagram.addPropertyEdge(property, sourceCell, targetCell);
+		}
+	}
+	
+	private void handleAddAnnotationAssertionAxiom(OWLAnnotationAssertionAxiom axiom, OWLOntology ontology) {
+	
+		// Unpack the handled assertion; if it is a a nested
+		// entity positioning assertion with a double value proceed
+		OWLAnnotationSubject subject = axiom.getSubject();
+		OWLAnnotationProperty property = axiom.getProperty();
+		OWLAnnotationValue value = axiom.getValue();
+		if ((property.equals(PositioningOperations.entityPositionX) || property.equals(PositioningOperations.entityPositionY)) &&
+				subject instanceof OWLAnonymousIndividual &&
+				value.isLiteral() && 
+				value.asLiteral().get().isDouble()) {
+			log.warn("Outer sanity check passed");
+			// Extract the parent annotation assertion
+			OWLAnonymousIndividual subjectIndividual = (OWLAnonymousIndividual)subject;
+			for (OWLAnnotationAssertionAxiom candidateParentAssertion: ontology.getAxioms(AxiomType.ANNOTATION_ASSERTION) ) {
+				if (candidateParentAssertion.getValue().equals(subjectIndividual) &&
+						candidateParentAssertion.getSubject() instanceof IRI) {
+					log.warn("Inner sanity check passed");
+					// If the parent assertion is on an IRI entity, that is the actual entity
+					// that our positiong assertion concerns. Find and update the corresponding
+					// cell on the canvas.
+					IRI subjectIRI = (IRI)candidateParentAssertion.getSubject();
+					double position = value.asLiteral().get().parseDouble();
+					for (mxCell cell: schemaDiagram.findCellsById(String.format("<%s>",subjectIRI.toString()))) {
+						if (cell instanceof ComodideCell) {
+							graphModel.beginUpdate();
+							try
+							{
+								mxGeometry geo = cell.getGeometry();
+								if (geo != null) {
+									mxGeometry newGeo = (mxGeometry) geo.clone();
+									if (property.equals(PositioningOperations.entityPositionX)) {
+										newGeo.setX(position);
+									}
+									else {
+										newGeo.setY(position);
+									}
+									log.warn(String.format("Moved %s to (%s,%s)", cell, newGeo.getX(), newGeo.getY()));
+									graphModel.setGeometry(cell, newGeo);
+								}
+							}
+							finally
+							{
+								graphModel.endUpdate();
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	
