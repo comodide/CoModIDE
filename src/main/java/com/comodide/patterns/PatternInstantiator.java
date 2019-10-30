@@ -10,6 +10,7 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.entity.EntityCreationPreferences;
 import org.protege.editor.owl.model.find.OWLEntityFinder;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.AnonymousIndividualProperties;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
@@ -68,6 +69,11 @@ public class PatternInstantiator {
 	 */
 	public Set<OWLAxiom> getInstantiationAxioms() {
 		if (useTargetNamespace) {
+			// The below configuration, and corresponding reset to that configuration 
+			// at the end of the if block, is a workaround for an OWLAPI bug;
+			// see https://github.com/owlcs/owlapi/issues/892
+			AnonymousIndividualProperties.setRemapAllAnonymousIndividualsIds(false);
+
 			OWLOntologyManager patternManager = pattern.getOWLOntologyManager();
 			OWLEntityRenamer renamer = new OWLEntityRenamer(patternManager, Collections.singleton(pattern));
 			for (OWLEntity entity: pattern.getSignature()) {
@@ -91,6 +97,7 @@ public class PatternInstantiator {
 					patternManager.applyChanges(changes);
 				}
 			}
+			AnonymousIndividualProperties.resetToDefault();
 		}
 		return pattern.getAxioms();
 	}

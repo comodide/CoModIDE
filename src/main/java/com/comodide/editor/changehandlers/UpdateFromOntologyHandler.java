@@ -80,7 +80,6 @@ public class UpdateFromOntologyHandler
 			}
 			else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
 			{
-				log.warn("Processing: " + axiom.toString());
 				handleAddAnnotationAssertionAxiom((OWLAnnotationAssertionAxiom)axiom, ontology);
 			}
 			else
@@ -398,17 +397,15 @@ public class UpdateFromOntologyHandler
 				subject instanceof OWLAnonymousIndividual &&
 				value.isLiteral() && 
 				value.asLiteral().get().isDouble()) {
-			log.warn("Outer sanity check passed");
 			// Extract the parent annotation assertion
 			OWLAnonymousIndividual subjectIndividual = (OWLAnonymousIndividual)subject;
-			for (OWLAnnotationAssertionAxiom candidateParentAssertion: ontology.getAxioms(AxiomType.ANNOTATION_ASSERTION) ) {
-				if (candidateParentAssertion.getValue().equals(subjectIndividual) &&
-						candidateParentAssertion.getSubject() instanceof IRI) {
-					log.warn("Inner sanity check passed");
+			for (OWLAnnotationAssertionAxiom candidateParentAnnotation: ontology.getAxioms(AxiomType.ANNOTATION_ASSERTION) ) {
+				if (candidateParentAnnotation.getValue().equals(subjectIndividual) &&
+						candidateParentAnnotation.getSubject() instanceof IRI) {
 					// If the parent assertion is on an IRI entity, that is the actual entity
 					// that our positiong assertion concerns. Find and update the corresponding
 					// cell on the canvas.
-					IRI subjectIRI = (IRI)candidateParentAssertion.getSubject();
+					IRI subjectIRI = (IRI)candidateParentAnnotation.getSubject();
 					double position = value.asLiteral().get().parseDouble();
 					for (mxCell cell: schemaDiagram.findCellsById(String.format("<%s>",subjectIRI.toString()))) {
 						if (cell instanceof ComodideCell) {
@@ -424,7 +421,6 @@ public class UpdateFromOntologyHandler
 									else {
 										newGeo.setY(position);
 									}
-									log.warn(String.format("Moved %s to (%s,%s)", cell, newGeo.getX(), newGeo.getY()));
 									graphModel.setGeometry(cell, newGeo);
 								}
 							}
