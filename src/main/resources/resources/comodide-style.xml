@@ -7,6 +7,11 @@
 		<add as="fontSize" value="12" />
 		<add as="fontColor" value="#000000" />
 		<add as="fontFamily" value="Verdana" />
+		<add as="spacing" value="5" />
+		<add as="verticalLabelPosition" value="middle" />
+		<add as="verticalAlign" value="middle" />
+		<add as="autosize" value="1" />
+		
 	</add>
 
 	<add as="comodideClassVertex" extend="defaultVertex">
@@ -14,7 +19,6 @@
 		<add as="perimeter" value="rectanglePerimeter" />
 		<add as="rounded" value="1" />
 		<add as="fillColor" value="#ffcc00" />
-
 	</add>
 
 	<add as="comodideDatatypeVertex" extend="defaultVertex">
@@ -45,7 +49,5 @@
 		<add as="dashed" value="1" />
 		<add as="endFill" value="0" />
 	</add>
-	
-
 	
 </mxStylesheet>

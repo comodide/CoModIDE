@@ -292,6 +292,7 @@ public class SchemaDiagram extends mxGraph
 		this.modelManager = modelManager;
 		this.labelChangeHandler = new LabelChangeHandler(modelManager, this);
 		this.allowDanglingEdges = false;
+		this.cellsResizable = false;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
 		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);
