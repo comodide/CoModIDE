@@ -293,6 +293,7 @@ public class SchemaDiagram extends mxGraph
 		this.labelChangeHandler = new LabelChangeHandler(modelManager, this);
 		this.allowDanglingEdges = false;
 		this.cellsResizable = false;
+		this.autoSizeCells = true;
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
 		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);
@@ -351,7 +352,13 @@ public class SchemaDiagram extends mxGraph
 		/* Process object into useful formats. */
 		ComodideCell changedCell = (ComodideCell) cell;
 		String newLabel    = (String) newValue;
+		String oldLabel = (String)changedCell.getValue();
 
+		// Ignore false positives, e.g. edit double-clicks that don't change anything
+		if (newLabel.equals(oldLabel)) {
+			return;
+		}
+		
 		model.beginUpdate();
 		this.lock = true; // prevent loopback during addaxiom
 		try
@@ -463,6 +470,7 @@ public class SchemaDiagram extends mxGraph
 		}
 		ClassCell cell = new ClassCell(owlEntity, positionX, positionY);
 		this.addCell(cell);
+		cellSizeUpdated(cell, false);
 		return cell;
 	}
 
@@ -470,6 +478,7 @@ public class SchemaDiagram extends mxGraph
 		log.info("[CoModIDE:SchemaDiagram] Adding OWL Datatype " + owlEntity.toString());
 		DatatypeCell cell = new DatatypeCell(owlEntity, positionX, positionY);
 		this.addCell(cell);
+		cellSizeUpdated(cell, false);
 		return cell;
 	}
 	
