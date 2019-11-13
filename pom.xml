@@ -6,7 +6,7 @@
 
 	<groupId>com.comodide</groupId>
 	<artifactId>CoModIDE</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.1.0</version>
 	<packaging>bundle</packaging>
 
 	<description>Plugin for Protégé supporting graphical modular ontology engineering.</description>
