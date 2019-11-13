@@ -1,7 +1,7 @@
-<h1>CoModIDE for Protégé<h1>
+<h1>CoModIDE for Protégé</h1>
 
 <p>
-CoModIDE is the <i>Comprehensive Modular Ontology IDE</a> – a plugin for the Protégé ontology editor that supports graphical drag-and-drop based composition of ontologies, supported by an embedded Ontology Design Pattern library. It is developed jointly by the Data Semantics Lab at Kansas State University, USA and the Jönköping AI Lab at Jönköping University, Sweden.
+CoModIDE is the <i>Comprehensive Modular Ontology IDE</i> – a plugin for the Protégé ontology editor that supports graphical drag-and-drop based composition of ontologies, supported by an embedded Ontology Design Pattern library. It is developed jointly by the Data Semantics Lab at Kansas State University, USA and the Jönköping AI Lab at Jönköping University, Sweden.
 </p>
 
 <p>For more information about CoModIDE, and a video walkthrough, please visit <a href="https://comodide.com">comodide.com</a>.</p>
