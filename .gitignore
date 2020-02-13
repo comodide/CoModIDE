@@ -9,6 +9,10 @@
 # Maven
 target/
 
+# Intellij
+.idea/
+CoModIDE.iml
+
 # Other Java stuff
 *.jar
 !lib/*.jar
