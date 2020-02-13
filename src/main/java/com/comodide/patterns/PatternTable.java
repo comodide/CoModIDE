@@ -1,27 +1,19 @@
 package com.comodide.patterns;
 
-import java.awt.Component;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Set;
-
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.TransferHandler;
-import javax.swing.table.TableCellRenderer;
-
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.util.Set;
 
 /**
  * A specialization of JTable specifically intended to list ontology design
@@ -43,9 +35,36 @@ public class PatternTable extends JTable {
 		getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setDragEnabled(true);
 		
-		// Set column widths
-		this.getColumnModel().getColumn(1).setMaxWidth(40);
-		
+
+/*
+* The larger prefDenom, the less space col1 takes up when CoModIDE starts up.
+* Is not an accurate representative percentage of how much will take of table.
+* Some sort of listener on Table Size Change or fancy JTable setting finagling
+* would be needed for that. Current solution allows user to resize either column to whatever they wish.*/
+		int prefDenom = 5;
+		int totalWidth = this.getColumnModel().getTotalColumnWidth();
+
+		TableColumn col0 = this.getColumnModel().getColumn(0);
+		TableColumn col1 = this.getColumnModel().getColumn(1);
+
+		col0.setPreferredWidth(totalWidth - totalWidth/prefDenom);
+		col1.setPreferredWidth(totalWidth/prefDenom);
+
+
+		/*
+		log.info(String.format("\nPattern Table Column Info:\n" +
+				"Total Columns Width:\t%s", totalWidth));
+
+		log.info(String.format("\nColumn 0 Table Size Info:\n" +
+				"\tColumn 0 Max Width:\t%s\n" +
+				"\tColumn 0 Preferred Width:\t%s", col0.getMaxWidth(), col0.getPreferredWidth()));
+
+		log.info(String.format("\nColumn 1 Table Size Info:\n" +
+				"\tColumn 1 Max Width:\t%s\n" +
+				"\tColumn 1 Preferred Width:\t%s\n", col1.getMaxWidth(), col1.getPreferredWidth()));
+		*/
+
+
 		// Transfer handler supporting dragging of patterns out of the table.
 		this.setTransferHandler(new TransferHandler() {
 			private static final long serialVersionUID = -4277997093361110983L;
@@ -120,11 +139,7 @@ public class PatternTable extends JTable {
 			super(checkBox);
 			button = new JButton();
 			button.setOpaque(true);
-			button.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					fireEditingStopped();
-				}
-			});
+			button.addActionListener(e -> fireEditingStopped());
 		}
 
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
@@ -149,7 +164,7 @@ public class PatternTable extends JTable {
 				docFrame.setVisible(true);
 			}
 			isPushed = false;
-			return new String(label);
+			return label;
 		}
 
 		public boolean stopCellEditing() {

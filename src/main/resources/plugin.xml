@@ -19,7 +19,7 @@
 		<class value="com.comodide.views.PatternSelectorView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
-<extension id="ConfigurationView"
+	<extension id="ConfigurationView"
 		point="org.protege.editor.core.application.ViewComponent">
 		<label value="CoModIDE Configuration" />
 		<class value="com.comodide.views.ConfigurationView" />
