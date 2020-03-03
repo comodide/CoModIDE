@@ -13,6 +13,8 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Set;
 
 /**
@@ -33,7 +35,7 @@ public class PatternTable extends JTable {
 		setColumnSelectionAllowed(false);
 		setRowSelectionAllowed(true);
 		getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.setDragEnabled(true);
+		setDragEnabled(true);
 		
 
 /*
@@ -90,6 +92,16 @@ public class PatternTable extends JTable {
 				}
 			}
 			
+		});
+
+		// Shoutout to https://stackoverflow.com/a/38115410
+		this.addMouseMotionListener(new MouseAdapter() {
+			@Override public void mouseDragged(MouseEvent e){
+				JComponent c = (JComponent) e.getComponent();
+				TransferHandler th = c.getTransferHandler();
+				if (th != null)
+					th.exportAsDrag(c, e, TransferHandler.COPY);
+			}
 		});
 		
 		columnModel.getColumn(1).setCellRenderer(new ButtonRenderer());

@@ -1,34 +1,19 @@
 package com.comodide.views;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ToolTipManager;
-import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.comodide.patterns.PatternCategory;
 import com.comodide.patterns.PatternLibrary;
 import com.comodide.patterns.PatternTable;
 import com.comodide.patterns.PatternTableModel;
+import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * CoModIDE Pattern Selector view. Lists and displays indexed ontology patterns, and provides hooks to initiate pattern instantiation into an ontology.
@@ -65,11 +50,12 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
                 return max;
             }
         };
+
         // Listener for when user selects a new category, redraws the pattern table based on chosen category
         categoryList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				PatternCategory selectedCategory = (PatternCategory)categoryList.getSelectedItem();
+                PatternCategory selectedCategory = (PatternCategory)categoryList.getSelectedItem();
 				patternsTableModel.update(patternLibrary.getPatternsForCategory(selectedCategory));				
 			}
         });
