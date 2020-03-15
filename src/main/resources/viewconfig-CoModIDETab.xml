@@ -6,10 +6,15 @@
                 <Property id="pluginId" value="CoModIDE.EditorView"/>
             </Component>
         </CNode>
-        <HSNode splits="0.5 0.5">
+        <HSNode splits="0.4 0.3 0.3">
             <CNode>
                 <Component label="Pattern Library">
                     <Property id="pluginId" value="CoModIDE.PatternSelectorView"/>
+                </Component>
+            </CNode>
+            <CNode>
+                <Component label="EdgeInspector">
+                    <Property id="pluginId" value="CoModIDE.EdgeInspectorView"/>
                 </Component>
             </CNode>
             <CNode>

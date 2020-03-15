@@ -31,5 +31,10 @@
 		<class value="com.comodide.views.EditorView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
-
+	<extension id="EdgeInspectorView"
+		point="org.protege.editor.core.application.ViewComponent">
+		<label value="CoModIDE Edge Inspector Tool" />
+		<class value="com.comodide.views.EdgeInspectorView" />
+		<headerColor value="@org.protege.ontologycolor" />
+	</extension>
 </plugin>
