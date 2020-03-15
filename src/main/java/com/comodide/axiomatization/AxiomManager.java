@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import com.comodide.ComodideConfiguration;
 import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
 import com.comodide.editor.SchemaDiagram;
+import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.exceptions.MultipleMatchesException;
 import com.mxgraph.model.mxCell;
 
@@ -51,7 +52,7 @@ import com.mxgraph.model.mxCell;
  */
 public class AxiomManager
 {
-	
+
 	/** AxiomManager is a singleton class */
 	private static AxiomManager instance = null;
 
@@ -59,12 +60,9 @@ public class AxiomManager
 	{
 		if (instance == null)
 		{
-			return new AxiomManager(modelManager, schemaDiagram);
+			instance = new AxiomManager(modelManager, schemaDiagram);
 		}
-		else
-		{
-			return instance;
-		}
+		return instance;
 	}
 
 	/** Bookkeeping */
@@ -77,7 +75,9 @@ public class AxiomManager
 	private OWLDataFactory   owlDataFactory;
 	private OWLEntityFinder  owlEntityFinder;
 	private OWLEntityRenamer owlEntityRenamer;
-
+	/** Used for adding OWLAx Axioms to the active ontology */
+	private OWLAxAxiomFactory owlaxAxiomFactory;
+	
 	/** Used for current namespace */
 	private IRI iri;
 
@@ -107,6 +107,8 @@ public class AxiomManager
 			this.iri = this.owlOntology.getOntologyID().getOntologyIRI().orNull();
 			// Create Parsers for axioms
 			this.simpleAxiomParser = new SimpleAxiomParser();
+			// Create the OWLAxAxiomFactory
+			this.owlaxAxiomFactory = new OWLAxAxiomFactory(this.modelManager);
 		}
 		else
 		{
@@ -125,6 +127,11 @@ public class AxiomManager
 		this.owlEntityRenamer = new OWLEntityRenamer(ontologyManager, list);
 	}
 
+	public void createOWLAxAxiom(OWLAxAxiomType axiomType, PropertyEdgeCell edgeCell)
+	{
+		this.owlaxAxiomFactory.createAxiomFromEdge(axiomType, edgeCell);
+	}
+	
 	/**
 	 * This method will attempt to first find a Class with the existing targetName
 	 * If it does not find it, it will create a Class with target name in the active
@@ -189,19 +196,24 @@ public class AxiomManager
 		return owlClass;
 	}
 
-	public OWLEntity findEntity(String entity) throws MultipleMatchesException {
+	public OWLEntity findEntity(String entity) throws MultipleMatchesException
+	{
 		Set<OWLEntity> foundEntities = this.owlEntityFinder.getMatchingOWLEntities(entity);
-		if (foundEntities.size() > 1) {
-			throw new MultipleMatchesException(String.format("[CoModIDE:AxiomManager] There are multiple OWL entities matching the identifier %s.",entity));
+		if (foundEntities.size() > 1)
+		{
+			throw new MultipleMatchesException(String.format(
+					"[CoModIDE:AxiomManager] There are multiple OWL entities matching the identifier %s.", entity));
 		}
-		else if (foundEntities.isEmpty()) {
+		else if (foundEntities.isEmpty())
+		{
 			return null;
 		}
-		else {
+		else
+		{
 			return foundEntities.iterator().next();
 		}
 	}
-	
+
 	public OWLClass findClass(String clazz)
 	{
 		// Get the list of matches
@@ -273,7 +285,7 @@ public class AxiomManager
 	/** This method should be called when newValue == null */
 	public void removeClass()
 	{
-
+		// TODO Why is this empty???!!! (3/15/20)
 	}
 
 	public List<OWLDatatype> addDatatype(String datatype)
@@ -317,6 +329,7 @@ public class AxiomManager
 
 	}
 
+	// TODO finish documentation
 	public OWLObjectProperty handleObjectProperty(String propertyName, OWLEntity domain, OWLEntity range)
 	{
 		// Perhaps the ObjectProperty already exists?
@@ -339,33 +352,40 @@ public class AxiomManager
 				// Create the OWLAPI construct for the property domain/range restriction
 				OWLObjectPropertyDomainAxiom opda = this.owlDataFactory.getOWLObjectPropertyDomainAxiom(property,
 						domain.asOWLClass());
-				OWLObjectPropertyRangeAxiom opra = this.owlDataFactory.getOWLObjectPropertyRangeAxiom(property,
+				OWLObjectPropertyRangeAxiom  opra = this.owlDataFactory.getOWLObjectPropertyRangeAxiom(property,
 						range.asOWLClass());
 				// Package into AddAxioms
 				AddAxiom addDomainAxiom = new AddAxiom(this.owlOntology, opda);
-				AddAxiom addRangeAxiom = new AddAxiom(this.owlOntology, opra);
+				AddAxiom addRangeAxiom  = new AddAxiom(this.owlOntology, opra);
 				// Make the change to the ontology
 				ArrayList<AddAxiom> changes = new ArrayList<AddAxiom>(Arrays.asList(addDomainAxiom, addRangeAxiom));
 				this.modelManager.applyChanges(changes);
 			}
-			
-			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_DOMAIN)) {
-				OWLObjectSomeValuesFrom someValuesFrom = this.owlDataFactory.getOWLObjectSomeValuesFrom(property, range.asOWLClass());
-				OWLSubClassOfAxiom subClassAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(someValuesFrom, domain.asOWLClass());
-				AddAxiom addAxiomChange = new AddAxiom(this.owlOntology, subClassAxiom);
+
+			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_DOMAIN))
+			{
+				OWLObjectSomeValuesFrom someValuesFrom = this.owlDataFactory.getOWLObjectSomeValuesFrom(property,
+						range.asOWLClass());
+				OWLSubClassOfAxiom      subClassAxiom  = this.owlDataFactory.getOWLSubClassOfAxiom(someValuesFrom,
+						domain.asOWLClass());
+				AddAxiom                addAxiomChange = new AddAxiom(this.owlOntology, subClassAxiom);
 				this.modelManager.applyChange(addAxiomChange);
 			}
-			
-			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_RANGE)) {
-				OWLObjectAllValuesFrom allValuesFrom = this.owlDataFactory.getOWLObjectAllValuesFrom(property, range.asOWLClass());
-				OWLSubClassOfAxiom subClassAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(domain.asOWLClass(), allValuesFrom);
-				AddAxiom addAxiomChange = new AddAxiom(this.owlOntology, subClassAxiom);
+
+			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_RANGE))
+			{
+				OWLObjectAllValuesFrom allValuesFrom  = this.owlDataFactory.getOWLObjectAllValuesFrom(property,
+						range.asOWLClass());
+				OWLSubClassOfAxiom     subClassAxiom  = this.owlDataFactory.getOWLSubClassOfAxiom(domain.asOWLClass(),
+						allValuesFrom);
+				AddAxiom               addAxiomChange = new AddAxiom(this.owlOntology, subClassAxiom);
 				this.modelManager.applyChange(addAxiomChange);
 			}
 		}
 		return property;
 	}
 
+	// TODO Document this
 	public OWLObjectProperty findObjectProperty(String propertyName)
 	{
 		Set<OWLObjectProperty> properties = this.owlEntityFinder.getMatchingOWLObjectProperties(propertyName);
@@ -424,11 +444,11 @@ public class AxiomManager
 				// Create the OWLAPI construct for the property domain/range restriction
 				OWLDataPropertyDomainAxiom opda = this.owlDataFactory.getOWLDataPropertyDomainAxiom(dataProperty,
 						domain.asOWLClass());
-				OWLDataPropertyRangeAxiom opra = this.owlDataFactory.getOWLDataPropertyRangeAxiom(dataProperty,
+				OWLDataPropertyRangeAxiom  opra = this.owlDataFactory.getOWLDataPropertyRangeAxiom(dataProperty,
 						range.asOWLDatatype());
 				// Package into AddAxioms
 				AddAxiom addDomainAxiom = new AddAxiom(this.owlOntology, opda);
-				AddAxiom addRangeAxiom = new AddAxiom(this.owlOntology, opra);
+				AddAxiom addRangeAxiom  = new AddAxiom(this.owlOntology, opra);
 				// Make the change to the ontology
 				ArrayList<AddAxiom> changes = new ArrayList<AddAxiom>(Arrays.asList(addDomainAxiom, addRangeAxiom));
 				this.modelManager.applyChanges(changes);

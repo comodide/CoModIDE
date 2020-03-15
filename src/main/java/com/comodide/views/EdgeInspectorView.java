@@ -2,15 +2,17 @@ package com.comodide.views;
 
 import java.awt.Font;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.axiomatization.OWLAxAxiomType;
 import com.comodide.editor.model.PropertyEdgeCell;
-import com.comodide.editor.model.SubClassEdgeCell;
 import com.comodide.messaging.ComodideMessage;
 import com.comodide.messaging.ComodideMessageBus;
 import com.comodide.messaging.ComodideMessageHandler;
@@ -22,7 +24,7 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 	private static final Logger log              = LoggerFactory.getLogger(EdgeInspectorView.class);
 
 	// Labels
-	private JLabel edgeLabel = new JLabel("Edge.");
+	private Box edgeBox;
 	private JLabel cellLabel = new JLabel("Select a Property Edge to Continue.");
 	
 	@Override
@@ -30,36 +32,50 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 	{
 		// Layout
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		// Font
-		Font f = edgeLabel.getFont();
-		// Bold them
-		edgeLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		// Cell Message
+		Font f = cellLabel.getFont();
 		cellLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-		// Visibility
-		edgeLabel.setVisible(false);
 		cellLabel.setVisible(false);
-		// Add them
-		this.add(edgeLabel);
 		this.add(cellLabel);
-		
+		// Edge stuff
+		setUpCheckboxes();
 		// This view is interested in Cell Selected Messages sent by Comodide
 		ComodideMessageBus.getSingleton().registerHandler(ComodideMessage.CELL_SELECTED, this);
-		
 		// Finish
 		log.info("[CoModIDE:EdgeInspectorView] Successfully Initialised.");
 	}
 
+	public void setUpCheckboxes()
+	{
+		// Create box
+		this.edgeBox = Box.createVerticalBox();
+		// Title
+		JLabel edgeLabel = new JLabel("Edge.");
+		Font f = edgeLabel.getFont();
+		edgeLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		this.edgeBox.add(edgeLabel);
+		// Add all checkboxes for the axiom types
+		for(OWLAxAxiomType axiomType : OWLAxAxiomType.values())
+		{
+			String axiomTypeString = axiomType.getAxiomType();
+			JCheckBox jcb = new JCheckBox(axiomTypeString);
+			this.edgeBox.add(jcb);
+		}
+		this.edgeBox.setVisible(false);
+		this.add(edgeBox);
+	}
+	
 	public void changeVisibility(String choice)
 	{
 		if (choice.equalsIgnoreCase("cell"))
 		{
 			this.cellLabel.setVisible(true);
-			this.edgeLabel.setVisible(false);
+			this.edgeBox.setVisible(false);
 		}
 		else if (choice.equalsIgnoreCase("edge"))
 		{
 			this.cellLabel.setVisible(false);
-			this.edgeLabel.setVisible(true);
+			this.edgeBox.setVisible(true);
 		}
 		else
 		{
