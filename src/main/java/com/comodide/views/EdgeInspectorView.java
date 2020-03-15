@@ -9,6 +9,8 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.editor.model.PropertyEdgeCell;
+import com.comodide.editor.model.SubClassEdgeCell;
 import com.comodide.messaging.ComodideMessage;
 import com.comodide.messaging.ComodideMessageBus;
 import com.comodide.messaging.ComodideMessageHandler;
@@ -21,7 +23,7 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 
 	// Labels
 	private JLabel edgeLabel = new JLabel("Edge.");
-	private JLabel cellLabel = new JLabel("Cell.");
+	private JLabel cellLabel = new JLabel("Select a Property Edge to Continue.");
 	
 	@Override
 	public void initialiseOWLView()
@@ -56,8 +58,8 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 		}
 		else if (choice.equalsIgnoreCase("edge"))
 		{
-			this.cellLabel.setVisible(true);
-			this.edgeLabel.setVisible(false);
+			this.cellLabel.setVisible(false);
+			this.edgeLabel.setVisible(true);
 		}
 		else
 		{
@@ -68,14 +70,20 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 	public boolean handleComodideMessage(ComodideMessage message, Object payload)
 	{
 		boolean result = false;
-		
+
+		// Handler for selecting a cell
 		if(message == ComodideMessage.CELL_SELECTED)
 		{
-			String choice = "cell";
-			
-			this.changeVisibility(choice);
-			
-			return true;
+			if(payload instanceof PropertyEdgeCell) // || payload instanceof SubClassEdgeCell)
+			{
+				this.changeVisibility("edge");
+			}
+			else
+			{
+				this.changeVisibility("cell");
+			}
+
+			result = true;
 		}
 		
 		return result;

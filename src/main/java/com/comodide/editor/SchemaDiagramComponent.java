@@ -79,9 +79,7 @@ public class SchemaDiagramComponent extends mxGraphComponent
 	public void selectCellForEvent(Object cell, MouseEvent e)
 	{
 		super.selectCellForEvent(cell, e);
-
 		boolean result = ComodideMessageBus.getSingleton().sendMessage(ComodideMessage.CELL_SELECTED, cell);
-
-		log.info("[CoModIDE:SchemaDiagramComponent] " + result);
+//		log.info("[CoModIDE:SchemaDiagramComponent] " + result);
 	}
 }
