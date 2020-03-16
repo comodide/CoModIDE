@@ -28,6 +28,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
@@ -36,7 +37,6 @@ import org.slf4j.LoggerFactory;
 
 import com.comodide.ComodideConfiguration;
 import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
-import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.exceptions.MultipleMatchesException;
 import com.mxgraph.model.mxCell;
@@ -56,11 +56,11 @@ public class AxiomManager
 	/** AxiomManager is a singleton class */
 	private static AxiomManager instance = null;
 
-	public static AxiomManager getInstance(OWLModelManager modelManager, SchemaDiagram schemaDiagram)
+	public static AxiomManager getInstance(OWLModelManager modelManager)
 	{
 		if (instance == null)
 		{
-			instance = new AxiomManager(modelManager, schemaDiagram);
+			instance = new AxiomManager(modelManager); // , schemaDiagram);
 		}
 		return instance;
 	}
@@ -70,14 +70,14 @@ public class AxiomManager
 	private final String pf  = "[CoModIDE:AxiomManager] ";
 
 	/** Used for adding axioms to the active ontology */
-	private OWLModelManager  modelManager;
-	private OWLOntology      owlOntology;
-	private OWLDataFactory   owlDataFactory;
-	private OWLEntityFinder  owlEntityFinder;
-	private OWLEntityRenamer owlEntityRenamer;
+	private OWLModelManager   modelManager;
+	private OWLOntology       owlOntology;
+	private OWLDataFactory    owlDataFactory;
+	private OWLEntityFinder   owlEntityFinder;
+	private OWLEntityRenamer  owlEntityRenamer;
 	/** Used for adding OWLAx Axioms to the active ontology */
 	private OWLAxAxiomFactory owlaxAxiomFactory;
-	
+
 	/** Used for current namespace */
 	private IRI iri;
 
@@ -87,7 +87,7 @@ public class AxiomManager
 	/** Used for generating human readable labels */
 	private static final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
 
-	private AxiomManager(OWLModelManager modelManager, SchemaDiagram schemaDiagram)
+	private AxiomManager(OWLModelManager modelManager)
 	{
 		this.modelManager = modelManager;
 
@@ -127,11 +127,29 @@ public class AxiomManager
 		this.owlEntityRenamer = new OWLEntityRenamer(ontologyManager, list);
 	}
 
-	public void createOWLAxAxiom(OWLAxAxiomType axiomType, PropertyEdgeCell edgeCell)
+	public OWLAxiom createOWLAxAxiom(OWLAxAxiomType axiomType, PropertyEdgeCell edgeCell)
 	{
-		this.owlaxAxiomFactory.createAxiomFromEdge(axiomType, edgeCell);
+		OWLAxiom axiom = this.owlaxAxiomFactory.createAxiomFromEdge(axiomType, edgeCell);
+
+		return axiom;
 	}
-	
+
+	public void addOWLAxAxiom(OWLAxAxiomType axiomType, PropertyEdgeCell edgeCell)
+	{
+		OWLAxiom axiom = createOWLAxAxiom(axiomType, edgeCell);
+
+		AddAxiom add = new AddAxiom(owlOntology, axiom);
+		this.modelManager.applyChange(add);
+	}
+
+	public void removeOWLAxAxiom(OWLAxAxiomType axiomType, PropertyEdgeCell edgeCell)
+	{
+		OWLAxiom axiom = createOWLAxAxiom(axiomType, edgeCell);
+
+		RemoveAxiom add = new RemoveAxiom(owlOntology, axiom);
+		this.modelManager.applyChange(add);
+	}
+
 	/**
 	 * This method will attempt to first find a Class with the existing targetName
 	 * If it does not find it, it will create a Class with target name in the active

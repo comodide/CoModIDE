@@ -1,6 +1,8 @@
 package com.comodide.views;
 
 import java.awt.Font;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -11,7 +13,9 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.axiomatization.AxiomManager;
 import com.comodide.axiomatization.OWLAxAxiomType;
+import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.messaging.ComodideMessage;
 import com.comodide.messaging.ComodideMessageBus;
@@ -22,23 +26,30 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 	// Bookkeeping
 	private static final long   serialVersionUID = 4279759233076733524L;
 	private static final Logger log              = LoggerFactory.getLogger(EdgeInspectorView.class);
-
-	// Labels
-	private Box edgeBox;
-	private JLabel cellLabel = new JLabel("Select a Property Edge to Continue.");
+	// Swing components
+	private Box    edgeBox;
+	private JLabel edgeLabel;
+	private JLabel cellLabel = new JLabel("Select a Named Property Edge to Continue.");
+	// 
+	private PropertyEdgeCell currentSelectedCell;
+	private AxiomManager axiomManager;
 	
 	@Override
 	public void initialiseOWLView()
 	{
 		// Layout
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		// Cell Message
-		Font f = cellLabel.getFont();
-		cellLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-		cellLabel.setVisible(false);
+		// Labels
+		Font f = this.cellLabel.getFont();
+		this.edgeLabel = new JLabel("");
+		this.cellLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		this.edgeLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		this.cellLabel.setVisible(false);
 		this.add(cellLabel);
-		// Edge stuff
+		// Edge Inspector stuff
 		setUpCheckboxes();
+		// Get an axiom manager
+		this.axiomManager = AxiomManager.getInstance(getOWLModelManager());
 		// This view is interested in Cell Selected Messages sent by Comodide
 		ComodideMessageBus.getSingleton().registerHandler(ComodideMessage.CELL_SELECTED, this);
 		// Finish
@@ -50,21 +61,44 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 		// Create box
 		this.edgeBox = Box.createVerticalBox();
 		// Title
-		JLabel edgeLabel = new JLabel("Edge.");
-		Font f = edgeLabel.getFont();
-		edgeLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		this.edgeBox.add(edgeLabel);
 		// Add all checkboxes for the axiom types
-		for(OWLAxAxiomType axiomType : OWLAxAxiomType.values())
+		for (OWLAxAxiomType axiomType : OWLAxAxiomType.values())
 		{
 			String axiomTypeString = axiomType.getAxiomType();
-			JCheckBox jcb = new JCheckBox(axiomTypeString);
+			/*
+			 * TODO dynamically determine if the axioms are present To do this, we will want
+			 * to augment the axiom manager with an axiom finder
+			 * 
+			 * Actually, this probably shouldn't be done here but in the handle comodide message
+			 * or in the change visibility
+			 */
+			JCheckBox jcb = new JCheckBox(axiomTypeString, false);
+
+			jcb.addItemListener(new ItemListener()
+			{
+				@Override
+				public void itemStateChanged(ItemEvent arg0)
+				{
+					boolean checked = arg0.getStateChange() == 1;
+					
+					if(checked)
+					{
+						axiomManager.addOWLAxAxiom(axiomType, currentSelectedCell);
+					}
+					else // unchecked
+					{
+						axiomManager.removeOWLAxAxiom(axiomType, currentSelectedCell);
+					}
+				}
+			});
+
 			this.edgeBox.add(jcb);
 		}
 		this.edgeBox.setVisible(false);
 		this.add(edgeBox);
 	}
-	
+
 	public void changeVisibility(String choice)
 	{
 		if (choice.equalsIgnoreCase("cell"))
@@ -88,10 +122,18 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 		boolean result = false;
 
 		// Handler for selecting a cell
-		if(message == ComodideMessage.CELL_SELECTED)
+		if (message == ComodideMessage.CELL_SELECTED)
 		{
-			if(payload instanceof PropertyEdgeCell) // || payload instanceof SubClassEdgeCell)
+			// Make sure that the current selected cell is an edge
+			// And that it is named (i.e. we don't want to be 'inspecting'
+			// an edge that doesn't yet have a payload
+			if (payload instanceof PropertyEdgeCell && ((ComodideCell) payload).isNamed()) // || payload instanceof SubClassEdgeCell)
 			{
+				// Track the current selected cell
+				this.currentSelectedCell = (PropertyEdgeCell) payload;
+				// Change the title of the view
+				this.edgeLabel.setText(this.currentSelectedCell.getId());
+				// Bring up the axioms
 				this.changeVisibility("edge");
 			}
 			else
@@ -101,10 +143,10 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 
 			result = true;
 		}
-		
+
 		return result;
 	}
-	
+
 	@Override
 	public void disposeOWLView()
 	{
