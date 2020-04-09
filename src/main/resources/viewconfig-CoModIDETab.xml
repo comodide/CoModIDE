@@ -22,6 +22,16 @@
                     <Property id="pluginId" value="CoModIDE.ConfigurationView"/>
                 </Component>
             </CNode>
+            <CNode>
+                <Component label="Upper Alignment Tool">
+                    <Property id="pluginId" value="CoModIDE.UpperAlignmentTool"/>
+                </Component>
+            </CNode>
+            <!--<CNode>
+                <Component label="BFO Library">
+                    <Property id="pluginId" value="CoModIDE.BFOView"/>
+                </Component>
+            </CNode>-->
         </HSNode>
     </VSNode>
 </layout>

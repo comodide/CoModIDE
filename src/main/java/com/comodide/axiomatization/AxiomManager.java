@@ -142,9 +142,24 @@ public class AxiomManager
 		this.modelManager.applyChange(add);
 	}
 
+	public void addOWLAxAxiomtoBFO(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity property, OWLEntity target)
+	{
+		OWLAxiom axiom = this.owlaxAxiomFactory.createAxiom(axiomType, source, property, target);
+
+		AddAxiom add = new AddAxiom(owlOntology, axiom);
+		this.modelManager.applyChange(add);
+	}
+
 	public void removeOWLAxAxiom(OWLAxAxiomType axiomType, PropertyEdgeCell edgeCell)
 	{
 		OWLAxiom axiom = createOWLAxAxiom(axiomType, edgeCell);
+
+		RemoveAxiom add = new RemoveAxiom(owlOntology, axiom);
+		this.modelManager.applyChange(add);
+	}
+	public void removeOWLAxAxiomtoBFO(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity property, OWLEntity target)
+	{
+		OWLAxiom axiom = this.owlaxAxiomFactory.createAxiom(axiomType, source, property, target);
 
 		RemoveAxiom add = new RemoveAxiom(owlOntology, axiom);
 		this.modelManager.applyChange(add);

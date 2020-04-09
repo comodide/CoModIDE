@@ -37,4 +37,16 @@
 		<class value="com.comodide.views.EdgeInspectorView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
+	<extension id="UpperAlignmentTool"
+			   point="org.protege.editor.core.application.ViewComponent">
+		<label value="CoModIDE Upper Alignment Tool" />
+		<class value="com.comodide.views.UpperAlignmentTool" />
+		<headerColor value="@org.protege.ontologycolor" />
+	</extension>
+	<!--<extension id="BFOView"
+			   point="org.protege.editor.core.application.ViewComponent">
+		<label value="CoModIDE BFO Library" />
+		<class value="com.comodide.views.BFOView" />
+		<headerColor value="@org.protege.ontologycolor" />
+	</extension>-->
 </plugin>
