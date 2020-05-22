@@ -16,11 +16,17 @@ public class TelemetryAgent {
 	
 	private static List<TelemetryMessage> _loggedMessages = new ArrayList<TelemetryMessage>();
 	
+	private static String _lastDraggedPatternName;
+	
 	public static void SendTelemetry() {
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		TelemetryUploader upload = new TelemetryUploader(_loggedMessages);
 		executorService.submit(upload);
 	    executorService.shutdown();
+	}
+	
+	public static void setLastDraggedPatternName(String patternName) {
+		_lastDraggedPatternName = patternName;
 	}
 	
 	public static void clearLog() 
@@ -34,10 +40,10 @@ public class TelemetryAgent {
 		log.debug(String.format("Logged library click: %s", parameter));
 	}
 	
-	public static void logPatternDrop(String parameter) {
-		TelemetryMessage newMessage = new TelemetryMessage(_sessionId, "Pattern drop", parameter);
+	public static void logPatternDrop() {
+		TelemetryMessage newMessage = new TelemetryMessage(_sessionId, "Pattern drop", _lastDraggedPatternName);
 		_loggedMessages.add(newMessage);
-		log.debug(String.format("Logged pattern drop: %s", parameter));
+		log.debug(String.format("Logged pattern drop: %s", _lastDraggedPatternName));
 		SendTelemetry();
 	}
 	

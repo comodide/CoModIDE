@@ -84,6 +84,7 @@ public class PatternTable extends JTable {
 				try {
 					OWLOntology selectedPatternOntology = PatternLibrary.getInstance().getOwlRepresentation(selectedPattern);
 					PatternInstantiator pi = new PatternInstantiator(selectedPatternOntology, selectedPattern.getLabel(), modelManager);
+					TelemetryAgent.setLastDraggedPatternName(String.format("Pattern: %s (%s)", selectedPattern.getLabel(), selectedPattern.getIri().toString()));
 					Set<OWLAxiom> instantiationAxioms = pi.getInstantiationAxioms();
 					Set<OWLAxiom> modularizationAxioms = pi.getModuleAnnotationAxioms();
 					return new PatternTransferable(instantiationAxioms, modularizationAxioms);
