@@ -10,7 +10,6 @@ import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import com.comodide.ComodideConfiguration;
 import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
-import com.comodide.telemetry.TelemetryAgent;
 
 /**
  * CoModIDE configuration view. Provides an interface through which users may select how CoModIDE should instantiate ontology design patterns
@@ -185,15 +183,6 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 			sendTelemetryButton.setSelected(sendTelemetry);
 			ComodideConfiguration.setSendTelemetry(sendTelemetry);
 		}
-		
-		JButton testButton = new JButton("Send telemetry!");
-		testButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				TelemetryAgent.logTestMessage(String.format("%s: %s", testButton.getClass().toString(), testButton.getText()));
-			}
-		});
-		this.add(testButton);
 		
 		log.info("Configuration view initialized");
 	}
