@@ -8,6 +8,8 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.ComodideConfiguration;
+
 public class TelemetryAgent {
 
 	public static String _sessionId = UUID.randomUUID().toString();
@@ -33,24 +35,34 @@ public class TelemetryAgent {
 	{
 		_loggedMessages.clear();
 	}
+	
+	private static boolean isTelemetryActive() {
+		return ComodideConfiguration.getSendTelemetry();
+	}
 
 	public static void logLibraryClick(String parameter) {
-		TelemetryMessage newMessage = new TelemetryMessage(_sessionId, "Pattern library click", parameter);
-		_loggedMessages.add(newMessage);
-		log.debug(String.format("Logged library click: %s", parameter));
+		if (isTelemetryActive()) {
+			TelemetryMessage newMessage = new TelemetryMessage(_sessionId, "Pattern library click", parameter);
+			_loggedMessages.add(newMessage);
+			log.debug(String.format("Logged library click: %s", parameter));
+		}
 	}
 	
 	public static void logPatternDrop() {
-		TelemetryMessage newMessage = new TelemetryMessage(_sessionId, "Pattern drop", _lastDraggedPatternName);
-		_loggedMessages.add(newMessage);
-		log.debug(String.format("Logged pattern drop: %s", _lastDraggedPatternName));
-		SendTelemetry();
+		if (isTelemetryActive()) {
+			TelemetryMessage newMessage = new TelemetryMessage(_sessionId, "Pattern drop", _lastDraggedPatternName);
+			_loggedMessages.add(newMessage);
+			log.debug(String.format("Logged pattern drop: %s", _lastDraggedPatternName));
+			SendTelemetry();
+		}
 	}
 	
 	public static void logTestMessage(String parameter) {
-		TelemetryMessage newMessage = new TelemetryMessage(_sessionId, "TelemetryAgent test method", parameter);
-		_loggedMessages.add(newMessage);
-		log.debug(String.format("Logged test message: %s", parameter));
-		SendTelemetry();
+		if (isTelemetryActive()) {
+			TelemetryMessage newMessage = new TelemetryMessage(_sessionId, "TelemetryAgent test method", parameter);
+			_loggedMessages.add(newMessage);
+			log.debug(String.format("Logged test message: %s", parameter));
+			SendTelemetry();
+		}
 	}
 }
