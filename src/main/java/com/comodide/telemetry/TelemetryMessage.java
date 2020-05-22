@@ -2,6 +2,7 @@ package com.comodide.telemetry;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class TelemetryMessage {
 	
@@ -31,6 +32,7 @@ public class TelemetryMessage {
 		_sessionId = sessionId;
 		_operation = operation;
 		_parameter = parameter;
+		_df.setTimeZone(TimeZone.getTimeZone("UTC"));
 		_clientTimestamp = new Date();
 	}
 }

@@ -33,7 +33,7 @@ public class TelemetryUploader implements Runnable {
 			String telemetryMessagesAsJson = mapper.writeValueAsString(_messages);
 			log.debug(String.format("Sending telemetry message: '%s'", telemetryMessagesAsJson));
 
-			URL url = new URL("http://localhost:5000/telemetry");
+			URL url = new URL("http://localhost:26003/telemetry");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
 
