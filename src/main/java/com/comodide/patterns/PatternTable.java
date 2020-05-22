@@ -102,8 +102,9 @@ public class PatternTable extends JTable {
 		this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if (!e.getValueIsAdjusting()) {
-					Pattern selectedPattern = ((PatternTableModel) dataModel).getPatternAtRow(getSelectedRow());
+				int selectedRow = getSelectedRow();
+				if ((selectedRow != -1) && !e.getValueIsAdjusting()) {
+					Pattern selectedPattern = ((PatternTableModel) dataModel).getPatternAtRow(selectedRow);
 					TelemetryAgent.logLibraryClick(String.format("Pattern: %s (%s)", selectedPattern.getLabel(), selectedPattern.getIri().toString()));
 				}
 			}
