@@ -191,8 +191,6 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				TelemetryAgent.logTestMessage(String.format("%s: %s", testButton.getClass().toString(), testButton.getText()));
-				String returnString = TelemetryAgent.SendTelemetry();
-				JOptionPane.showMessageDialog(topLevelContainer, "Message returned:\n\n" + returnString);
 			}
 		});
 		this.add(testButton);
