@@ -3,23 +3,34 @@ package com.comodide.telemetry;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TelemetryMessage implements ITelemetryMessage {
+public class TelemetryMessage {
 	
-	private final SimpleDateFormat _df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-	private final Date _timestamp;
-	private final String _message;
+	private final String _sessionId;
+	private final String _operation;
+	private final String _parameter;
+	private final SimpleDateFormat _df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+	private final Date _clientTimestamp;
 	
-	public String getTimestamp() {
-		return _df.format(_timestamp);
+	public String getSessionId() {
+		return _sessionId;
 	}
 	
-	public String getMessage() {
-		return _message;
+	public String getOperation() {
+		return _operation;
 	}
-
-	public TelemetryMessage(String message) {
-		_timestamp = new Date(); 
-		_message = message;
+	
+	public String getParameter() {
+		return _parameter;
 	}
-
+	
+	public String getClientTimestamp() {
+		return _df.format(_clientTimestamp);
+	}
+	
+	public TelemetryMessage(String sessionId, String operation, String parameter) {
+		_sessionId = sessionId;
+		_operation = operation;
+		_parameter = parameter;
+		_clientTimestamp = new Date();
+	}
 }

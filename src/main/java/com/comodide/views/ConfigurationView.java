@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import com.comodide.ComodideConfiguration;
 import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
 import com.comodide.telemetry.TelemetryAgent;
-import com.comodide.telemetry.TelemetryMessage;
 
 /**
  * CoModIDE configuration view. Provides an interface through which users may select how CoModIDE should instantiate ontology design patterns
@@ -191,8 +190,8 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		testButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TelemetryMessage message = new TelemetryMessage("This is a test message from CoModIDE");
-				String returnString = TelemetryAgent.SendTelemetry(message);
+				TelemetryAgent.logTestMessage(String.format("%s: %s", testButton.getClass().toString(), testButton.getText()));
+				String returnString = TelemetryAgent.SendTelemetry();
 				JOptionPane.showMessageDialog(topLevelContainer, "Message returned:\n\n" + returnString);
 			}
 		});
