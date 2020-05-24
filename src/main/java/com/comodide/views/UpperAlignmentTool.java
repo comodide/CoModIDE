@@ -1,5 +1,11 @@
 package com.comodide.views;
 
+import com.comodide.axiomatization.AxiomManager;
+import com.comodide.axiomatization.OWLAxAxiomType;
+import com.comodide.editor.model.ClassCell;
+import com.comodide.messaging.ComodideMessage;
+import com.comodide.messaging.ComodideMessageBus;
+import com.comodide.messaging.ComodideMessageHandler;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
@@ -14,6 +20,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -27,18 +35,28 @@ import java.util.Set;
  * @author Abhilekha Dalal
  *
  */
-public class UpperAlignmentTool extends AbstractOWLViewComponent {
+public class UpperAlignmentTool extends AbstractOWLViewComponent implements ComodideMessageHandler {
 
     // Infrastructure
     private static final long serialVersionUID = 6258186472581035105L;
     private static final Logger log = LoggerFactory.getLogger(UpperAlignmentTool.class);
     private JSplitPane splitPane;
     private File fileName;
+    private String rdf_labels;
     JPanel alignmentPanel = new JPanel();
+    private Box    cellPanel;
+    private Box    edgePanel;
+   /* JPanel cellPanel = new JPanel();
+    JPanel edgePanel = new JPanel();*/
     JPanel loadPanel = new JPanel();
     OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
     OWLDataFactory factory = manager.getOWLDataFactory();
     OWLOntology index;
+    public AxiomManager axiomManager;
+    private ClassCell currentSelectedCell;
+    private OWLEntity source;
+    private OWLObjectProperty property;
+    private OWLEntity target;
     static OWLReasoner reasoner;
     OWLReasonerFactory reasonerFactory = null;
     // Configuration fields
@@ -48,7 +66,7 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent {
     @Override
     public void initialiseOWLView() throws Exception {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
+        cellPanel = Box.createVerticalBox();
         //Panel is used to load the specified upper ontology
         JTextField loadTextField = new JTextField(10);
         JButton loadButton = new JButton("Load Button");
@@ -63,24 +81,17 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent {
                 int returnVal = fileChooser.showOpenDialog(fileChooser);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     fileName = fileChooser.getSelectedFile();
-                   // log.info("fileName is "+fileChooser.getSelectedFile().getPath());
+                    //log.info("fileName is "+fileName);
                     try {
                         ClassLoader classloader = this.getClass().getClassLoader();
                         InputStream is = classloader.getResourceAsStream("modl/bfo.owl");
                         index = manager.loadOntologyFromOntologyDocument(is);
-                        log.info("using new method to load ontology"+index.getOntologyID().getOntologyIRI());
                         /*reasoner = reasonerFactory.createReasoner(index,
                                 config);
                         reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);*/
                         Set<OWLClass> entOnt = index.getClassesInSignature();
-                        int count =0;
-                        for (OWLClass a : entOnt) {
+                        for (OWLClass owlClass : entOnt) {
 
-                            /*NodeSet<OWLClass> subClasses = reasoner.getSubClasses(a, true);
-                            for (OWLClass subClass : subClasses.getFlattened()) {
-                                log.info(subClass.getIRI().getFragment() + "\tsubclass of\t"
-                                        + a.getIRI().getFragment());
-                            }*/
                             //noinspection PackageAccessibility
                             OWLReasonerFactory reasonerFactory= new Reasoner.ReasonerFactory();
                             //noinspection PackageAccessibility
@@ -89,52 +100,44 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent {
                             OWLReasonerConfiguration config = new SimpleConfiguration(progressMonitor);
                             OWLReasoner reasoner = reasonerFactory.createReasoner(index, config);
                             reasoner.precomputeInferences();
-                            /*boolean consistent = reasoner.isConsistent();
-                            System.out.println("Consistent: " + consistent);
-                            System.out.println("\n");*/
-                            Node<OWLClass> bottomNode = reasoner.getUnsatisfiableClasses();
-                            Set<OWLClass> unsatisfiable = bottomNode.getEntitiesMinusBottom();
-                            if (!unsatisfiable.isEmpty()) {
-                                log.info("The following classes are unsatisfiable: ");
-                                for (OWLClass cls : unsatisfiable) {
-                                    log.info("    " + cls);
-                                }
-                            } else {
-                                log.info("There are no unsatisfiable classes");
-                            }
-
-
-                            //OWLClass person = factory.getOWLClass(IRI.create("http://localhost/Institute#Person"));
-                            NodeSet<OWLClass> subClses = reasoner.getSubClasses(a, true);
+                            /*NodeSet<OWLClass> subClses = reasoner.getSubClasses(owlClass, true);
                             Set<OWLClass> clses = subClses.getFlattened();
-                            log.info("Subclasses of this class: "+a);
+                            log.info("Subclasses of this class: "+owlClass);
                             for (OWLClass cls : clses) {
                                 log.info("    " + cls);
-                            }
-                            //System.out.println("\n");
-
-
-
-                          /*  Set<OWLClass> classes = reasoner.getSubClasses(a, true).getFlattened();
-                            boolean isEmpty = classes.isEmpty();
-                            log.info("isEmpty of "+ isEmpty);
-                            for (OWLClass subClass : classes) {
-                                log.info(subClass +"subclass of "+ a.getIRI().getFragment());
                             }*/
-                            count++;
+                            rdf_labels = getLabels(owlClass, index);
+                            if(rdf_labels!=null){
+                                JCheckBox jcb = new JCheckBox(rdf_labels, false);
+                                jcb.addItemListener(new ItemListener()
+                                {
+                                    @Override
+                                    public void itemStateChanged(ItemEvent arg0)
+                                    {
+                                        boolean checked = arg0.getStateChange() == 1;
+                                        property = axiomManager.findObjectProperty("partOf");
+                                        if (property == null)
+                                        {
+                                            property = axiomManager.addNewObjectProperty("partOf");
+                                        }
+                                        if(checked)
+                                        {
+                                            OWLEntity target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
+                                            axiomManager.addOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
+                                        }
+                                        else // unchecked
+                                        {
+                                            OWLEntity target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
+                                            axiomManager.removeOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
+                                        }
+                                    }
+                                });
+                                cellPanel.add(jcb);
+                            }
                         }
-                        log.info("Entity from ontology "+count);
-
-
-                        // Find all the pattern instances in the index
-                        /*OWLClass bfoClass = factory.getOWLClass(BFO_CLASS_IRI);
-                        List<String> patternLabels = getLabels(bfoClass, index);
-                        for (String pattern: patternLabels) {
-                            log.info("bfo is inside upperAlignment"+ pattern);
-
-                        }*/
+                    alignmentPanel.add(cellPanel);
                     } catch (OWLOntologyCreationException ex) {
-                        ex.printStackTrace();
+                    ex.printStackTrace();
                     }
 
                 }
@@ -146,31 +149,78 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent {
         loadPanel.add(loadButton);
 
 
-        //Panel is used to align ontology with the specified upper ontology
-        JLabel alignmentPanelLabel = new JLabel("alignmentPanel:");
-        alignmentPanel.add(alignmentPanelLabel);
+
         this.alignmentPanel.setVisible(false);
 
 
 
-        //Adding cellPanel and edgePanel to the View as SplitPanel
-        /*splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                loadPanel, alignmentPanel);
-        splitPane.setResizeWeight(0.5);
-        splitPane.setOneTouchExpandable(true);
-        splitPane.setContinuousLayout(true);*/
         this.add(loadPanel);
-        this.add(alignmentPanel);
+        JScrollPane scrollPane = new JScrollPane(alignmentPanel);
+        this.add(scrollPane);
+        this.axiomManager = AxiomManager.getInstance(getOWLModelManager());
+        // This view is interested in Cell Selected Messages sent by Comodide
+        ComodideMessageBus.getSingleton().registerHandler(ComodideMessage.CELL_SELECTED, this);
         //finish
         log.info("[CoModIDE:UpperAlignmentTool] Successfully Initialised.");
     }
 
-    private List<String> getLabels(OWLEntity entity, OWLOntology ontology) {
-        List<String> retVal = new ArrayList<String>();
+    public void changeVisibility(String choice)
+    {
+        if (choice.equalsIgnoreCase("cell"))
+        {
+            this.cellPanel.setVisible(true);
+            this.edgePanel.setVisible(false);
+        }
+        else if (choice.equalsIgnoreCase("edge"))
+        {
+            this.cellPanel.setVisible(false);
+            this.edgePanel.setVisible(true);
+        }
+        else
+        {
+            log.info("[CoModIDE:BFOView] changeVisibility error.");
+        }
+    }
+
+    public boolean handleComodideMessage(ComodideMessage message, Object payload)
+    {
+        boolean result = false;
+
+        // Handler for selecting a cell
+        if (message == ComodideMessage.CELL_SELECTED)
+        {
+            // Make sure that the current selected cell is an edge
+            // And that it is named (i.e. we don't want to be 'inspecting'
+            // an edge that doesn't yet have a payload
+            if (payload instanceof ClassCell) // || payload instanceof SubClassEdgeCell)
+            {
+                // Track the current selected cell
+                this.currentSelectedCell = (ClassCell) payload;
+                source   = currentSelectedCell.getEntity();
+                // Change the title of the view
+                //this.edgeLabel.setText(this.currentSelectedCell.getId());
+                // Bring up the axioms
+                this.changeVisibility("cell");
+            }
+            else
+            {
+                this.changeVisibility("edge");
+            }
+
+            result = true;
+        }
+
+        return result;
+    }
+
+    private String getLabels(OWLEntity entity, OWLOntology ontology) {
+        // retVal = new ArrayList<String>();
+        String retVal = null;
         for(OWLAnnotation annotation: EntitySearcher.getAnnotations(entity, ontology, factory.getRDFSLabel())) {
             OWLAnnotationValue value = annotation.getValue();
             if(value instanceof OWLLiteral) {
-                retVal.add(((OWLLiteral) value).getLiteral());
+                retVal = ((OWLLiteral) value).getLiteral();
+                //retVal.add(((OWLLiteral) value).getLiteral());
             }
         }
         return retVal;
