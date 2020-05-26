@@ -154,4 +154,25 @@ public class OWLAxAxiomFactory
 		// Finish
 		return owlaxAxiom;
 	}
+
+	public OWLAxiom createAxiomOfProperty(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity target) {
+		// Convert OWLEntities to Expressions (or thereabouts, technically the
+		// Expression is the super class of all three
+		OWLObjectPropertyExpression sourcePropertyExpression = source.asOWLObjectProperty();
+		OWLObjectPropertyExpression targePropertyExpression = target.asOWLObjectProperty();
+
+
+		// To be returned
+		OWLAxiom owlaxAxiom = null;
+
+		if (axiomType == OWLAxAxiomType.GLOBAL_DOMAIN) {
+			// this is just regular domain
+			//OWLObjectSomeValuesFrom oosvfa = this.owlDataFactory.getOWLObjectSomeValuesFrom(propertyExpression, owlThing);
+			owlaxAxiom = this.owlDataFactory.getOWLSubObjectPropertyOfAxiom(sourcePropertyExpression, targePropertyExpression);
+		} else if (axiomType == OWLAxAxiomType.SCOPED_DOMAIN) {
+			//OWLObjectSomeValuesFrom oosvf = this.owlDataFactory.getOWLObjectSomeValuesFrom(propertyExpression, targetExpression);
+			owlaxAxiom = this.owlDataFactory.getOWLSubObjectPropertyOfAxiom(sourcePropertyExpression, targePropertyExpression);
+		}
+		return owlaxAxiom;
+	}
 }

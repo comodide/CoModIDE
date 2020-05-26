@@ -3,6 +3,7 @@ package com.comodide.views;
 import com.comodide.axiomatization.AxiomManager;
 import com.comodide.axiomatization.OWLAxAxiomType;
 import com.comodide.editor.model.ClassCell;
+import com.comodide.editor.model.PropertyEdgeCell;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -59,8 +60,11 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
     private  JCheckBox jcb;
     public AxiomManager axiomManager;
     private ClassCell currentSelectedCell;
+    private PropertyEdgeCell currentSelectedEdge;
     private OWLEntity source;
     private OWLObjectProperty property;
+    private OWLEntity sourceProperty;
+    private OWLEntity targetProperty;
     private OWLEntity target;
     static OWLReasoner reasoner;
     OWLReasonerFactory reasonerFactory = null;
@@ -176,7 +180,13 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                             property = axiomManager.addNewObjectProperty("partOf");
                                         }*/
                                         if(checked)
-                                        {
+                                        {   sourceProperty = currentSelectedEdge.getEntity();
+                                            targetProperty = axiomManager.findObjectProperty(((JCheckBox) arg0.getItem()).getText());
+                                            if (property == null)
+                                            {
+                                                property = axiomManager.addNewObjectProperty(((JCheckBox) arg0.getItem()).getText());
+                                            }
+                                            axiomManager.addPropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
                                             log.info("cell checked:");
                                         }
                                         else // unchecked
@@ -267,9 +277,15 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                 // Bring up the axioms
                 this.changeVisibility("cell");
             }
+            else if(payload instanceof PropertyEdgeCell)
+            {
+                // Track the current selected cell
+                this.currentSelectedEdge = (PropertyEdgeCell) payload;
+                this.changeVisibility("edge");
+            }
             else
             {
-                this.changeVisibility("edge");
+               log.info("Select a Named Property Edge to Continue.");
             }
 
             result = true;
