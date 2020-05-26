@@ -3,18 +3,17 @@ package com.comodide.views;
 import com.comodide.axiomatization.AxiomManager;
 import com.comodide.axiomatization.OWLAxAxiomType;
 import com.comodide.editor.model.ClassCell;
-import com.comodide.messaging.ComodideMessage;
-import com.comodide.messaging.ComodideMessageBus;
-import com.comodide.messaging.ComodideMessageHandler;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.semanticweb.HermiT.Reasoner;
-import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.*;
 import org.semanticweb.owlapi.search.EntitySearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.comodide.messaging.ComodideMessage;
+import com.comodide.messaging.ComodideMessageBus;
+import com.comodide.messaging.ComodideMessageHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,10 +23,18 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Enumeration;
 import java.util.Set;
-//import uk.ac.manchester.cs.jfact.JFactFactory;
+import java.util.Vector;
+import javax.swing.JTree;
+import javax.swing.tree.*;
+//import org.scijava.swing.checkboxtree.CheckBoxNodeEditor;
+/*import org.scijava.swing.checkboxtree.CheckBoxNodeData;
+import org.scijava.swing.checkboxtree.CheckBoxNodeEditor;
+import org.scijava.swing.checkboxtree.CheckBoxNodeRenderer;*/
+//import com.cognizant.cognizantits.datalib.or.common.ORObjectInf;
+import javax.swing.text.Position;
+
 
 
 /**
@@ -35,23 +42,21 @@ import java.util.Set;
  * @author Abhilekha Dalal
  *
  */
-public class UpperAlignmentTool extends AbstractOWLViewComponent implements ComodideMessageHandler {
+public class UpperAlignmentTool extends AbstractOWLViewComponent  implements ComodideMessageHandler{
 
     // Infrastructure
     private static final long serialVersionUID = 6258186472581035105L;
     private static final Logger log = LoggerFactory.getLogger(UpperAlignmentTool.class);
     private JSplitPane splitPane;
     private File fileName;
-    private String rdf_labels;
     JPanel alignmentPanel = new JPanel();
-    private Box    cellPanel;
-    private Box    edgePanel;
-   /* JPanel cellPanel = new JPanel();
-    JPanel edgePanel = new JPanel();*/
     JPanel loadPanel = new JPanel();
     OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
     OWLDataFactory factory = manager.getOWLDataFactory();
     OWLOntology index;
+    String rdf_labels;
+    private JTree tree;
+    private  JCheckBox jcb;
     public AxiomManager axiomManager;
     private ClassCell currentSelectedCell;
     private OWLEntity source;
@@ -59,6 +64,8 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent implements Como
     private OWLEntity target;
     static OWLReasoner reasoner;
     OWLReasonerFactory reasonerFactory = null;
+    private Box   cellPanel;
+    private Box   edgePanel;
     // Configuration fields
     private final IRI BFO_CLASS_IRI = IRI.create("http://purl.obolibrary.org/obo/bfo.owl");
 
@@ -66,7 +73,9 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent implements Como
     @Override
     public void initialiseOWLView() throws Exception {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        //Panel is used to load classes of specified ontology class
         cellPanel = Box.createVerticalBox();
+        edgePanel = Box.createVerticalBox();
         //Panel is used to load the specified upper ontology
         JTextField loadTextField = new JTextField(10);
         JButton loadButton = new JButton("Load Button");
@@ -81,32 +90,26 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent implements Como
                 int returnVal = fileChooser.showOpenDialog(fileChooser);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     fileName = fileChooser.getSelectedFile();
-                    //log.info("fileName is "+fileName);
                     try {
                         ClassLoader classloader = this.getClass().getClassLoader();
                         InputStream is = classloader.getResourceAsStream("modl/bfo.owl");
-                        index = manager.loadOntologyFromOntologyDocument(is);
-                        /*reasoner = reasonerFactory.createReasoner(index,
-                                config);
-                        reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);*/
+                        index = manager.loadOntologyFromOntologyDocument(fileName);
                         Set<OWLClass> entOnt = index.getClassesInSignature();
-                        for (OWLClass owlClass : entOnt) {
+                        Set<OWLAnnotationProperty> entProperties = index.getAnnotationPropertiesInSignature();
+                        //DefaultMutableTreeNode root = new DefaultMutableTreeNode("BFO_VIEW");
+                        for (OWLClass parent_entity : entOnt) {
 
                             //noinspection PackageAccessibility
                             OWLReasonerFactory reasonerFactory= new Reasoner.ReasonerFactory();
-                            //noinspection PackageAccessibility
-                            //reasonerFactory = new ReasonerFactory();
                             ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();
                             OWLReasonerConfiguration config = new SimpleConfiguration(progressMonitor);
                             OWLReasoner reasoner = reasonerFactory.createReasoner(index, config);
-                            reasoner.precomputeInferences();
-                            /*NodeSet<OWLClass> subClses = reasoner.getSubClasses(owlClass, true);
+                            reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
+
+
+                            NodeSet<OWLClass> subClses = reasoner.getSubClasses(parent_entity, true);
                             Set<OWLClass> clses = subClses.getFlattened();
-                            log.info("Subclasses of this class: "+owlClass);
-                            for (OWLClass cls : clses) {
-                                log.info("    " + cls);
-                            }*/
-                            rdf_labels = getLabels(owlClass, index);
+                            rdf_labels= getLabels(parent_entity, index);
                             if(rdf_labels!=null){
                                 JCheckBox jcb = new JCheckBox(rdf_labels, false);
                                 jcb.addItemListener(new ItemListener()
@@ -122,46 +125,110 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent implements Como
                                         }
                                         if(checked)
                                         {
-                                            OWLEntity target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
+                                            target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
                                             axiomManager.addOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
                                         }
                                         else // unchecked
                                         {
-                                            OWLEntity target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
+                                            target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
                                             axiomManager.removeOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
                                         }
                                     }
                                 });
                                 cellPanel.add(jcb);
                             }
+                            //alignmentPanel.add(edgeBox);
+                            //scrollPane = new JScrollPane(alignmentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+                            //create parent nodes for the tree
+                            /*Parent_root = new DefaultMutableTreeNode(rdf_labels);
+                            root.add(Parent_root);*/
+
+                            //to have subclasses for the parent class and add children node to it
+                            /*for (OWLClass cls : clses) {
+
+                                rdf_labels= getLabels(cls, index);
+                                Parent_root.add(new DefaultMutableTreeNode(rdf_labels));
+                                log.info("  " + rdf_labels);
+                            }*/
                         }
-                    alignmentPanel.add(cellPanel);
+                        //creating checkbox for the tree nodes
+                        /*tree = new JTree(root);
+                        CheckBoxNodeRenderer renderer = new CheckBoxNodeRenderer();
+                        tree.setCellRenderer(renderer);
+
+                        tree.setCellEditor(new CheckBoxNodeEditor(tree));
+                        tree.setEditable(true);
+                        tree = new JTree(root);
+                        alignmentPanel.add(tree);*/
+                        for (OWLAnnotationProperty owlProperty : entProperties) {
+                            rdf_labels = getLabels(owlProperty, index);
+                            if(rdf_labels!=null){
+                                JCheckBox jcb = new JCheckBox(rdf_labels, false);
+                                jcb.addItemListener(new ItemListener()
+                                {
+                                    @Override
+                                    public void itemStateChanged(ItemEvent arg0)
+                                    {
+                                        boolean checked = arg0.getStateChange() == 1;
+                                        /*property = axiomManager.findObjectProperty("partOf");
+                                        if (property == null)
+                                        {
+                                            property = axiomManager.addNewObjectProperty("partOf");
+                                        }*/
+                                        if(checked)
+                                        {
+                                            log.info("cell checked:");
+                                        }
+                                        else // unchecked
+                                        {
+                                            log.info("cell unchecked:");
+                                        }
+                                    }
+                                });
+                                edgePanel.add(jcb);
+                            }
+
+                        }
+                        alignmentPanel.add(cellPanel);
+                        alignmentPanel.add(edgePanel);
+
                     } catch (OWLOntologyCreationException ex) {
-                    ex.printStackTrace();
+                        ex.printStackTrace();
                     }
 
                 }
                 alignmentPanel.setVisible(true);
+                edgePanel.setVisible(false);
                 loadPanel.setVisible(false);
             }
         });
         loadPanel.add(loadTextField);
         loadPanel.add(loadButton);
-
-
-
-        this.alignmentPanel.setVisible(false);
-
-
+        alignmentPanel.setVisible(false);
 
         this.add(loadPanel);
         JScrollPane scrollPane = new JScrollPane(alignmentPanel);
         this.add(scrollPane);
+        /*JScrollPane scrollPane = new JScrollPane(cellPanel);
+        this.add(scrollPane);
+        JScrollPane scrollPane1 = new JScrollPane(edgePanel);
+        this.add(scrollPane1);*/
         this.axiomManager = AxiomManager.getInstance(getOWLModelManager());
         // This view is interested in Cell Selected Messages sent by Comodide
         ComodideMessageBus.getSingleton().registerHandler(ComodideMessage.CELL_SELECTED, this);
         //finish
         log.info("[CoModIDE:UpperAlignmentTool] Successfully Initialised.");
+    }
+
+    private String getLabels(OWLEntity entity, OWLOntology ontology) {
+        String retVal = null;
+        for(OWLAnnotation annotation: EntitySearcher.getAnnotations(entity, ontology, factory.getRDFSLabel())) {
+            OWLAnnotationValue value = annotation.getValue();
+            if(value instanceof OWLLiteral) {
+                retVal= (((OWLLiteral) value).getLiteral());
+            }
+        }
+        return retVal;
     }
 
     public void changeVisibility(String choice)
@@ -197,8 +264,6 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent implements Como
                 // Track the current selected cell
                 this.currentSelectedCell = (ClassCell) payload;
                 source   = currentSelectedCell.getEntity();
-                // Change the title of the view
-                //this.edgeLabel.setText(this.currentSelectedCell.getId());
                 // Bring up the axioms
                 this.changeVisibility("cell");
             }
@@ -213,18 +278,52 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent implements Como
         return result;
     }
 
-    private String getLabels(OWLEntity entity, OWLOntology ontology) {
-        // retVal = new ArrayList<String>();
-        String retVal = null;
-        for(OWLAnnotation annotation: EntitySearcher.getAnnotations(entity, ontology, factory.getRDFSLabel())) {
-            OWLAnnotationValue value = annotation.getValue();
-            if(value instanceof OWLLiteral) {
-                retVal = ((OWLLiteral) value).getLiteral();
-                //retVal.add(((OWLLiteral) value).getLiteral());
+    private Object checkExistingNode(String node_name, JTree tree) {
+        DefaultTreeModel treeModel = (DefaultTreeModel)tree.getModel();
+        DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode)treeModel.getRoot();
+
+        // DepthFirst means it provides the very last child nodes and work its way up to the root node.
+        Enumeration en = rootNode.depthFirstEnumeration();
+        Object objectTargetNode = null;
+        while ( en.hasMoreElements() ) {
+            // Get a reference to a node in the tree to see if it is the target node.
+            DefaultMutableTreeNode targetNode = (DefaultMutableTreeNode)en.nextElement();
+            // Get the virtual component object of the target node.
+            objectTargetNode= targetNode.getUserObject();
+            if ( objectTargetNode.toString().equals(node_name) ) {
+                // Exit out of the loop.
+                break;
             }
         }
-        return retVal;
+        return objectTargetNode;
     }
+
+    private void addNodeToTree(Object newObject, String category, JTree tree) {
+        DefaultTreeModel treeModel = (DefaultTreeModel)tree.getModel();
+        DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode)treeModel.getRoot();
+
+        // BreadFirst means it searches by top nodes first. It'll start with the root node,
+        // then iterate thru the children of the root node and so on.
+        Enumeration en = rootNode.breadthFirstEnumeration();
+
+        while ( en.hasMoreElements() ) {
+            DefaultMutableTreeNode categoryNode = (DefaultMutableTreeNode)en.nextElement();
+            // Get the user defined object.
+            Object categoryObject = categoryNode.getUserObject();
+
+            // Check if node matches the category that the new node belongs to and if it does, then
+            // add the new node in this category node.
+            if ( categoryObject.toString().equals(category) ) {
+                // Create a new node.
+                DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(newObject);
+                // Use the tree model to insert the new node. This will take care of the UI updates.
+                treeModel.insertNodeInto(newNode, categoryNode, categoryNode.getChildCount());
+                // Exit out of the loop.
+                break;
+            }
+        }
+    }
+
 
     @Override
     protected void disposeOWLView() {
