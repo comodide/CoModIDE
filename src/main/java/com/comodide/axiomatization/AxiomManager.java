@@ -73,13 +73,9 @@ public class AxiomManager
 
 	/** Used for adding axioms to the active ontology */
 	private OWLModelManager  modelManager;
-	private OWLOntology      owlOntology;
 	private OWLDataFactory   owlDataFactory;
 	private OWLEntityFinder  owlEntityFinder;
 	private OWLEntityRenamer owlEntityRenamer;
-
-	/** Used for current namespace */
-	private IRI iri;
 
 	/** Used for parsing axioms added to the ontology */
 	private SimpleAxiomParser simpleAxiomParser;
@@ -92,19 +88,16 @@ public class AxiomManager
 		this.modelManager = modelManager;
 
 		// Retrieve the active ontology
-		this.owlOntology = this.modelManager.getActiveOntology();
 		// Only continue with the update if there is an active ontology
-		if (this.owlOntology != null)
+		if (this.modelManager.getActiveOntology() != null)
 		{
 			// DataFactory is used to create axioms to add to the ontology
-			this.owlDataFactory = owlOntology.getOWLOntologyManager().getOWLDataFactory();
+			this.owlDataFactory = this.modelManager.getOWLDataFactory();
 			// The EntitiyFinder allows us to find existing entities within the
 			// ontology
 			this.owlEntityFinder = this.modelManager.getOWLEntityFinder();
 			// The EntityRenamer does exactly what you think it does
 			createEntityRenamer();
-			// Get the namespace for the active ontology
-			this.iri = this.owlOntology.getOntologyID().getOntologyIRI().orNull();
 			// Create Parsers for axioms
 			this.simpleAxiomParser = new SimpleAxiomParser();
 		}
@@ -116,11 +109,12 @@ public class AxiomManager
 
 	private void createEntityRenamer()
 	{
+		OWLOntology activeOntology = this.modelManager.getActiveOntology();
 		// Get the Ontology Manager
-		OWLOntologyManager ontologyManager = this.owlOntology.getOWLOntologyManager();
+		OWLOntologyManager ontologyManager = activeOntology.getOWLOntologyManager();
 		// Embed the active ontology into a Set
 		Set<OWLOntology> list = new HashSet<>();
-		list.add(this.owlOntology);
+		list.add(activeOntology);
 		// Create the EntityRenamer
 		this.owlEntityRenamer = new OWLEntityRenamer(ontologyManager, list);
 	}
@@ -240,15 +234,17 @@ public class AxiomManager
 	/** This method is called when previousLabel.equals("") */
 	public OWLClass addNewClass(String str)
 	{
+		OWLOntology activeOntology = this.modelManager.getActiveOntology();
+		IRI iri = activeOntology.getOntologyID().getOntologyIRI().orNull();
 		/* Construct the Declaration Axiom */
 		// Create the IRI for the class using the active namespace
-		IRI classIRI = IRI.create(this.iri + "#" + str);
+		IRI classIRI = IRI.create(iri + "#" + str);
 		// Create the OWLAPI construct for the class
 		OWLClass owlClass = this.owlDataFactory.getOWLClass(classIRI);
 		// Create the Declaration Axiom
 		OWLDeclarationAxiom oda = this.owlDataFactory.getOWLDeclarationAxiom(owlClass);
 		// Create the Axiom Change
-		AddAxiom addAxiom = new AddAxiom(this.owlOntology, oda);
+		AddAxiom addAxiom = new AddAxiom(activeOntology, oda);
 		// Apply the change to the active ontology!
 		this.modelManager.applyChange(addAxiom);
 		// Return a reference to the class that was added
@@ -258,8 +254,10 @@ public class AxiomManager
 	/** This method should be called when !previousLabel.equals("") */
 	public OWLClass renameClass(OWLClass oldClass, String newName)
 	{
+		OWLOntology activeOntology = this.modelManager.getActiveOntology();
+		IRI iri = activeOntology.getOntologyID().getOntologyIRI().orNull();
 		// Construct new class IRI
-		IRI newIRI = IRI.create(this.iri + "#" + newName);
+		IRI newIRI = IRI.create(iri + "#" + newName);
 		// Get all OntologyChanges from the EntityRenamer
 		List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(oldClass, newIRI);
 		// Apply the changes
@@ -319,6 +317,7 @@ public class AxiomManager
 
 	public OWLObjectProperty handleObjectProperty(String propertyName, OWLEntity domain, OWLEntity range)
 	{
+		OWLOntology activeOntology = this.modelManager.getActiveOntology();
 		// Perhaps the ObjectProperty already exists?
 		OWLObjectProperty property = findObjectProperty(propertyName);
 
@@ -342,8 +341,8 @@ public class AxiomManager
 				OWLObjectPropertyRangeAxiom opra = this.owlDataFactory.getOWLObjectPropertyRangeAxiom(property,
 						range.asOWLClass());
 				// Package into AddAxioms
-				AddAxiom addDomainAxiom = new AddAxiom(this.owlOntology, opda);
-				AddAxiom addRangeAxiom = new AddAxiom(this.owlOntology, opra);
+				AddAxiom addDomainAxiom = new AddAxiom(activeOntology, opda);
+				AddAxiom addRangeAxiom = new AddAxiom(activeOntology, opra);
 				// Make the change to the ontology
 				ArrayList<AddAxiom> changes = new ArrayList<AddAxiom>(Arrays.asList(addDomainAxiom, addRangeAxiom));
 				this.modelManager.applyChanges(changes);
@@ -352,14 +351,14 @@ public class AxiomManager
 			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_DOMAIN)) {
 				OWLObjectSomeValuesFrom someValuesFrom = this.owlDataFactory.getOWLObjectSomeValuesFrom(property, range.asOWLClass());
 				OWLSubClassOfAxiom subClassAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(someValuesFrom, domain.asOWLClass());
-				AddAxiom addAxiomChange = new AddAxiom(this.owlOntology, subClassAxiom);
+				AddAxiom addAxiomChange = new AddAxiom(activeOntology, subClassAxiom);
 				this.modelManager.applyChange(addAxiomChange);
 			}
 			
 			if (axiomGenerationConfiguration.contains(EdgeCreationAxiom.SCOPED_RANGE)) {
 				OWLObjectAllValuesFrom allValuesFrom = this.owlDataFactory.getOWLObjectAllValuesFrom(property, range.asOWLClass());
 				OWLSubClassOfAxiom subClassAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(domain.asOWLClass(), allValuesFrom);
-				AddAxiom addAxiomChange = new AddAxiom(this.owlOntology, subClassAxiom);
+				AddAxiom addAxiomChange = new AddAxiom(activeOntology, subClassAxiom);
 				this.modelManager.applyChange(addAxiomChange);
 			}
 		}
@@ -390,14 +389,16 @@ public class AxiomManager
 
 	public OWLObjectProperty addNewObjectProperty(String propertyName)
 	{
+		OWLOntology activeOntology = this.modelManager.getActiveOntology();
+		IRI iri = activeOntology.getOntologyID().getOntologyIRI().orNull();
 		// Create the IRI for the class using the active namespace
-		IRI propertyIRI = IRI.create(this.iri + "#" + propertyName);
+		IRI propertyIRI = IRI.create(iri + "#" + propertyName);
 		// Create the OWLAPI construct for the class
 		OWLObjectProperty objectProperty = this.owlDataFactory.getOWLObjectProperty(propertyIRI);
 		// Create the Declaration Axiom
 		OWLDeclarationAxiom oda = this.owlDataFactory.getOWLDeclarationAxiom(objectProperty);
 		// Create the Axiom Change
-		AddAxiom addAxiom = new AddAxiom(this.owlOntology, oda);
+		AddAxiom addAxiom = new AddAxiom(activeOntology, oda);
 		// Apply the change to the active ontology!
 		this.modelManager.applyChange(addAxiom);
 		// Return a reference to the class that was added
@@ -406,6 +407,7 @@ public class AxiomManager
 
 	public OWLDataProperty handleDataProperty(String propertyName, OWLEntity domain, OWLEntity range)
 	{
+		OWLOntology activeOntology = this.modelManager.getActiveOntology();
 		OWLDataProperty dataProperty = findDataProperty(propertyName);
 
 		if (dataProperty == null)
@@ -427,8 +429,8 @@ public class AxiomManager
 				OWLDataPropertyRangeAxiom opra = this.owlDataFactory.getOWLDataPropertyRangeAxiom(dataProperty,
 						range.asOWLDatatype());
 				// Package into AddAxioms
-				AddAxiom addDomainAxiom = new AddAxiom(this.owlOntology, opda);
-				AddAxiom addRangeAxiom = new AddAxiom(this.owlOntology, opra);
+				AddAxiom addDomainAxiom = new AddAxiom(activeOntology, opda);
+				AddAxiom addRangeAxiom = new AddAxiom(activeOntology, opra);
 				// Make the change to the ontology
 				ArrayList<AddAxiom> changes = new ArrayList<AddAxiom>(Arrays.asList(addDomainAxiom, addRangeAxiom));
 				this.modelManager.applyChanges(changes);
@@ -462,14 +464,16 @@ public class AxiomManager
 
 	public OWLDataProperty addNewDataProperty(String propertyName)
 	{
+		OWLOntology activeOntology = this.modelManager.getActiveOntology();
+		IRI iri = activeOntology.getOntologyID().getOntologyIRI().orNull();
 		// Create the IRI for the class using the active namespace
-		IRI propertyIRI = IRI.create(this.iri + "#" + propertyName);
+		IRI propertyIRI = IRI.create(iri + "#" + propertyName);
 		// Create the OWLAPI construct for the class
 		OWLDataProperty dataProperty = this.owlDataFactory.getOWLDataProperty(propertyIRI);
 		// Create the Declaration Axiom
 		OWLDeclarationAxiom oda = this.owlDataFactory.getOWLDeclarationAxiom(dataProperty);
 		// Create the Axiom Change
-		AddAxiom addAxiom = new AddAxiom(this.owlOntology, oda);
+		AddAxiom addAxiom = new AddAxiom(activeOntology, oda);
 		// Apply the change to the active ontology!
 		this.modelManager.applyChange(addAxiom);
 		// Return a reference to the class that was added
