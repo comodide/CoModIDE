@@ -1,5 +1,6 @@
 package com.comodide.views;
 
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
@@ -63,7 +65,7 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 	@Override
 	protected void initialiseOWLView() throws Exception {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		JLabel entityNamingLabel = new JLabel("Entity naming:");
 		Font f = entityNamingLabel.getFont();
 		entityNamingLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
@@ -146,6 +148,41 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		edgeDeletionPolicyGroup.add(keepPropertyDeclarationsButton);
 		keepPropertyDeclarationsButton.setSelected(!deletePropertyDeclarationButton.isSelected());
 		this.add(keepPropertyDeclarationsButton);
+		
+		JLabel sendTelemetryLabel = new JLabel("Send usage telemetry:");
+		sendTelemetryLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		this.add(sendTelemetryLabel);
+		
+		JCheckBox sendTelemetryButton = new JCheckBox("Send anonymous usage telemetry");
+		sendTelemetryButton.setSelected(ComodideConfiguration.getSendTelemetry());
+		sendTelemetryButton.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				boolean sendTelemetry = e.getStateChange() == ItemEvent.SELECTED ? true : false;
+				ComodideConfiguration.setSendTelemetry(sendTelemetry);
+			}
+		});
+		this.add(sendTelemetryButton);
+		
+		Container topLevelContainer = this.getTopLevelAncestor();		
+		boolean telemetryPreferenceChecked = ComodideConfiguration.getTelemetryPreferenceChecked();
+		if (!telemetryPreferenceChecked) {
+			int sendTelemetryResponse = JOptionPane.showConfirmDialog(topLevelContainer, 
+					"CoModIDE collects some anonymous usage data, to aid its developer's in understanding which features to \n"
+					+ "work on and how they might be improved. This data includes, e.g., how many clicks it takes the \n"
+					+ "user to find and instantiate a design pattern, how long time it takes to instantiate patterns, \n"
+					+ "what the user edge creation preferences are, etc. By clicking yes below, you accept this this \n"
+					+ "telemetry gathering. If you click no, the feature will be disabled. You can change your preference \n"
+					+ "later on through the CoModIDE configuration view. You can inspect our source code for this and other \n"
+					+ "features through our open GitHub repository, linked from https://comodide.com.", 
+					"Telemetry acceptance", 
+					JOptionPane.YES_NO_OPTION, 
+					JOptionPane.QUESTION_MESSAGE);
+			boolean sendTelemetry = sendTelemetryResponse == JOptionPane.YES_OPTION ? true : false;
+			ComodideConfiguration.setTelemetryPreferenceChecked(true);
+			sendTelemetryButton.setSelected(sendTelemetry);
+			ComodideConfiguration.setSendTelemetry(sendTelemetry);
+		}
 		
 		log.info("Configuration view initialized");
 	}

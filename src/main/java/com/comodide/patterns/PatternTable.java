@@ -7,7 +7,11 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.telemetry.TelemetryAgent;
+
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -80,6 +84,7 @@ public class PatternTable extends JTable {
 				try {
 					OWLOntology selectedPatternOntology = PatternLibrary.getInstance().getOwlRepresentation(selectedPattern);
 					PatternInstantiator pi = new PatternInstantiator(selectedPatternOntology, selectedPattern.getLabel(), modelManager);
+					TelemetryAgent.setLastDraggedPatternName(String.format("Pattern: %s (%s)", selectedPattern.getLabel(), selectedPattern.getIri().toString()));
 					Set<OWLAxiom> instantiationAxioms = pi.getInstantiationAxioms();
 					Set<OWLAxiom> modularizationAxioms = pi.getModuleAnnotationAxioms();
 					return new PatternTransferable(instantiationAxioms, modularizationAxioms);
@@ -94,6 +99,17 @@ public class PatternTable extends JTable {
 		
 		columnModel.getColumn(1).setCellRenderer(new ButtonRenderer());
 		columnModel.getColumn(1).setCellEditor(new ButtonEditor(new JCheckBox()));
+		
+		this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				int selectedRow = getSelectedRow();
+				if ((selectedRow != -1) && !e.getValueIsAdjusting()) {
+					Pattern selectedPattern = ((PatternTableModel) dataModel).getPatternAtRow(selectedRow);
+					TelemetryAgent.logLibraryClick(String.format("Pattern: %s (%s)", selectedPattern.getLabel(), selectedPattern.getIri().toString()));
+				}
+			}
+		});
 	}
 
 	/**
@@ -160,6 +176,7 @@ public class PatternTable extends JTable {
 		public Object getCellEditorValue() {
 			if (isPushed) {
 				Pattern pattern = ((PatternTableModel) dataModel).getPatternAtRow(getSelectedRow());
+				TelemetryAgent.logLibraryClick(String.format("Documentation: %s (%s)", pattern.getLabel(), pattern.getIri().toString()));
 				PatternDocumentationFrame docFrame = new PatternDocumentationFrame(pattern);
 				docFrame.setVisible(true);
 			}
