@@ -2,7 +2,6 @@ package com.comodide.axiomatization;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +25,6 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.util.ShortFormProvider;
@@ -75,7 +73,6 @@ public class AxiomManager
 	private OWLModelManager  modelManager;
 	private OWLDataFactory   owlDataFactory;
 	private OWLEntityFinder  owlEntityFinder;
-	private OWLEntityRenamer owlEntityRenamer;
 
 	/** Used for parsing axioms added to the ontology */
 	private SimpleAxiomParser simpleAxiomParser;
@@ -96,8 +93,6 @@ public class AxiomManager
 			// The EntitiyFinder allows us to find existing entities within the
 			// ontology
 			this.owlEntityFinder = this.modelManager.getOWLEntityFinder();
-			// The EntityRenamer does exactly what you think it does
-			createEntityRenamer();
 			// Create Parsers for axioms
 			this.simpleAxiomParser = new SimpleAxiomParser();
 		}
@@ -105,18 +100,6 @@ public class AxiomManager
 		{
 			log.warn(pf + "active ontology is null.");
 		}
-	}
-
-	private void createEntityRenamer()
-	{
-		OWLOntology activeOntology = this.modelManager.getActiveOntology();
-		// Get the Ontology Manager
-		OWLOntologyManager ontologyManager = activeOntology.getOWLOntologyManager();
-		// Embed the active ontology into a Set
-		Set<OWLOntology> list = new HashSet<>();
-		list.add(activeOntology);
-		// Create the EntityRenamer
-		this.owlEntityRenamer = new OWLEntityRenamer(ontologyManager, list);
 	}
 
 	/**
@@ -259,7 +242,8 @@ public class AxiomManager
 		// Construct new class IRI
 		IRI newIRI = IRI.create(iri + "#" + newName);
 		// Get all OntologyChanges from the EntityRenamer
-		List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(oldClass, newIRI);
+		OWLEntityRenamer renamer = new OWLEntityRenamer(this.modelManager.getOWLOntologyManager(),this.modelManager.getOntologies());
+		List<OWLOntologyChange> changes = renamer.changeIRI(oldClass, newIRI);
 		// Apply the changes
 		this.modelManager.applyChanges(changes);
 		// Construct the OWLClass to return
