@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.entity.EntityCreationPreferences;
+import org.semanticweb.owlapi.io.AnonymousIndividualProperties;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -78,11 +79,16 @@ public class LabelChangeHandler
 			
 			// Create and run renamer
 			OWLOntologyManager ontologyManager = activeOntology.getOWLOntologyManager();
-			OWLEntityRenamer renamer = new OWLEntityRenamer(ontologyManager, modelManager.getOntologies());
-			List<OWLOntologyChange> changes = renamer.changeIRI(property.getIRI(), newIRI);
+			OWLEntityRenamer renamer = new OWLEntityRenamer(ontologyManager, modelManager.getOntologies());			
+			// The below configuration, and corresponding reset to that configuration 
+			// two lines down, is a workaround for an OWLAPI bug;
+			// see https://github.com/owlcs/owlapi/issues/892
+			AnonymousIndividualProperties.setRemapAllAnonymousIndividualsIds(false);
+			List<OWLOntologyChange> changes = renamer.changeIRI(property, newIRI);
 			this.modelManager.applyChanges(changes);
+			AnonymousIndividualProperties.resetToDefault();
 			
-			// Construct the OWLClass to return
+			// Construct the OWLEntity to return
 			OWLDataFactory factory = ontologyManager.getOWLDataFactory();
 			OWLEntity newEntity = factory.getOWLEntity(property.getEntityType(), newIRI);
 			
