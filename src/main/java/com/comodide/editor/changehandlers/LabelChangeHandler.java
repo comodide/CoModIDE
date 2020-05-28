@@ -1,9 +1,11 @@
 package com.comodide.editor.changehandlers;
 
 import java.util.List;
+import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.entity.EntityCreationPreferences;
+import org.protege.editor.owl.model.find.OWLEntityFinder;
 import org.semanticweb.owlapi.io.AnonymousIndividualProperties;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -48,10 +50,17 @@ public class LabelChangeHandler
 		if (!(cell instanceof ComodideCell)) {
 			throw new ComodideException(String.format("[CoModIDE:LabelChangeHandler] The non-CoModIDE cell '%s' was found on the schema diagram. This should never happen.", cell));
 		}
-		OWLEntity existingEntityWithName = this.axiomManager.findEntity(newLabel);
-		if (existingEntityWithName != null) {
+		
+		// Ensure that the IRI created by this new label is in fact new
+		IRI activeOntologyIri = modelManager.getActiveOntology().getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
+		String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
+		IRI newIRI = IRI.create(activeOntologyIri.toString() + entitySeparator + newLabel);
+		OWLEntityFinder finder = modelManager.getOWLEntityFinder();
+		Set<OWLEntity> existingEntitiesWithName = finder.getEntities(newIRI);
+		if (existingEntitiesWithName.size() > 0) {
 			throw new NameClashException(String.format("[CoModIDE:LabelChangeHandler] An OWL entity with the identifier '%s' already exists; unable to add another one.", newLabel));
 		}
+		
 		cell.setId(newLabel);
 		if (cell.isEdge())
 		{
@@ -73,7 +82,7 @@ public class LabelChangeHandler
 			// This is a renaming operation.
 			// Construct new property IRI
 			OWLOntology activeOntology = modelManager.getActiveOntology();
-			String ontologyNamespace = activeOntology.getOntologyID().getOntologyIRI().orNull().toString();
+			String ontologyNamespace = activeOntology.getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI()).toString();
 			String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
 			IRI newIRI = IRI.create(ontologyNamespace + entitySeparator + newLabel);
 			
@@ -135,35 +144,42 @@ public class LabelChangeHandler
 
 	private OWLEntity handleNodeLabelChange(mxCell cell, String newLabel)
 	{
-		Double newX = cell.getGeometry().getX();
-		Double newY = cell.getGeometry().getY();
-		
 		if (cell instanceof ClassCell)
 		{
 			ClassCell classCell = (ClassCell)cell;
 			// Extract current class, if it is present
-			// THis is a bit ugly and should be refactored deeper down in the code
 			OWLClass currentClass = null;
 			if (classCell.isNamed()) {
+				// This is a renaming operation
 				currentClass = classCell.getEntity().asOWLClass();
+				
+				OWLOntology activeOntology = modelManager.getActiveOntology();
+				String ontologyNamespace = activeOntology.getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI()).toString();
+				String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
+				IRI newIRI = IRI.create(ontologyNamespace + entitySeparator + newLabel);
+				
+				// Create and run renamer
+				OWLOntologyManager ontologyManager = activeOntology.getOWLOntologyManager();
+				OWLEntityRenamer renamer = new OWLEntityRenamer(ontologyManager, modelManager.getOntologies());			
+				// The below configuration, and corresponding reset to that configuration 
+				// two lines down, is a workaround for an OWLAPI bug;
+				// see https://github.com/owlcs/owlapi/issues/892
+				AnonymousIndividualProperties.setRemapAllAnonymousIndividualsIds(false);
+				List<OWLOntologyChange> changes = renamer.changeIRI(currentClass, newIRI);
+				this.modelManager.applyChanges(changes);
+				AnonymousIndividualProperties.resetToDefault();
+				
+				// Construct the OWLEntity to return
+				OWLDataFactory factory = ontologyManager.getOWLDataFactory();
+				OWLEntity newEntity = factory.getOWLEntity(currentClass.getEntityType(), newIRI);
+				
+				// Return a reference entity based on the new IRI
+				return newEntity;
 			}
-			
-			// Pass the label onto the AxiomManager
-			// It will attempt to find if the class exists,
-			// Otherwise, it will create a new class
-			OWLEntity classEntity = axiomManager.handleClassChange(currentClass, newLabel);
-			
-			// Check which of the loaded ontologies hosts the OWL entity representing
-			// the class and update the positioning annotations on the entity in those ontologies.
-			for (OWLOntology ontology : modelManager.getOntologies())
-			{
-				if (ontology.containsEntityInSignature(classEntity.getIRI()))
-				{
-					PositioningOperations.updateXYCoordinateAnnotations(classEntity, ontology, newX, newY);
-				}
+			else {
+				// This is a creation operation -- pass it off to the axiom manager thing
+				return this.axiomManager.addNewClass(newLabel);
 			}
-			
-			return classEntity;
 		}
 		return null;
 	}
