@@ -140,7 +140,7 @@ public class SchemaDiagram extends mxGraph
 				mxICell cell = (mxICell) c;
 				Double  newX = cell.getGeometry().getX();
 				Double  newY = cell.getGeometry().getY();
-
+				
 				// We want to update the position only if the cell is a "proper node"
 				// i.e. that the node is actually representing a class in the ontology
 				if (cell instanceof ClassCell || cell instanceof DatatypeCell)
@@ -164,16 +164,17 @@ public class SchemaDiagram extends mxGraph
 					
 					// Check which of the loaded ontologies that hosts the positioning entities
 					// and update annotations in those ontologies
-					for (OWLEntity positioningEntity: positioningEntities) {
-						for (OWLOntology ontology : modelManager.getOntologies())
+					lock = true; // prevent loopback during addaxiom
+					for (OWLEntity positioningEntity: positioningEntities) 
+					{
+						OWLOntology activeOntology = modelManager.getActiveOntology();
+						if (activeOntology.containsEntityInSignature(positioningEntity.getIRI()))
 						{
-							if (ontology.containsEntityInSignature(positioningEntity.getIRI()))
-							{
-								PositioningOperations.updateXYCoordinateAnnotations(positioningEntity, ontology, newX, newY);
-								break;
-							}
+							PositioningOperations.updateXYCoordinateAnnotations(positioningEntity, activeOntology, newX, newY);
 						}
 					}
+					// Unlock afterwards
+					lock = false;
 				}
 			}
 		}
