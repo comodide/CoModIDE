@@ -1,6 +1,5 @@
 package com.comodide.editor.changehandlers;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.protege.editor.owl.model.OWLModelManager;
@@ -79,7 +78,7 @@ public class LabelChangeHandler
 			
 			// Create and run renamer
 			OWLOntologyManager ontologyManager = activeOntology.getOWLOntologyManager();
-			OWLEntityRenamer renamer = new OWLEntityRenamer(ontologyManager, Collections.singleton(activeOntology));
+			OWLEntityRenamer renamer = new OWLEntityRenamer(ontologyManager, modelManager.getOntologies());
 			List<OWLOntologyChange> changes = renamer.changeIRI(property.getIRI(), newIRI);
 			this.modelManager.applyChanges(changes);
 			
