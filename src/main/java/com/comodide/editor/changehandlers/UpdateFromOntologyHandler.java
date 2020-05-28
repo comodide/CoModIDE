@@ -47,6 +47,7 @@ import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.model.mxICell;
 
 public class UpdateFromOntologyHandler
 {
@@ -409,10 +410,18 @@ public class UpdateFromOntologyHandler
 					double position = value.asLiteral().get().parseDouble();
 					for (mxCell cell: schemaDiagram.findCellsById(String.format("<%s>",subjectIRI.toString()))) {
 						if (cell instanceof ComodideCell) {
+							mxICell cellToMove;
+							if (cell instanceof PropertyEdgeCell) {
+								// If this occurs then we have a datatype edge; in that case we need to move the datatype that this cells points at
+								cellToMove = cell.getTarget();
+							}
+							else {
+								cellToMove = cell;
+							}
 							graphModel.beginUpdate();
 							try
 							{
-								mxGeometry geo = cell.getGeometry();
+								mxGeometry geo = cellToMove.getGeometry();
 								if (geo != null) {
 									mxGeometry newGeo = (mxGeometry) geo.clone();
 									if (property.equals(PositioningOperations.entityPositionX)) {
@@ -421,7 +430,7 @@ public class UpdateFromOntologyHandler
 									else {
 										newGeo.setY(position);
 									}
-									graphModel.setGeometry(cell, newGeo);
+									graphModel.setGeometry(cellToMove, newGeo);
 								}
 							}
 							finally
