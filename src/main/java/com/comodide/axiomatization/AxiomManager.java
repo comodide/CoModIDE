@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
+import org.protege.editor.owl.model.entity.EntityCreationPreferences;
 import org.protege.editor.owl.model.find.OWLEntityFinder;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
@@ -102,40 +103,6 @@ public class AxiomManager
 		}
 	}
 
-	/**
-	 * This method will attempt to first find a Class with the existing targetName
-	 * If it does not find it, it will create a Class with target name in the active
-	 * ontology.
-	 * 
-	 * If the currentClass is null, then it will return the result from above.
-	 * 
-	 * If the currentClass is not null and targetName exists, it will return
-	 * targetName
-	 * 
-	 * If the currentClass is not null and targetName did not exist, it will rename
-	 * currentClass to targetName
-	 * 
-	 * @return
-	 */
-	public OWLEntity handleClassChange(OWLClass currentClass, String targetName)
-	{
-		OWLClass targetClass = findClass(targetName);
-
-		if (targetClass != null)
-		{
-			return targetClass;
-		}
-
-		if (currentClass == null)
-		{
-			return addNewClass(targetName);
-		}
-		else
-		{
-			return renameClass(currentClass, targetName);
-		}
-	}
-
 	public OWLEntity handleClass(String className)
 	{
 		// Determine if the new class that we are naming the node exists
@@ -164,19 +131,6 @@ public class AxiomManager
 		}
 
 		return owlClass;
-	}
-
-	public OWLEntity findEntity(String entity) throws MultipleMatchesException {
-		Set<OWLEntity> foundEntities = this.owlEntityFinder.getMatchingOWLEntities(entity);
-		if (foundEntities.size() > 1) {
-			throw new MultipleMatchesException(String.format("[CoModIDE:AxiomManager] There are multiple OWL entities matching the identifier %s.",entity));
-		}
-		else if (foundEntities.isEmpty()) {
-			return null;
-		}
-		else {
-			return foundEntities.iterator().next();
-		}
 	}
 	
 	public OWLClass findClass(String clazz)
@@ -213,15 +167,16 @@ public class AxiomManager
 			return cls;
 		}
 	}
-
+	
 	/** This method is called when previousLabel.equals("") */
 	public OWLClass addNewClass(String str)
 	{
 		OWLOntology activeOntology = this.modelManager.getActiveOntology();
-		IRI iri = activeOntology.getOntologyID().getOntologyIRI().orNull();
+		IRI iri = activeOntology.getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
 		/* Construct the Declaration Axiom */
 		// Create the IRI for the class using the active namespace
-		IRI classIRI = IRI.create(iri + "#" + str);
+		String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
+		IRI classIRI = IRI.create(iri + entitySeparator + str);
 		// Create the OWLAPI construct for the class
 		OWLClass owlClass = this.owlDataFactory.getOWLClass(classIRI);
 		// Create the Declaration Axiom
@@ -238,9 +193,10 @@ public class AxiomManager
 	public OWLClass renameClass(OWLClass oldClass, String newName)
 	{
 		OWLOntology activeOntology = this.modelManager.getActiveOntology();
-		IRI iri = activeOntology.getOntologyID().getOntologyIRI().orNull();
+		IRI iri = activeOntology.getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
 		// Construct new class IRI
-		IRI newIRI = IRI.create(iri + "#" + newName);
+		String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
+		IRI newIRI = IRI.create(iri + entitySeparator + newName);
 		// Get all OntologyChanges from the EntityRenamer
 		OWLEntityRenamer renamer = new OWLEntityRenamer(this.modelManager.getOWLOntologyManager(),this.modelManager.getOntologies());
 		List<OWLOntologyChange> changes = renamer.changeIRI(oldClass, newIRI);
@@ -374,9 +330,10 @@ public class AxiomManager
 	public OWLObjectProperty addNewObjectProperty(String propertyName)
 	{
 		OWLOntology activeOntology = this.modelManager.getActiveOntology();
-		IRI iri = activeOntology.getOntologyID().getOntologyIRI().orNull();
+		IRI iri = activeOntology.getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
 		// Create the IRI for the class using the active namespace
-		IRI propertyIRI = IRI.create(iri + "#" + propertyName);
+		String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
+		IRI propertyIRI = IRI.create(iri + entitySeparator + propertyName);
 		// Create the OWLAPI construct for the class
 		OWLObjectProperty objectProperty = this.owlDataFactory.getOWLObjectProperty(propertyIRI);
 		// Create the Declaration Axiom
@@ -449,9 +406,10 @@ public class AxiomManager
 	public OWLDataProperty addNewDataProperty(String propertyName)
 	{
 		OWLOntology activeOntology = this.modelManager.getActiveOntology();
-		IRI iri = activeOntology.getOntologyID().getOntologyIRI().orNull();
+		IRI iri = activeOntology.getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
 		// Create the IRI for the class using the active namespace
-		IRI propertyIRI = IRI.create(iri + "#" + propertyName);
+		String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
+		IRI propertyIRI = IRI.create(iri + entitySeparator + propertyName);
 		// Create the OWLAPI construct for the class
 		OWLDataProperty dataProperty = this.owlDataFactory.getOWLDataProperty(propertyIRI);
 		// Create the Declaration Axiom
