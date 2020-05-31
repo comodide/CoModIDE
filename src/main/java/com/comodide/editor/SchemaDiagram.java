@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
@@ -77,7 +79,15 @@ public class SchemaDiagram extends mxGraph
 	 */
 	public void Clear() {
 		this.removeListener(cellsRemovedHandler);
-		this.removeCells(this.getChildVertices(this.getDefaultParent()));
+		for (Object obj: this.getChildCells(this.getDefaultParent())) {
+			mxCell cell = (mxCell)obj;
+			log.error(String.format("Will remove: %s", cell));
+		}
+		this.removeCells(this.getChildCells(this.getDefaultParent()));
+		Map<String, Object> cells = ((mxGraphModel) model).getCells();
+		for (Entry<String, Object> entry: cells.entrySet()) {
+			log.error(String.format("After clearing, this remains: %s -%s", entry.getKey(), entry.getValue().toString()));
+		}
 		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);
 	}
 	
@@ -385,38 +395,51 @@ public class SchemaDiagram extends mxGraph
 		}
 	}
 
-	/** This method is a convenience (but necessary) method for finding a cell in the schema diagram.
+	/** This method is a convenience method for finding a cell holding a particular entity in the 
+	 * schema diagram.
+	 * We expect IRIs sent in here to be enclosed in <>, since that is what OWLAPI generates as toString()
+	 * for named entities.
 	 * Due to the creation mechanism of nodes via drag-and-drop ids are added before the id is assigned
 	 * via class/property creation, therefore we must iterate through cells and match their current id
 	 * instead of the id that they had when they were dragged and dropped (an arbitrary integer).
-	 * @param cellID
+	 * @param iri
 	 */
-	public mxCell getCell(String cellID)
+	public mxCell getCell(OWLEntity entity)
 	{
 		Map<String, Object> cells = ((mxGraphModel) model).getCells();
 		
 		for(Object o : cells.values())
 		{
-			mxCell cell = (mxCell) o;
-			
-			if(cell.getId().equals(cellID))
-			{
-				return cell;
+			// Some cells, e.g., the root, aren't ComodideCell
+			if (o instanceof ComodideCell) {
+				ComodideCell cell = (ComodideCell) o;
+				
+				if(cell.getEntity().equals(entity))
+				{
+					return cell;
+				}
 			}
 		}
 	
 		return null;
 	}
 	
-	public List<mxCell> findCellsById(String id) {
+	public List<mxCell> findCellsByEntity(OWLEntity entity) {
+		return findCellsByIri(entity.getIRI());
+	}
+	
+	public List<mxCell> findCellsByIri(IRI iri) {
 		List<mxCell> foundCells = new ArrayList<mxCell>();
 		Map<String, Object> cellsOnDiagram = ((mxGraphModel) model).getCells();
 		for(Object o : cellsOnDiagram.values())
 		{
-			mxCell candidateCell = (mxCell) o;
-			if(candidateCell.getId().equals(id))
-			{
-				foundCells.add(candidateCell);
+			// Some cells, e.g., the root, aren't ComodideCell
+			if (o instanceof ComodideCell) {
+				ComodideCell candidateCell = (ComodideCell) o;
+				if(candidateCell.isNamed() && candidateCell.getEntity().getIRI().equals(iri))
+				{
+					foundCells.add(candidateCell);
+				}
 			}
 		}
 		return foundCells;
@@ -466,8 +489,8 @@ public class SchemaDiagram extends mxGraph
 	
 	public ClassCell addClass(OWLEntity owlEntity, double positionX, double positionY) {
 		log.info("[CoModIDE:SchemaDiagram] Adding OWL Class" + owlEntity.toString());
-		if (getCell(owlEntity.toString())!= null) {
-			return (ClassCell)getCell(owlEntity.toString());
+		if (getCell(owlEntity)!= null) {
+			return (ClassCell)getCell(owlEntity);
 		}
 		ClassCell cell = new ClassCell(owlEntity, positionX, positionY);
 		this.addCell(cell);
@@ -523,11 +546,11 @@ public class SchemaDiagram extends mxGraph
 		if (owlEntity.isOWLClass() || owlEntity.isOWLObjectProperty())
 		{
 			log.info("[CoModIDE:SchemaDiagram] Removing class or object property cells for '" + owlEntity.toString() + "'");
-			cellsToRemove.addAll(findCellsById(owlEntity.toString()));
+			cellsToRemove.addAll(findCellsByEntity(owlEntity));
 		}
 		else if (owlEntity.isOWLDataProperty()) {
 			log.info("[CoModIDE:UFOH] Removing data property cells for '" + owlEntity.toString() + "'");
-			List<mxCell> dataPropertyCellsToRemove = findCellsById(owlEntity.toString());
+			List<mxCell> dataPropertyCellsToRemove = findCellsByEntity(owlEntity);
 			List<mxCell> dataTypeCellsToRemove = new ArrayList<mxCell>();
 			for (mxCell dataPropertyCell: dataPropertyCellsToRemove) {
 				dataTypeCellsToRemove.add((mxCell)dataPropertyCell.getTarget());
