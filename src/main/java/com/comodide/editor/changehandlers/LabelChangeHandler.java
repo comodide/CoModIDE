@@ -61,7 +61,6 @@ public class LabelChangeHandler
 			throw new NameClashException(String.format("[CoModIDE:LabelChangeHandler] An OWL entity with the identifier '%s' already exists; unable to add another one.", newLabel));
 		}
 		
-		cell.setId(newLabel);
 		if (cell.isEdge())
 		{
 			return handleEdgeLabelChange(cell, newLabel);
