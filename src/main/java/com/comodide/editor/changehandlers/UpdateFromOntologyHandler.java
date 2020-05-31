@@ -242,6 +242,11 @@ public class UpdateFromOntologyHandler
 		OWLDeclarationAxiom declaration = (OWLDeclarationAxiom) axiom;
 		OWLEntity           owlEntity   = declaration.getEntity();
 		
+		// We do not render anything from the OPLa namespace
+		if (owlEntity.getIRI().toString().contains("http://ontologydesignpatterns.org/opla#")) {
+			return;
+		}
+		
 		// Handle Class or Datatype
 		if (owlEntity.isOWLClass() || owlEntity.isOWLDatatype())
 		{
