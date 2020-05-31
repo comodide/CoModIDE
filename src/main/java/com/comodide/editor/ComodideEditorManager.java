@@ -37,7 +37,7 @@ public class ComodideEditorManager implements OWLOntologyChangeListener, OWLMode
 		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(schemaDiagram, modelManager);
 		
 		// Register as listener to detect changes in the ontology that trigger the above updates
-		modelManager.addOntologyChangeListener(this);
+		this.modelManager.addOntologyChangeListener(this);
 		
 		// Parse and render the active ontology initially
 		this.RenderActiveOntology();

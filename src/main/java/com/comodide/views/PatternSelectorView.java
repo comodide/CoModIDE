@@ -4,16 +4,7 @@ import com.comodide.patterns.PatternCategory;
 import com.comodide.patterns.PatternLibrary;
 import com.comodide.patterns.PatternTable;
 import com.comodide.patterns.PatternTableModel;
-import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import com.comodide.telemetry.TelemetryAgent;
 
 /**
  * CoModIDE Pattern Selector view. Lists and displays indexed ontology patterns, and provides hooks to initiate pattern instantiation into an ontology.
@@ -55,7 +46,8 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
         categoryList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-                PatternCategory selectedCategory = (PatternCategory)categoryList.getSelectedItem();
+				PatternCategory selectedCategory = (PatternCategory)categoryList.getSelectedItem();
+				TelemetryAgent.logLibraryClick(String.format("Category: %s (%s)", selectedCategory.getLabel(), selectedCategory.getIri().toString()));
 				patternsTableModel.update(patternLibrary.getPatternsForCategory(selectedCategory));				
 			}
         });

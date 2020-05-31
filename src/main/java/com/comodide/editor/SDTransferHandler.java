@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import com.comodide.ComodideConfiguration;
 import com.comodide.patterns.PatternTransferable;
 import com.comodide.rendering.PositioningOperations;
+import com.comodide.telemetry.TelemetryAgent;
 import com.google.common.base.Optional;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.handler.mxGraphTransferHandler;
@@ -247,7 +248,7 @@ public class SDTransferHandler extends mxGraphTransferHandler
 				}
 
 				modelManager.applyChanges(newAxioms);
-
+				TelemetryAgent.logPatternDrop();
 				result = true;
 			}
 			catch (Exception ex)

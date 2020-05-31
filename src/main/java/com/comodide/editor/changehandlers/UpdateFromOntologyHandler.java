@@ -47,6 +47,7 @@ import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.model.mxICell;
 
 public class UpdateFromOntologyHandler
 {
@@ -313,8 +314,8 @@ public class UpdateFromOntologyHandler
 		
 		// This is a simple subclass edge between two nodes, find it and kill it
 		if (superClassExpression.isNamed() && subClassExpression.isNamed()) {
-			ClassCell superClassCell = (ClassCell)schemaDiagram.getCell(superClassExpression.asOWLClass().toString());
-			ClassCell subClassCell = (ClassCell)schemaDiagram.getCell(subClassExpression.asOWLClass().toString());
+			ClassCell superClassCell = (ClassCell)schemaDiagram.getCell(superClassExpression.asOWLClass());
+			ClassCell subClassCell = (ClassCell)schemaDiagram.getCell(subClassExpression.asOWLClass());
 			schemaDiagram.removeSubClassEdge(superClassCell, subClassCell);
 		}
 		// This is potentially a scoped domain/range. Recompute valid edges and 
@@ -347,7 +348,7 @@ public class UpdateFromOntologyHandler
 		// If that pair is not in the set of still valid edges computed above, remove it.
 		// For each still valid edge that is found on the canvas, remove it from the set above
 		// such that at the end of this loop, only un-rendered edges remain in the set.
-		List<mxCell> currentEdges = schemaDiagram.findCellsById(property.toString());
+		List<mxCell> currentEdges = schemaDiagram.findCellsByEntity(property);
 		for (mxCell cell: currentEdges) {
 			if (cell instanceof PropertyEdgeCell) {
 				PropertyEdgeCell currentEdgeCell = (PropertyEdgeCell)cell;
@@ -407,12 +408,20 @@ public class UpdateFromOntologyHandler
 					// cell on the canvas.
 					IRI subjectIRI = (IRI)candidateParentAnnotation.getSubject();
 					double position = value.asLiteral().get().parseDouble();
-					for (mxCell cell: schemaDiagram.findCellsById(String.format("<%s>",subjectIRI.toString()))) {
+					for (mxCell cell: schemaDiagram.findCellsByIri(subjectIRI)) {
 						if (cell instanceof ComodideCell) {
+							mxICell cellToMove;
+							if (cell instanceof PropertyEdgeCell) {
+								// If this occurs then we have a datatype edge; in that case we need to move the datatype that this cells points at
+								cellToMove = cell.getTarget();
+							}
+							else {
+								cellToMove = cell;
+							}
 							graphModel.beginUpdate();
 							try
 							{
-								mxGeometry geo = cell.getGeometry();
+								mxGeometry geo = cellToMove.getGeometry();
 								if (geo != null) {
 									mxGeometry newGeo = (mxGeometry) geo.clone();
 									if (property.equals(PositioningOperations.entityPositionX)) {
@@ -421,7 +430,7 @@ public class UpdateFromOntologyHandler
 									else {
 										newGeo.setY(position);
 									}
-									graphModel.setGeometry(cell, newGeo);
+									graphModel.setGeometry(cellToMove, newGeo);
 								}
 							}
 							finally

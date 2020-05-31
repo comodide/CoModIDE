@@ -20,7 +20,6 @@ public abstract class ComodideCell extends mxCell {
 	
 	public void setEntity(OWLEntity entity) {
 		this.entity = entity;
-		this.id = entity.toString();
 		this.value = shortFormProvider.getShortForm(entity);
 	}
 	

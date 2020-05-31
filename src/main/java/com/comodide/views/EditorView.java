@@ -53,6 +53,7 @@ public class EditorView extends AbstractOWLViewComponent
 	protected void disposeOWLView()
 	{
 		this.modelManager.removeOntologyChangeListener(this.comodideEditorManager);
+		this.modelManager.removeListener(this.comodideEditorManager);
 		log.info("[CoModIDE:RenderingView] Disposed");
 	}
 }
