@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
@@ -79,15 +78,7 @@ public class SchemaDiagram extends mxGraph
 	 */
 	public void Clear() {
 		this.removeListener(cellsRemovedHandler);
-		for (Object obj: this.getChildCells(this.getDefaultParent())) {
-			mxCell cell = (mxCell)obj;
-			log.error(String.format("Will remove: %s", cell));
-		}
 		this.removeCells(this.getChildCells(this.getDefaultParent()));
-		Map<String, Object> cells = ((mxGraphModel) model).getCells();
-		for (Entry<String, Object> entry: cells.entrySet()) {
-			log.error(String.format("After clearing, this remains: %s -%s", entry.getKey(), entry.getValue().toString()));
-		}
 		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);
 	}
 	
