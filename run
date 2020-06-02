@@ -1,4 +1,4 @@
 mvn clean install
-rm ../../protege/plugins/CoModIDE-1.1.0.jar
-cp ./target/CoModIDE-1.1.0.jar ../../protege/plugins
+rm ../../protege/plugins/CoModIDE-1.1.1.jar
+cp ./target/CoModIDE-1.1.1.jar ../../protege/plugins
 ../../protege/run.sh
