@@ -79,7 +79,14 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //Panel is used to load classes of specified ontology class
         cellPanel = Box.createVerticalBox();
+        JLabel cellLabel = new JLabel("Add Subclass:");
+        Font f1 = cellLabel.getFont();
+        cellLabel.setFont(f1.deriveFont(f1.getStyle() | Font.BOLD));
+        cellPanel.add(cellLabel);
         edgePanel = Box.createVerticalBox();
+        JLabel edgeName = new JLabel("Add Superproperty:");
+        edgeName.setFont(f1.deriveFont(f1.getStyle() | Font.BOLD));
+        edgePanel.add(edgeName);
         //Panel is used to load the specified upper ontology
         JTextField loadTextField = new JTextField(10);
         JButton loadButton = new JButton("Load Button");
@@ -180,18 +187,19 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                             property = axiomManager.addNewObjectProperty("partOf");
                                         }*/
                                         if(checked)
-                                        {   sourceProperty = currentSelectedEdge.getEntity();
-                                            targetProperty = axiomManager.findObjectProperty(((JCheckBox) arg0.getItem()).getText());
-                                            if (property == null)
+                                        {
+                                            String propLabel = ((JCheckBox) arg0.getItem()).getText();
+                                            targetProperty = axiomManager.findObjectProperty(propLabel);
+                                            if (targetProperty == null)
                                             {
-                                                property = axiomManager.addNewObjectProperty(((JCheckBox) arg0.getItem()).getText());
+                                                targetProperty = axiomManager.addNewObjectProperty(propLabel);
                                             }
+                                            log.info("source property is:"+sourceProperty+""+"target property is:"+targetProperty);
                                             axiomManager.addPropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
-                                            log.info("cell checked:");
                                         }
                                         else // unchecked
                                         {
-                                            log.info("cell unchecked:");
+                                            axiomManager.removePropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
                                         }
                                     }
                                 });
@@ -281,6 +289,7 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
             {
                 // Track the current selected cell
                 this.currentSelectedEdge = (PropertyEdgeCell) payload;
+                sourceProperty = currentSelectedEdge.getEntity();
                 this.changeVisibility("edge");
             }
             else

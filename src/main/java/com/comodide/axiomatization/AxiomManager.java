@@ -157,6 +157,15 @@ public class AxiomManager
 		this.modelManager.applyChange(add);
 	}
 
+	public void removePropertyOWLAxAxiom(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity target)
+	{
+		OWLAxiom axiom = this.owlaxAxiomFactory.createAxiomOfProperty(axiomType, source, target);
+
+		RemoveAxiom add = new RemoveAxiom(owlOntology, axiom);
+		this.modelManager.applyChange(add);
+
+	}
+
 	public void removeOWLAxAxiom(OWLAxAxiomType axiomType, PropertyEdgeCell edgeCell)
 	{
 		OWLAxiom axiom = createOWLAxAxiom(axiomType, edgeCell);
