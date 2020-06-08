@@ -148,8 +148,6 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                 });
                                 cellPanel.add(jcb);
                             }
-                            //alignmentPanel.add(edgeBox);
-                            //scrollPane = new JScrollPane(alignmentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
                             //create parent nodes for the tree
                             /*Parent_root = new DefaultMutableTreeNode(rdf_labels);
                             root.add(Parent_root);*/
@@ -181,11 +179,6 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                     public void itemStateChanged(ItemEvent arg0)
                                     {
                                         boolean checked = arg0.getStateChange() == 1;
-                                        /*property = axiomManager.findObjectProperty("partOf");
-                                        if (property == null)
-                                        {
-                                            property = axiomManager.addNewObjectProperty("partOf");
-                                        }*/
                                         if(checked)
                                         {
                                             String propLabel = ((JCheckBox) arg0.getItem()).getText();
@@ -227,10 +220,6 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
         this.add(loadPanel);
         JScrollPane scrollPane = new JScrollPane(alignmentPanel);
         this.add(scrollPane);
-        /*JScrollPane scrollPane = new JScrollPane(cellPanel);
-        this.add(scrollPane);
-        JScrollPane scrollPane1 = new JScrollPane(edgePanel);
-        this.add(scrollPane1);*/
         this.axiomManager = AxiomManager.getInstance(getOWLModelManager());
         // This view is interested in Cell Selected Messages sent by Comodide
         ComodideMessageBus.getSingleton().registerHandler(ComodideMessage.CELL_SELECTED, this);
