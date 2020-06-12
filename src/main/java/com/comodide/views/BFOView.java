@@ -109,7 +109,7 @@ public class BFOView extends AbstractOWLViewComponent implements ComodideMessage
                         modelManager.applyChange(addAxiomChange);
                     }
                     log.info(" value of owlOntology"+ owlOntology);*/
-                    axiomManager.addOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
+                    axiomManager.addOWLAxAxiomtoBFO( source, target);
                 }
                 else // unchecked
                 {
@@ -132,7 +132,7 @@ public class BFOView extends AbstractOWLViewComponent implements ComodideMessage
                     {
                         property = axiomManager.addNewObjectProperty("partOf");
                     }
-                    axiomManager.addOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
+                    axiomManager.addOWLAxAxiomtoBFO( source, target);
                 }
                 else // unchecked
                 {

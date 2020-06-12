@@ -8,27 +8,7 @@ import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.find.OWLEntityFinder;
-import org.semanticweb.owlapi.model.AddAxiom;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
@@ -142,11 +122,14 @@ public class AxiomManager
 		this.modelManager.applyChange(add);
 	}
 
-	public void addOWLAxAxiomtoBFO(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity property, OWLEntity target)
+	public void addOWLAxAxiomtoBFO( OWLEntity source,  OWLEntity target)
 	{
-		OWLAxiom axiom = this.owlaxAxiomFactory.createAxiom(axiomType, source, property, target);
+		OWLClassExpression          sourceExpression   = source.asOWLClass();
+		OWLClassExpression          targetExpression   = target.asOWLClass();
+		// To be returned
+		OWLAxiom owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, targetExpression);
 
-		AddAxiom add = new AddAxiom(owlOntology, axiom);
+		AddAxiom add = new AddAxiom(owlOntology, owlaxAxiom);
 		this.modelManager.applyChange(add);
 	}
 	public void addPropertyOWLAxAxiom(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity target)

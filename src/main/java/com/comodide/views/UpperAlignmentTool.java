@@ -129,15 +129,15 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                     public void itemStateChanged(ItemEvent arg0)
                                     {
                                         boolean checked = arg0.getStateChange() == 1;
-                                        property = axiomManager.findObjectProperty("partOf");
+                                        /*property = axiomManager.findObjectProperty("partOf");
                                         if (property == null)
                                         {
                                             property = axiomManager.addNewObjectProperty("partOf");
-                                        }
+                                        }*/
                                         if(checked)
                                         {
                                             target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
-                                            axiomManager.addOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
+                                            axiomManager.addOWLAxAxiomtoBFO( source, target);
                                         }
                                         else // unchecked
                                         {
