@@ -57,7 +57,7 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
     OWLOntology index;
     String rdf_labels;
     private JTree tree;
-    private  JCheckBox jcb;
+    //private  JCheckBox jcb;
     public AxiomManager axiomManager;
     private ClassCell currentSelectedCell;
     private PropertyEdgeCell currentSelectedEdge;
@@ -106,12 +106,13 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                         InputStream is = classloader.getResourceAsStream("modl/bfo.owl");
                         index = manager.loadOntologyFromOntologyDocument(fileName);
                         Set<OWLClass> entOnt = index.getClassesInSignature();
-                        Set<OWLAnnotationProperty> entProperties = index.getAnnotationPropertiesInSignature();
+                        Set<OWLAnnotationProperty> annotationProperties = index.getAnnotationPropertiesInSignature();
+                        Set<OWLObjectProperty> objectProperties = index.getObjectPropertiesInSignature();
                         //DefaultMutableTreeNode root = new DefaultMutableTreeNode("BFO_VIEW");
                         for (OWLClass parent_entity : entOnt) {
 
                             //noinspection PackageAccessibility
-                            OWLReasonerFactory reasonerFactory= new Reasoner.ReasonerFactory();
+                            OWLReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory();
                             ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();
                             OWLReasonerConfiguration config = new SimpleConfiguration(progressMonitor);
                             OWLReasoner reasoner = reasonerFactory.createReasoner(index, config);
@@ -120,34 +121,39 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
 
                             NodeSet<OWLClass> subClses = reasoner.getSubClasses(parent_entity, true);
                             Set<OWLClass> clses = subClses.getFlattened();
-                            rdf_labels= getLabels(parent_entity, index);
-                            if(rdf_labels!=null){
-                                JCheckBox jcb = new JCheckBox(rdf_labels, false);
-                                jcb.addItemListener(new ItemListener()
-                                {
-                                    @Override
-                                    public void itemStateChanged(ItemEvent arg0)
-                                    {
-                                        boolean checked = arg0.getStateChange() == 1;
-                                        /*property = axiomManager.findObjectProperty("partOf");
-                                        if (property == null)
-                                        {
-                                            property = axiomManager.addNewObjectProperty("partOf");
-                                        }*/
-                                        if(checked)
-                                        {
-                                            target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
-                                            axiomManager.addOWLAxAxiomtoBFO( source, target);
-                                        }
-                                        else // unchecked
-                                        {
-                                            target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
-                                            axiomManager.removeOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
-                                        }
-                                    }
-                                });
-                                cellPanel.add(jcb);
+                            String entityShortName = parent_entity.getIRI().getShortForm();
+                            rdf_labels = getLabels(parent_entity, index);
+                            JCheckBox jcb;
+                            if (rdf_labels != null) {
+                                 jcb = new JCheckBox(entityShortName + " (" + rdf_labels + ")", false);
+                            } else{
+                                 jcb = new JCheckBox(entityShortName , false);
                             }
+                            jcb.addItemListener(new ItemListener()
+                            {
+                                @Override
+                                public void itemStateChanged(ItemEvent arg0)
+                                {
+                                    boolean checked = arg0.getStateChange() == 1;
+                                    /*property = axiomManager.findObjectProperty("partOf");
+                                    if (property == null)
+                                    {
+                                        property = axiomManager.addNewObjectProperty("partOf");
+                                    }*/
+                                    if(checked)
+                                    {
+                                        target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
+                                        axiomManager.addOWLAxAxiomtoBFO( source, target);
+                                    }
+                                    else // unchecked
+                                    {
+                                        target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
+                                        axiomManager.removeOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
+                                    }
+                                }
+                            });
+                            cellPanel.add(jcb);
+                            //}
                             //create parent nodes for the tree
                             /*Parent_root = new DefaultMutableTreeNode(rdf_labels);
                             root.add(Parent_root);*/
@@ -169,37 +175,19 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                         tree.setEditable(true);
                         tree = new JTree(root);
                         alignmentPanel.add(tree);*/
-                        for (OWLAnnotationProperty owlProperty : entProperties) {
-                            rdf_labels = getLabels(owlProperty, index);
-                            if(rdf_labels!=null){
-                                JCheckBox jcb = new JCheckBox(rdf_labels, false);
-                                jcb.addItemListener(new ItemListener()
-                                {
-                                    @Override
-                                    public void itemStateChanged(ItemEvent arg0)
-                                    {
-                                        boolean checked = arg0.getStateChange() == 1;
-                                        if(checked)
-                                        {
-                                            String propLabel = ((JCheckBox) arg0.getItem()).getText();
-                                            targetProperty = axiomManager.findObjectProperty(propLabel);
-                                            if (targetProperty == null)
-                                            {
-                                                targetProperty = axiomManager.addNewObjectProperty(propLabel);
-                                            }
-                                            log.info("source property is:"+sourceProperty+""+"target property is:"+targetProperty);
-                                            axiomManager.addPropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
-                                        }
-                                        else // unchecked
-                                        {
-                                            axiomManager.removePropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
-                                        }
-                                    }
-                                });
-                                edgePanel.add(jcb);
+                        if(annotationProperties!=null){
+                            for (OWLAnnotationProperty owlProperty : annotationProperties) {
+                                rdf_labels = getLabels(owlProperty, index);
+                                getPropertyCheckboxes(rdf_labels);
                             }
-
                         }
+                        if(objectProperties!=null){
+                            for (OWLObjectProperty owlProperty : objectProperties) {
+                                String entityShortName = owlProperty.getIRI().getShortForm();
+                                getPropertyCheckboxes(entityShortName);
+                            }
+                        }
+
                         alignmentPanel.add(cellPanel);
                         alignmentPanel.add(edgePanel);
 
@@ -225,6 +213,36 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
         ComodideMessageBus.getSingleton().registerHandler(ComodideMessage.CELL_SELECTED, this);
         //finish
         log.info("[CoModIDE:UpperAlignmentTool] Successfully Initialised.");
+    }
+
+    public void getPropertyCheckboxes(String checkBoxText){
+        if(checkBoxText!=null){
+            JCheckBox jcb = new JCheckBox(checkBoxText, false);
+            jcb.addItemListener(new ItemListener()
+            {
+                @Override
+                public void itemStateChanged(ItemEvent arg0)
+                {
+                    boolean checked = arg0.getStateChange() == 1;
+                    if(checked)
+                    {
+                        String propLabel = ((JCheckBox) arg0.getItem()).getText();
+                        targetProperty = axiomManager.findObjectProperty(propLabel);
+                        if (targetProperty == null)
+                        {
+                            targetProperty = axiomManager.addNewObjectProperty(propLabel);
+                        }
+                        log.info("source property is:"+sourceProperty+""+"target property is:"+targetProperty);
+                        axiomManager.addPropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
+                    }
+                    else // unchecked
+                    {
+                        axiomManager.removePropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
+                    }
+                }
+            });
+            edgePanel.add(jcb);
+        }
     }
 
     private String getLabels(OWLEntity entity, OWLOntology ontology) {
