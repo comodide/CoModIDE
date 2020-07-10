@@ -79,24 +79,17 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //Panel is used to load classes of specified ontology class
         cellPanel = Box.createVerticalBox();
-        JLabel cellLabel = new JLabel("Add Subclass:");
-        Font f1 = cellLabel.getFont();
-        cellLabel.setFont(f1.deriveFont(f1.getStyle() | Font.BOLD));
-        cellPanel.add(cellLabel);
         edgePanel = Box.createVerticalBox();
-        JLabel edgeName = new JLabel("Add Superproperty:");
-        edgeName.setFont(f1.deriveFont(f1.getStyle() | Font.BOLD));
-        edgePanel.add(edgeName);
-        //Panel is used to load the specified upper ontology
         JTextField loadTextField = new JTextField(10);
         JButton loadButton = new JButton("Load Button");
         Font f = loadButton.getFont();
         loadButton.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
         loadButton.addActionListener(new ActionListener()
-        {   //on click of loadButton loadPanel should get invisible and only alignmentPanel should be visible.
+        {
             public void actionPerformed(ActionEvent e)
             {
 
+                repaintPanel();
                 JFileChooser fileChooser = new JFileChooser();
                 int returnVal = fileChooser.showOpenDialog(fileChooser);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -105,14 +98,20 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                         ClassLoader classloader = this.getClass().getClassLoader();
                         InputStream is = classloader.getResourceAsStream("modl/bfo.owl");
                         index = manager.loadOntologyFromOntologyDocument(fileName);
+                        JLabel cellFilename = new JLabel(fileName.getName());
+                        Font f1 = cellFilename.getFont();
+                        cellFilename.setFont(f1.deriveFont(f1.getStyle() | Font.BOLD));
+                        cellPanel.add(cellFilename);
+                        JLabel edgeFilename = new JLabel(fileName.getName());
+                        edgeFilename.setFont(f1.deriveFont(f1.getStyle() | Font.BOLD));
+                        edgePanel.add(edgeFilename);
                         Set<OWLClass> entOnt = index.getClassesInSignature();
                         Set<OWLAnnotationProperty> annotationProperties = index.getAnnotationPropertiesInSignature();
                         Set<OWLObjectProperty> objectProperties = index.getObjectPropertiesInSignature();
                         //DefaultMutableTreeNode root = new DefaultMutableTreeNode("BFO_VIEW");
                         for (OWLClass parent_entity : entOnt) {
-
                             //noinspection PackageAccessibility
-                            OWLReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory();
+                            /*OWLReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory();
                             ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();
                             OWLReasonerConfiguration config = new SimpleConfiguration(progressMonitor);
                             OWLReasoner reasoner = reasonerFactory.createReasoner(index, config);
@@ -120,12 +119,13 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
 
 
                             NodeSet<OWLClass> subClses = reasoner.getSubClasses(parent_entity, true);
-                            Set<OWLClass> clses = subClses.getFlattened();
+                            Set<OWLClass> clses = subClses.getFlattened();*/
                             String entityShortName = parent_entity.getIRI().getShortForm();
                             rdf_labels = getLabels(parent_entity, index);
                             JCheckBox jcb;
                             if (rdf_labels != null) {
-                                 jcb = new JCheckBox(entityShortName + " (" + rdf_labels + ")", false);
+                                 jcb = new JCheckBox(rdf_labels, false);
+                                log.info("rdflabels is:"+ rdf_labels);
                             } else{
                                  jcb = new JCheckBox(entityShortName , false);
                             }
@@ -135,17 +135,12 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                 public void itemStateChanged(ItemEvent arg0)
                                 {
                                     boolean checked = arg0.getStateChange() == 1;
-                                    /*property = axiomManager.findObjectProperty("partOf");
-                                    if (property == null)
-                                    {
-                                        property = axiomManager.addNewObjectProperty("partOf");
-                                    }*/
                                     if(checked)
                                     {
                                         target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
                                         axiomManager.addOWLAxAxiomtoBFO( source, target);
                                     }
-                                    else // unchecked
+                                    else// unchecked
                                     {
                                         target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
                                         axiomManager.removeOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
@@ -153,28 +148,7 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                 }
                             });
                             cellPanel.add(jcb);
-                            //}
-                            //create parent nodes for the tree
-                            /*Parent_root = new DefaultMutableTreeNode(rdf_labels);
-                            root.add(Parent_root);*/
-
-                            //to have subclasses for the parent class and add children node to it
-                            /*for (OWLClass cls : clses) {
-
-                                rdf_labels= getLabels(cls, index);
-                                Parent_root.add(new DefaultMutableTreeNode(rdf_labels));
-                                log.info("  " + rdf_labels);
-                            }*/
                         }
-                        //creating checkbox for the tree nodes
-                        /*tree = new JTree(root);
-                        CheckBoxNodeRenderer renderer = new CheckBoxNodeRenderer();
-                        tree.setCellRenderer(renderer);
-
-                        tree.setCellEditor(new CheckBoxNodeEditor(tree));
-                        tree.setEditable(true);
-                        tree = new JTree(root);
-                        alignmentPanel.add(tree);*/
                         if(annotationProperties!=null){
                             for (OWLAnnotationProperty owlProperty : annotationProperties) {
                                 rdf_labels = getLabels(owlProperty, index);
@@ -187,18 +161,18 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                 getPropertyCheckboxes(entityShortName);
                             }
                         }
-
                         alignmentPanel.add(cellPanel);
                         alignmentPanel.add(edgePanel);
 
                     } catch (OWLOntologyCreationException ex) {
                         ex.printStackTrace();
+                        log.info("there is error in the file");
                     }
 
                 }
                 alignmentPanel.setVisible(true);
                 edgePanel.setVisible(false);
-                loadPanel.setVisible(false);
+                //loadPanel.setVisible(false);
             }
         });
         loadPanel.add(loadTextField);
@@ -213,6 +187,17 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
         ComodideMessageBus.getSingleton().registerHandler(ComodideMessage.CELL_SELECTED, this);
         //finish
         log.info("[CoModIDE:UpperAlignmentTool] Successfully Initialised.");
+    }
+    public void repaintPanel(){
+        cellPanel.removeAll();
+        cellPanel.revalidate();
+        cellPanel.repaint();
+        edgePanel.removeAll();
+        edgePanel.revalidate();
+        edgePanel.repaint();
+        alignmentPanel.removeAll();
+        alignmentPanel.revalidate();
+        alignmentPanel.repaint();
     }
 
     public void getPropertyCheckboxes(String checkBoxText){
@@ -256,8 +241,7 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
         return retVal;
     }
 
-    public void changeVisibility(String choice)
-    {
+    public void changeVisibility(String choice) {
         if (choice.equalsIgnoreCase("cell"))
         {
             this.cellPanel.setVisible(true);
@@ -274,27 +258,19 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
         }
     }
 
-    public boolean handleComodideMessage(ComodideMessage message, Object payload)
-    {
+    public boolean handleComodideMessage(ComodideMessage message, Object payload) {
         boolean result = false;
 
-        // Handler for selecting a cell
         if (message == ComodideMessage.CELL_SELECTED)
         {
-            // Make sure that the current selected cell is an edge
-            // And that it is named (i.e. we don't want to be 'inspecting'
-            // an edge that doesn't yet have a payload
-            if (payload instanceof ClassCell) // || payload instanceof SubClassEdgeCell)
+            if (payload instanceof ClassCell)
             {
-                // Track the current selected cell
                 this.currentSelectedCell = (ClassCell) payload;
                 source   = currentSelectedCell.getEntity();
-                // Bring up the axioms
                 this.changeVisibility("cell");
             }
             else if(payload instanceof PropertyEdgeCell)
             {
-                // Track the current selected cell
                 this.currentSelectedEdge = (PropertyEdgeCell) payload;
                 sourceProperty = currentSelectedEdge.getEntity();
                 this.changeVisibility("edge");
