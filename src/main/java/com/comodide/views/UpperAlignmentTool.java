@@ -166,6 +166,8 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
 
                     } catch (OWLOntologyCreationException ex) {
                         ex.printStackTrace();
+                        String infomsg = "There is error in the file, please select file with correct format";
+                        JOptionPane.showMessageDialog(null, infomsg, "ErrorBox", JOptionPane.ERROR_MESSAGE);
                         log.info("there is error in the file");
                     }
 
