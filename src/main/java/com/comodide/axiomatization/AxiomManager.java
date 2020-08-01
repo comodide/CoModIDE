@@ -131,6 +131,7 @@ public class AxiomManager
 
 		AddAxiom add = new AddAxiom(owlOntology, owlaxAxiom);
 		this.modelManager.applyChange(add);
+		//return owlaxAxiom;
 	}
 	public void addPropertyOWLAxAxiom(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity target)
 	{

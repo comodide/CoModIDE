@@ -4,8 +4,10 @@ import com.comodide.axiomatization.AxiomManager;
 import com.comodide.axiomatization.OWLAxAxiomType;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.PropertyEdgeCell;
+import org.protege.editor.owl.model.OWLModelManager;
+import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
+import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
-import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.*;
@@ -15,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.comodide.messaging.ComodideMessage;
 import com.comodide.messaging.ComodideMessageBus;
 import com.comodide.messaging.ComodideMessageHandler;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +29,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Set;
-import java.util.Vector;
 import javax.swing.JTree;
 import javax.swing.tree.*;
 //import org.scijava.swing.checkboxtree.CheckBoxNodeEditor;
@@ -34,8 +36,6 @@ import javax.swing.tree.*;
 import org.scijava.swing.checkboxtree.CheckBoxNodeEditor;
 import org.scijava.swing.checkboxtree.CheckBoxNodeRenderer;*/
 //import com.cognizant.cognizantits.datalib.or.common.ORObjectInf;
-import javax.swing.text.Position;
-
 
 
 /**
@@ -43,7 +43,7 @@ import javax.swing.text.Position;
  * @author Abhilekha Dalal
  *
  */
-public class UpperAlignmentTool extends AbstractOWLViewComponent  implements ComodideMessageHandler{
+public class UpperAlignmentTool extends AbstractOWLViewComponent  implements ComodideMessageHandler, OWLModelManagerListener {
 
     // Infrastructure
     private static final long serialVersionUID = 6258186472581035105L;
@@ -70,9 +70,15 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
     OWLReasonerFactory reasonerFactory = null;
     private Box   cellPanel;
     private Box   edgePanel;
+    private OWLModelManager modelManager;
+    private OWLOntology       owlOntology;
     // Configuration fields
     private final IRI BFO_CLASS_IRI = IRI.create("http://purl.obolibrary.org/obo/bfo.owl");
 
+    public UpperAlignmentTool(OWLModelManager modelManager) {
+        this.modelManager = modelManager;
+        //this.owlOntology = this.modelManager.getActiveOntology();
+    }
 
     @Override
     public void initialiseOWLView() throws Exception {
@@ -139,6 +145,7 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                     {
                                         target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
                                         axiomManager.addOWLAxAxiomtoBFO( source, target);
+
                                     }
                                     else// unchecked
                                     {
@@ -235,6 +242,7 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
     private String getLabels(OWLEntity entity, OWLOntology ontology) {
         String retVal = null;
         for(OWLAnnotation annotation: EntitySearcher.getAnnotations(entity, ontology, factory.getRDFSLabel())) {
+
             OWLAnnotationValue value = annotation.getValue();
             if(value instanceof OWLLiteral) {
                 retVal= (((OWLLiteral) value).getLiteral());
@@ -270,6 +278,9 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                 this.currentSelectedCell = (ClassCell) payload;
                 source   = currentSelectedCell.getEntity();
                 this.changeVisibility("cell");
+                /*for (OWLSubClassOfAxiom subClassAxiom: owlOntology.getAxioms(AxiomType.SUBCLASS_OF)) {
+                  log.info("axioms is:"+ subClassAxiom);
+                }*/
             }
             else if(payload instanceof PropertyEdgeCell)
             {
@@ -341,4 +352,8 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
     }
 
 
+    @Override
+    public void handleChange(OWLModelManagerChangeEvent owlModelManagerChangeEvent) {
+
+    }
 }
