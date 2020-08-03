@@ -518,4 +518,25 @@ public class AxiomManager
 	{
 		return this.simpleAxiomParser.parseSimpleAxiom((OWLSubClassOfAxiom) axiom);
 	}
+	
+	public boolean matchOWLAxAxiomType(OWLAxAxiomType axiomType, PropertyEdgeCell edgeCell)
+	{
+		OWLAxiom owlaxAxiom = this.owlaxAxiomFactory.createAxiomFromEdge(axiomType, edgeCell);
+		
+		for(OWLAxiom axiom : this.owlOntology.getAxioms())
+		{
+			if(axiom.equalsIgnoreAnnotations(owlaxAxiom))
+				{
+					return true;
+				}
+		}
+		return false;
+	}
 }
+
+
+
+
+
+
+

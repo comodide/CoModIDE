@@ -29,4 +29,15 @@ public enum OWLAxAxiomType
 	{
 		return this.axiomType;
 	}
+	
+	public static OWLAxAxiomType fromString(String owlAxAxiomType)
+	{
+		for(OWLAxAxiomType oaat : OWLAxAxiomType.values())
+		{
+			if(oaat.getAxiomType().equalsIgnoreCase(owlAxAxiomType))
+				return oaat;
+		}
+		
+		throw new IllegalArgumentException("The OWLAxAxiomType was not found: " + owlAxAxiomType);
+	}
 }
