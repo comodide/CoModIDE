@@ -3,6 +3,7 @@ package com.comodide.views;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -30,10 +31,12 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 	private Box    edgeBox;
 	private JLabel edgeLabel;
 	private JLabel cellLabel = new JLabel("Select a Named Property Edge to Continue.");
-	// 
+	//
+	private ArrayList<JCheckBox> checkboxes;
+	//
 	private PropertyEdgeCell currentSelectedCell;
 	private AxiomManager axiomManager;
-	
+
 	@Override
 	public void initialiseOWLView()
 	{
@@ -62,6 +65,8 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 		this.edgeBox = Box.createVerticalBox();
 		// Title
 		this.edgeBox.add(edgeLabel);
+		// Init array list to store checkboxes for later use
+		this.checkboxes = new ArrayList<>();
 		// Add all checkboxes for the axiom types
 		for (OWLAxAxiomType axiomType : OWLAxAxiomType.values())
 		{
@@ -69,19 +74,21 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 			/*
 			 * TODO dynamically determine if the axioms are present To do this, we will want
 			 * to augment the axiom manager with an axiom finder
-			 * 
+			 *
 			 * Actually, this probably shouldn't be done here but in the handle comodide message
 			 * or in the change visibility
 			 */
-			JCheckBox jcb = new JCheckBox(axiomTypeString, false);
 
+			// Generate the Checkbox
+			JCheckBox jcb = new JCheckBox(axiomTypeString, false);
+			// Add the item listener to the checkbox
 			jcb.addItemListener(new ItemListener()
 			{
 				@Override
 				public void itemStateChanged(ItemEvent arg0)
 				{
 					boolean checked = arg0.getStateChange() == 1;
-					
+
 					if(checked)
 					{
 						axiomManager.addOWLAxAxiom(axiomType, currentSelectedCell);
@@ -93,6 +100,7 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 				}
 			});
 
+			this.checkboxes.add(jcb);
 			this.edgeBox.add(jcb);
 		}
 		this.edgeBox.setVisible(false);
@@ -135,6 +143,18 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 				this.edgeLabel.setText(this.currentSelectedCell.getId());
 				// Bring up the axioms
 				this.changeVisibility("edge");
+				// Set dynamic checking for each checkbox
+				for(JCheckBox jcb : this.checkboxes)
+				{
+					// Get axiom type string
+					String axiomTypeString = jcb.getText();
+					// Get axiom type from string
+					OWLAxAxiomType oaat = OWLAxAxiomType.fromString(axiomTypeString);
+					// Check if the axiom for the current checkbox and current selected cell exists in the ontology
+					boolean isAxiomPresent = this.axiomManager.matchOWLAxAxiomType(oaat, currentSelectedCell);
+					// set the checkbox
+					jcb.setSelected(isAxiomPresent);
+				}
 			}
 			else
 			{

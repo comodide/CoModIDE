@@ -27,7 +27,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Set;
 import javax.swing.JTree;
 import javax.swing.tree.*;
@@ -57,7 +59,8 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
     OWLOntology index;
     String rdf_labels;
     private JTree tree;
-    //private  JCheckBox jcb;
+    private ArrayList<JCheckBox> checkboxesCell;
+    private ArrayList<JCheckBox> checkboxesEdges;
     public AxiomManager axiomManager;
     private ClassCell currentSelectedCell;
     private PropertyEdgeCell currentSelectedEdge;
@@ -72,20 +75,22 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
     private Box   edgePanel;
     private OWLModelManager modelManager;
     private OWLOntology       owlOntology;
+    private OWLDataFactory    owlDataFactory;
     // Configuration fields
     private final IRI BFO_CLASS_IRI = IRI.create("http://purl.obolibrary.org/obo/bfo.owl");
 
-    public UpperAlignmentTool(OWLModelManager modelManager) {
-        this.modelManager = modelManager;
-        //this.owlOntology = this.modelManager.getActiveOntology();
-    }
+
 
     @Override
     public void initialiseOWLView() throws Exception {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.modelManager = getOWLModelManager();
         //Panel is used to load classes of specified ontology class
         cellPanel = Box.createVerticalBox();
         edgePanel = Box.createVerticalBox();
+        // Init array list to store checkboxes for later use
+        this.checkboxesCell = new ArrayList<>();
+        this.checkboxesEdges = new ArrayList<>();
         JTextField loadTextField = new JTextField(10);
         JButton loadButton = new JButton("Load Button");
         Font f = loadButton.getFont();
@@ -116,6 +121,7 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                         Set<OWLObjectProperty> objectProperties = index.getObjectPropertiesInSignature();
                         //DefaultMutableTreeNode root = new DefaultMutableTreeNode("BFO_VIEW");
                         for (OWLClass parent_entity : entOnt) {
+
                             //noinspection PackageAccessibility
                             /*OWLReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory();
                             ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();
@@ -130,24 +136,20 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                             rdf_labels = getLabels(parent_entity, index);
                             JCheckBox jcb;
                             if (rdf_labels != null) {
-                                 jcb = new JCheckBox(rdf_labels, false);
-                                log.info("rdflabels is:"+ rdf_labels);
+                                jcb = new JCheckBox(rdf_labels, false);
                             } else{
-                                 jcb = new JCheckBox(entityShortName , false);
+                                jcb = new JCheckBox(entityShortName , false);
                             }
-                            jcb.addItemListener(new ItemListener()
-                            {
+                            jcb.addItemListener(new ItemListener() {
                                 @Override
-                                public void itemStateChanged(ItemEvent arg0)
-                                {
+                                public void itemStateChanged(ItemEvent arg0) {
                                     boolean checked = arg0.getStateChange() == 1;
-                                    if(checked)
-                                    {
+                                    if (checked) {
                                         target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
-                                        axiomManager.addOWLAxAxiomtoBFO( source, target);
+                                        axiomManager.addOWLAxAxiomtoBFO(source, target);
+                                        //jcb.setSelected(false);
 
-                                    }
-                                    else// unchecked
+                                    } else// unchecked
                                     {
                                         target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
                                         axiomManager.removeOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
@@ -155,6 +157,8 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                 }
                             });
                             cellPanel.add(jcb);
+                            checkboxesCell.add(jcb);
+
                         }
                         if(annotationProperties!=null){
                             for (OWLAnnotationProperty owlProperty : annotationProperties) {
@@ -195,7 +199,17 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
         // This view is interested in Cell Selected Messages sent by Comodide
         ComodideMessageBus.getSingleton().registerHandler(ComodideMessage.CELL_SELECTED, this);
         //finish
-        log.info("[CoModIDE:UpperAlignmentTool] Successfully Initialised.");
+        if (this.modelManager != null)
+        {
+            this.owlOntology = this.modelManager.getActiveOntology();
+            log.info("ontology is"+owlOntology);
+            // Finish and Log
+            log.info("[CoModIDE:UpperAlignmentView] Successfully initialized");
+        }
+        else
+        {
+            log.error("[CoModIDE:UpperAlignmentView] Manager does not exist.");
+        }
     }
     public void repaintPanel(){
         cellPanel.removeAll();
@@ -226,7 +240,6 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                         {
                             targetProperty = axiomManager.addNewObjectProperty(propLabel);
                         }
-                        log.info("source property is:"+sourceProperty+""+"target property is:"+targetProperty);
                         axiomManager.addPropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
                     }
                     else // unchecked
@@ -236,6 +249,7 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                 }
             });
             edgePanel.add(jcb);
+            checkboxesEdges.add(jcb);
         }
     }
 
@@ -278,15 +292,39 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                 this.currentSelectedCell = (ClassCell) payload;
                 source   = currentSelectedCell.getEntity();
                 this.changeVisibility("cell");
-                /*for (OWLSubClassOfAxiom subClassAxiom: owlOntology.getAxioms(AxiomType.SUBCLASS_OF)) {
-                  log.info("axioms is:"+ subClassAxiom);
-                }*/
+                for(JCheckBox jcb : this.checkboxesCell)
+                {
+                    OWLClass targetClass =  this.axiomManager.findClass(jcb.getText());
+                    if(targetClass!=null){
+                        boolean isAxiomPresent = this.axiomManager.matchOWLAxAxiomTypeCell(source, targetClass);
+                        // set the checkbox
+                        jcb.setSelected(isAxiomPresent);
+                    }
+
+                }
+
+
+
             }
             else if(payload instanceof PropertyEdgeCell)
             {
                 this.currentSelectedEdge = (PropertyEdgeCell) payload;
                 sourceProperty = currentSelectedEdge.getEntity();
                 this.changeVisibility("edge");
+                for(JCheckBox jcb : this.checkboxesEdges)
+                {
+                    OWLEntity targetPropertyAxiom = axiomManager.findObjectProperty(jcb.getText());
+                    log.info("target property"+targetPropertyAxiom);
+                    // Check if the axiom for the current checkbox and current selected cell exists in the ontology
+                    if(targetPropertyAxiom!=null){
+                        boolean isAxiomPresent = this.axiomManager.matchOWLAxAxiomTypeEdge(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetPropertyAxiom);
+                        // set the checkbox
+                        jcb.setSelected(isAxiomPresent);
+                    }
+
+                }
+
+
             }
             else
             {
@@ -298,6 +336,8 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
 
         return result;
     }
+
+
 
     private Object checkExistingNode(String node_name, JTree tree) {
         DefaultTreeModel treeModel = (DefaultTreeModel)tree.getModel();
