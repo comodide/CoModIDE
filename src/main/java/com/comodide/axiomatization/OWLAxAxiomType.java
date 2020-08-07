@@ -2,6 +2,7 @@ package com.comodide.axiomatization;
 
 public enum OWLAxAxiomType
 {
+	//@formatter:off
 	GLOBAL_DOMAIN("Global domain"),
 	SCOPED_DOMAIN("Scoped domain"),
 	GLOBAL_RANGE("Global Range"),
@@ -17,14 +18,15 @@ public enum OWLAxAxiomType
 	INVERSE_SCOPED_FUNCTIONAL_ROLE("Inverse Scoped Functional Role"),
 	INVERSE_QUALIFIED_SCOPED_FUNCTIONAL_ROLE("Inverse Qualified Scoped Functional Role"),
 	STRUCTURAL_TAUTOLOGY("Structural Tautology");
+	//@formatter:on
 	
 	private String axiomType;
-	
+
 	OWLAxAxiomType(String axiomType)
 	{
 		this.axiomType = axiomType;
 	}
-	
+
 	public String getAxiomType()
 	{
 		return this.axiomType;
@@ -32,9 +34,9 @@ public enum OWLAxAxiomType
 
 	public static OWLAxAxiomType fromString(String owlAxAxiomType)
 	{
-		for(OWLAxAxiomType oaat : OWLAxAxiomType.values())
+		for (OWLAxAxiomType oaat : OWLAxAxiomType.values())
 		{
-			if(oaat.getAxiomType().equalsIgnoreCase(owlAxAxiomType))
+			if (oaat.getAxiomType().equalsIgnoreCase(owlAxAxiomType))
 				return oaat;
 		}
 
