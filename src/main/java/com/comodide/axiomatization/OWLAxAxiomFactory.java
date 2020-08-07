@@ -155,7 +155,7 @@ public class OWLAxAxiomFactory
 		return owlaxAxiom;
 	}
 
-	public OWLAxiom createAxiomOfProperty(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity target) {
+	/*public OWLAxiom createAxiomOfProperty(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity target) {
 		// Convert OWLEntities to Expressions (or thereabouts, technically the
 		// Expression is the super class of all three
 		OWLObjectPropertyExpression sourcePropertyExpression = source.asOWLObjectProperty();
@@ -174,5 +174,5 @@ public class OWLAxAxiomFactory
 			owlaxAxiom = this.owlDataFactory.getOWLSubObjectPropertyOfAxiom(sourcePropertyExpression, targePropertyExpression);
 		}
 		return owlaxAxiom;
-	}
+	}*/
 }

@@ -113,7 +113,7 @@ public class BFOView extends AbstractOWLViewComponent implements ComodideMessage
                 }
                 else // unchecked
                 {
-                    axiomManager.removeOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
+                    axiomManager.removeOWLAxAxiomtoBFO(source, target);
                 }
             }
         });
@@ -136,7 +136,7 @@ public class BFOView extends AbstractOWLViewComponent implements ComodideMessage
                 }
                 else // unchecked
                 {
-                    axiomManager.removeOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
+                    axiomManager.removeOWLAxAxiomtoBFO(source, target);
                 }
             }
         });

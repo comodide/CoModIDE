@@ -138,17 +138,22 @@ public class AxiomManager {
 		//return owlaxAxiom;
 	}
 
-	public void addPropertyOWLAxAxiom(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity target) {
-		OWLAxiom axiom = this.owlaxAxiomFactory.createAxiomOfProperty(axiomType, source, target);
+	public void addPropertyOWLAxAxiom(OWLEntity source, OWLEntity target) {
+		OWLObjectPropertyExpression sourcePropertyExpression = source.asOWLObjectProperty();
+		OWLObjectPropertyExpression targetPropertyExpression = target.asOWLObjectProperty();
+		OWLAxiom owlaxAxiom = this.owlDataFactory.getOWLSubObjectPropertyOfAxiom(sourcePropertyExpression, targetPropertyExpression);
 
-		AddAxiom add = new AddAxiom(owlOntology, axiom);
+		AddAxiom add = new AddAxiom(owlOntology, owlaxAxiom);
 		this.modelManager.applyChange(add);
 	}
 
-	public void removePropertyOWLAxAxiom(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity target) {
-		OWLAxiom axiom = this.owlaxAxiomFactory.createAxiomOfProperty(axiomType, source, target);
+	public void removePropertyOWLAxAxiom(OWLEntity source, OWLEntity target) {
+		OWLObjectPropertyExpression sourcePropertyExpression = source.asOWLObjectProperty();
+		OWLObjectPropertyExpression targetPropertyExpression = target.asOWLObjectProperty();
+		OWLAxiom owlaxAxiom = this.owlDataFactory.getOWLSubObjectPropertyOfAxiom(sourcePropertyExpression, targetPropertyExpression);
+		//OWLAxiom axiom = this.owlaxAxiomFactory.createAxiomOfProperty(axiomType, source, target);
 
-		RemoveAxiom add = new RemoveAxiom(owlOntology, axiom);
+		RemoveAxiom add = new RemoveAxiom(owlOntology, owlaxAxiom);
 		this.modelManager.applyChange(add);
 
 	}
@@ -160,10 +165,14 @@ public class AxiomManager {
 		this.modelManager.applyChange(add);
 	}
 
-	public void removeOWLAxAxiomtoBFO(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity property, OWLEntity target) {
-		OWLAxiom axiom = this.owlaxAxiomFactory.createAxiom(axiomType, source, property, target);
+	public void removeOWLAxAxiomtoBFO(OWLEntity source, OWLEntity target) {
+		OWLClassExpression sourceExpression = source.asOWLClass();
+		OWLClassExpression targetExpression = target.asOWLClass();
+		// To be returned
+		OWLAxiom owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, targetExpression);
+		//OWLAxiom axiom = this.owlaxAxiomFactory.createAxiom(axiomType, source, property, target);
 
-		RemoveAxiom add = new RemoveAxiom(owlOntology, axiom);
+		RemoveAxiom add = new RemoveAxiom(owlOntology, owlaxAxiom);
 		this.modelManager.applyChange(add);
 	}
 
@@ -507,12 +516,13 @@ public class AxiomManager {
 		return false;
 	}
 
-	public boolean matchOWLAxAxiomTypeEdge(OWLAxAxiomType axiomType, OWLEntity source, OWLEntity target) {
+	public boolean matchOWLAxAxiomTypeEdge(OWLEntity source, OWLObjectProperty targePropertyExpression) {
+		OWLObjectPropertyExpression sourcePropertyExpression = source.asOWLObjectProperty();
 		for (OWLSubObjectPropertyOfAxiom subClassAxiom : this.owlOntology.getAxioms(AxiomType.SUB_OBJECT_PROPERTY)) {
 
-			OWLAxiom axiom = this.owlaxAxiomFactory.createAxiomOfProperty(axiomType, source, target);
+			OWLAxiom owlaxAxiom = this.owlDataFactory.getOWLSubObjectPropertyOfAxiom(sourcePropertyExpression, targePropertyExpression);
 
-			if (subClassAxiom.equalsIgnoreAnnotations(axiom)) {
+			if (subClassAxiom.equalsIgnoreAnnotations(owlaxAxiom)) {
 				return true;
 			}
 		}

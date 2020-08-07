@@ -147,12 +147,10 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                                     if (checked) {
                                         target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
                                         axiomManager.addOWLAxAxiomtoBFO(source, target);
-                                        //jcb.setSelected(false);
-
                                     } else// unchecked
                                     {
                                         target = axiomManager.findOrAddClass(((JCheckBox) arg0.getItem()).getText());
-                                        axiomManager.removeOWLAxAxiomtoBFO(OWLAxAxiomType.SCOPED_DOMAIN, source, property, target);
+                                        axiomManager.removeOWLAxAxiomtoBFO(source, target);
                                     }
                                 }
                             });
@@ -240,11 +238,11 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                         {
                             targetProperty = axiomManager.addNewObjectProperty(propLabel);
                         }
-                        axiomManager.addPropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
+                        axiomManager.addPropertyOWLAxAxiom(sourceProperty, targetProperty);
                     }
                     else // unchecked
                     {
-                        axiomManager.removePropertyOWLAxAxiom(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetProperty);
+                        axiomManager.removePropertyOWLAxAxiom(sourceProperty, targetProperty);
                     }
                 }
             });
@@ -313,11 +311,11 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent  implements Com
                 this.changeVisibility("edge");
                 for(JCheckBox jcb : this.checkboxesEdges)
                 {
-                    OWLEntity targetPropertyAxiom = axiomManager.findObjectProperty(jcb.getText());
-                    log.info("target property"+targetPropertyAxiom);
+                    OWLObjectProperty property = axiomManager.findObjectProperty(jcb.getText());
+                    log.info("sourceproperty is"+sourceProperty+"target property"+property);
                     // Check if the axiom for the current checkbox and current selected cell exists in the ontology
-                    if(targetPropertyAxiom!=null){
-                        boolean isAxiomPresent = this.axiomManager.matchOWLAxAxiomTypeEdge(OWLAxAxiomType.SCOPED_DOMAIN, sourceProperty, targetPropertyAxiom);
+                    if(property!=null){
+                        boolean isAxiomPresent = this.axiomManager.matchOWLAxAxiomTypeEdge(sourceProperty, property);
                         // set the checkbox
                         jcb.setSelected(isAxiomPresent);
                     }
