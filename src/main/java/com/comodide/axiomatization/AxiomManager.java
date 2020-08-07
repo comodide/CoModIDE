@@ -6,10 +6,33 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.comodide.editor.model.ClassCell;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.find.OWLEntityFinder;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
@@ -586,16 +609,14 @@ public class AxiomManager
 		return false;
 	}
 
-	public boolean matchOWLAxAxiomTypeCell(OWLEntity source, OWLClass targetClass)
+	public boolean matchSubClassAxiom(OWLClass source, OWLClass target)
 	{
-		OWLClassExpression sourceExpression = source.asOWLClass();
-		OWLClassExpression targetExpression = targetClass;
-		for (OWLSubClassOfAxiom subClassAxiom : this.owlOntology.getAxioms(AxiomType.SUBCLASS_OF))
+		// Create the subclass axiom
+		OWLAxiom subClassAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(source, target);
+		for (OWLAxiom axiom : this.owlOntology.getSubClassAxiomsForSubClass(source))
 		{
-
-			OWLAxiom owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, targetExpression);
-
-			if (subClassAxiom.equalsIgnoreAnnotations(owlaxAxiom))
+			// If they're equal, finish
+			if (axiom.equalsIgnoreAnnotations(subClassAxiom))
 			{
 				return true;
 			}
@@ -603,7 +624,7 @@ public class AxiomManager
 		return false;
 	}
 
-	public boolean matchOWLAxAxiomTypeEdge(OWLEntity source, OWLObjectProperty targePropertyExpression)
+	public boolean matchSubPropertyAxiom(OWLEntity source, OWLObjectProperty targePropertyExpression)
 	{
 		OWLObjectPropertyExpression sourcePropertyExpression = source.asOWLObjectProperty();
 		for (OWLSubObjectPropertyOfAxiom subClassAxiom : this.owlOntology.getAxioms(AxiomType.SUB_OBJECT_PROPERTY))
