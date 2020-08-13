@@ -33,7 +33,7 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 	private JLabel cellLabel = new JLabel("Select a Named Property Edge to Continue.");
 	//
 	private ArrayList<JCheckBox> checkboxes;
-	//
+	// 
 	private PropertyEdgeCell currentSelectedCell;
 	private AxiomManager axiomManager;
 
@@ -78,7 +78,6 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 			 * Actually, this probably shouldn't be done here but in the handle comodide message
 			 * or in the change visibility
 			 */
-
 			// Generate the Checkbox
 			JCheckBox jcb = new JCheckBox(axiomTypeString, false);
 			// Add the item listener to the checkbox
@@ -99,7 +98,6 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 					}
 				}
 			});
-
 			this.checkboxes.add(jcb);
 			this.edgeBox.add(jcb);
 		}
