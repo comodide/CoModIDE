@@ -2,8 +2,14 @@ package com.comodide.editor;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 
 import org.protege.editor.owl.model.OWLModelManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.comodide.messaging.ComodideMessage;
+import com.comodide.messaging.ComodideMessageBus;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.swing.mxGraphComponent;
@@ -13,14 +19,15 @@ import com.mxgraph.view.mxGraph;
 public class SchemaDiagramComponent extends mxGraphComponent
 {
 	/** Bookkeeping */
-	private static final long serialVersionUID = -6833603133512882012L;
+	private static final long   serialVersionUID = -6833603133512882012L;
+	private static final Logger log              = LoggerFactory.getLogger(SchemaDiagramComponent.class);
 
 	public SchemaDiagramComponent(mxGraph graph, OWLModelManager modelManager)
 	{
 		super(graph);
 		// Overwrite super created transfer handler
 		super.setTransferHandler(new SDTransferHandler(modelManager));
-		
+
 		// Sets switches typically used in an editor
 		setPageVisible(true);
 		setGridVisible(true);
@@ -31,13 +38,13 @@ public class SchemaDiagramComponent extends mxGraphComponent
 		getViewport().setOpaque(true);
 		getViewport().setBackground(Color.WHITE);
 	}
-	
+
 	/** Override for injecting custom behavior into connection handling */
 	public mxConnectionHandler createConnectionHandler()
 	{
 		return new SDConnectionHandler(this);
 	}
-	
+
 	/**
 	 * Overrides drop behaviour to set the cell style if the target is not a valid
 	 * drop target and the cells are of the same type (eg. both vertices or both
@@ -66,5 +73,13 @@ public class SchemaDiagramComponent extends mxGraphComponent
 		}
 
 		return super.importCells(cells, dx, dy, target, location);
+	}
+
+	@Override
+	public void selectCellForEvent(Object cell, MouseEvent e)
+	{
+		super.selectCellForEvent(cell, e);
+		boolean result = ComodideMessageBus.getSingleton().sendMessage(ComodideMessage.CELL_SELECTED, cell);
+//		log.info("[CoModIDE:SchemaDiagramComponent] " + result);
 	}
 }

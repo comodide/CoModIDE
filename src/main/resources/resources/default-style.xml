@@ -1,7 +1,7 @@
 <mxStylesheet>
 	<add as="defaultVertex" extend="defaultVertex">
 		<add as="height" value="30" />
-		<add as="width"  value="120" />
+		<add as="width" value="120" />
 		<add as="fillColor" value="#ffcc00" />
 		<add as="strokeColor" value="#000000" />
 		<add as="strokeWidth" value="4" />
@@ -15,7 +15,7 @@
 		<add as="perimeter" value="ellipsePerimeter" />
 		<add as="fillColor" value="ffff99" />
 	</add>
-	
+
 	<add as="defaultEdge" extend="defaultEdge">
 		<add as="labelBackgroundColor" value="white" />
 		<add as="rounded" value="1" />
@@ -25,21 +25,21 @@
 		<add as="fontColor" value="#000000" />
 		<add as="fontFamily" value="Verdana" />
 	</add>
-	
+
 	<add as="straight">
 		<add as="shape" value="connector" />
 		<add as="endArrow" value="classic" />
 		<add as="edgeStyle" value="none" />
 	</add>
-	
+
 	<add as="arrow">
 		<add as="shape" value="arrow" />
 	</add>
-	
+
 	<add as="group">
 		<add as="verticalAlign" value="top" />
 		<add as="dashed" value="1" />
 		<add as="opacity" value="50" />
 	</add>
-	
+
 </mxStylesheet>

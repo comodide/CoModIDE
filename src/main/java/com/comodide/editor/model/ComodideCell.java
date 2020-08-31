@@ -32,5 +32,4 @@ public abstract class ComodideCell extends mxCell {
 	}
 	
 	public abstract IRI defaultIRI();
-	
 }

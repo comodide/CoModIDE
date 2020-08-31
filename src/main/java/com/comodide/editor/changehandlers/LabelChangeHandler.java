@@ -41,7 +41,7 @@ public class LabelChangeHandler
 	
 	public LabelChangeHandler(OWLModelManager modelManager, SchemaDiagram schemaDiagram)
 	{
-		this.axiomManager = AxiomManager.getInstance(modelManager, schemaDiagram);
+		this.axiomManager = AxiomManager.getInstance(modelManager); //, schemaDiagram);
 		this.modelManager = modelManager;
 	}
 
