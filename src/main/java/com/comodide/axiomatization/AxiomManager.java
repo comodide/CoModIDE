@@ -94,6 +94,7 @@ public class AxiomManager
 		this.modelManager = modelManager;
 
 		// Retrieve the active ontology
+		this.owlOntology = this.modelManager.getActiveOntology();
 		// Only continue with the update if there is an active ontology
 		if (this.owlOntology != null)
 		{
@@ -343,9 +344,9 @@ public class AxiomManager
 	public OWLClass renameClass(OWLClass oldClass, String newName)
 	{
 		// Construct new class IRI
-		String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
-		IRI    newIRI          = IRI.create(iri + entitySeparator + newName);
-		List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(oldClass, newIRI);
+		String                  entitySeparator = EntityCreationPreferences.getDefaultSeparator();
+		IRI                     newIRI          = IRI.create(iri + entitySeparator + newName);
+		List<OWLOntologyChange> changes         = this.owlEntityRenamer.changeIRI(oldClass, newIRI);
 		// Apply the changes
 		this.modelManager.applyChanges(changes);
 		// Construct the OWLClass to return
