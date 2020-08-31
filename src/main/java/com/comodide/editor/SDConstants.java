@@ -6,4 +6,5 @@ public class SDConstants
 	public static final String datatypeStyle = "comodideDatatypeVertex";
 	public static final String standardEdgeStyle = "comodideStandardEdge";
 	public static final String subclassEdgeStyle = "comodideSubclassEdge";
+	public static final String moduleStyle = "moduleVertex";
 }
