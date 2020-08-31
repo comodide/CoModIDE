@@ -50,4 +50,9 @@
 		<add as="endFill" value="0" />
 	</add>
 
+	<add as="moduleVertex">
+		<add as="verticalLabelPosition" value="top" />
+		<add as="labelPosition" value="right" />
+	</add>
+
 </mxStylesheet>
