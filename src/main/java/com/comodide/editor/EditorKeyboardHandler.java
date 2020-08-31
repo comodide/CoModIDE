@@ -39,6 +39,8 @@ public class EditorKeyboardHandler extends mxKeyboardHandler
 			
 			map.put(KeyStroke.getKeyStroke("DELETE"), "delete");
 			map.put(KeyStroke.getKeyStroke("BACK_SPACE"), "delete");
+			map.put(KeyStroke.getKeyStroke("g"), "group");
+			map.put(KeyStroke.getKeyStroke("G"), "group");
 		}
 
 		return map;
@@ -53,7 +55,8 @@ public class EditorKeyboardHandler extends mxKeyboardHandler
 		ActionMap map = (ActionMap) UIManager.get("ScrollPane.actionMap");
 
 		map.put("delete", mxGraphActions.getDeleteAction());
-
+		map.put("group", mxGraphActions.getGroupAction());
+		
 		return map;
 	}
 
