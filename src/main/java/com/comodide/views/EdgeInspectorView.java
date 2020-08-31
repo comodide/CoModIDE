@@ -33,9 +33,9 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 	private JLabel cellLabel = new JLabel("Select a Named Property Edge to Continue.");
 	//
 	private ArrayList<JCheckBox> checkboxes;
-	// 
+	//
 	private PropertyEdgeCell currentSelectedCell;
-	private AxiomManager axiomManager;
+	private AxiomManager     axiomManager;
 
 	@Override
 	public void initialiseOWLView()
@@ -75,8 +75,8 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 			 * TODO dynamically determine if the axioms are present To do this, we will want
 			 * to augment the axiom manager with an axiom finder
 			 *
-			 * Actually, this probably shouldn't be done here but in the handle comodide message
-			 * or in the change visibility
+			 * Actually, this probably shouldn't be done here but in the handle comodide
+			 * message or in the change visibility
 			 */
 			// Generate the Checkbox
 			JCheckBox jcb = new JCheckBox(axiomTypeString, false);
@@ -88,7 +88,7 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 				{
 					boolean checked = arg0.getStateChange() == 1;
 
-					if(checked)
+					if (checked)
 					{
 						axiomManager.addOWLAxAxiom(axiomType, currentSelectedCell);
 					}
@@ -133,7 +133,8 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 			// Make sure that the current selected cell is an edge
 			// And that it is named (i.e. we don't want to be 'inspecting'
 			// an edge that doesn't yet have a payload
-			if (payload instanceof PropertyEdgeCell && ((ComodideCell) payload).isNamed()) // || payload instanceof SubClassEdgeCell)
+			if (payload instanceof PropertyEdgeCell && ((ComodideCell) payload).isNamed()) // || payload instanceof
+																						   // SubClassEdgeCell)
 			{
 				// Track the current selected cell
 				this.currentSelectedCell = (PropertyEdgeCell) payload;
@@ -142,13 +143,14 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 				// Bring up the axioms
 				this.changeVisibility("edge");
 				// Set dynamic checking for each checkbox
-				for(JCheckBox jcb : this.checkboxes)
+				for (JCheckBox jcb : this.checkboxes)
 				{
 					// Get axiom type string
 					String axiomTypeString = jcb.getText();
 					// Get axiom type from string
 					OWLAxAxiomType oaat = OWLAxAxiomType.fromString(axiomTypeString);
-					// Check if the axiom for the current checkbox and current selected cell exists in the ontology
+					// Check if the axiom for the current checkbox and current selected cell exists
+					// in the ontology
 					boolean isAxiomPresent = this.axiomManager.matchOWLAxAxiomType(oaat, currentSelectedCell);
 					// set the checkbox
 					jcb.setSelected(isAxiomPresent);
