@@ -32,6 +32,7 @@ public class SchemaDiagramComponent extends mxGraphComponent
 		setPageVisible(true);
 		setGridVisible(true);
 		setToolTips(true);
+		setEnterStopsCellEditing(true);
 		super.connectionHandler.setCreateTarget(false);
 
 		// Sets the background to white
