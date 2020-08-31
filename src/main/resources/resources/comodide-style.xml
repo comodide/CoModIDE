@@ -1,7 +1,7 @@
 <mxStylesheet>
 	<add as="defaultVertex">
 		<add as="height" value="30" />
-		<add as="width"  value="120" />
+		<add as="width" value="120" />
 		<add as="strokeColor" value="#000000" />
 		<add as="strokeWidth" value="4" />
 		<add as="fontSize" value="12" />
@@ -11,7 +11,7 @@
 		<add as="verticalLabelPosition" value="middle" />
 		<add as="verticalAlign" value="middle" />
 		<add as="autosize" value="1" />
-		
+
 	</add>
 
 	<add as="comodideClassVertex" extend="defaultVertex">
@@ -37,17 +37,17 @@
 		<add as="fontFamily" value="Verdana" />
 		<add as="shape" value="connector" />
 		<add as="endArrow" value="block" />
-		<add as="strokeWidth" value="2"/>
+		<add as="strokeWidth" value="2" />
 	</add>
 
 	<add as="comodideStandardEdge" extend="defaultEdge">
 		<add as="endSize" value="15" />
 	</add>
-	
+
 	<add as="comodideSubclassEdge" extend="defaultEdge">
 		<add as="endSize" value="20" />
 		<add as="dashed" value="1" />
 		<add as="endFill" value="0" />
 	</add>
-	
+
 </mxStylesheet>

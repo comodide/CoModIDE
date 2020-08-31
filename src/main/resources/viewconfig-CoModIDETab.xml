@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
-    <VSNode splits="0.8 0.2">
-        <CNode>
-            <Component label="Schema Editor">
-                <Property id="pluginId" value="CoModIDE.EditorView"/>
-            </Component>
-        </CNode>
-        <HSNode splits="0.4 0.3 0.3">
-            <CNode>
-                <Component label="Pattern Library">
-                    <Property id="pluginId" value="CoModIDE.PatternSelectorView"/>
-                </Component>
-            </CNode>
-            <CNode>
-                <Component label="EdgeInspector">
-                    <Property id="pluginId" value="CoModIDE.EdgeInspectorView"/>
-                </Component>
-            </CNode>
-            <CNode>
-                <Component label="Configuration">
-                    <Property id="pluginId" value="CoModIDE.ConfigurationView"/>
-                </Component>
-            </CNode>
-        </HSNode>
-    </VSNode>
+	<VSNode splits="0.8 0.2">
+		<CNode>
+			<Component label="Schema Editor">
+				<Property id="pluginId" value="CoModIDE.EditorView" />
+			</Component>
+		</CNode>
+		<HSNode splits="0.4 0.3 0.3">
+			<CNode>
+				<Component label="Pattern Library">
+					<Property id="pluginId"
+						value="CoModIDE.PatternSelectorView" />
+				</Component>
+			</CNode>
+			<CNode>
+				<Component label="EdgeInspector">
+					<Property id="pluginId" value="CoModIDE.EdgeInspectorView" />
+				</Component>
+			</CNode>
+			<CNode>
+				<Component label="Configuration">
+					<Property id="pluginId" value="CoModIDE.ConfigurationView" />
+				</Component>
+			</CNode>
+		</HSNode>
+	</VSNode>
 </layout>
