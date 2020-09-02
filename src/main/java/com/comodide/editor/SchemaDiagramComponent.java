@@ -38,6 +38,9 @@ public class SchemaDiagramComponent extends mxGraphComponent
 		// Sets the background to white
 		getViewport().setOpaque(true);
 		getViewport().setBackground(Color.WHITE);
+		
+		// Finalize
+		log.info("[CoModIDE:SchemaDiagramComponent] succesfully initialized.");
 	}
 
 	/** Override for injecting custom behavior into connection handling */
@@ -80,7 +83,7 @@ public class SchemaDiagramComponent extends mxGraphComponent
 	public void selectCellForEvent(Object cell, MouseEvent e)
 	{
 		super.selectCellForEvent(cell, e);
-		boolean result = ComodideMessageBus.getSingleton().sendMessage(ComodideMessage.CELL_SELECTED, cell);
+		ComodideMessageBus.getSingleton().sendMessage(ComodideMessage.CELL_SELECTED, cell);
 //		log.info("[CoModIDE:SchemaDiagramComponent] " + result);
 	}
 }
