@@ -320,6 +320,20 @@ public class SchemaDiagram extends mxGraph
 		}
 	};
 
+	private mxIEventListener groupCellsHandler = new mxIEventListener()
+			{
+		
+				@Override
+				public void invoke(Object sender, mxEventObject evt)
+				{
+					ModuleCell module = (ModuleCell) evt.getProperty("group");
+				
+					String pf = "[CoModIDE:SchemaDiagram:groupCellsHandler] ";
+					log.info(pf + module);
+				}
+		
+			};
+	
 	/**
 	 * Custom graph that defines the alternate edge style to be used when the middle
 	 * control point of edges is double clicked (flipped).
@@ -335,7 +349,7 @@ public class SchemaDiagram extends mxGraph
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
 		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);
-
+		this.addListener(mxEvent.GROUP_CELLS, groupCellsHandler);
 		// Loads styling information from an external file.
 		mxCodec  codec = new mxCodec();
 		Document doc   = mxUtils
@@ -653,15 +667,22 @@ public class SchemaDiagram extends mxGraph
 	public Object createGroupCell(Object[] cells)
 	{
 		// TODO something is wrong with where the label is being placed.
-		// for some reason it's showing up way outside of the border of the module.
-		// It is possible that it is a resolution thing.
+		// The geometry and position of the cell are set after this method is called
+		// in the caller.
+		// This does not seem to be a resolution problem
+		// The (module) cell IS added to the parent
+		// our lock should not interfere with this
+		
 		ModuleCell module = new ModuleCell();
 
 		module.setVertex(true);
 		module.setConnectable(false);
 
+		// This doesn't seem TODO any thing.
+		// With and without this, we see that the style effects in comodide-style.xml
+		// have no effects.
 		module.setVisible(true);
-		
+
 		return module;
 	}
 }
