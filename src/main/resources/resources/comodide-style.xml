@@ -53,6 +53,11 @@
 	<add as="moduleVertex">
 		<add as="verticalLabelPosition" value="top" />
 		<add as="labelPosition" value="right" />
+		<add as="strokeColor" value="#000000" />
+		<add as="strokeWidth" value="4" />
+		<add as="dashed" value="1" />
+		<add as="autosize" value="1" />
+		<add as="fillColor" value="#0f0f0f" />
 	</add>
 
 </mxStylesheet>
