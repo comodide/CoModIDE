@@ -35,13 +35,13 @@ import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.DatatypeCell;
+import com.comodide.editor.model.ModuleCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.editor.model.SubClassEdgeCell;
 import com.comodide.exceptions.ComodideException;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
-import com.mxgraph.model.mxGeometry;
 import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxEvent;
@@ -397,10 +397,14 @@ public class SchemaDiagram extends mxGraph
 		log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
 		// Empty string means that the cell that has just had its label changed is a
 		// module, not a class
-		if (((mxCell) cell).getValue().equals(""))
+		if (cell instanceof ModuleCell)
 		{
 			log.info("[CoModIDE:SchemaDiagram] cellLabelChanged on group cell detected.");
 			// TODO this is where we want to add OPLa annotations
+			mxCell group = (mxCell) cell;
+
+			String pf = "[CoModIDE:SchemaDiagram:cellLabelChanged:DEBUG]\n\t";
+			log.info(pf + group.getGeometry());
 		}
 		else
 		{
@@ -651,10 +655,13 @@ public class SchemaDiagram extends mxGraph
 		// TODO something is wrong with where the label is being placed.
 		// for some reason it's showing up way outside of the border of the module.
 		// It is possible that it is a resolution thing.
-		mxCell group = new mxCell("AAAAAAAAAAAAAAAAAA", new mxGeometry(), "moduleVertex");
-		group.setVertex(true);
-		group.setConnectable(false);
+		ModuleCell module = new ModuleCell();
 
-		return group;
+		module.setVertex(true);
+		module.setConnectable(false);
+
+		module.setVisible(true);
+		
+		return module;
 	}
 }
