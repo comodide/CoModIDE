@@ -11,7 +11,6 @@
 		<add as="verticalLabelPosition" value="middle" />
 		<add as="verticalAlign" value="middle" />
 		<add as="autosize" value="1" />
-
 	</add>
 
 	<add as="comodideClassVertex" extend="defaultVertex">
@@ -51,13 +50,18 @@
 	</add>
 
 	<add as="moduleVertex">
-		<add as="verticalLabelPosition" value="top" />
+		<!-- The following are known to actually have a measurable effect. -->
+		<add as="align" value="middle" />
+		<add as="verticalAlign" value="middle" />
+		<add as="labelBackgroundColor" value="black" />
+		<!-- The following don't seem to behave correctly, but have an effect. -->
 		<add as="labelPosition" value="right" />
+		<add as="verticalLabelPosition" value="top" />
+		<!-- The following /should/ work, but don't. -->
+		<add as="dashed" value="1" />
 		<add as="strokeColor" value="#000000" />
 		<add as="strokeWidth" value="4" />
-		<add as="dashed" value="1" />
-		<add as="autosize" value="1" />
-		<add as="fillColor" value="#0f0f0f" />
+		<add as="opacity" value="100" />
 	</add>
 
 </mxStylesheet>

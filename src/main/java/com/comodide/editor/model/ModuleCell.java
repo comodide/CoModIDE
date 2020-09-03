@@ -10,7 +10,7 @@ public class ModuleCell extends mxCell
 
 	public ModuleCell()
 	{
-		super("", new mxGeometry(), "moduleVertex");
+		super("MODULE", new mxGeometry(), "moduleVertex");
 	}
 
 }

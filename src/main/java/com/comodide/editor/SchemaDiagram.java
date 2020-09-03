@@ -328,6 +328,7 @@ public class SchemaDiagram extends mxGraph
 				{
 					ModuleCell module = (ModuleCell) evt.getProperty("group");
 				
+					// TODO Debug
 					String pf = "[CoModIDE:SchemaDiagram:groupCellsHandler] ";
 					log.info(pf + module);
 				}
@@ -662,6 +663,9 @@ public class SchemaDiagram extends mxGraph
 	/**
 	 * This method is overriden specifically to define the style of the created
 	 * group cell.
+	 * 
+	 * the cells are included for information purposes
+	 * the mxGeometry created in the ModuleCell will be over written later.
 	 */
 	@Override
 	public Object createGroupCell(Object[] cells)
@@ -673,6 +677,11 @@ public class SchemaDiagram extends mxGraph
 		// The (module) cell IS added to the parent
 		// our lock should not interfere with this
 		
+		// I have done some experimenting with the graph editor example included with 
+		// the jgraphx distribution. It turns out that there is something wrong with
+		// the labeling there, too, when the alignment is top/right.
+		// However, it does NOT have the visibility problem. A group created will have
+		// a vertex of the default style appear on the editor canvas.
 		ModuleCell module = new ModuleCell();
 
 		module.setVertex(true);
