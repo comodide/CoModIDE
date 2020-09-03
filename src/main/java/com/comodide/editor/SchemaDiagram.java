@@ -670,27 +670,16 @@ public class SchemaDiagram extends mxGraph
 	@Override
 	public Object createGroupCell(Object[] cells)
 	{
-		// TODO something is wrong with where the label is being placed.
-		// The geometry and position of the cell are set after this method is called
-		// in the caller.
-		// This does not seem to be a resolution problem
-		// The (module) cell IS added to the parent
-		// our lock should not interfere with this
-		
 		// I have done some experimenting with the graph editor example included with 
-		// the jgraphx distribution. It turns out that there is something wrong with
-		// the labeling there, too, when the alignment is top/right.
-		// However, it does NOT have the visibility problem. A group created will have
+		// the jgraphx distribution. It does NOT have the visibility problem. A group created will have
 		// a vertex of the default style appear on the editor canvas.
-		ModuleCell module = new ModuleCell();
+		ModuleCell module = new ModuleCell(cells);
 
 		module.setVertex(true);
 		module.setConnectable(false);
 
-		// This doesn't seem TODO any thing.
-		// With and without this, we see that the style effects in comodide-style.xml
-		// have no effects.
-		module.setVisible(true);
+		// Doesn't seem to do anything whether or not its run
+//		module.setVisible(true);
 
 		return module;
 	}

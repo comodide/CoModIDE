@@ -8,9 +8,8 @@ public class ModuleCell extends mxCell
 	/** Bookkeeping */
 	private static final long serialVersionUID = 1L;
 
-	public ModuleCell()
+	public ModuleCell(Object[] cells)
 	{
 		super("MODULE", new mxGeometry(), "moduleVertex");
 	}
-
 }
