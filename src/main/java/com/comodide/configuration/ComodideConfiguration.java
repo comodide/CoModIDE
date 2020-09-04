@@ -1,4 +1,4 @@
-package com.comodide;
+package com.comodide.configuration;
 
 import java.util.ArrayList;
 import java.util.HashSet;

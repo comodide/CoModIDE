@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
-import com.comodide.ComodideConfiguration;
+import com.comodide.configuration.ComodideConfiguration;
 import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
@@ -355,8 +355,6 @@ public class SchemaDiagram extends mxGraph
 		@Override
 		public void invoke(Object sender, mxEventObject evt)
 		{
-			// TODO DEBUG MESSAGE
-			log.info("cellsFolded detected.");
 			// Get the Cell from the event.
 			Object[] cells = (Object[]) evt.getProperty("cells");
 			// For each module that has been folded, switch their style

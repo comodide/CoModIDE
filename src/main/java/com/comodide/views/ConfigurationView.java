@@ -19,8 +19,8 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.ComodideConfiguration;
-import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
+import com.comodide.configuration.ComodideConfiguration;
+import com.comodide.configuration.ComodideConfiguration.EdgeCreationAxiom;
 
 /**
  * CoModIDE configuration view. Provides an interface through which users may select how CoModIDE should instantiate ontology design patterns

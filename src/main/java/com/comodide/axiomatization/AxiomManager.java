@@ -38,8 +38,8 @@ import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.ComodideConfiguration;
-import com.comodide.ComodideConfiguration.EdgeCreationAxiom;
+import com.comodide.configuration.ComodideConfiguration;
+import com.comodide.configuration.ComodideConfiguration.EdgeCreationAxiom;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.exceptions.MultipleMatchesException;
 import com.mxgraph.model.mxCell;

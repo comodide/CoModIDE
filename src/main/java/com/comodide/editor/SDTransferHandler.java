@@ -35,7 +35,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.comodide.ComodideConfiguration;
+import com.comodide.configuration.ComodideConfiguration;
 import com.comodide.patterns.PatternTransferable;
 import com.comodide.rendering.PositioningOperations;
 import com.comodide.telemetry.TelemetryAgent;
