@@ -58,7 +58,7 @@ public class ComodideEditorManager implements OWLOntologyChangeListener, OWLMode
 	 * Clear the schema diagram and redraw using the currently active ontology
 	 */
 	private void ClearAndRedraw() {
-		this.schemaDiagram.Clear();
+		this.schemaDiagram.clear();
 		this.RenderActiveOntology();
 		this.presentlyRenderedOntology = modelManager.getActiveOntology();
 	}

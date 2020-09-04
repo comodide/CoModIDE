@@ -77,7 +77,7 @@ public class SchemaDiagram extends mxGraph
 	 * Turns off the CoModIDE listener for CELLS_REMOVED first, so no changes to the
 	 * underlying ontology is carried out if this method is called.
 	 */
-	public void Clear()
+	public void clear()
 	{
 		this.removeListener(cellsRemovedHandler);
 		this.removeCells(this.getChildCells(this.getDefaultParent()));

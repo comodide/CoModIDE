@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
+import com.comodide.axiomatization.OPLaAnnotationManager;
 import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
@@ -35,14 +36,18 @@ public class LabelChangeHandler
 
 	/** Singleton reference to AxiomManager. Handles OWL entity constructions */
 	private AxiomManager axiomManager;
-
+	
+	/** Singleton reference to OPLaAnnotationManager. Handles OPLa annotation constructions */
+	private OPLaAnnotationManager oplaAnnotationmanager;
+	
 	/** Used for adding positional arguments to updatedCells */
 	private OWLModelManager modelManager;
 	
 	public LabelChangeHandler(OWLModelManager modelManager, SchemaDiagram schemaDiagram)
 	{
-		this.axiomManager = AxiomManager.getInstance(modelManager); //, schemaDiagram);
 		this.modelManager = modelManager;
+		this.axiomManager = AxiomManager.getInstance(modelManager);
+		this.oplaAnnotationmanager = OPLaAnnotationManager.getInstance(modelManager);
 	}
 
 	public OWLEntity handle(mxCell cell, String newLabel) throws ComodideException
