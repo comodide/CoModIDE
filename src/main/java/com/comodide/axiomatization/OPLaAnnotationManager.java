@@ -28,10 +28,10 @@ public class OPLaAnnotationManager
 	private final String pf = "[CoModIDE:OPLaAnnotationManager]";
 	
 	/** Used for adding annotations to the active ontology */
-	
+	private OWLModelManager modelManager;
 	
 	private OPLaAnnotationManager(OWLModelManager modelManager)
 	{
-		
+		this.modelManager = modelManager;
 	}
 }
