@@ -67,7 +67,6 @@
 		<add as="verticalAlign" value="middle" />
 		<add as="shape" value="rectangle" />
 		<add as="perimeter" value="rectanglePerimeter" />
-		<add as="rounded" value="1" />
 		<add as="strokeColor" value="#000000" />
 		<add as="strokeWidth" value="4" />
 		<add as="opacity" value="100" />
