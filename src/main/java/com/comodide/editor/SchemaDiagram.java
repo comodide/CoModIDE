@@ -96,7 +96,9 @@ public class SchemaDiagram extends mxGraph
 			Object[] cells = (Object[]) evt.getProperty("cells");
 			if (cells.length == 1)
 			{
-				if (cells[0] instanceof SubClassEdgeCell)
+				Object cell = cells[0];
+
+				if (cell instanceof SubClassEdgeCell)
 				{
 					SubClassEdgeCell subclassEdgeCell = (SubClassEdgeCell) cells[0];
 
@@ -128,6 +130,18 @@ public class SchemaDiagram extends mxGraph
 						}
 					}
 				}
+				else if (cell instanceof ModuleCell)
+				{
+					log.info("[CoModIDE:SchemaDiagram] add ModuleCell detected. ");
+				}
+				else
+				{
+					// empty else
+				}
+			}
+			else
+			{
+				// empty else
 			}
 		}
 	};
@@ -321,20 +335,42 @@ public class SchemaDiagram extends mxGraph
 	};
 
 	private mxIEventListener groupCellsHandler = new mxIEventListener()
+	{
+
+		@Override
+		public void invoke(Object sender, mxEventObject evt)
+		{
+			ModuleCell module = (ModuleCell) evt.getProperty("group");
+
+			// TODO Debug
+			String pf = "[CoModIDE:SchemaDiagram:groupCellsHandler] ";
+			log.info(pf + module);
+		}
+
+	};
+
+	private mxIEventListener cellsFoldedHandler = new mxIEventListener()
+	{
+
+		@Override
+		public void invoke(Object sender, mxEventObject evt)
+		{
+			// TODO DEBUG MESSAGE
+			log.info("cellsFolded detected.");
+			// Get the Cell from the event.
+			Object[] cells = (Object[]) evt.getProperty("cells");
+			// For each module that has been folded, switch their style
+			for (Object o : cells)
 			{
-		
-				@Override
-				public void invoke(Object sender, mxEventObject evt)
-				{
-					ModuleCell module = (ModuleCell) evt.getProperty("group");
-				
-					// TODO Debug
-					String pf = "[CoModIDE:SchemaDiagram:groupCellsHandler] ";
-					log.info(pf + module);
-				}
-		
-			};
-	
+				// This should always be a module
+				ModuleCell module = (ModuleCell) o;
+				// Switch from grey box to "hidden complexity" glyph style.
+				module.switchStyle();
+			}
+		}
+
+	};
+
 	/**
 	 * Custom graph that defines the alternate edge style to be used when the middle
 	 * control point of edges is double clicked (flipped).
@@ -351,6 +387,7 @@ public class SchemaDiagram extends mxGraph
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
 		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);
 		this.addListener(mxEvent.GROUP_CELLS, groupCellsHandler);
+		this.addListener(mxEvent.CELLS_FOLDED, cellsFoldedHandler);
 		// Loads styling information from an external file.
 		mxCodec  codec = new mxCodec();
 		Document doc   = mxUtils
@@ -661,17 +698,18 @@ public class SchemaDiagram extends mxGraph
 	}
 
 	/**
-	 * This method is overriden specifically to define the style of the created
+	 * This method is overridden specifically to define the style of the created
 	 * group cell.
 	 * 
-	 * the cells are included for information purposes
-	 * the mxGeometry created in the ModuleCell will be over written later.
+	 * the cells are included for information purposes the mxGeometry created in the
+	 * ModuleCell will be over written later.
 	 */
 	@Override
 	public Object createGroupCell(Object[] cells)
 	{
-		// I have done some experimenting with the graph editor example included with 
-		// the jgraphx distribution. It does NOT have the visibility problem. A group created will have
+		// I have done some experimenting with the graph editor example included with
+		// the jgraphx distribution. It does NOT have the visibility problem. A group
+		// created will have
 		// a vertex of the default style appear on the editor canvas.
 		ModuleCell module = new ModuleCell(cells);
 

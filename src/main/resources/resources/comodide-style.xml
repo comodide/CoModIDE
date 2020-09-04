@@ -49,15 +49,30 @@
 		<add as="endFill" value="0" />
 	</add>
 
-	<add as="moduleVertex">
+	<add as="unfoldedModuleVertex">
 		<add as="align" value="right" />
 		<add as="verticalAlign" value="top" />
-		<!-- The following /should/ work, but don't. -->
+		<add as="shape" value="rectangle" />
+		<add as="perimeter" value="rectanglePerimeter" />
+		<add as="rounded" value="1" />
 		<add as="dashed" value="1" />
 		<add as="strokeColor" value="#000000" />
 		<add as="strokeWidth" value="4" />
 		<add as="opacity" value="50" />
-		<add as="fillColor" value="#0c0c0c" />
+		<add as="fillColor" value="#0a0a0a" />
 	</add>
 
+	<add as="foldedModuleVertex">
+		<add as="align" value="middle" />
+		<add as="verticalAlign" value="middle" />
+		<add as="shape" value="rectangle" />
+		<add as="perimeter" value="rectanglePerimeter" />
+		<add as="rounded" value="1" />
+		<add as="strokeColor" value="#000000" />
+		<add as="strokeWidth" value="4" />
+		<add as="opacity" value="100" />
+		<add as="fillColor" value="green" />
+		<add as="spacing" value="5" />
+		<add as="autosize" value="1" />
+	</add>
 </mxStylesheet>
