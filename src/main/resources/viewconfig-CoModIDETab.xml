@@ -6,7 +6,7 @@
 				<Property id="pluginId" value="CoModIDE.EditorView" />
 			</Component>
 		</CNode>
-		<HSNode splits="0.4 0.3 0.3">
+		<HSNode splits="0.25 0.25 0.25 0.25">
 			<CNode>
 				<Component label="Pattern Library">
 					<Property id="pluginId"
