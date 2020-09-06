@@ -64,8 +64,8 @@ public class UpdateFromOntologyHandler
 
 	private static OWLDataFactory factory = new OWLDataFactoryImpl();
 	private static String OPLA_NAMESPACE = "http://ontologydesignpatterns.org/opla";
-	public static OWLAnnotationProperty implementsInterface = factory.getOWLAnnotationProperty(IRI.create(String.format("%s#implementsInterface", OPLA_NAMESPACE)));
-	public static OWLAnnotationProperty slotForInterface = factory.getOWLAnnotationProperty(IRI.create(String.format("%s#slotForInterface", OPLA_NAMESPACE)));
+	public static OWLAnnotationProperty oplaImplementsInterface = factory.getOWLAnnotationProperty(IRI.create(String.format("%s#implementsInterface", OPLA_NAMESPACE)));
+	public static OWLAnnotationProperty oplaSlotForInterface = factory.getOWLAnnotationProperty(IRI.create(String.format("%s#slotForInterface", OPLA_NAMESPACE)));
 	
 	public UpdateFromOntologyHandler(SchemaDiagram schemaDiagram, OWLModelManager modelManager)
 	{
@@ -401,7 +401,7 @@ public class UpdateFromOntologyHandler
 		}
 	}
 	
-	private void handleSlotForInterfaceAnnotationAssertion(IRI oClassIri, OWLAnnotationProperty property, IRI oplaInterface, OWLOntology ontology) {
+	private void handleOplaInterfaceAnnotationAssertion(IRI oClassIri, OWLAnnotationProperty property, IRI oplaInterface, OWLOntology ontology) {
 		for (mxCell cell : schemaDiagram.findCellsByIri(oClassIri)) {
 			
 			if (cell.getClass().equals(ClassCell.class)) {
@@ -415,10 +415,10 @@ public class UpdateFromOntologyHandler
 					
 					// Create new interface slot cell
 					ClassCell newCell;
-					if (property.equals(slotForInterface)) {
+					if (property.equals(oplaSlotForInterface)) {
 						newCell = schemaDiagram.addInterfaceSlot(wrappedEntity, cell.getGeometry().getX(), cell.getGeometry().getY());
 					}
-					else if (property.equals(implementsInterface)) {
+					else if (property.equals(oplaImplementsInterface)) {
 						newCell = schemaDiagram.addInterfaceImplementation(wrappedEntity, cell.getGeometry().getX(), cell.getGeometry().getY());
 					}
 					else {
@@ -508,10 +508,10 @@ public class UpdateFromOntologyHandler
 			handlePositioningAnnotationAssertion(subject, property, value, ontology);
 		}
 		// If it is an annotation on a class that it is a slot for an interface, handle that
-		else if ((property.equals(slotForInterface) || property.equals(implementsInterface)) &&
+		else if ((property.equals(oplaSlotForInterface) || property.equals(oplaImplementsInterface)) &&
 				subject.isIRI() && ontology.containsClassInSignature((IRI)subject) &&
 				value.isIRI()) {
-			handleSlotForInterfaceAnnotationAssertion((IRI)subject, property, value.asIRI().get(), ontology);
+			handleOplaInterfaceAnnotationAssertion((IRI)subject, property, value.asIRI().get(), ontology);
 		}
 	}
 	
