@@ -20,6 +20,14 @@
 		<add as="rounded" value="1" />
 		<add as="fillColor" value="#ffcc00" />
 	</add>
+	
+	<add as="comodideInterfaceSlotVertex" extend="defaultVertex">
+		<add as="shape" value="rectangle" />
+		<add as="perimeter" value="rectanglePerimeter" />
+		<add as="rounded" value="1" />
+		<add as="fillColor" value="#aed6f1" />
+		<add as="dashed" value="1" />
+	</add>
 
 	<add as="comodideDatatypeVertex" extend="defaultVertex">
 		<add as="shape" value="ellipse" />

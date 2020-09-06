@@ -42,12 +42,15 @@ import org.slf4j.LoggerFactory;
 import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
+import com.comodide.editor.model.InterfaceSlotCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.model.mxICell;
+
+import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
 
 public class UpdateFromOntologyHandler
 {
@@ -392,60 +395,115 @@ public class UpdateFromOntologyHandler
 		}
 	}
 	
-	private void handleAddAnnotationAssertionAxiom(OWLAnnotationAssertionAxiom axiom, OWLOntology ontology) {
+	private void handleSlotForInterfaceAnnotationAssertion(IRI oClassIri, IRI oplaInterface, OWLOntology ontology) {
+		log.error(String.format("Class '%s' is a slot for the OPLa Interface '%s'", oClassIri, oplaInterface));
+		
+		for (mxCell cell : schemaDiagram.findCellsByIri(oClassIri)) {
+			
+			if (cell.getClass().equals(ClassCell.class)) {
+				ClassCell classCell = (ClassCell)cell;
+				graphModel.beginUpdate();
+				try {
+					
+					//cell = new InterfaceSlotCell(classCell.getEntity(), classCell.getGeometry().getX(), classCell.getGeometry().getY());
+					
+					// Only one instance of a given OWLEntity may exist on the canvas at any time, so we start by stashing the existing one 
+					OWLEntity wrappedEntity = classCell.getEntity();
+					OWLClassImpl temporaryEntity = new OWLClassImpl(IRI.create("https://example.org/temporary/"));
+					classCell.setEntity(temporaryEntity);
+					
+					// Create new interface slot cell
+					InterfaceSlotCell interfaceSlotCell = schemaDiagram.addInterfaceSlot(wrappedEntity, classCell.getGeometry().getX(), classCell.getGeometry().getY());
+					
+					// Rewrite incoming edges to point to the interface slot cell instead
+					for (int i = 0; i<cell.getEdgeCount(); i++) {
+						mxICell edge = cell.getEdgeAt(i);
+						mxICell source = edge.getTerminal(true);
+						mxICell target = edge.getTerminal(false);
+						if (source == cell) {
+							schemaDiagram.connectCell(edge, interfaceSlotCell, true);
+							log.error(String.format("Rewrote %s source to %s", edge, interfaceSlotCell));
+						}
+						if (target == cell) {
+							schemaDiagram.connectCell(edge, interfaceSlotCell, false);
+							log.error(String.format("Rewrote %s target to %s", edge, interfaceSlotCell));
+						}
+					}
+					
+					// Kill the old cell
+					schemaDiagram.removeCells(new Object[] {classCell});
+					
+				} finally {
+					graphModel.endUpdate();
+				}
+			}
+		}
+	}
 	
-		// Unpack the handled assertion; if it is a a nested
-		// entity positioning assertion with a double value proceed
-		OWLAnnotationSubject subject = axiom.getSubject();
-		OWLAnnotationProperty property = axiom.getProperty();
-		OWLAnnotationValue value = axiom.getValue();
-		if ((property.equals(PositioningOperations.entityPositionX) || property.equals(PositioningOperations.entityPositionY)) &&
-				subject instanceof OWLAnonymousIndividual &&
-				value.isLiteral() && 
-				value.asLiteral().get().isDouble()) {
-			// Extract the parent annotation assertion
-			OWLAnonymousIndividual subjectIndividual = (OWLAnonymousIndividual)subject;
-			for (OWLAnnotationAssertionAxiom candidateParentAnnotation: ontology.getAxioms(AxiomType.ANNOTATION_ASSERTION) ) {
-				if (candidateParentAnnotation.getValue().equals(subjectIndividual) &&
-						candidateParentAnnotation.getSubject() instanceof IRI) {
-					// If the parent assertion is on an IRI entity, that is the actual entity
-					// that our positiong assertion concerns. Find and update the corresponding
-					// cell on the canvas.
-					IRI subjectIRI = (IRI)candidateParentAnnotation.getSubject();
-					double position = value.asLiteral().get().parseDouble();
-					for (mxCell cell: schemaDiagram.findCellsByIri(subjectIRI)) {
-						if (cell instanceof ComodideCell) {
-							mxICell cellToMove;
-							if (cell instanceof PropertyEdgeCell) {
-								// If this occurs then we have a datatype edge; in that case we need to move the datatype that this cells points at
-								cellToMove = cell.getTarget();
-							}
-							else {
-								cellToMove = cell;
-							}
-							graphModel.beginUpdate();
-							try
-							{
-								mxGeometry geo = cellToMove.getGeometry();
-								if (geo != null) {
-									mxGeometry newGeo = (mxGeometry) geo.clone();
-									if (property.equals(PositioningOperations.entityPositionX)) {
-										newGeo.setX(position);
-									}
-									else {
-										newGeo.setY(position);
-									}
-									graphModel.setGeometry(cellToMove, newGeo);
+	private void handlePositioningAnnotationAssertion(OWLAnnotationSubject subject, OWLAnnotationProperty property, OWLAnnotationValue value, OWLOntology ontology) {
+		// Extract the parent annotation assertion
+		OWLAnonymousIndividual subjectIndividual = (OWLAnonymousIndividual) subject;
+		for (OWLAnnotationAssertionAxiom candidateParentAnnotation : ontology
+				.getAxioms(AxiomType.ANNOTATION_ASSERTION)) {
+			if (candidateParentAnnotation.getValue().equals(subjectIndividual)
+					&& candidateParentAnnotation.getSubject() instanceof IRI) {
+				// If the parent assertion is on an IRI entity, that is the actual entity
+				// that our positiong assertion concerns. Find and update the corresponding
+				// cell on the canvas.
+				IRI subjectIRI = (IRI) candidateParentAnnotation.getSubject();
+				double position = value.asLiteral().get().parseDouble();
+				for (mxCell cell : schemaDiagram.findCellsByIri(subjectIRI)) {
+					if (cell instanceof ComodideCell) {
+						mxICell cellToMove;
+						if (cell instanceof PropertyEdgeCell) {
+							// If this occurs then we have a datatype edge; in that case we need to move the
+							// datatype that this cells points at
+							cellToMove = cell.getTarget();
+						} else {
+							cellToMove = cell;
+						}
+						graphModel.beginUpdate();
+						try {
+							mxGeometry geo = cellToMove.getGeometry();
+							if (geo != null) {
+								mxGeometry newGeo = (mxGeometry) geo.clone();
+								if (property.equals(PositioningOperations.entityPositionX)) {
+									newGeo.setX(position);
+								} else {
+									newGeo.setY(position);
 								}
+								graphModel.setGeometry(cellToMove, newGeo);
 							}
-							finally
-							{
-								graphModel.endUpdate();
-							}
+						} finally {
+							graphModel.endUpdate();
 						}
 					}
 				}
 			}
+		}
+	}
+	
+	private void handleAddAnnotationAssertionAxiom(OWLAnnotationAssertionAxiom axiom, OWLOntology ontology) {
+	
+		// Unpack the handled assertion and 
+		OWLAnnotationSubject subject = axiom.getSubject();
+		
+		OWLAnnotationProperty property = axiom.getProperty();
+		OWLAnnotationValue value = axiom.getValue();
+		
+		// If it is a a nested entity positioning assertion with a double value, handle positioning
+		if ((property.equals(PositioningOperations.entityPositionX) || property.equals(PositioningOperations.entityPositionY)) &&
+				subject instanceof OWLAnonymousIndividual &&
+				value.isLiteral() && 
+				value.asLiteral().get().isDouble()) {
+			handlePositioningAnnotationAssertion(subject, property, value, ontology);
+		}
+		// If it is an annotation on a class that it is a slot for an interface, handle that
+		// TODO: remove hardcoded IRI
+		else if (property.getIRI().equals(IRI.create("http://ontologydesignpatterns.org/opla#slotForInterface")) &&
+				subject.isIRI() && ontology.containsClassInSignature((IRI)subject) &&
+				value.isIRI()) {
+			handleSlotForInterfaceAnnotationAssertion((IRI)subject, value.asIRI().get(), ontology);
 		}
 	}
 	

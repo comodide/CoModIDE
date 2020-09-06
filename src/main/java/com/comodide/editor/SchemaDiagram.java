@@ -35,6 +35,7 @@ import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.DatatypeCell;
+import com.comodide.editor.model.InterfaceSlotCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.editor.model.SubClassEdgeCell;
 import com.comodide.exceptions.ComodideException;
@@ -484,6 +485,17 @@ public class SchemaDiagram extends mxGraph
 			return (ClassCell)getCell(owlEntity);
 		}
 		ClassCell cell = new ClassCell(owlEntity, positionX, positionY);
+		this.addCell(cell);
+		cellSizeUpdated(cell, false);
+		return cell;
+	}
+	
+	public InterfaceSlotCell addInterfaceSlot(OWLEntity owlEntity, double positionX, double positionY) {
+		log.info("[CoModIDE:SchemaDiagram] Adding OWLa interface slot" + owlEntity.toString());
+		if (getCell(owlEntity)!= null) {
+			return (InterfaceSlotCell)getCell(owlEntity);
+		}
+		InterfaceSlotCell cell = new InterfaceSlotCell(owlEntity, positionX, positionY);
 		this.addCell(cell);
 		cellSizeUpdated(cell, false);
 		return cell;
