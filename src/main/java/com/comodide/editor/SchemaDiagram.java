@@ -445,55 +445,41 @@ public class SchemaDiagram extends mxGraph
 	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
 	{
 		log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
-		// Empty string means that the cell that has just had its label changed is a
-		// module, not a class
-		if (cell instanceof ModuleCell)
-		{
-			log.info("[CoModIDE:SchemaDiagram] cellLabelChanged on group cell detected.");
-			// TODO this is where we want to add OPLa annotations
-			mxCell group = (mxCell) cell;
+		/* Process object into useful formats. */
+		ComodideCell changedCell = (ComodideCell) cell;
+		String       newLabel    = (String) newValue;
+		String       oldLabel    = (String) changedCell.getValue();
 
-			String pf = "[CoModIDE:SchemaDiagram:cellLabelChanged:DEBUG]\n\t";
-			log.info(pf + group.getGeometry());
+		// Ignore false positives, e.g. edit double-clicks that don't change anything
+		if (newLabel.equals(oldLabel))
+		{
+			return;
 		}
-		else
+
+		model.beginUpdate();
+		this.lock = true; // prevent loopback during addaxiom
+		try
 		{
-			/* Process object into useful formats. */
-			ComodideCell changedCell = (ComodideCell) cell;
-			String       newLabel    = (String) newValue;
-			String       oldLabel    = (String) changedCell.getValue();
+			// Handle the label change
+			OWLEntity entity = labelChangeHandler.handle(changedCell, newLabel);
+			changedCell.setEntity(entity);
+			model.setValue(cell, newLabel);
 
-			// Ignore false positives, e.g. edit double-clicks that don't change anything
-			if (newLabel.equals(oldLabel))
+			// Autosize, if necessary.
+			if (autoSize)
 			{
-				return;
+				cellSizeUpdated(changedCell, false);
 			}
-
-			model.beginUpdate();
-			this.lock = true; // prevent loopback during addaxiom
-			try
-			{
-				// Handle the label change
-				OWLEntity entity = labelChangeHandler.handle(changedCell, newLabel);
-				changedCell.setEntity(entity);
-				model.setValue(cell, newLabel);
-
-				// Autosize, if necessary.
-				if (autoSize)
-				{
-					cellSizeUpdated(changedCell, false);
-				}
-			}
-			catch (ComodideException ex)
-			{
-				JOptionPane.showMessageDialog(null, ex.getMessage());
-				log.info(ex.getMessage());
-			}
-			finally
-			{
-				this.lock = false; // always make sure unlocked at this stage
-				model.endUpdate();
-			}
+		}
+		catch (ComodideException ex)
+		{
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+			log.info(ex.getMessage());
+		}
+		finally
+		{
+			this.lock = false; // always make sure unlocked at this stage
+			model.endUpdate();
 		}
 	}
 

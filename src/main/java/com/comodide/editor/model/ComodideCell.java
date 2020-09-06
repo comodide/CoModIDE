@@ -36,5 +36,10 @@ public abstract class ComodideCell extends mxCell
 		return !this.getEntity().getIRI().toString().equalsIgnoreCase(this.defaultIRI().toString());
 	}
 
+	public boolean isModule()
+	{
+		return false;
+	}
+	
 	public abstract IRI defaultIRI();
 }

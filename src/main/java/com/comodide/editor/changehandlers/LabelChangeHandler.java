@@ -52,21 +52,36 @@ public class LabelChangeHandler
 
 	public OWLEntity handle(mxCell cell, String newLabel) throws ComodideException
 	{
-		if (!(cell instanceof ComodideCell)) {
-			throw new ComodideException(String.format("[CoModIDE:LabelChangeHandler] The non-CoModIDE cell '%s' was found on the schema diagram. This should never happen.", cell));
+		// Error or cast
+		if (!(cell instanceof ComodideCell))
+		{
+			throw new ComodideException(String.format(
+					"[CoModIDE:LabelChangeHandler] The non-CoModIDE cell '%s' was found on the schema diagram. This should never happen.",
+					cell));
 		}
+		
+		ComodideCell comodideCell = (ComodideCell) cell;
 		
 		// Ensure that the IRI created by this new label is in fact new
-		IRI activeOntologyIri = modelManager.getActiveOntology().getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
-		String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
-		IRI newIRI = IRI.create(activeOntologyIri.toString() + entitySeparator + newLabel);
-		OWLEntityFinder finder = modelManager.getOWLEntityFinder();
-		Set<OWLEntity> existingEntitiesWithName = finder.getEntities(newIRI);
-		if (existingEntitiesWithName.size() > 0) {
-			throw new NameClashException(String.format("[CoModIDE:LabelChangeHandler] An OWL entity with the identifier '%s' already exists; unable to add another one.", newLabel));
+		IRI             activeOntologyIri        = modelManager.getActiveOntology().getOntologyID().getOntologyIRI()
+				.or(IRI.generateDocumentIRI());
+		String          entitySeparator          = EntityCreationPreferences.getDefaultSeparator();
+		IRI             newIRI                   = IRI
+				.create(activeOntologyIri.toString() + entitySeparator + newLabel);
+		OWLEntityFinder finder                   = modelManager.getOWLEntityFinder();
+		Set<OWLEntity>  existingEntitiesWithName = finder.getEntities(newIRI);
+		if (existingEntitiesWithName.size() > 0)
+		{
+			throw new NameClashException(String.format(
+					"[CoModIDE:LabelChangeHandler] An OWL entity with the identifier '%s' already exists; unable to add another one.",
+					newLabel));
 		}
-		
-		if (cell.isEdge())
+
+		if (comodideCell.isModule())
+		{
+			return handleModuleLabelChange(cell, newLabel);
+		}
+		else if (cell.isEdge())
 		{
 			return handleEdgeLabelChange(cell, newLabel);
 		}
@@ -186,5 +201,12 @@ public class LabelChangeHandler
 			}
 		}
 		return null;
+	}
+	
+	private OWLEntity handleModuleLabelChange(mxCell cell, String newLabel)
+	{
+		OWLEntity oe = this.oplaAnnotationmanager.createOrFindOPLaModule(newLabel);
+		
+		return oe;
 	}
 }

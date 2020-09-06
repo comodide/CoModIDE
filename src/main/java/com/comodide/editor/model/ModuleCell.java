@@ -1,26 +1,40 @@
 package com.comodide.editor.model;
 
-import com.mxgraph.model.mxCell;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.EntityType;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
+
+import com.comodide.configuration.Namespaces;
+import com.comodide.editor.SDConstants;
 import com.mxgraph.model.mxGeometry;
 
-public class ModuleCell extends mxCell
+public class ModuleCell extends ComodideCell
 {
 	/** Bookkeeping */
 	private static final long serialVersionUID = 1L;
 
-	private static final String unfoldedModuleStyle = "unfoldedModuleVertex";
-	private static final String foldedModuleStyle   = "foldedModuleVertex";
+	/** Styles for the Module based on whether or not its folded. */
+	private static final String unfoldedModuleStyle = SDConstants.unfoldedModuleStyle;
+	private static final String foldedModuleStyle   = SDConstants.foldedModuleStyle;
 
-	/** 
-	 * cells is included for informative purposes
-	 * mxGeometry is required, but overwritten later in the call-chain
+	/** The default IRI for the Module */
+	private static IRI DEFAULT_IRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "Module");
+	private static EntityType<OWLClass> DEFAULT_TYPE = EntityType.CLASS;
+	/**
+	 * cells is included for informative purposes mxGeometry is required, but
+	 * overwritten later in the call-chain
+	 * 
 	 * @param cells
 	 */
 	public ModuleCell(Object[] cells)
 	{
-		super("Unnamed Module", new mxGeometry(), ModuleCell.unfoldedModuleStyle);
+		super(OWLManager.getOWLDataFactory().getOWLEntity(DEFAULT_TYPE, DEFAULT_IRI));
+		
+		this.geometry = new mxGeometry();
+		this.style = unfoldedModuleStyle;
 	}
-
+	
 	public void switchStyle()
 	{
 		String currentStyle = super.getStyle();
@@ -33,5 +47,17 @@ public class ModuleCell extends mxCell
 		{
 			super.setStyle(ModuleCell.unfoldedModuleStyle);
 		}
+	}
+
+	@Override
+	public boolean isModule()
+	{
+		return true;
+	}
+	
+	@Override
+	public IRI defaultIRI()
+	{
+		return DEFAULT_IRI;
 	}
 }
