@@ -15,6 +15,23 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#implementsInterface -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla#implementsInterface"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Object Properties
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -291,6 +308,8 @@ class=&quot;cmss-10x-x-109&quot;&gt;AgentRole&lt;/span&gt;.
 &lt;/body&gt;&lt;/html&gt;</opla:htmlDocumentation>
         <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/agentrole.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/agentrole.png</opla:renderedSchemaDiagram>
+        <opla:implementsInterface rdf:resource="https://comodide.org/interfaces.owl#Role"/>
+        <opla:implementsInterface rdf:resource="https://comodide.org/interfaces.owl#Thing"/>
         <rdfs:label xml:lang="en">Agent Role</rdfs:label>
     </owl:NamedIndividual>
     
@@ -581,6 +600,7 @@ class=&quot;cmss-10x-x-109&quot;&gt;Event&lt;/span&gt;.&lt;/li&gt;&lt;/ol&gt;
 &lt;/body&gt;&lt;/html&gt;</opla:htmlDocumentation>
         <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/event.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/event.png</opla:renderedSchemaDiagram>
+        <opla:implementsInterface rdf:resource="https://comodide.org/interfaces.owl#Event"/>
         <rdfs:label xml:lang="en">Event</rdfs:label>
     </owl:NamedIndividual>
     
@@ -1049,6 +1069,7 @@ class=&quot;cmss-10x-x-109&quot;&gt;AgentRole&lt;/span&gt;.
 &lt;/body&gt;&lt;/html&gt;</opla:htmlDocumentation>
         <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/participantrole.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/participantrole.png</opla:renderedSchemaDiagram>
+        <opla:implementsInterface rdf:resource="https://comodide.org/interfaces.owl#Role"/>
         <rdfs:label xml:lang="en">Participant Role</rdfs:label>
     </owl:NamedIndividual>
     
@@ -2214,6 +2235,7 @@ class=&quot;cmmi-10x-x-109&quot;&gt;y&lt;/span&gt;.
 &lt;/body&gt;&lt;/html&gt;</opla:htmlDocumentation>
         <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/spatiotemporalextent.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/spatiotemporalextent.png</opla:renderedSchemaDiagram>
+        <opla:implementsInterface rdf:resource="https://comodide.org/interfaces.owl#SpatioTemporalExtent"/>
         <rdfs:label xml:lang="en">Spatiotemporal Extent</rdfs:label>
     </owl:NamedIndividual>
     
@@ -2446,6 +2468,7 @@ class=&quot;cmss-10x-x-109&quot;&gt;Value&lt;/span&gt;.&lt;/li&gt;&lt;/ol&gt;
 &lt;/body&gt;&lt;/html&gt;</opla:htmlDocumentation>
         <opla:owlRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/patterns/temporalextent.owl</opla:owlRepresentation>
         <opla:renderedSchemaDiagram rdf:datatype="http://www.w3.org/2001/XMLSchema#string">modl/diagrams/temporalextent.png</opla:renderedSchemaDiagram>
+        <opla:implementsInterface rdf:resource="https://comodide.org/interfaces.owl#Duration"/>
         <rdfs:label xml:lang="en">Temporal Extent</rdfs:label>
     </owl:NamedIndividual>
     

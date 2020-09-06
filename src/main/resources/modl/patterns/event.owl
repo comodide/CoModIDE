@@ -5,6 +5,7 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:opla="http://ontologydesignpatterns.org/opla#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:opla-sd="http://ontologydesignpatterns.org/opla-sd#">
     <owl:Ontology rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event"/>
@@ -19,6 +20,18 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#implementsInterface -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla#implementsInterface"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#slotForInterface -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla#slotForInterface"/>
     
 
 
@@ -92,6 +105,7 @@
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event#Event -->
 
     <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event#Event">
+        <opla:implementsInterface rdf:resource="https://comodide.org/interfaces.owl#Event"/>
         <opla-sd:entityPosition>
             <rdf:Description>
                 <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">149.57922085765622</opla-sd:entityPositionX>
@@ -106,6 +120,7 @@
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event#ParticipantRole -->
 
     <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event#ParticipantRole">
+        <opla:slotForInterface rdf:resource="https://comodide.org/interfaces.owl#Role"/>
         <opla-sd:entityPosition>
             <rdf:Description>
                 <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">299.62271237532957</opla-sd:entityPositionX>
@@ -120,6 +135,7 @@
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/event#SpatiotemporalExtent -->
 
     <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/event#SpatiotemporalExtent">
+        <opla:slotForInterface rdf:resource="https://comodide.org/interfaces.owl#SpatioTemporalExtent"/>
         <opla-sd:entityPosition>
             <rdf:Description>
                 <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">29.944494033088404</opla-sd:entityPositionX>

@@ -5,6 +5,7 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:opla="http://ontologydesignpatterns.org/opla#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:opla-sd="http://ontologydesignpatterns.org/opla-sd#">
     <owl:Ontology rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole"/>
@@ -19,6 +20,18 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#implementsInterface -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla#implementsInterface"/>
+    
+
+
+    <!-- http://ontologydesignpatterns.org/opla#slotForInterface -->
+
+    <owl:AnnotationProperty rdf:about="http://ontologydesignpatterns.org/opla#slotForInterface"/>
     
 
 
@@ -92,6 +105,7 @@
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole#Agent -->
 
     <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole#Agent">
+        <opla:slotForInterface rdf:resource="https://comodide.org/interfaces.owl#Agent"/>
         <opla-sd:entityPosition>
             <rdf:Description>
                 <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">9.640621368601998</opla-sd:entityPositionX>
@@ -106,6 +120,7 @@
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole#Event -->
 
     <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole#Event">
+        <opla:slotForInterface rdf:resource="https://comodide.org/interfaces.owl#Event"/>
         <opla-sd:entityPosition>
             <rdf:Description>
                 <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">10.38741458130356</opla-sd:entityPositionX>
@@ -120,6 +135,7 @@
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole#ParticipantRole -->
 
     <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole#ParticipantRole">
+        <opla:implementsInterface rdf:resource="https://comodide.org/interfaces.owl#Role"/>
         <opla-sd:entityPosition>
             <rdf:Description>
                 <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">209.8532382798026</opla-sd:entityPositionX>
@@ -134,6 +150,7 @@
     <!-- https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole#TemporalExtent -->
 
     <owl:Class rdf:about="https://archive.org/services/purl/domain/modular_ontology_design_library/participantrole#TemporalExtent">
+        <opla:slotForInterface rdf:resource="https://comodide.org/interfaces.owl#Duration"/>
         <opla-sd:entityPosition>
             <rdf:Description>
                 <opla-sd:entityPositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">340.305172134356</opla-sd:entityPositionX>
