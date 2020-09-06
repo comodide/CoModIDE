@@ -17,6 +17,7 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
@@ -42,7 +43,6 @@ import org.slf4j.LoggerFactory;
 import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
-import com.comodide.editor.model.InterfaceSlotCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
@@ -51,6 +51,7 @@ import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.model.mxICell;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
+import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 
 public class UpdateFromOntologyHandler
 {
@@ -61,6 +62,11 @@ public class UpdateFromOntologyHandler
 	private SchemaDiagram schemaDiagram;
 	private mxGraphModel  graphModel;
 
+	private static OWLDataFactory factory = new OWLDataFactoryImpl();
+	private static String OPLA_NAMESPACE = "http://ontologydesignpatterns.org/opla";
+	public static OWLAnnotationProperty implementsInterface = factory.getOWLAnnotationProperty(IRI.create(String.format("%s#implementsInterface", OPLA_NAMESPACE)));
+	public static OWLAnnotationProperty slotForInterface = factory.getOWLAnnotationProperty(IRI.create(String.format("%s#slotForInterface", OPLA_NAMESPACE)));
+	
 	public UpdateFromOntologyHandler(SchemaDiagram schemaDiagram, OWLModelManager modelManager)
 	{
 		this.schemaDiagram = schemaDiagram;
@@ -395,43 +401,46 @@ public class UpdateFromOntologyHandler
 		}
 	}
 	
-	private void handleSlotForInterfaceAnnotationAssertion(IRI oClassIri, IRI oplaInterface, OWLOntology ontology) {
-		log.error(String.format("Class '%s' is a slot for the OPLa Interface '%s'", oClassIri, oplaInterface));
-		
+	private void handleSlotForInterfaceAnnotationAssertion(IRI oClassIri, OWLAnnotationProperty property, IRI oplaInterface, OWLOntology ontology) {
 		for (mxCell cell : schemaDiagram.findCellsByIri(oClassIri)) {
 			
 			if (cell.getClass().equals(ClassCell.class)) {
 				ClassCell classCell = (ClassCell)cell;
 				graphModel.beginUpdate();
 				try {
-					
-					//cell = new InterfaceSlotCell(classCell.getEntity(), classCell.getGeometry().getX(), classCell.getGeometry().getY());
-					
 					// Only one instance of a given OWLEntity may exist on the canvas at any time, so we start by stashing the existing one 
 					OWLEntity wrappedEntity = classCell.getEntity();
 					OWLClassImpl temporaryEntity = new OWLClassImpl(IRI.create("https://example.org/temporary/"));
 					classCell.setEntity(temporaryEntity);
 					
 					// Create new interface slot cell
-					InterfaceSlotCell interfaceSlotCell = schemaDiagram.addInterfaceSlot(wrappedEntity, classCell.getGeometry().getX(), classCell.getGeometry().getY());
+					ClassCell newCell;
+					if (property.equals(slotForInterface)) {
+						newCell = schemaDiagram.addInterfaceSlot(wrappedEntity, cell.getGeometry().getX(), cell.getGeometry().getY());
+					}
+					else if (property.equals(implementsInterface)) {
+						newCell = schemaDiagram.addInterfaceImplementation(wrappedEntity, cell.getGeometry().getX(), cell.getGeometry().getY());
+					}
+					else {
+						throw new IllegalArgumentException(String.format("Illegal annotation property %s; OPLa interface annotations must be either #slotForInterface or #implementsInterface.", property));
+					}
 					
 					// Rewrite incoming edges to point to the interface slot cell instead
-					for (int i = 0; i<cell.getEdgeCount(); i++) {
-						mxICell edge = cell.getEdgeAt(i);
+					Object[] edges = schemaDiagram.getEdges(cell);
+					for (Object edgeObject: edges) {
+						mxICell edge = (mxICell)edgeObject;
 						mxICell source = edge.getTerminal(true);
 						mxICell target = edge.getTerminal(false);
 						if (source == cell) {
-							schemaDiagram.connectCell(edge, interfaceSlotCell, true);
-							log.error(String.format("Rewrote %s source to %s", edge, interfaceSlotCell));
+							schemaDiagram.connectCell(edge, newCell, true);
 						}
 						if (target == cell) {
-							schemaDiagram.connectCell(edge, interfaceSlotCell, false);
-							log.error(String.format("Rewrote %s target to %s", edge, interfaceSlotCell));
+							schemaDiagram.connectCell(edge, newCell, false);
 						}
 					}
 					
 					// Kill the old cell
-					schemaDiagram.removeCells(new Object[] {classCell});
+					schemaDiagram.removeCells(new Object[] {cell});
 					
 				} finally {
 					graphModel.endUpdate();
@@ -499,11 +508,10 @@ public class UpdateFromOntologyHandler
 			handlePositioningAnnotationAssertion(subject, property, value, ontology);
 		}
 		// If it is an annotation on a class that it is a slot for an interface, handle that
-		// TODO: remove hardcoded IRI
-		else if (property.getIRI().equals(IRI.create("http://ontologydesignpatterns.org/opla#slotForInterface")) &&
+		else if ((property.equals(slotForInterface) || property.equals(implementsInterface)) &&
 				subject.isIRI() && ontology.containsClassInSignature((IRI)subject) &&
 				value.isIRI()) {
-			handleSlotForInterfaceAnnotationAssertion((IRI)subject, value.asIRI().get(), ontology);
+			handleSlotForInterfaceAnnotationAssertion((IRI)subject, property, value.asIRI().get(), ontology);
 		}
 	}
 	

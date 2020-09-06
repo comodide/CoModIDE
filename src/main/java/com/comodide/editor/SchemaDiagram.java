@@ -35,6 +35,7 @@ import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.DatatypeCell;
+import com.comodide.editor.model.InterfaceImplementationCell;
 import com.comodide.editor.model.InterfaceSlotCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.editor.model.SubClassEdgeCell;
@@ -480,7 +481,7 @@ public class SchemaDiagram extends mxGraph
 	}
 	
 	public ClassCell addClass(OWLEntity owlEntity, double positionX, double positionY) {
-		log.info("[CoModIDE:SchemaDiagram] Adding OWL Class" + owlEntity.toString());
+		log.info("[CoModIDE:SchemaDiagram] Adding OWL Class: " + owlEntity.toString());
 		if (getCell(owlEntity)!= null) {
 			return (ClassCell)getCell(owlEntity);
 		}
@@ -491,7 +492,7 @@ public class SchemaDiagram extends mxGraph
 	}
 	
 	public InterfaceSlotCell addInterfaceSlot(OWLEntity owlEntity, double positionX, double positionY) {
-		log.info("[CoModIDE:SchemaDiagram] Adding OWLa interface slot" + owlEntity.toString());
+		log.info("[CoModIDE:SchemaDiagram] Adding OWLa interface slot: " + owlEntity.toString());
 		if (getCell(owlEntity)!= null) {
 			return (InterfaceSlotCell)getCell(owlEntity);
 		}
@@ -500,9 +501,20 @@ public class SchemaDiagram extends mxGraph
 		cellSizeUpdated(cell, false);
 		return cell;
 	}
+	
+	public InterfaceImplementationCell addInterfaceImplementation(OWLEntity owlEntity, double positionX, double positionY) {
+		log.info("[CoModIDE:SchemaDiagram] Adding OWLa interface implementation: " + owlEntity.toString());
+		if (getCell(owlEntity)!= null) {
+			return (InterfaceImplementationCell)getCell(owlEntity);
+		}
+		InterfaceImplementationCell cell = new InterfaceImplementationCell(owlEntity, positionX, positionY);
+		this.addCell(cell);
+		cellSizeUpdated(cell, false);
+		return cell;
+	}
 
 	public DatatypeCell addDatatype(OWLEntity owlEntity, double positionX, double positionY) {
-		log.info("[CoModIDE:SchemaDiagram] Adding OWL Datatype " + owlEntity.toString());
+		log.info("[CoModIDE:SchemaDiagram] Adding OWL Datatype: " + owlEntity.toString());
 		DatatypeCell cell = new DatatypeCell(owlEntity, positionX, positionY);
 		this.addCell(cell);
 		cellSizeUpdated(cell, false);
