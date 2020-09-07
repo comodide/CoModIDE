@@ -14,7 +14,6 @@ import com.mxgraph.model.mxICell;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.handler.mxConnectionHandler;
-import com.mxgraph.view.mxGraph;
 
 public class SchemaDiagramComponent extends mxGraphComponent
 {
@@ -22,9 +21,9 @@ public class SchemaDiagramComponent extends mxGraphComponent
 	private static final long   serialVersionUID = -6833603133512882012L;
 	private static final Logger log              = LoggerFactory.getLogger(SchemaDiagramComponent.class);
 
-	public SchemaDiagramComponent(mxGraph graph, OWLModelManager modelManager)
+	public SchemaDiagramComponent(SchemaDiagram diagram, OWLModelManager modelManager)
 	{
-		super(graph);
+		super(diagram);
 		// Overwrite super created transfer handler
 		super.setTransferHandler(new SDTransferHandler(modelManager));
 
