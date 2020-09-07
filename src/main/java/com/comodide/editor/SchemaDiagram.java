@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import com.comodide.axiomatization.OplaAnnotationManager;
 import com.comodide.configuration.ComodideConfiguration;
 import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
@@ -57,6 +58,7 @@ public class SchemaDiagram extends mxGraph
 {
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(SchemaDiagram.class);
+	private static final String pf  = "[CoModIDE:SchemaDiagram] ";
 
 	/** Holds the edge to be used as a template for inserting new edges. */
 	protected Object edgeTemplate;
@@ -130,13 +132,24 @@ public class SchemaDiagram extends mxGraph
 						}
 					}
 				}
-				else if (cell instanceof ModuleCell)
+				// if cell is not added to the default parent
+				else if (!evt.getProperty("parent").equals(getDefaultParent()))
 				{
-					log.info("[CoModIDE:SchemaDiagram] add ModuleCell detected. ");
+					// Then it was added to a module.
+					OplaAnnotationManager oplaAnnotationManager = OplaAnnotationManager.getInstance(modelManager);
+					ComodideCell          comodideCell          = (ComodideCell) cell;
+					IRI                   subject               = comodideCell.getEntity().getIRI();
+					ModuleCell            moduleCell            = (ModuleCell) evt.getProperty("parent");
+					IRI                   value                 = moduleCell.getEntity().getIRI();
+					oplaAnnotationManager.createIsNativeToAnnotation(subject, value);
 				}
 				else
 				{
-					// empty else
+					log.warn(pf+ sender);
+					for (Object o : evt.getProperties().keySet())
+					{
+						log.warn(pf + o + "\n\t"+evt.getProperty((String) o));
+					}
 				}
 			}
 			else
@@ -208,7 +221,7 @@ public class SchemaDiagram extends mxGraph
 		}
 	};
 
-	private mxIEventListener cellsRemovedHandler = new mxIEventListener()
+	protected mxIEventListener cellsRemovedHandler = new mxIEventListener()
 	{
 
 		@Override
@@ -221,7 +234,10 @@ public class SchemaDiagram extends mxGraph
 			ontologies.add(ontology);
 			OWLEntityRemover remover = new OWLEntityRemover(ontologies);
 			model.beginUpdate();
-			lock = true; // prevent loopback during addaxiom
+			lock = true; // prevent
+			// loopback
+			// during
+			// addaxiom
 			try
 			{
 				for (Object c : cells)
@@ -320,8 +336,17 @@ public class SchemaDiagram extends mxGraph
 									}
 								}
 							}
+							else
+							{
+								// empty else
+							}
 							ontologyManager.removeAxioms(ontology, axiomsToRemove);
 						}
+					}
+					else
+					{
+						// empty else
+						
 					}
 				}
 			}
@@ -334,15 +359,23 @@ public class SchemaDiagram extends mxGraph
 		}
 	};
 
-	private mxIEventListener groupCellsHandler = new mxIEventListener()
+	protected mxIEventListener groupCellsHandler = new mxIEventListener()
 	{
-
 		@Override
 		public void invoke(Object sender, mxEventObject evt)
 		{
-//			ModuleCell module = (ModuleCell) evt.getProperty("group");
+			log.info(pf + "GROUP_CELLS fired.");
 		}
+	};
 
+	/** This hook should be called when a module is deleted, probably */
+	protected mxIEventListener ungroupCellsHandler = new mxIEventListener()
+	{
+		@Override
+		public void invoke(Object sender, mxEventObject evt)
+		{
+			log.info(pf + "UNGROUP_CELLS fired.");
+		}
 	};
 
 	private mxIEventListener cellsFoldedHandler = new mxIEventListener()
@@ -381,6 +414,7 @@ public class SchemaDiagram extends mxGraph
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
 		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);
 		this.addListener(mxEvent.GROUP_CELLS, groupCellsHandler);
+		this.addListener(mxEvent.UNGROUP_CELLS, ungroupCellsHandler);
 		this.addListener(mxEvent.CELLS_FOLDED, cellsFoldedHandler);
 		// Loads styling information from an external file.
 		mxCodec  codec = new mxCodec();
@@ -440,7 +474,7 @@ public class SchemaDiagram extends mxGraph
 	@Override
 	public void cellLabelChanged(Object cell, Object newValue, boolean autoSize)
 	{
-		log.info("[CoModIDE:SchemaDiagram] cellLabelChanged intercepted.");
+		log.info(pf + "cellLabelChanged intercepted.");
 		/* Process object into useful formats. */
 		ComodideCell changedCell = (ComodideCell) cell;
 		String       newLabel    = (String) newValue;
@@ -458,8 +492,8 @@ public class SchemaDiagram extends mxGraph
 		{
 			// Handle the label change
 			// Children of cell (used for module changes)
-			Object[] childCells = this.getChildCells(changedCell, true, true);
-			OWLEntity entity = labelChangeHandler.handle(changedCell, newLabel, childCells);
+			Object[]  childCells = this.getChildCells(changedCell, true, true);
+			OWLEntity entity     = labelChangeHandler.handle(changedCell, newLabel, childCells);
 			changedCell.setEntity(entity);
 			model.setValue(cell, newLabel);
 
@@ -582,7 +616,7 @@ public class SchemaDiagram extends mxGraph
 
 	public ClassCell addClass(OWLEntity owlEntity, double positionX, double positionY)
 	{
-		log.info("[CoModIDE:SchemaDiagram] Adding OWL Class" + owlEntity.toString());
+		log.info(pf + "Adding OWL Class" + owlEntity.toString());
 		if (getCell(owlEntity) != null)
 		{
 			return (ClassCell) getCell(owlEntity);
@@ -595,7 +629,7 @@ public class SchemaDiagram extends mxGraph
 
 	public DatatypeCell addDatatype(OWLEntity owlEntity, double positionX, double positionY)
 	{
-		log.info("[CoModIDE:SchemaDiagram] Adding OWL Datatype " + owlEntity.toString());
+		log.info(pf + "Adding OWL Datatype " + owlEntity.toString());
 		DatatypeCell cell = new DatatypeCell(owlEntity, positionX, positionY);
 		this.addCell(cell);
 		cellSizeUpdated(cell, false);
@@ -635,7 +669,7 @@ public class SchemaDiagram extends mxGraph
 
 	public PropertyEdgeCell addPropertyEdge(OWLProperty owlProperty, ClassCell domainCell, mxCell rangeCell)
 	{
-		log.info("[CoModIDE:SchemaDiagram] Adding OWL Property " + owlProperty.toString());
+		log.info(pf + "Adding OWL Property " + owlProperty.toString());
 		PropertyEdgeCell edge = new PropertyEdgeCell(owlProperty);
 		this.addEdge(edge, this.getDefaultParent(), domainCell, rangeCell, null);
 		return edge;
@@ -647,8 +681,7 @@ public class SchemaDiagram extends mxGraph
 		List<mxCell> cellsToRemove = new ArrayList<mxCell>();
 		if (owlEntity.isOWLClass() || owlEntity.isOWLObjectProperty())
 		{
-			log.info("[CoModIDE:SchemaDiagram] Removing class or object property cells for '" + owlEntity.toString()
-					+ "'");
+			log.info(pf + "Removing class or object property cells for '" + owlEntity.toString() + "'");
 			cellsToRemove.addAll(findCellsByEntity(owlEntity));
 		}
 		else if (owlEntity.isOWLDataProperty())
@@ -689,17 +722,10 @@ public class SchemaDiagram extends mxGraph
 	@Override
 	public Object createGroupCell(Object[] cells)
 	{
-		// I have done some experimenting with the graph editor example included with
-		// the jgraphx distribution. It does NOT have the visibility problem. A group
-		// created will have
-		// a vertex of the default style appear on the editor canvas.
 		ModuleCell module = new ModuleCell(cells);
 
 		module.setVertex(true);
 		module.setConnectable(false);
-
-		// Doesn't seem to do anything whether or not its run
-//		module.setVisible(true);
 
 		return module;
 	}

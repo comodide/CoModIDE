@@ -14,11 +14,11 @@ import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,22 +32,22 @@ import com.comodide.configuration.Namespaces;
  * @author cogan
  *
  */
-public class OPLaAnnotationManager
+public class OplaAnnotationManager
 {
-	private static OPLaAnnotationManager instance = null;
+	private static OplaAnnotationManager instance = null;
 
-	public static OPLaAnnotationManager getInstance(OWLModelManager modelManager)
+	public static OplaAnnotationManager getInstance(OWLModelManager modelManager)
 	{
 		if (instance == null)
 		{
-			instance = new OPLaAnnotationManager(modelManager);
+			instance = new OplaAnnotationManager(modelManager);
 		}
 
 		return instance;
 	}
 
 	/** Bookkeeping */
-	private final Logger log = LoggerFactory.getLogger(OPLaAnnotationManager.class);
+	private final Logger log = LoggerFactory.getLogger(OplaAnnotationManager.class);
 	private final String pf  = "[CoModIDE:OPLaAnnotationManager] ";
 
 	/** Used for adding annotations to the active ontology */
@@ -58,7 +58,7 @@ public class OPLaAnnotationManager
 	private OWLEntityFinder  owlEntityFinder;
 	private OWLEntityRenamer owlEntityRenamer;
 
-	private OPLaAnnotationManager(OWLModelManager modelManager)
+	private OplaAnnotationManager(OWLModelManager modelManager)
 	{
 		this.modelManager = modelManager;
 
@@ -133,5 +133,19 @@ public class OPLaAnnotationManager
 
 		AddAxiom addAxiom = new AddAxiom(this.owlOntology, aa);
 		this.modelManager.applyChange(addAxiom);
+	}
+	
+	public void removeIsNativeToAnnotation(IRI subject, IRI value)
+	{
+		// Create the IRI
+				IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
+				// Wrap in owlapi
+				OWLAnnotationProperty  ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
+				
+				OWLAnnotation          an = this.owlDataFactory.getOWLAnnotation(ap, value);
+				OWLAnnotationAssertionAxiom aa = this.owlDataFactory.getOWLAnnotationAssertionAxiom(subject, an);
+
+				RemoveAxiom removeAxiom = new RemoveAxiom(this.owlOntology, aa);
+				this.modelManager.applyChange(removeAxiom);
 	}
 }
