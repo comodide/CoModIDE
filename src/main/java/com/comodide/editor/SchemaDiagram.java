@@ -340,11 +340,7 @@ public class SchemaDiagram extends mxGraph
 		@Override
 		public void invoke(Object sender, mxEventObject evt)
 		{
-			ModuleCell module = (ModuleCell) evt.getProperty("group");
-
-			// TODO Debug
-			String pf = "[CoModIDE:SchemaDiagram:groupCellsHandler] ";
-			log.info(pf + module);
+//			ModuleCell module = (ModuleCell) evt.getProperty("group");
 		}
 
 	};
@@ -461,7 +457,9 @@ public class SchemaDiagram extends mxGraph
 		try
 		{
 			// Handle the label change
-			OWLEntity entity = labelChangeHandler.handle(changedCell, newLabel);
+			// Children of cell (used for module changes)
+			Object[] childCells = this.getChildCells(changedCell, true, true);
+			OWLEntity entity = labelChangeHandler.handle(changedCell, newLabel, childCells);
 			changedCell.setEntity(entity);
 			model.setValue(cell, newLabel);
 

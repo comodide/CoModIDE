@@ -8,9 +8,13 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.find.OWLEntityFinder;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
@@ -87,30 +91,19 @@ public class OPLaAnnotationManager
 		this.owlEntityRenamer = new OWLEntityRenamer(ontologyManager, list);
 	}
 
-	public OWLNamedIndividual createOrFindOPLaModule(String moduleName)
+	public OWLNamedIndividual renameOplaModule(OWLNamedIndividual oldModule, String newLabel)
 	{
-		OWLNamedIndividual module = this.owlEntityFinder.getOWLIndividual(moduleName);
-
-		if (module == null)
-		{
-			log.info("module not found.");
-			module = createOplaModule(moduleName);
-		}
-		else
-		{
-			log.info("module found");
 			// Create new IRI for
-			OWLNamedIndividual newmodule = createOplaModule(moduleName);
-			IRI                newIRI    = newmodule.getIRI();
+			OWLNamedIndividual newModule    = createOplaModule(newLabel);
+			IRI                newModuleIRI = newModule.getIRI();
 			// Apply the renaming changes.
-			List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(module, newIRI);
+			List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(oldModule, newModuleIRI);
 			this.modelManager.applyChanges(changes);
-		}
 
-		return module;
+		return newModule;
 	}
 
-	private OWLNamedIndividual createOplaModule(String moduleName)
+	public OWLNamedIndividual createOplaModule(String moduleName)
 	{
 		log.info("[CoModIDE:OPLaAnnotationManager] creating module: " + moduleName + ".");
 		// Create an individual for the module
@@ -126,5 +119,19 @@ public class OPLaAnnotationManager
 		this.modelManager.applyChange(aa);
 
 		return module;
+	}
+
+	public void createIsNativeToAnnotation(IRI subject, IRI value)
+	{
+		// Create the IRI
+		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
+		// Wrap in owlapi
+		OWLAnnotationProperty  ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
+		
+		OWLAnnotation          an = this.owlDataFactory.getOWLAnnotation(ap, value);
+		OWLAnnotationAssertionAxiom aa = this.owlDataFactory.getOWLAnnotationAssertionAxiom(subject, an);
+
+		AddAxiom addAxiom = new AddAxiom(this.owlOntology, aa);
+		this.modelManager.applyChange(addAxiom);
 	}
 }
