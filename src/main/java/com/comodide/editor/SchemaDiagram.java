@@ -70,6 +70,9 @@ public class SchemaDiagram extends mxGraph
 
 	/** Used to prevent loopback from adding a class via tab */
 	private boolean lock = false;
+	
+	/** Used by the SDTransferHandler to indicate that a pattern drop is being processed */
+	public boolean IsProcessingPatternDrop = false;
 
 	/**
 	 * Used to clear out the schema diagram (needed when re-rendering

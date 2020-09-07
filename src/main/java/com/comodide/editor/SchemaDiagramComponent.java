@@ -25,7 +25,7 @@ public class SchemaDiagramComponent extends mxGraphComponent
 	{
 		super(diagram);
 		// Overwrite super created transfer handler
-		super.setTransferHandler(new SDTransferHandler(modelManager));
+		super.setTransferHandler(new SDTransferHandler(modelManager, diagram));
 
 		// Sets switches typically used in an editor
 		setPageVisible(true);

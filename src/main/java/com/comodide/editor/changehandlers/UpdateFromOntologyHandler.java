@@ -402,6 +402,7 @@ public class UpdateFromOntologyHandler
 	}
 	
 	private void handleOplaInterfaceAnnotationAssertion(IRI oClassIri, OWLAnnotationProperty property, IRI oplaInterface, OWLOntology ontology) {
+		
 		for (mxCell cell : schemaDiagram.findCellsByIri(oClassIri)) {
 			
 			if (cell.getClass().equals(ClassCell.class)) {

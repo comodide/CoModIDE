@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
 import javax.swing.JComponent;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -60,16 +59,20 @@ public class SDTransferHandler extends mxGraphTransferHandler
 	/** OWLAPI Integration */
 	private OWLModelManager modelManager;
 
+	/** Reference to CoModIDE schema diagram; used to flag start and stop of drops */
+	private SchemaDiagram schemaDiagram;
+
 	/** Empty Constructor */
 	public SDTransferHandler()
 	{
 
 	}
 
-	public SDTransferHandler(OWLModelManager modelManager)
+	public SDTransferHandler(OWLModelManager modelManager, SchemaDiagram diagram)
 	{
 		super();
 		this.modelManager = modelManager;
+		this.schemaDiagram = diagram;
 	}
 
 	/**
@@ -114,7 +117,7 @@ public class SDTransferHandler extends mxGraphTransferHandler
 				PatternTransferable pt = (PatternTransferable) t.getTransferData(PatternTransferable.dataFlavor);
 				// Unpack from Transferable
 				Set<OWLAxiom> instantiationAxioms            = pt.getInstantiationAxioms();
-				Set<OWLAxiom> modularizationAnnotationAxioms = pt.getModularisationAnnotationAxioms();
+				Set<OWLAxiom> modularizationAnnotationAxioms = pt.getModularisationAnnotationAxioms(); 
 				// Axioms should be sorted, i.e. declarations, then GCI, etc.
 				// This allows nodes to be rendered, then edges
 				// Sets are unordered, so create List first.
@@ -123,7 +126,7 @@ public class SDTransferHandler extends mxGraphTransferHandler
 
 				// Clone pattern axioms into active ontology.
 				OWLOntology             activeOntology = modelManager.getActiveOntology();
-				List<OWLOntologyChange> newAxioms      = new ArrayList<OWLOntologyChange>();
+				List<OWLOntologyChange> changes      = new ArrayList<OWLOntologyChange>();
 				for (OWLAxiom instantiationAxiom : sortedInstantiationAxioms)
 				{
 				
@@ -157,7 +160,7 @@ public class SDTransferHandler extends mxGraphTransferHandler
 							}
 						}
 					}
-					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
+					changes.add(new AddAxiom(activeOntology, instantiationAxiom));
 				}
 
 				// Depending on user configuration, add modularization axioms either to separate
@@ -229,13 +232,13 @@ public class SDTransferHandler extends mxGraphTransferHandler
 						OWLDataFactory        factory    = metadataOntology.getOWLOntologyManager().getOWLDataFactory();
 						OWLImportsDeclaration importsDec = factory.getOWLImportsDeclaration(activeOntologyIRI);
 						AddImport             ai         = new AddImport(metadataOntology, importsDec);
-						newAxioms.add(ai);
+						changes.add(ai);
 					}
 
 					// Add modularization axioms to metadata ontology
 					for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
 					{
-						newAxioms.add(new AddAxiom(metadataOntology, modularizationAnnotationAxiom));
+						changes.add(new AddAxiom(metadataOntology, modularizationAnnotationAxiom));
 					}
 				}
 				else // (i.e. add directly to active ontology)
@@ -243,11 +246,13 @@ public class SDTransferHandler extends mxGraphTransferHandler
 					// Add modularization axioms to target ontology
 					for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
 					{
-						newAxioms.add(new AddAxiom(activeOntology, modularizationAnnotationAxiom));
+						changes.add(new AddAxiom(activeOntology, modularizationAnnotationAxiom));
 					}
 				}
-
-				modelManager.applyChanges(newAxioms);
+				
+				schemaDiagram.IsProcessingPatternDrop = true;
+				modelManager.applyChanges(changes);
+				schemaDiagram.IsProcessingPatternDrop = false;
 				TelemetryAgent.logPatternDrop();
 				result = true;
 			}
