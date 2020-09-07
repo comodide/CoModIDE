@@ -49,6 +49,7 @@ public class ComodideConfiguration {
 	private static final String MODULE_METADATA_EXTERNAL_KEY = "module_metadata_external";
 	private static final String DELETE_PROPERTY_DECLARATIONS_KEY = "delete_property_declarations";
 	private static final String SEND_TELEMETRY_KEY = "send_telemetry"; 
+	private static final String AUTO_COMPOSE_INTERFACES_KEY = "auto_compose_interfaces";
 	private static final String TELEMETRY_PREFERENCE_CHECKED_KEY = "telemetry_preference_checked"; 
 	
 	// Preference manager and set of preferences for the CoModIDE plugin's instantiation configuration
@@ -154,5 +155,18 @@ public class ComodideConfiguration {
 	
 	public static void setTelemetryPreferenceChecked(Boolean value) {
 		PREFERENCES.putBoolean(TELEMETRY_PREFERENCE_CHECKED_KEY, value);
+	}
+	
+	
+	/**
+	 * Whether to auto-compose interfaces. 
+	 *
+	 */
+	public static Boolean getAutoComposeInterfaces() {
+		return PREFERENCES.getBoolean(AUTO_COMPOSE_INTERFACES_KEY, true);
+	}
+	
+	public static void setAutoComposeInterfaces(Boolean value) {
+		PREFERENCES.putBoolean(AUTO_COMPOSE_INTERFACES_KEY, value);
 	}
 }

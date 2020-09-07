@@ -184,6 +184,21 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 			ComodideConfiguration.setSendTelemetry(sendTelemetry);
 		}
 		
+		JLabel autoComposeInterfaces = new JLabel("Auto-compose interfaces:");
+		autoComposeInterfaces.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		this.add(autoComposeInterfaces);
+		
+		JCheckBox autoComposeInterfacesButton = new JCheckBox("Auto-compose interfaces.");
+		autoComposeInterfacesButton.setSelected(ComodideConfiguration.getAutoComposeInterfaces());
+		autoComposeInterfacesButton.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				boolean autoComposeInterfaces = e.getStateChange() == ItemEvent.SELECTED ? true : false;
+				ComodideConfiguration.setAutoComposeInterfaces(autoComposeInterfaces);
+			}
+		});
+		this.add(autoComposeInterfacesButton);
+		
 		log.info("Configuration view initialized");
 	}
 
