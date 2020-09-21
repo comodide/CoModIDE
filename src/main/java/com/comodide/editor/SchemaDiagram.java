@@ -132,29 +132,74 @@ public class SchemaDiagram extends mxGraph
 						}
 					}
 				}
-				// if cell is not added to the default parent
-				else if (!evt.getProperty("parent").equals(getDefaultParent()))
+				// if the comodide cell is not added to the default parent
+				// Then it was added to a module.
+				// This is generally fired when a single cell is
+				else if (!evt.getProperty("parent").equals(getDefaultParent()) && ((ComodideCell) cell).isNamed())
 				{
-					// Then it was added to a module.
+					// This is the cell that was added to the module
+					ComodideCell comodideCell = (ComodideCell) cell;
+					IRI          subject      = comodideCell.getEntity().getIRI();
+					// This is what it was added to
+					// It is also the case that this holds
+					// comodideCell.getParent().equals(moduleCell)
+					ModuleCell moduleCell = (ModuleCell) evt.getProperty("parent");
+					// We also must provide an annotation for every super module, as well.
+					ArrayList<IRI> values = new ArrayList<>();
+					values.add(moduleCell.getEntity().getIRI()); // initially populate
+					while (!moduleCell.getParent().equals(getDefaultParent()))
+					{
+						// This typecast should always succeed (nothing is nested into non-module cells
+						// And default parent (while not a modulecell) should not even enter this loop
+						moduleCell = (ModuleCell) moduleCell.getParent();
+						// add the IRI
+						values.add(moduleCell.getEntity().getIRI());
+					}
+					// Create the annotations for all "super modules"
 					OplaAnnotationManager oplaAnnotationManager = OplaAnnotationManager.getInstance(modelManager);
-					ComodideCell          comodideCell          = (ComodideCell) cell;
-					IRI                   subject               = comodideCell.getEntity().getIRI();
-					ModuleCell            moduleCell            = (ModuleCell) evt.getProperty("parent");
-					IRI                   value                 = moduleCell.getEntity().getIRI();
-					oplaAnnotationManager.createIsNativeToAnnotation(subject, value);
+					oplaAnnotationManager.createIsNativeToAnnotations(subject, values);
+				}
+				else if (cell instanceof ClassCell)
+				{
+					/*
+					 * While the adding of the appropriate axioms and declarations are handled by
+					 * the SDTransferHandler and PatternLibraryInstantiator. We still want to check
+					 * the annotations on these cells in case that they are dropped directly into a
+					 * module This also covers the case where a cell has been removed from a module
+					 * into another.
+					 */
+					// This is the cell that was added
+					ComodideCell comodideCell = (ComodideCell) cell;
+					IRI          subject      = comodideCell.getEntity().getIRI();
+					Object       parent       = comodideCell.getParent();
+					// will hold the "allowed" annotations
+					ArrayList<IRI> values = new ArrayList<>();
+
+					while (!parent.equals(getDefaultParent()))
+					{
+						ComodideCell p = (ComodideCell) parent;
+
+						values.add(p.getEntity().getIRI());
+
+						parent = (ComodideCell) p.getParent();
+					}
+					// Create the annotations for all "super modules"
+					// Also REMOVE all the other isNativeTo annotations
+					OplaAnnotationManager oplaAnnotationManager = OplaAnnotationManager.getInstance(modelManager);
+					oplaAnnotationManager.adjustIsNativeToAnnotations(subject, values);
 				}
 				else
 				{
-					log.warn(pf+ sender);
-					for (Object o : evt.getProperties().keySet())
-					{
-						log.warn(pf + o + "\n\t"+evt.getProperty((String) o));
-					}
+					// This else catches all other cells: propertyedges and class cells.
+					// We don't really need to do anything here because the handling is done by the
+					// changeFromOntologyHandler, instead of the other way around.
 				}
 			}
 			else
 			{
-				// empty else
+				// This is fired (at least) when a grouping (create a module) happens.
+				// However, we don't want to take action on this until the module has been
+				// named, so we defer to the cellLabelChanged eventhandler
 			}
 		}
 	};
@@ -346,7 +391,7 @@ public class SchemaDiagram extends mxGraph
 					else
 					{
 						// empty else
-						
+
 					}
 				}
 			}
@@ -364,7 +409,9 @@ public class SchemaDiagram extends mxGraph
 		@Override
 		public void invoke(Object sender, mxEventObject evt)
 		{
-			log.info(pf + "GROUP_CELLS fired.");
+			// This handle is included for future extensibility.
+			// Functionality should instead be handled during the
+			// CellsAdded and CellLabelChanged hooks
 		}
 	};
 
@@ -374,7 +421,7 @@ public class SchemaDiagram extends mxGraph
 		@Override
 		public void invoke(Object sender, mxEventObject evt)
 		{
-			log.info(pf + "UNGROUP_CELLS fired.");
+			// This handle is included for future extensibility.
 		}
 	};
 
@@ -410,6 +457,7 @@ public class SchemaDiagram extends mxGraph
 		this.allowDanglingEdges = false;
 		this.cellsResizable = false;
 		this.autoSizeCells = true;
+		// Add all listeners for custom behavior
 		this.addListener(mxEvent.CELLS_MOVED, cellsMovedHandler);
 		this.addListener(mxEvent.CELLS_ADDED, cellsAddedHandler);
 		this.addListener(mxEvent.CELLS_REMOVED, cellsRemovedHandler);

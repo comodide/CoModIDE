@@ -1,5 +1,6 @@
 package com.comodide.axiomatization;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -93,12 +94,12 @@ public class OplaAnnotationManager
 
 	public OWLNamedIndividual renameOplaModule(OWLNamedIndividual oldModule, String newLabel)
 	{
-			// Create new IRI for
-			OWLNamedIndividual newModule    = createOplaModule(newLabel);
-			IRI                newModuleIRI = newModule.getIRI();
-			// Apply the renaming changes.
-			List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(oldModule, newModuleIRI);
-			this.modelManager.applyChanges(changes);
+		// Create new IRI for
+		OWLNamedIndividual newModule    = createOplaModule(newLabel);
+		IRI                newModuleIRI = newModule.getIRI();
+		// Apply the renaming changes.
+		List<OWLOntologyChange> changes = this.owlEntityRenamer.changeIRI(oldModule, newModuleIRI);
+		this.modelManager.applyChanges(changes);
 
 		return newModule;
 	}
@@ -126,26 +127,56 @@ public class OplaAnnotationManager
 		// Create the IRI
 		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
 		// Wrap in owlapi
-		OWLAnnotationProperty  ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
-		
-		OWLAnnotation          an = this.owlDataFactory.getOWLAnnotation(ap, value);
+		OWLAnnotationProperty ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
+
+		OWLAnnotation               an = this.owlDataFactory.getOWLAnnotation(ap, value);
 		OWLAnnotationAssertionAxiom aa = this.owlDataFactory.getOWLAnnotationAssertionAxiom(subject, an);
 
 		AddAxiom addAxiom = new AddAxiom(this.owlOntology, aa);
 		this.modelManager.applyChange(addAxiom);
 	}
-	
+
+	// Convenience method for nested module chains (but also any list of values)
+	public void createIsNativeToAnnotations(IRI subject, ArrayList<IRI> values)
+	{
+		for (IRI value : values)
+		{
+			this.createIsNativeToAnnotation(subject, value);
+		}
+	}
+
+	public void adjustIsNativeToAnnotations(IRI subject, ArrayList<IRI> values)
+	{
+		// Get all annotations for the subject
+		Set<OWLAnnotationAssertionAxiom> annotations = this.owlOntology.getAnnotationAssertionAxioms(subject);
+		// Create the IRI
+		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
+		// Wrap in owlapi
+		OWLAnnotationProperty ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
+		for (OWLAnnotationAssertionAxiom annotation : annotations)
+		{
+			if(annotation.getProperty().equals(ap))
+			{
+				RemoveAxiom ra = new RemoveAxiom(this.owlOntology, annotation);
+				this.modelManager.applyChange(ra);
+			}
+		}
+
+		// Add the ones that belong back in.
+		this.createIsNativeToAnnotations(subject, values);
+	}
+
 	public void removeIsNativeToAnnotation(IRI subject, IRI value)
 	{
 		// Create the IRI
-				IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
-				// Wrap in owlapi
-				OWLAnnotationProperty  ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
-				
-				OWLAnnotation          an = this.owlDataFactory.getOWLAnnotation(ap, value);
-				OWLAnnotationAssertionAxiom aa = this.owlDataFactory.getOWLAnnotationAssertionAxiom(subject, an);
+		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
+		// Wrap in owlapi
+		OWLAnnotationProperty ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
 
-				RemoveAxiom removeAxiom = new RemoveAxiom(this.owlOntology, aa);
-				this.modelManager.applyChange(removeAxiom);
+		OWLAnnotation               an = this.owlDataFactory.getOWLAnnotation(ap, value);
+		OWLAnnotationAssertionAxiom aa = this.owlDataFactory.getOWLAnnotationAssertionAxiom(subject, an);
+
+		RemoveAxiom removeAxiom = new RemoveAxiom(this.owlOntology, aa);
+		this.modelManager.applyChange(removeAxiom);
 	}
 }
