@@ -14,12 +14,13 @@ import com.comodide.editor.changehandlers.UpdateFromOntologyHandler;
 
 public class ComodideEditorManager implements OWLOntologyChangeListener, OWLModelManagerListener
 {
-	private OWLOntology presentlyRenderedOntology;
-	private SchemaDiagram  schemaDiagram;
+	private OWLOntology                     presentlyRenderedOntology;
+	private SchemaDiagram                   schemaDiagram;
 	private final UpdateFromOntologyHandler updateFromOntologyHandler;
-	private final OWLModelManager modelManager;
+	private final OWLModelManager           modelManager;
 
-	public SchemaDiagram getSchemaDiagram() {
+	public SchemaDiagram getSchemaDiagram()
+	{
 		return schemaDiagram;
 	}
 
@@ -29,54 +30,62 @@ public class ComodideEditorManager implements OWLOntologyChangeListener, OWLMode
 		this.modelManager = modelManager;
 		this.modelManager.addListener(this);
 		this.presentlyRenderedOntology = modelManager.getActiveOntology();
-		
+
 		// Create a new schema diagram to work with
 		this.schemaDiagram = new SchemaDiagram(modelManager);
-		
-		// Assign a handler that renders updates from the underlying ontology onto the schema diagram 
+
+		// Assign a handler that renders updates from the underlying ontology onto the
+		// schema diagram
 		this.updateFromOntologyHandler = new UpdateFromOntologyHandler(schemaDiagram, modelManager);
-		
-		// Register as listener to detect changes in the ontology that trigger the above updates
+
+		// Register as listener to detect changes in the ontology that trigger the above
+		// updates
 		this.modelManager.addOntologyChangeListener(this);
-		
+
 		// Parse and render the active ontology initially
 		this.RenderActiveOntology();
 	}
 
 	/**
-	 * Render the currently active ontology. Naïve implementation that simply
-	 * pipes all ontology axioms through the UpdateFromOntologyHandler.
+	 * Render the currently active ontology. Naïve implementation that simply pipes
+	 * all ontology axioms through the UpdateFromOntologyHandler.
 	 */
-	private void RenderActiveOntology() {
+	private void RenderActiveOntology()
+	{
 		OWLOntology ontology = modelManager.getActiveOntology();
 		ontology.getAxioms().forEach(axiom -> {
 			this.updateFromOntologyHandler.handleAddAxiom(axiom, ontology);
 		});
 	}
-	
+
 	/**
 	 * Clear the schema diagram and redraw using the currently active ontology
 	 */
-	private void ClearAndRedraw() {
+	private void ClearAndRedraw()
+	{
 		this.schemaDiagram.clear();
 		this.RenderActiveOntology();
 		this.presentlyRenderedOntology = modelManager.getActiveOntology();
 	}
-	
+
 	@Override
-	public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException {
+	public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException
+	{
 		changes.forEach(change -> {
-			if (change.isAxiomChange()) {
+			if (change.isAxiomChange())
+			{
 				this.updateFromOntologyHandler.handle(change);
 			}
 		});
 	}
 
 	@Override
-	public void handleChange(OWLModelManagerChangeEvent event) {
+	public void handleChange(OWLModelManagerChangeEvent event)
+	{
 		if (event.isType(EventType.ACTIVE_ONTOLOGY_CHANGED))
 		{
-			if (!modelManager.getActiveOntology().equals(presentlyRenderedOntology)) {
+			if (!modelManager.getActiveOntology().equals(presentlyRenderedOntology))
+			{
 				this.ClearAndRedraw();
 			}
 		}

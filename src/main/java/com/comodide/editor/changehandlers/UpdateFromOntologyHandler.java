@@ -3,6 +3,7 @@ package com.comodide.editor.changehandlers;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
@@ -64,34 +65,6 @@ public class UpdateFromOntologyHandler
 		this.graphModel = (mxGraphModel) schemaDiagram.getModel();
 	}
 
-	public void handleAddAxiom(OWLAxiom axiom, OWLOntology ontology)
-	{
-		// If we're open for business
-		if (!this.schemaDiagram.isLock())
-		{
-
-			// Handle class, datatype, or property declarations
-			if (axiom.isOfType(AxiomType.DECLARATION))
-			{
-				handleAddDeclaration(ontology, axiom);
-			}
-			// Handle subclasses (simple subclasses and restriction-based scoped
-			// domains/ranges)
-			else if (axiom.isOfType(AxiomType.SUBCLASS_OF))
-			{
-				handleAddSubClassOfAxiom((OWLSubClassOfAxiom) axiom, ontology);
-			}
-			else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
-			{
-				handleAddAnnotationAssertionAxiom((OWLAnnotationAssertionAxiom) axiom, ontology);
-			}
-			else
-			{
-				log.info("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
-			}
-		}
-	}
-
 	public void handle(OWLOntologyChange change)
 	{
 		// Unpack the OntologyChange
@@ -112,6 +85,33 @@ public class UpdateFromOntologyHandler
 			else
 			{
 				log.info("[CoModIDE:UFOH] Unsupported change to the ontology.");
+			}
+		}
+	}
+	
+	public void handleAddAxiom(OWLAxiom axiom, OWLOntology ontology)
+	{
+		// If we're open for business
+		if (!this.schemaDiagram.isLock())
+		{
+			// Handle class, datatype, or property declarations
+			if (axiom.isOfType(AxiomType.DECLARATION))
+			{
+				handleAddDeclaration(ontology, axiom);
+			}
+			// Handle subclasses (simple subclasses and restriction-based scoped
+			// domains/ranges)
+			else if (axiom.isOfType(AxiomType.SUBCLASS_OF))
+			{
+				handleAddSubClassOfAxiom((OWLSubClassOfAxiom) axiom, ontology);
+			}
+			else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
+			{
+				handleAddAnnotationAssertionAxiom((OWLAnnotationAssertionAxiom) axiom, ontology);
+			}
+			else
+			{
+				log.info("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
 			}
 		}
 	}
@@ -477,7 +477,6 @@ public class UpdateFromOntologyHandler
 
 	private void handleAddAnnotationAssertionAxiom(OWLAnnotationAssertionAxiom axiom, OWLOntology ontology)
 	{
-
 		// Unpack the handled assertion; if it is a a nested
 		// entity positioning assertion with a double value proceed
 		OWLAnnotationSubject  subject  = axiom.getSubject();
