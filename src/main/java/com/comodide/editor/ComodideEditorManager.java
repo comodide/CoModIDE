@@ -43,14 +43,14 @@ public class ComodideEditorManager implements OWLOntologyChangeListener, OWLMode
 		this.modelManager.addOntologyChangeListener(this);
 
 		// Parse and render the active ontology initially
-		this.RenderActiveOntology();
+		this.renderActiveOntology();
 	}
 
 	/**
 	 * Render the currently active ontology. Naïve implementation that simply pipes
 	 * all ontology axioms through the UpdateFromOntologyHandler.
 	 */
-	private void RenderActiveOntology()
+	private void renderActiveOntology()
 	{
 		OWLOntology ontology = modelManager.getActiveOntology();
 		ontology.getAxioms().forEach(axiom -> {
@@ -61,10 +61,10 @@ public class ComodideEditorManager implements OWLOntologyChangeListener, OWLMode
 	/**
 	 * Clear the schema diagram and redraw using the currently active ontology
 	 */
-	private void ClearAndRedraw()
+	private void clearAndRedraw()
 	{
 		this.schemaDiagram.clear();
-		this.RenderActiveOntology();
+		this.renderActiveOntology();
 		this.presentlyRenderedOntology = modelManager.getActiveOntology();
 	}
 
@@ -86,7 +86,7 @@ public class ComodideEditorManager implements OWLOntologyChangeListener, OWLMode
 		{
 			if (!modelManager.getActiveOntology().equals(presentlyRenderedOntology))
 			{
-				this.ClearAndRedraw();
+				this.clearAndRedraw();
 			}
 		}
 	}
