@@ -223,7 +223,7 @@ public class SchemaDiagram extends mxGraph
 
 				// We want to update the position only if the cell is a "proper node"
 				// i.e. that the node is actually representing a class in the ontology
-				if (cell instanceof ClassCell || cell instanceof DatatypeCell)
+				if (cell instanceof ClassCell || cell instanceof DatatypeCell || cell instanceof ModuleCell)
 				{
 					List<OWLEntity> positioningEntities = new ArrayList<OWLEntity>();
 					// If this is a datatype cell, put the OPLa-SD positioning annotations on the
@@ -240,11 +240,12 @@ public class SchemaDiagram extends mxGraph
 							}
 						}
 					}
-					// Else, if it is a class, just put them on the class
+					// Else, if it is a class or module, just put them on the class or module
 					else
 					{
-						ClassCell classCell = (ClassCell) cell;
-						positioningEntities.add(classCell.getEntity());
+						// a cell that is a node, i.e. not an edge cell
+						ComodideCell nodeCell = (ComodideCell) cell;
+						positioningEntities.add(nodeCell.getEntity());
 					}
 
 					// Check which of the loaded ontologies that hosts the positioning entities
