@@ -761,6 +761,20 @@ public class SchemaDiagram extends mxGraph
 		}
 	}
 
+	public ModuleCell addModule(OWLEntity owlEntity, double positionX, double positionY)
+	{
+		log.info(pf + "Adding a module " + owlEntity.toString());
+		if(getCell(owlEntity) != null)
+		{
+			return (ModuleCell) getCell(owlEntity);
+		}
+		
+		ModuleCell cell = new ModuleCell(owlEntity, positionX, positionY);
+		this.addCell(cell);
+		cellSizeUpdated(cell, false); // TODO would this help the geometry problem?
+		return cell;
+	}
+	
 	/**
 	 * This method is overridden specifically to define the style of the created
 	 * group cell.

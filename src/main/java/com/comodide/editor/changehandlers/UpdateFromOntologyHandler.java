@@ -16,6 +16,7 @@ import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -25,6 +26,7 @@ import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
@@ -40,6 +42,7 @@ import org.semanticweb.owlapi.model.OWLUnaryPropertyAxiom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.configuration.Namespaces;
 import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
@@ -101,7 +104,7 @@ public class UpdateFromOntologyHandler
 			// Handle class, datatype, or property declarations
 			if (axiom.isOfType(AxiomType.DECLARATION))
 			{
-				handleAddDeclaration(ontology, axiom);
+				handleAddDeclaration(axiom, ontology);
 			}
 			// Handle subclasses (simple subclasses and restriction-based scoped
 			// domains/ranges)
@@ -115,7 +118,7 @@ public class UpdateFromOntologyHandler
 			}
 			else if (axiom.isOfType(AxiomType.CLASS_ASSERTION))
 			{
-//				log.warn("Found Class Assertion.");
+				handleClassAssertionAxiom((OWLClassAssertionAxiom) axiom, ontology);
 			}
 			else
 			{
@@ -295,14 +298,14 @@ public class UpdateFromOntologyHandler
 		return retVal;
 	}
 
-	private void handleAddDeclaration(OWLOntology ontology, OWLAxiom axiom)
+	private void handleAddDeclaration(OWLAxiom axiom, OWLOntology ontology)
 	{
 		// Unpack data from Declaration
 		OWLDeclarationAxiom declaration = (OWLDeclarationAxiom) axiom;
 		OWLEntity           owlEntity   = declaration.getEntity();
 
 		// We do not render anything from the OPLa namespace
-		if (owlEntity.getIRI().toString().contains("http://ontologydesignpatterns.org/opla"))
+		if (owlEntity.getIRI().toString().contains(Namespaces.OPLA_BASE))
 		{
 			return;
 		}
@@ -596,6 +599,23 @@ public class UpdateFromOntologyHandler
 				OWLProperty property = (OWLProperty) pe;
 				reRenderAllPropertyEdges(property, ontology);
 			}
+		}
+	}
+
+	private void handleClassAssertionAxiom(OWLClassAssertionAxiom axiom, OWLOntology ontology)
+	{
+		// Cast to something that is an OWLEntity
+		OWLNamedIndividual namedIndividual = axiom.getIndividual().asOWLNamedIndividual();
+		// Get the positioning annotations
+		Pair<Double, Double> targetPosition = PositioningOperations.getXYCoordsForEntity(namedIndividual, ontology);
+		graphModel.beginUpdate();
+		try
+		{
+			schemaDiagram.addModule(namedIndividual, targetPosition.getLeft(), targetPosition.getRight());
+		}
+		finally
+		{
+			graphModel.endUpdate();
 		}
 	}
 }
