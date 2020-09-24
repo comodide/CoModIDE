@@ -113,6 +113,10 @@ public class UpdateFromOntologyHandler
 			{
 				handleAddAnnotationAssertionAxiom((OWLAnnotationAssertionAxiom) axiom, ontology);
 			}
+			else if (axiom.isOfType(AxiomType.CLASS_ASSERTION))
+			{
+//				log.warn("Found Class Assertion.");
+			}
 			else
 			{
 				log.info("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
@@ -298,7 +302,7 @@ public class UpdateFromOntologyHandler
 		OWLEntity           owlEntity   = declaration.getEntity();
 
 		// We do not render anything from the OPLa namespace
-		if (owlEntity.getIRI().toString().contains("http://ontologydesignpatterns.org/opla#"))
+		if (owlEntity.getIRI().toString().contains("http://ontologydesignpatterns.org/opla"))
 		{
 			return;
 		}
