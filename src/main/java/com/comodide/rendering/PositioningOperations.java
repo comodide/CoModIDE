@@ -33,20 +33,16 @@ public class PositioningOperations
 {
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(PositioningOperations.class);
-	
+
 	private static OWLDataFactory factory = new OWLDataFactoryImpl();
 
-	private static String                OPLA_SD_NAMESPACE = "http://ontologydesignpatterns.org/opla-sd#";
+	private static String               OPLA_SD_NAMESPACE = "http://ontologydesignpatterns.org/opla-sd#";
 	public static OWLAnnotationProperty entityPosition    = factory
 			.getOWLAnnotationProperty(IRI.create(String.format("%sentityPosition", OPLA_SD_NAMESPACE)));
 	public static OWLAnnotationProperty entityPositionX   = factory
 			.getOWLAnnotationProperty(IRI.create(String.format("%sentityPositionX", OPLA_SD_NAMESPACE)));
 	public static OWLAnnotationProperty entityPositionY   = factory
 			.getOWLAnnotationProperty(IRI.create(String.format("%sentityPositionY", OPLA_SD_NAMESPACE)));
-
-//	private static OWLAnnotationProperty entityPosition  = createOplasdProperty("entityPosition");
-//	private static OWLAnnotationProperty entityPositionX = createOplasdProperty("entityPositionX");
-//	private static OWLAnnotationProperty entityPositionY = createOplasdProperty("entityPositionY");
 
 	/**
 	 * Get the (x,y) coordinate pair from OPLa-SD annotations on an OWL Entity in a
@@ -177,7 +173,7 @@ public class PositioningOperations
 		// 4. Add the new axioms
 		manager.addAxioms(ontology, newAxioms);
 	}
-	
+
 	private static double getRandomDoubleBetweenRange(double min, double max)
 	{
 		double x = (Math.random() * ((max - min) + 1)) + min;

@@ -88,7 +88,11 @@ public class UpdateFromOntologyHandler
 			}
 		}
 	}
-	
+
+	/**
+	 * This is public to enable 'rerendering' of an ontology. This by passes the
+	 * handle method.
+	 */
 	public void handleAddAxiom(OWLAxiom axiom, OWLOntology ontology)
 	{
 		// If we're open for business
