@@ -389,6 +389,32 @@ public class SchemaDiagram extends mxGraph
 							ontologyManager.removeAxioms(ontology, axiomsToRemove);
 						}
 					}
+					else if (cell instanceof ModuleCell)
+					{
+						log.warn(pf + "moduleCell removed detected");
+						// Because edges are not added as children to modules (cell groups)
+						// We don't have to remove them; it's handled by other parts of comodide
+						
+						Object[] children = getChildCells(cell);
+						for(Object child : children)
+						{
+							if (child instanceof ClassCell)
+							{
+								ClassCell classCell = (ClassCell) child;
+								OWLClass  classToRemove = classCell.getEntity().asOWLClass();
+								classToRemove.accept(remover);
+							}
+							else if (child instanceof ModuleCell)
+							{
+								log.warn(pf + "Nested Module detected during removal of module.");
+							}
+							else
+							{
+								// empty else
+							}
+						}
+						
+					}
 					else
 					{
 						// empty else
@@ -764,15 +790,28 @@ public class SchemaDiagram extends mxGraph
 	public ModuleCell addModule(OWLEntity owlEntity, double positionX, double positionY)
 	{
 		log.info(pf + "Adding a module " + owlEntity.toString());
+
+		ModuleCell module;
+		// Find or create the module cell
 		if (getCell(owlEntity) != null)
 		{
-			return (ModuleCell) getCell(owlEntity);
+			/*
+			 * TODO this assumes that there is no module and entity share the same name.
+			 * This should hold if the ontology was created in CoModIDE in the first place.
+			 */
+			module = (ModuleCell) getCell(owlEntity);
 		}
+		else
+		{
+			module = new ModuleCell(owlEntity, positionX, positionY);
+		}
+		// Add the cell to the schema diagram.
+		this.addCell(module);
+
+		// TODO add module components to the module
 		
-		ModuleCell cell = new ModuleCell(owlEntity, positionX, positionY);
-		this.addCell(cell);
-		cellSizeUpdated(cell, false);
-		return cell;
+		cellSizeUpdated(module, false);
+		return module;
 	}
 
 	/**
