@@ -204,7 +204,6 @@ public class UpperAlignmentTool extends AbstractOWLViewComponent implements Como
         if (this.modelManager != null)
         {
             this.owlOntology = this.modelManager.getActiveOntology();
-            log.info("ontology is" + owlOntology);
             // Finish and Log
             log.info("[CoModIDE:UpperAlignmentView] Successfully initialized");
         }
