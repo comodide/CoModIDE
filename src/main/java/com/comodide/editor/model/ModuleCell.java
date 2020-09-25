@@ -33,6 +33,8 @@ public class ModuleCell extends ComodideCell
 	{
 		super(OWLManager.getOWLDataFactory().getOWLEntity(DEFAULT_TYPE, DEFAULT_IRI));
 		this.style = unfoldedModuleStyle;
+		this.setVertex(true);
+		this.setConnectable(false);
 	}
 
 	public ModuleCell(OWLEntity owlEntity, double positionX, double positionY)
@@ -41,6 +43,8 @@ public class ModuleCell extends ComodideCell
 		// WIDTH and HEIGHT (the two zeroes) need to be set somehow
 		this.geometry = new mxGeometry(positionX, positionY, 100, 100);
 		this.style = unfoldedModuleStyle;
+		this.setVertex(true);
+		this.setConnectable(false);
 	}
 
 	public void switchStyle()

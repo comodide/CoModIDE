@@ -735,7 +735,7 @@ public class SchemaDiagram extends mxGraph
 		}
 		else if (owlEntity.isOWLDataProperty())
 		{
-			log.info("[CoModIDE:UFOH] Removing data property cells for '" + owlEntity.toString() + "'");
+			log.info(pf + "Removing data property cells for '" + owlEntity.toString() + "'");
 			List<mxCell> dataPropertyCellsToRemove = findCellsByEntity(owlEntity);
 			List<mxCell> dataTypeCellsToRemove     = new ArrayList<mxCell>();
 			for (mxCell dataPropertyCell : dataPropertyCellsToRemove)
@@ -764,17 +764,17 @@ public class SchemaDiagram extends mxGraph
 	public ModuleCell addModule(OWLEntity owlEntity, double positionX, double positionY)
 	{
 		log.info(pf + "Adding a module " + owlEntity.toString());
-		if(getCell(owlEntity) != null)
+		if (getCell(owlEntity) != null)
 		{
 			return (ModuleCell) getCell(owlEntity);
 		}
 		
 		ModuleCell cell = new ModuleCell(owlEntity, positionX, positionY);
 		this.addCell(cell);
-		cellSizeUpdated(cell, false); // TODO would this help the geometry problem?
+		cellSizeUpdated(cell, false);
 		return cell;
 	}
-	
+
 	/**
 	 * This method is overridden specifically to define the style of the created
 	 * group cell.
@@ -786,10 +786,6 @@ public class SchemaDiagram extends mxGraph
 	public Object createGroupCell(Object[] cells)
 	{
 		ModuleCell module = new ModuleCell(cells);
-
-		module.setVertex(true);
-		module.setConnectable(false);
-
 		return module;
 	}
 }
