@@ -249,11 +249,6 @@ public class LabelChangeHandler
 					OWLEntity    moduleClass    = (OWLEntity) tempModuleCell.getEntity();
 					this.oplaAnnotationmanager.createIsNativeToAnnotation(moduleClass.getIRI(), module.getIRI());
 				}
-				// This is currently handled above.
-//				else if(o instanceof ModuleCell)
-//				{
-//					
-//				}
 				else
 				{
 					// Don't do anything for DatatypeCells
@@ -265,10 +260,9 @@ public class LabelChangeHandler
 		// Create Positioning axioms
 		// Get position
 		mxGeometry geometry = moduleCell.getGeometry();
-		log.warn(""+geometry);
 		Double positionX = geometry.getX();
 		Double positionY = geometry.getY();
-		// Metadata or active ontology
+		// Metadata or active ontology?
 		OWLOntology ontology;
 		if(ComodideConfiguration.getModuleMetadataExternal())
 		{
@@ -278,6 +272,7 @@ public class LabelChangeHandler
 		{
 			ontology = this.modelManager.getActiveOntology();
 		}
+		// Apply the positioning axioms
 		PositioningOperations.updateXYCoordinateAnnotations(module, ontology, positionX, positionY);
 		
 		return module;

@@ -42,16 +42,19 @@ import org.semanticweb.owlapi.model.OWLUnaryPropertyAxiom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.axiomatization.OplaAnnotationManager;
 import com.comodide.configuration.Namespaces;
 import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
+import com.comodide.editor.model.ModuleCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.model.mxICell;
+import com.mxgraph.util.mxRectangle;
 
 public class UpdateFromOntologyHandler
 {
@@ -552,6 +555,14 @@ public class UpdateFromOntologyHandler
 				}
 			}
 		}
+		else if(property.equals(OplaAnnotationManager.isNativeTo))
+		{
+			log.warn("isNativeTo detected.");
+		}
+		else
+		{
+			
+		}
 	}
 
 	private void handleAddSubClassOfAxiom(OWLSubClassOfAxiom axiom, OWLOntology ontology)
@@ -602,20 +613,51 @@ public class UpdateFromOntologyHandler
 		}
 	}
 
+	/**
+	 * Note, class assertions are added last, which is unfortunate
+	 * @param axiom
+	 * @param ontology
+	 */
 	private void handleClassAssertionAxiom(OWLClassAssertionAxiom axiom, OWLOntology ontology)
 	{
 		// Cast to something that is an OWLEntity
 		OWLNamedIndividual namedIndividual = axiom.getIndividual().asOWLNamedIndividual();
 		// Get the positioning annotations
 		Pair<Double, Double> targetPosition = PositioningOperations.getXYCoordsForEntity(namedIndividual, ontology);
+		ModuleCell module;
 		graphModel.beginUpdate();
 		try
 		{
-			schemaDiagram.addModule(namedIndividual, targetPosition.getLeft(), targetPosition.getRight());
+			// In this step, the classes belonging to this module will be added to the 
+			// module, but it will not be resized (that's because the resize 
+			// requires a graphModel update, as well
+			module = schemaDiagram.addModule(namedIndividual, targetPosition.getLeft(), targetPosition.getRight());
 		}
 		finally
 		{
 			graphModel.endUpdate();
+		}
+		
+		// This will resize the module to make sure it bounds the 
+//		if (module != null)
+//		if (false)
+		{
+			// Get children to calculate module bounding
+			Object[] children = this.schemaDiagram.getChildCells(module);
+			mxRectangle bounds = this.schemaDiagram.getBoundsForGroup(module, children, 20);
+			// Bounds may be null if comodide hasn't been loaded before the ontology is loaded
+			// i.e. the comodide tab hasn't been opened and the user loads an owl file
+			// in that case, the bounding box is taken care of in the annotation assertion
+			// handler above.
+			if(bounds != null)
+			{
+				mxGeometry geo = module.getGeometry();
+				geo.setWidth(bounds.getWidth());
+				geo.setHeight(bounds.getHeight());
+				Object[] moduleArray = new Object[] {module};
+				mxRectangle[] rectArray = new mxRectangle[] {module.getGeometry()};
+				schemaDiagram.cellsResized(moduleArray, rectArray);
+			}
 		}
 	}
 }

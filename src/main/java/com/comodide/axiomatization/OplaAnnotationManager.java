@@ -27,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import com.comodide.configuration.ComodideConfiguration;
 import com.comodide.configuration.Namespaces;
 
+import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
+
 /**
  * This is a central object for adding OPLa annotations to an ontology.
  * 
@@ -46,6 +48,11 @@ public class OplaAnnotationManager
 
 		return instance;
 	}
+
+	/** static references to opla annotations TODO should this be its own class? */
+	private static OWLDataFactory factory = new OWLDataFactoryImpl();
+	private static IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
+	public static OWLAnnotationProperty isNativeTo = factory.getOWLAnnotationProperty(isNativeToIRI);
 
 	/** Bookkeeping */
 	private final Logger log = LoggerFactory.getLogger(OplaAnnotationManager.class);
@@ -155,7 +162,7 @@ public class OplaAnnotationManager
 		OWLAnnotationProperty ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
 		for (OWLAnnotationAssertionAxiom annotation : annotations)
 		{
-			if(annotation.getProperty().equals(ap))
+			if (annotation.getProperty().equals(ap))
 			{
 				RemoveAxiom ra = new RemoveAxiom(this.owlOntology, annotation);
 				this.modelManager.applyChange(ra);

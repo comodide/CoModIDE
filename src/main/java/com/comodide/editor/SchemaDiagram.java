@@ -1,6 +1,7 @@
 package com.comodide.editor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,9 @@ import javax.swing.JOptionPane;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
@@ -18,6 +22,7 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
@@ -25,6 +30,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.search.EntitySearcher;
 import org.semanticweb.owlapi.util.OWLEntityRemover;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +38,7 @@ import org.w3c.dom.Document;
 
 import com.comodide.axiomatization.OplaAnnotationManager;
 import com.comodide.configuration.ComodideConfiguration;
+import com.comodide.configuration.Namespaces;
 import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
@@ -43,10 +50,12 @@ import com.comodide.exceptions.ComodideException;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGeometry;
 import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.model.mxICell;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
+import com.mxgraph.util.mxRectangle;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxGraph;
 
@@ -280,10 +289,7 @@ public class SchemaDiagram extends mxGraph
 			ontologies.add(ontology);
 			OWLEntityRemover remover = new OWLEntityRemover(ontologies);
 			model.beginUpdate();
-			lock = true; // prevent
-			// loopback
-			// during
-			// addaxiom
+			lock = true; // prevent loopback during addaxiom
 			try
 			{
 				for (Object c : cells)
@@ -500,6 +506,8 @@ public class SchemaDiagram extends mxGraph
 		Document doc   = mxUtils
 				.loadDocument(ComodideEditor.class.getResource("/resources/comodide-style.xml").toString());
 		codec.decode(doc.getDocumentElement(), getStylesheet());
+		// Log
+		log.info("[CoModIDE:SchemaDiagram] Successfully initialized.");
 	}
 
 	@Override
@@ -791,6 +799,14 @@ public class SchemaDiagram extends mxGraph
 		}
 	}
 
+	/**
+	 * This method is called from the UpdateFromOntologyHandler
+	 * 
+	 * @param owlEntity
+	 * @param positionX
+	 * @param positionY
+	 * @return
+	 */
 	public ModuleCell addModule(OWLEntity owlEntity, double positionX, double positionY)
 	{
 		log.info(pf + "Adding a module " + owlEntity.toString());
@@ -800,8 +816,8 @@ public class SchemaDiagram extends mxGraph
 		if (getCell(owlEntity) != null)
 		{
 			/*
-			 * TODO this assumes that there is no module and entity share the same name.
-			 * This should hold if the ontology was created in CoModIDE in the first place.
+			 * This assumes that there is no module and entity share the same name. This
+			 * should hold if the ontology was created in CoModIDE in the first place.
 			 */
 			module = (ModuleCell) getCell(owlEntity);
 		}
@@ -812,7 +828,34 @@ public class SchemaDiagram extends mxGraph
 		// Add the cell to the schema diagram.
 		this.addCell(module);
 
-		// TODO add module components to the module
+		// Add module components to the module
+		// Get all isNativeTo annotations
+		// TODO nested modules don't work yet
+		OWLOntology           ontology          = this.modelManager.getActiveOntology();
+		Set<OWLClass>         classesInOntology = ontology.getClassesInSignature();
+		OWLAnnotationProperty isNativeTo        = OplaAnnotationManager.isNativeTo;
+		for (OWLClass cls : classesInOntology)
+		{
+			Collection<OWLAnnotation> annotations = EntitySearcher.getAnnotations(cls, ontology, isNativeTo);
+			
+			if(annotations.size() == 0)
+			{
+				log.error("missing annotations for " + cls);
+			}
+			
+			for (OWLAnnotation annotation : annotations)
+			{
+				// Check if the value of the annotation is the same as the module being added.
+				OWLAnnotationValue value = annotation.getValue();
+				OWLNamedIndividual oni = owlEntity.asOWLNamedIndividual();
+				if(value.asIRI().equals(oni.getIRI().asIRI()))
+				{
+					// Get the cell for the class with this annotation
+					mxCell classCell = getCell(cls);
+					this.addCell(classCell, module);
+				}
+			}
+		}
 
 		cellSizeUpdated(module, false);
 		return module;
