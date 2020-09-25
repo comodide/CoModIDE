@@ -391,34 +391,13 @@ public class SchemaDiagram extends mxGraph
 					}
 					else if (cell instanceof ModuleCell)
 					{
-						log.warn(pf + "moduleCell removed detected");
 						// Because edges are not added as children to modules (cell groups)
 						// We don't have to remove them; it's handled by other parts of comodide
-						
-						Object[] children = getChildCells(cell);
-						for(Object child : children)
-						{
-							if (child instanceof ClassCell)
-							{
-								ClassCell classCell = (ClassCell) child;
-								OWLClass  classToRemove = classCell.getEntity().asOWLClass();
-								classToRemove.accept(remover);
-							}
-							else if (child instanceof ModuleCell)
-							{
-								log.warn(pf + "Nested Module detected during removal of module.");
-							}
-							else
-							{
-								// empty else
-							}
-						}
-						
+						this.removeModule(remover, cell);
 					}
 					else
 					{
 						// empty else
-
 					}
 				}
 			}
@@ -427,6 +406,31 @@ public class SchemaDiagram extends mxGraph
 				modelManager.applyChanges(remover.getChanges());
 				lock = false; // always make sure unlocked at this stage
 				model.endUpdate();
+			}
+		}
+
+		/**
+		 * This method is needed to recursively delete nested modules.
+		 */
+		private void removeModule(OWLEntityRemover remover, Object cell)
+		{
+			Object[] children = getChildCells(cell);
+			for (Object child : children)
+			{
+				if (child instanceof ClassCell)
+				{
+					ClassCell classCell     = (ClassCell) child;
+					OWLClass  classToRemove = classCell.getEntity().asOWLClass();
+					classToRemove.accept(remover);
+				}
+				else if (child instanceof ModuleCell)
+				{
+					removeModule(remover, child);
+				}
+				else
+				{
+					// empty else
+				}
 			}
 		}
 	};
@@ -809,7 +813,7 @@ public class SchemaDiagram extends mxGraph
 		this.addCell(module);
 
 		// TODO add module components to the module
-		
+
 		cellSizeUpdated(module, false);
 		return module;
 	}
