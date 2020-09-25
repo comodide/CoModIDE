@@ -20,7 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.AxiomManager;
+import com.comodide.axiomatization.MetadataUtils;
 import com.comodide.axiomatization.OplaAnnotationManager;
+import com.comodide.configuration.ComodideConfiguration;
 import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
@@ -31,6 +33,7 @@ import com.comodide.exceptions.ComodideException;
 import com.comodide.exceptions.NameClashException;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGeometry;
 
 public class LabelChangeHandler
 {
@@ -258,7 +261,25 @@ public class LabelChangeHandler
 				}
 			}
 		}
-
+		
+		// Create Positioning axioms
+		// Get position
+		mxGeometry geometry = moduleCell.getGeometry();
+		log.warn(""+geometry);
+		Double positionX = geometry.getX();
+		Double positionY = geometry.getY();
+		// Metadata or active ontology
+		OWLOntology ontology;
+		if(ComodideConfiguration.getModuleMetadataExternal())
+		{
+			ontology = MetadataUtils.findOrCreateMetadataOntology(this.modelManager);
+		}
+		else
+		{
+			ontology = this.modelManager.getActiveOntology();
+		}
+		PositioningOperations.updateXYCoordinateAnnotations(module, ontology, positionX, positionY);
+		
 		return module;
 	}
 }
