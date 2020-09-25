@@ -23,6 +23,14 @@ public class ModuleCell extends ComodideCell
 	private static IRI                  DEFAULT_IRI  = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "Module");
 	private static EntityType<OWLClass> DEFAULT_TYPE = EntityType.CLASS;
 
+	private ModuleCell(OWLEntity owlEntity)
+	{
+		super(owlEntity);
+		this.style = unfoldedModuleStyle;
+		this.setVertex(true);
+		this.setConnectable(false);
+	}
+
 	/**
 	 * cells is included for informative purposes mxGeometry is required, but
 	 * overwritten later in the call-chain
@@ -31,20 +39,14 @@ public class ModuleCell extends ComodideCell
 	 */
 	public ModuleCell(Object[] cells)
 	{
-		super(OWLManager.getOWLDataFactory().getOWLEntity(DEFAULT_TYPE, DEFAULT_IRI));
-		this.style = unfoldedModuleStyle;
-		this.setVertex(true);
-		this.setConnectable(false);
+		this(OWLManager.getOWLDataFactory().getOWLEntity(DEFAULT_TYPE, DEFAULT_IRI));
 	}
 
 	public ModuleCell(OWLEntity owlEntity, double positionX, double positionY)
 	{
-		super(owlEntity);
+		this(owlEntity);
 		// WIDTH and HEIGHT (the two zeroes) need to be set somehow
 		this.geometry = new mxGeometry(positionX, positionY, 100, 100);
-		this.style = unfoldedModuleStyle;
-		this.setVertex(true);
-		this.setConnectable(false);
 	}
 
 	public void switchStyle()
