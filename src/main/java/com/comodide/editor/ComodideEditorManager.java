@@ -1,19 +1,27 @@
 package com.comodide.editor;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.event.EventType;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.comodide.editor.changehandlers.UpdateFromOntologyHandler;
 
 public class ComodideEditorManager implements OWLOntologyChangeListener, OWLModelManagerListener
 {
+	private static final Logger log = LoggerFactory.getLogger(ComodideEditorManager.class);
+	
 	private OWLOntology                     presentlyRenderedOntology;
 	private SchemaDiagram                   schemaDiagram;
 	private final UpdateFromOntologyHandler updateFromOntologyHandler;
@@ -53,9 +61,16 @@ public class ComodideEditorManager implements OWLOntologyChangeListener, OWLMode
 	private void renderActiveOntology()
 	{
 		OWLOntology ontology = modelManager.getActiveOntology();
-		ontology.getAxioms().forEach(axiom -> {
+		ArrayList<OWLAxiom> axioms = new ArrayList<>();
+		ontology.getAxioms().forEach(axiom -> axioms.add(axiom));
+		Collections.sort(axioms);
+		// The annotation lock is to prevent the removal of OPLa isNativeTo annotations before
+		// the rest of the ontology has been loaded.
+		this.schemaDiagram.setAnnotationLock(true);
+		axioms.forEach(axiom -> {
 			this.updateFromOntologyHandler.handleAddAxiom(axiom, ontology);
 		});
+		this.schemaDiagram.setAnnotationLock(false);
 	}
 
 	/**

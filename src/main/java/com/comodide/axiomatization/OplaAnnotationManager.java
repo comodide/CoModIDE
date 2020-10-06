@@ -45,7 +45,6 @@ public class OplaAnnotationManager
 		{
 			instance = new OplaAnnotationManager(modelManager);
 		}
-
 		return instance;
 	}
 
@@ -55,8 +54,8 @@ public class OplaAnnotationManager
 	public static OWLAnnotationProperty isNativeTo = factory.getOWLAnnotationProperty(isNativeToIRI);
 
 	/** Bookkeeping */
-	private final Logger log = LoggerFactory.getLogger(OplaAnnotationManager.class);
-	private final String pf  = "[CoModIDE:OPLaAnnotationManager] ";
+	private static final Logger log = LoggerFactory.getLogger(OplaAnnotationManager.class);
+	private static final String pf  = "[CoModIDE:OPLaAnnotationManager] ";
 
 	/** Used for adding annotations to the active ontology */
 	private OWLModelManager  modelManager;

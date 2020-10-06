@@ -125,7 +125,7 @@ public class UpdateFromOntologyHandler
 			}
 			else
 			{
-				log.info("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
+				log.warn("[CoModIDE:UFOH] Unsupported AddAxiom: " + axiom.getAxiomWithoutAnnotations().toString());
 			}
 		}
 	}
@@ -152,6 +152,15 @@ public class UpdateFromOntologyHandler
 
 			// Remove any edges that are no longer supported
 			reRenderAllPropertyEdges(property, ontology);
+		}
+		else if (axiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
+		{
+			// debug hook
+//			log.warn("An annotation was removed")
+		}
+		else
+		{
+			log.warn("[CoModIDE:UFOH] Unsupported remove to the ontology.");
 		}
 	}
 
@@ -389,6 +398,10 @@ public class UpdateFromOntologyHandler
 				graphModel.endUpdate();
 			}
 		}
+		else
+		{
+			// Empty Else
+		}
 	}
 
 	private void handleRemoveSubClassOfAxiom(OWLSubClassOfAxiom axiom, OWLOntology ontology)
@@ -555,13 +568,16 @@ public class UpdateFromOntologyHandler
 				}
 			}
 		}
-		else if(property.equals(OplaAnnotationManager.isNativeTo))
+		else if (property.equals(OplaAnnotationManager.isNativeTo))
 		{
-			log.warn("isNativeTo detected.");
+			// debugging purposes, empty on purpose.
+			// these occur before class assertions (therefore not module cell in the SD)
+			// so we can't add cells as they come,
+			// unfortunately.
 		}
 		else
 		{
-			
+
 		}
 	}
 
@@ -615,6 +631,7 @@ public class UpdateFromOntologyHandler
 
 	/**
 	 * Note, class assertions are added last, which is unfortunate
+	 * 
 	 * @param axiom
 	 * @param ontology
 	 */
@@ -622,14 +639,17 @@ public class UpdateFromOntologyHandler
 	{
 		// Cast to something that is an OWLEntity
 		OWLNamedIndividual namedIndividual = axiom.getIndividual().asOWLNamedIndividual();
+
+		
 		// Get the positioning annotations
 		Pair<Double, Double> targetPosition = PositioningOperations.getXYCoordsForEntity(namedIndividual, ontology);
+
 		ModuleCell module;
 		graphModel.beginUpdate();
 		try
 		{
-			// In this step, the classes belonging to this module will be added to the 
-			// module, but it will not be resized (that's because the resize 
+			// In this step, the classes belonging to this module will be added to the
+			// module, but it will not be resized (that's because the resize
 			// requires a graphModel update, as well
 			module = schemaDiagram.addModule(namedIndividual, targetPosition.getLeft(), targetPosition.getRight());
 		}
@@ -637,25 +657,25 @@ public class UpdateFromOntologyHandler
 		{
 			graphModel.endUpdate();
 		}
-		
-		// This will resize the module to make sure it bounds the 
+
+		// This will resize the module to make sure it bounds the
 //		if (module != null)
 //		if (false)
 		{
 			// Get children to calculate module bounding
-			Object[] children = this.schemaDiagram.getChildCells(module);
-			mxRectangle bounds = this.schemaDiagram.getBoundsForGroup(module, children, 20);
-			// Bounds may be null if comodide hasn't been loaded before the ontology is loaded
+			Object[]    children = this.schemaDiagram.getChildCells(module);
+			mxRectangle bounds   = this.schemaDiagram.getBoundsForGroup(module, children, 20);
+			// Bounds may be null if comodide hasn't been loaded before the ontology loads
 			// i.e. the comodide tab hasn't been opened and the user loads an owl file
 			// in that case, the bounding box is taken care of in the annotation assertion
 			// handler above.
-			if(bounds != null)
+			if (bounds != null)
 			{
 				mxGeometry geo = module.getGeometry();
 				geo.setWidth(bounds.getWidth());
 				geo.setHeight(bounds.getHeight());
-				Object[] moduleArray = new Object[] {module};
-				mxRectangle[] rectArray = new mxRectangle[] {module.getGeometry()};
+				Object[]      moduleArray = new Object[] { module };
+				mxRectangle[] rectArray   = new mxRectangle[] { module.getGeometry() };
 				schemaDiagram.cellsResized(moduleArray, rectArray);
 			}
 		}
