@@ -27,6 +27,8 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.configuration.Namespaces;
+
 /**
  * Singleton class for accessing a pre-indexed OPLa-compliant ontology pattern library.
  * @author Karl Hammar <karl@karlhammar.com>
@@ -39,11 +41,11 @@ public class PatternLibrary {
     private static final Logger log = LoggerFactory.getLogger(PatternLibrary.class);
     
     // Configuration fields
-    private final IRI PATTERN_CLASS_IRI = IRI.create("http://ontologydesignpatterns.org/opla#Pattern"); 
-    private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#categorization");
-    private final IRI SCHEMADIAGRAM_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#renderedSchemaDiagram");
-    private final IRI HTMLDOC_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#htmlDocumentation");
-    private final IRI OWLREP_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#owlRepresentation");
+    private final IRI PATTERN_CLASS_IRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "Pattern"); 
+    private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "categorization");
+    private final IRI SCHEMADIAGRAM_PROPERTY_IRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "renderedSchemaDiagram");
+    private final IRI HTMLDOC_PROPERTY_IRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "htmlDocumentation");
+    private final IRI OWLREP_PROPERTY_IRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "owlRepresentation");
     public final PatternCategory ANY_CATEGORY = new PatternCategory("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
     
     // Instance fields
