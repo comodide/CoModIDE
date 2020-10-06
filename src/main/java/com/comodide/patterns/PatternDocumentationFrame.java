@@ -29,11 +29,10 @@ import org.slf4j.LoggerFactory;
  */
 public class PatternDocumentationFrame extends JFrame
 {
-
+	/** Bookkeeping */
 	private static final long serialVersionUID = -455249794302758088L;
-
 	private static final Logger log = LoggerFactory.getLogger(PatternDocumentationFrame.class);
-
+	
 	public PatternDocumentationFrame(Pattern pattern) throws HeadlessException
 	{
 		super();
