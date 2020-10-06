@@ -38,29 +38,9 @@ import com.comodide.configuration.Namespaces;
  */
 public class PatternLibrary
 {
-
-	// Infrastructure
+	/** Singleton class */
 	private static PatternLibrary instance;
-	private static final Logger   log = LoggerFactory.getLogger(PatternLibrary.class);
 
-	// Configuration fields
-	private final IRI PATTERN_CLASS_IRI           = IRI.create(Namespaces.OPLA_CORE + "Pattern");
-	private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create(Namespaces.OPLA_CORE + "categorization");
-	private final IRI SCHEMADIAGRAM_PROPERTY_IRI  = IRI
-			.create(Namespaces.OPLA_CORE + "renderedSchemaDiagram");
-	private final IRI HTMLDOC_PROPERTY_IRI        = IRI.create(Namespaces.OPLA_CORE + "htmlDocumentation");
-	private final IRI OWLREP_PROPERTY_IRI         = IRI.create(Namespaces.OPLA_CORE + "owlRepresentation");
-
-	public final PatternCategory ANY_CATEGORY = new PatternCategory("Any",
-			IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
-
-	// Instance fields
-	OWLOntologyManager                          manager           = OWLManager.createOWLOntologyManager();
-	OWLDataFactory                              factory           = manager.getOWLDataFactory();
-	OWLOntology                                 index;
-	private Map<PatternCategory, List<Pattern>> patternCategories = new HashMap<PatternCategory, List<Pattern>>();
-
-	// Singleton access method
 	public static synchronized PatternLibrary getInstance()
 	{
 		if (instance == null)
@@ -70,13 +50,32 @@ public class PatternLibrary
 		return instance;
 	}
 
+	/** Bookkeeping */
+	private static final Logger log = LoggerFactory.getLogger(PatternLibrary.class);
+
+	/** OPLa Annotations */
+	private final IRI PATTERN_CLASS_IRI           = IRI.create(Namespaces.OPLA_CORE + "Pattern");
+	private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create(Namespaces.OPLA_CORE + "categorization");
+	private final IRI SCHEMADIAGRAM_PROPERTY_IRI  = IRI.create(Namespaces.OPLA_CORE + "renderedSchemaDiagram");
+	private final IRI HTMLDOC_PROPERTY_IRI        = IRI.create(Namespaces.OPLA_CORE + "htmlDocumentation");
+	private final IRI OWLREP_PROPERTY_IRI         = IRI.create(Namespaces.OPLA_CORE + "owlRepresentation");
+
+	public final PatternCategory ANY_CATEGORY = new PatternCategory("Any",
+			IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
+
+	// Instance fields
+	private OWLOntologyManager                  manager           = OWLManager.createOWLOntologyManager();
+	private OWLDataFactory                      factory           = manager.getOWLDataFactory();
+	private OWLOntology                         index;
+	private Map<PatternCategory, List<Pattern>> patternCategories = new HashMap<PatternCategory, List<Pattern>>();
+
 	// Parse index on instance creation
 	private PatternLibrary()
 	{
 		parseIndex();
 	}
 
-	// Based on pattern object, instantiate pattern from disk into OWLOntology
+	/** Based on pattern object, instantiate pattern from disk into OWLOntology */
 	public OWLOntology getOwlRepresentation(Pattern pattern) throws OWLOntologyCreationException
 	{
 		// TODO: add support for an external pattern library
@@ -114,22 +113,25 @@ public class PatternLibrary
 			OWLDataProperty   schemaDiagram             = factory.getOWLDataProperty(SCHEMADIAGRAM_PROPERTY_IRI);
 			OWLDataProperty   htmlDocumentation         = factory.getOWLDataProperty(HTMLDOC_PROPERTY_IRI);
 			OWLDataProperty   owlRepresentationProperty = factory.getOWLDataProperty(OWLREP_PROPERTY_IRI);
+
 			for (OWLIndividual pattern : EntitySearcher.getIndividuals(patternClass, index))
 			{
 				if (pattern.isNamed())
 				{
-
 					// We've found a pattern; turn it into a Java object.
-					OWLNamedIndividual namedPattern       = (OWLNamedIndividual) pattern;
-					List<String>       patternLabels      = getLabels(namedPattern, index);
-					List<String>       owlRepresentations = getDataPropertyValues(namedPattern,
-							owlRepresentationProperty, index);
+					OWLNamedIndividual namedPattern = (OWLNamedIndividual) pattern;
+					// Get all labels and their representations
+					List<String> patternLabels      = getLabels(namedPattern, index);
+					List<String> owlRepresentations = getDataPropertyValues(namedPattern, owlRepresentationProperty,
+							index);
 
-					// Mandatory fields if we are to proceed at all: rdfs:label,
-					// opla:owlRepresentation,
+					// Mandatory fields if we are to proceed at all:
+					// rdfs:label, opla:owlRepresentation,
 					// and an IRI (which is already checked above in if pattern.isNamed())
 					if (patternLabels.size() > 0 && owlRepresentations.size() > 0)
 					{
+						// There _should_ be only one label and representation
+						// Create a new pattern from them and its IRI
 						Pattern newPattern = new Pattern(patternLabels.get(0), namedPattern.getIRI(),
 								owlRepresentations.get(0));
 
@@ -154,7 +156,6 @@ public class PatternLibrary
 						{
 							if (category.isNamed())
 							{
-
 								// We've found a category; turn it into a Java object and and add to list
 								OWLNamedIndividual namedCategory  = (OWLNamedIndividual) category;
 								List<String>       categoryLabels = getLabels(namedCategory, index);
@@ -172,7 +173,6 @@ public class PatternLibrary
 								categoriesForPattern.add(newCategory);
 							}
 						}
-
 						// Go through the list of categories for pattern and generate the map structure
 						// Category -> List<Pattern> that we need
 						for (PatternCategory category : categoriesForPattern)
