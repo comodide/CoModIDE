@@ -78,8 +78,8 @@ public class PatternInstantiator {
 			OWLEntityRenamer renamer = new OWLEntityRenamer(patternManager, Collections.singleton(pattern));
 			for (OWLEntity entity: pattern.getSignature()) {
 				if (!entity.isBuiltIn() && 
-						!entity.getIRI().toString().contains(Namespaces.OPLA_CORE_NAMESPACE) &&
-						!entity.getIRI().toString().contains(Namespaces.OPLA_SD_NAMESPACE)) {
+						!entity.getIRI().toString().contains(Namespaces.OPLA_CORE) &&
+						!entity.getIRI().toString().contains(Namespaces.OPLA_SD)) {
 					
 					String entityShortName = entity.getIRI().getShortForm();
 					// If the entity is a property, ensure that it does not clash with a property
@@ -118,7 +118,7 @@ public class PatternInstantiator {
 		IRI patternIRI = pattern.getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
 		
 		// 3. Define that <patternIRI> rdf:type opla:pattern; rdfs:label PatternLabel
-		OWLClass oplaPatternClass = factory.getOWLClass(IRI.create(String.format("%sPattern", Namespaces.OPLA_CORE_NAMESPACE)));
+		OWLClass oplaPatternClass = factory.getOWLClass(IRI.create(String.format("%sPattern", Namespaces.OPLA_CORE)));
 		OWLNamedIndividual patternIndividual = factory.getOWLNamedIndividual(patternIRI);
 		OWLClassAssertionAxiom patternTypingAxiom = factory.getOWLClassAssertionAxiom(oplaPatternClass, patternIndividual);
 		moduleAnnotationAxioms.add(patternTypingAxiom);
@@ -126,7 +126,7 @@ public class PatternInstantiator {
 		moduleAnnotationAxioms.add(patternLabelAxiom);
 		
 		// 4 define that <moduleIri>  rdf:type opla:Module; rdfs:label SomethingReasonable
-		OWLClass oplaModuleClass = factory.getOWLClass(IRI.create(String.format("%sModule", Namespaces.OPLA_CORE_NAMESPACE)));
+		OWLClass oplaModuleClass = factory.getOWLClass(IRI.create(String.format("%sModule", Namespaces.OPLA_CORE)));
 		OWLNamedIndividual moduleIndividual = factory.getOWLNamedIndividual(createdModuleIri);
 		OWLClassAssertionAxiom moduleTypingAxiom = factory.getOWLClassAssertionAxiom(oplaModuleClass, moduleIndividual);
 		moduleAnnotationAxioms.add(moduleTypingAxiom);
@@ -134,14 +134,14 @@ public class PatternInstantiator {
 		moduleAnnotationAxioms.add(moduleLabelAxiom);
 		
 		// 5 define that the module reusesPatternAsTemplate thePattern
-		OWLAnnotationProperty reusesPatternAsTemplate = factory.getOWLAnnotationProperty(IRI.create(String.format("%sreusesPatternAsTemplate", Namespaces.OPLA_CORE_NAMESPACE)));
+		OWLAnnotationProperty reusesPatternAsTemplate = factory.getOWLAnnotationProperty(IRI.create(String.format("%sreusesPatternAsTemplate", Namespaces.OPLA_CORE)));
 		OWLAnnotationAssertionAxiom patternReuseAxiom = factory.getOWLAnnotationAssertionAxiom(reusesPatternAsTemplate, createdModuleIri, patternIRI);
 		moduleAnnotationAxioms.add(patternReuseAxiom);
 		
 		// 6. For each entity in instantiated pattern module: annotate that it opla:isNativeTo <moduleIRI>
-		OWLAnnotationProperty isNativeTo = factory.getOWLAnnotationProperty(IRI.create(String.format("%sisNativeTo", Namespaces.OPLA_CORE_NAMESPACE)));
+		OWLAnnotationProperty isNativeTo = factory.getOWLAnnotationProperty(IRI.create(String.format("%sisNativeTo", Namespaces.OPLA_CORE)));
 		for (OWLEntity entity: pattern.getSignature()) {
-			if (!entity.isBuiltIn() && !entity.getIRI().toString().contains(Namespaces.OPLA_CORE_NAMESPACE)) {
+			if (!entity.isBuiltIn() && !entity.getIRI().toString().contains(Namespaces.OPLA_CORE)) {
 				OWLAnnotationAssertionAxiom entityNativeToAxiom = factory.getOWLAnnotationAssertionAxiom(isNativeTo, entity.getIRI(), createdModuleIri);
 				moduleAnnotationAxioms.add(entityNativeToAxiom);
 			}

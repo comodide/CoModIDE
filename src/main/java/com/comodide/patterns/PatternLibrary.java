@@ -44,16 +44,14 @@ public class PatternLibrary
 	private static final Logger   log = LoggerFactory.getLogger(PatternLibrary.class);
 
 	// Configuration fields
-	private final IRI            PATTERN_CLASS_IRI           = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "Pattern");
-	private final IRI            CATEGORIZATION_PROPERTY_IRI = IRI
-			.create(Namespaces.OPLA_CORE_NAMESPACE + "categorization");
-	private final IRI            SCHEMADIAGRAM_PROPERTY_IRI  = IRI
-			.create(Namespaces.OPLA_CORE_NAMESPACE + "renderedSchemaDiagram");
-	private final IRI            HTMLDOC_PROPERTY_IRI        = IRI
-			.create(Namespaces.OPLA_CORE_NAMESPACE + "htmlDocumentation");
-	private final IRI            OWLREP_PROPERTY_IRI         = IRI
-			.create(Namespaces.OPLA_CORE_NAMESPACE + "owlRepresentation");
-	public final PatternCategory ANY_CATEGORY                = new PatternCategory("Any",
+	private final IRI PATTERN_CLASS_IRI           = IRI.create(Namespaces.OPLA_CORE + "Pattern");
+	private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create(Namespaces.OPLA_CORE + "categorization");
+	private final IRI SCHEMADIAGRAM_PROPERTY_IRI  = IRI
+			.create(Namespaces.OPLA_CORE + "renderedSchemaDiagram");
+	private final IRI HTMLDOC_PROPERTY_IRI        = IRI.create(Namespaces.OPLA_CORE + "htmlDocumentation");
+	private final IRI OWLREP_PROPERTY_IRI         = IRI.create(Namespaces.OPLA_CORE + "owlRepresentation");
+
+	public final PatternCategory ANY_CATEGORY = new PatternCategory("Any",
 			IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
 
 	// Instance fields

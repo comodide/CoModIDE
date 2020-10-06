@@ -50,7 +50,7 @@ public class OplaAnnotationManager
 
 	/** static references to opla annotations TODO should this be its own class? */
 	private static OWLDataFactory factory = new OWLDataFactoryImpl();
-	private static IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
+	private static IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE + "isNativeTo");
 	public static OWLAnnotationProperty isNativeTo = factory.getOWLAnnotationProperty(isNativeToIRI);
 
 	/** Bookkeeping */
@@ -117,7 +117,7 @@ public class OplaAnnotationManager
 		IRI                moduleIRI = IRI.create(this.ontologyIRI.toString() + "#" + moduleName);
 		OWLNamedIndividual module    = this.owlDataFactory.getOWLNamedIndividual(moduleIRI);
 		// Create the module IRI
-		IRI                    oplaModuleIRI   = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "Module");
+		IRI                    oplaModuleIRI   = IRI.create(Namespaces.OPLA_CORE + "Module");
 		OWLClass               oplaModuleClass = this.owlDataFactory.getOWLClass(oplaModuleIRI);
 		OWLClassAssertionAxiom caa             = this.owlDataFactory.getOWLClassAssertionAxiom(oplaModuleClass, module);
 		// Wrap in change axiom
@@ -131,7 +131,7 @@ public class OplaAnnotationManager
 	public void createIsNativeToAnnotation(IRI subject, IRI value)
 	{
 		// Create the IRI
-		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
+		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE + "isNativeTo");
 		// Wrap in owlapi
 		OWLAnnotationProperty ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
 
@@ -156,7 +156,7 @@ public class OplaAnnotationManager
 		// Get all annotations for the subject
 		Set<OWLAnnotationAssertionAxiom> annotations = this.owlOntology.getAnnotationAssertionAxioms(subject);
 		// Create the IRI
-		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
+		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE + "isNativeTo");
 		// Wrap in owlapi
 		OWLAnnotationProperty ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
 		for (OWLAnnotationAssertionAxiom annotation : annotations)
@@ -175,7 +175,7 @@ public class OplaAnnotationManager
 	public void removeIsNativeToAnnotation(IRI subject, IRI value)
 	{
 		// Create the IRI
-		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "isNativeTo");
+		IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE + "isNativeTo");
 		// Wrap in owlapi
 		OWLAnnotationProperty ap = this.owlDataFactory.getOWLAnnotationProperty(isNativeToIRI);
 

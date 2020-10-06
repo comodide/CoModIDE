@@ -20,7 +20,7 @@ public class ModuleCell extends ComodideCell
 	private static final String foldedModuleStyle   = SDConstants.foldedModuleStyle;
 
 	/** The default IRI for the Module */
-	private static IRI                  DEFAULT_IRI  = IRI.create(Namespaces.OPLA_CORE_NAMESPACE + "Module");
+	private static IRI                  DEFAULT_IRI  = IRI.create(Namespaces.OPLA_CORE + "Module");
 	private static EntityType<OWLClass> DEFAULT_TYPE = EntityType.CLASS;
 
 	private ModuleCell(OWLEntity owlEntity)
