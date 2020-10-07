@@ -417,7 +417,7 @@ public class UpdateFromOntologyHandler
 					// Create new interface slot cell
 					ClassCell newCell;
 					if (property.equals(oplaSlotForInterface)) {
-						newCell = schemaDiagram.addInterfaceSlot(wrappedEntity, cell.getGeometry().getX(), cell.getGeometry().getY());
+						newCell = schemaDiagram.addInterfaceSlot(wrappedEntity, oplaInterface, cell.getGeometry().getX(), cell.getGeometry().getY());
 					}
 					else if (property.equals(oplaImplementsInterface)) {
 						newCell = schemaDiagram.addInterfaceImplementation(wrappedEntity, cell.getGeometry().getX(), cell.getGeometry().getY());

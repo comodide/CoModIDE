@@ -6,11 +6,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -44,6 +46,7 @@ public class PatternLibrary {
     private final IRI SCHEMADIAGRAM_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#renderedSchemaDiagram");
     private final IRI HTMLDOC_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#htmlDocumentation");
     private final IRI OWLREP_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#owlRepresentation");
+    private final IRI OPLA_IMPLEMENTS_INTERFACE_IRI = IRI.create("http://ontologydesignpatterns.org/opla#implementsInterface");
     public final PatternCategory ANY_CATEGORY = new PatternCategory("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
     
     // Instance fields
@@ -51,6 +54,7 @@ public class PatternLibrary {
 	OWLDataFactory factory = manager.getOWLDataFactory();
 	OWLOntology index;
 	private Map<PatternCategory,List<Pattern>> patternCategories = new HashMap<PatternCategory,List<Pattern>>();
+	private Map<IRI,List<Pattern>> interfaceImplementations = new HashMap<IRI,List<Pattern>>();
     
     // Singleton access method
     public static synchronized PatternLibrary getInstance() {
@@ -96,6 +100,7 @@ public class PatternLibrary {
 			OWLDataProperty schemaDiagram = factory.getOWLDataProperty(SCHEMADIAGRAM_PROPERTY_IRI);
 			OWLDataProperty htmlDocumentation = factory.getOWLDataProperty(HTMLDOC_PROPERTY_IRI);
 			OWLDataProperty owlRepresentationProperty = factory.getOWLDataProperty(OWLREP_PROPERTY_IRI);
+			OWLAnnotationProperty implementsInterface = factory.getOWLAnnotationProperty(OPLA_IMPLEMENTS_INTERFACE_IRI);
 			for (OWLIndividual pattern: EntitySearcher.getIndividuals(patternClass, index)) {
 				if (pattern.isNamed()) {
 					
@@ -152,6 +157,21 @@ public class PatternLibrary {
 								patternCategories.put(category, patternsForCategory);
 							}
 						}
+						
+						// Do the same for the pattern interface implementations
+						List<IRI> implementedInterfaces = getAnnotationPropertyIris(namedPattern, implementsInterface, index);
+						for (IRI implementedInterface: implementedInterfaces) {
+							if (interfaceImplementations.containsKey(implementedInterface)) {
+								List<Pattern> implementingPatterns = interfaceImplementations.get(implementedInterface);
+								implementingPatterns.add(newPattern);
+							}
+							else {
+								List<Pattern> implementingPatterns = new ArrayList<Pattern>();
+								implementingPatterns.add(newPattern);
+								interfaceImplementations.put(implementedInterface, implementingPatterns);
+							}
+						}
+						
 					}
 				}
 			}
@@ -194,8 +214,25 @@ public class PatternLibrary {
 			retVal.add(literal.getLiteral());
 		}
 		return retVal;
-		
-		
+	}
+	
+	/**
+	 * Convenience method that returns the IRI values of all occurrences of a given annotation 
+	 * property on a given individual in a given ontology.
+	 * @param i - Individual
+	 * @param p - Annotation property
+	 * @param ontology - Ontology
+	 * @return List of strings, one per each occurrence of the data property, on the individual, in the ontology
+	 */
+	private List<IRI> getAnnotationPropertyIris(OWLNamedIndividual i, OWLAnnotationProperty p, OWLOntology ontology) {
+		List<IRI> retVal = new ArrayList<IRI>();
+		for(OWLAnnotation annotation: EntitySearcher.getAnnotationObjects(i, ontology, p)) {
+			Optional<IRI> annotationIRI = annotation.iriValue();
+			if (annotationIRI.isPresent()) {
+				retVal.add(annotationIRI.get());
+			};
+		}
+		return retVal;
 	}
 	
 	/**
@@ -221,6 +258,12 @@ public class PatternLibrary {
 	 */
 	public List<Pattern> getPatternsForCategory(PatternCategory category) {
 		List<Pattern> returnedPatterns = patternCategories.get(category);
+		Collections.sort(returnedPatterns);
+		return returnedPatterns;
+	}
+	
+	public List<Pattern> getPatternsThatImplementInterface(IRI interfaceIri) {
+		List<Pattern> returnedPatterns = interfaceImplementations.get(interfaceIri);
 		Collections.sort(returnedPatterns);
 		return returnedPatterns;
 	}

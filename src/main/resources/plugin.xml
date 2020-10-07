@@ -19,6 +19,12 @@
 		<class value="com.comodide.views.PatternSelectorView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
+	<extension id="CompatiblePatternsView"
+		point="org.protege.editor.core.application.ViewComponent">
+		<label value="CoModIDE Compatible Patterns list" />
+		<class value="com.comodide.views.CompatiblePatternsView" />
+		<headerColor value="@org.protege.ontologycolor" />
+	</extension>
 	<extension id="ConfigurationView"
 		point="org.protege.editor.core.application.ViewComponent">
 		<label value="CoModIDE Configuration" />

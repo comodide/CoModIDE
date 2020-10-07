@@ -6,11 +6,17 @@
 				<Property id="pluginId" value="CoModIDE.EditorView" />
 			</Component>
 		</CNode>
-		<HSNode splits="0.25 0.25 0.25 0.25">
+		<HSNode splits="0.2 0.2 0.2 0.2 0.2">
 			<CNode>
 				<Component label="Pattern Library">
 					<Property id="pluginId"
 						value="CoModIDE.PatternSelectorView" />
+				</Component>
+			</CNode>
+			<CNode>
+				<Component label="Compatible Patterns">
+					<Property id="pluginId"
+						value="CoModIDE.CompatiblePatternsView" />
 				</Component>
 			</CNode>
 			<CNode>

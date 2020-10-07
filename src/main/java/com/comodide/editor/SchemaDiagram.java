@@ -494,12 +494,12 @@ public class SchemaDiagram extends mxGraph
 		return cell;
 	}
 	
-	public InterfaceSlotCell addInterfaceSlot(OWLEntity owlEntity, double positionX, double positionY) {
+	public InterfaceSlotCell addInterfaceSlot(OWLEntity owlEntity, IRI interfaceIri, double positionX, double positionY) {
 		log.info("[CoModIDE:SchemaDiagram] Adding OWLa interface slot: " + owlEntity.toString());
 		if (getCell(owlEntity)!= null) {
 			return (InterfaceSlotCell)getCell(owlEntity);
 		}
-		InterfaceSlotCell cell = new InterfaceSlotCell(owlEntity, positionX, positionY);
+		InterfaceSlotCell cell = new InterfaceSlotCell(owlEntity, interfaceIri, positionX, positionY);
 		this.addCell(cell);
 		cellSizeUpdated(cell, false);
 		return cell;
