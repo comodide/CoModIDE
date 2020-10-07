@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.entity.EntityCreationPreferences;
@@ -24,8 +23,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.OplaAnnotationManager;
 import com.comodide.configuration.ComodideConfiguration;
@@ -43,9 +40,6 @@ import com.comodide.configuration.Namespaces;
  */
 public class PatternInstantiator
 {
-	/** Bookkeeping */
-	private static final Logger log = LoggerFactory.getLogger(PatternInstantiator.class);
-
 	private OWLOntology           pattern;
 	private final Boolean         useTargetNamespace;
 	private final String          patternLabel;

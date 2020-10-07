@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.protege.editor.owl.model.OWLModelManager;
-import org.protege.editor.owl.model.find.OWLEntityFinder;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
@@ -49,12 +48,12 @@ public class OplaAnnotationManager
 	}
 
 	/** static references to opla annotations TODO should this be its own class? */
-	private static OWLDataFactory factory = new OWLDataFactoryImpl();
-	private static IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE + "isNativeTo");
-	public static OWLAnnotationProperty isNativeTo = factory.getOWLAnnotationProperty(isNativeToIRI);
-	private static IRI moduleIRI = IRI.create(Namespaces.OPLA_CORE + "Module");
-	public static OWLClass module = factory.getOWLClass(moduleIRI);
-	
+	private static OWLDataFactory       factory       = new OWLDataFactoryImpl();
+	private static IRI                  isNativeToIRI = IRI.create(Namespaces.OPLA_CORE + "isNativeTo");
+	public static OWLAnnotationProperty isNativeTo    = factory.getOWLAnnotationProperty(isNativeToIRI);
+	private static IRI                  moduleIRI     = IRI.create(Namespaces.OPLA_CORE + "Module");
+	public static OWLClass              module        = factory.getOWLClass(moduleIRI);
+
 	/** Bookkeeping */
 	private static final Logger log = LoggerFactory.getLogger(OplaAnnotationManager.class);
 	private static final String pf  = "[CoModIDE:OPLaAnnotationManager] ";
@@ -64,7 +63,6 @@ public class OplaAnnotationManager
 	private OWLOntology      owlOntology;
 	private IRI              ontologyIRI;
 	private OWLDataFactory   owlDataFactory;
-	private OWLEntityFinder  owlEntityFinder;
 	private OWLEntityRenamer owlEntityRenamer;
 
 	private OplaAnnotationManager(OWLModelManager modelManager)
@@ -83,7 +81,6 @@ public class OplaAnnotationManager
 		}
 		this.ontologyIRI = this.owlOntology.getOntologyID().getOntologyIRI().orNull();
 		this.owlDataFactory = this.modelManager.getOWLDataFactory();
-		this.owlEntityFinder = this.modelManager.getOWLEntityFinder();
 
 		createEntityRenamer();
 		log.info(pf + "successfully initialized.");

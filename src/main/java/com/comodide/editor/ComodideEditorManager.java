@@ -13,15 +13,11 @@ import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.comodide.editor.changehandlers.UpdateFromOntologyHandler;
 
 public class ComodideEditorManager implements OWLOntologyChangeListener, OWLModelManagerListener
 {
-	private static final Logger log = LoggerFactory.getLogger(ComodideEditorManager.class);
-	
 	private OWLOntology                     presentlyRenderedOntology;
 	private SchemaDiagram                   schemaDiagram;
 	private final UpdateFromOntologyHandler updateFromOntologyHandler;
