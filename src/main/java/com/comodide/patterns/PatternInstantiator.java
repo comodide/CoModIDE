@@ -82,14 +82,9 @@ public class PatternInstantiator {
 						!entity.getIRI().toString().contains(OPLA_SD_NAMESPACE)) {
 					
 					String entityShortName = entity.getIRI().getShortForm();
-					// If the entity is a property, ensure that it does not clash with a property
-					// that is already defined in the target ontology; CoModIDE only allows for simple
-					// single-domain and single-range properties, if an entity is inserted that already
-					// exists, this paradigm may be broken. Thus rename if needed. /Karl, October 7, 2019
-					if (entity.isOWLObjectProperty() || entity.isOWLDataProperty()) {
-						while(!entityFinder.getMatchingOWLEntities(entityShortName).isEmpty()) {
-							entityShortName = entityShortName  + "-1"; 
-						}
+					// If an entity is inserted that already exists, rename it to avoid collissions.
+					while(!entityFinder.getMatchingOWLEntities(entityShortName).isEmpty()) {
+						entityShortName = entityShortName  + "-1"; 
 					}
 					String entityShortNameWithSeparator = this.entitySeparator + entityShortName;
 					IRI newIRI = IRI.create(targetOntologyIri.toString(), entityShortNameWithSeparator);

@@ -37,12 +37,17 @@ import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.model.OWLRestriction;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLUnaryPropertyAxiom;
+import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.comodide.ComodideConfiguration;
 import com.comodide.editor.SchemaDiagram;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
+import com.comodide.editor.model.InterfaceCell;
+import com.comodide.editor.model.InterfaceImplementationCell;
+import com.comodide.editor.model.InterfaceSlotCell;
 import com.comodide.editor.model.PropertyEdgeCell;
 import com.comodide.rendering.PositioningOperations;
 import com.mxgraph.model.mxCell;
@@ -61,7 +66,8 @@ public class UpdateFromOntologyHandler
 	/** Used for updating the graph when handling changes */
 	private SchemaDiagram schemaDiagram;
 	private mxGraphModel  graphModel;
-
+	private OWLModelManager modelManager;
+	
 	private static OWLDataFactory factory = new OWLDataFactoryImpl();
 	private static String OPLA_NAMESPACE = "http://ontologydesignpatterns.org/opla";
 	public static OWLAnnotationProperty oplaImplementsInterface = factory.getOWLAnnotationProperty(IRI.create(String.format("%s#implementsInterface", OPLA_NAMESPACE)));
@@ -71,6 +77,7 @@ public class UpdateFromOntologyHandler
 	{
 		this.schemaDiagram = schemaDiagram;
 		this.graphModel = (mxGraphModel) schemaDiagram.getModel();
+		this.modelManager = modelManager;
 	}
 	
 	public void handleAddAxiom(OWLAxiom axiom, OWLOntology ontology) {
@@ -401,49 +408,80 @@ public class UpdateFromOntologyHandler
 		}
 	}
 	
+	private void shiftEdges(mxCell oldCell, mxCell newCell) {
+		// Rewrite incoming edges to point to the interface slot cell instead
+		Object[] edges = schemaDiagram.getEdges(oldCell);
+		for (Object edgeObject: edges) {
+			mxICell edge = (mxICell)edgeObject;
+			mxICell source = edge.getTerminal(true);
+			mxICell target = edge.getTerminal(false);
+			if (source == oldCell) {
+				schemaDiagram.connectCell(edge, newCell, true);
+			}
+			if (target == oldCell) {
+				schemaDiagram.connectCell(edge, newCell, false);
+			}
+		}
+	}
+	
 	private void handleOplaInterfaceAnnotationAssertion(IRI oClassIri, OWLAnnotationProperty property, IRI oplaInterface, OWLOntology ontology) {
-		
 		for (mxCell cell : schemaDiagram.findCellsByIri(oClassIri)) {
-			
 			if (cell.getClass().equals(ClassCell.class)) {
-				ClassCell classCell = (ClassCell)cell;
+				ClassCell oldCell = (ClassCell)cell;
 				graphModel.beginUpdate();
 				try {
-					// Only one instance of a given OWLEntity may exist on the canvas at any time, so we start by stashing the existing one 
-					OWLEntity wrappedEntity = classCell.getEntity();
-					OWLClassImpl temporaryEntity = new OWLClassImpl(IRI.create("https://example.org/temporary/"));
-					classCell.setEntity(temporaryEntity);
 					
-					// Create new interface slot cell
-					ClassCell newCell;
+					// Only one instance of a given OWLEntity may exist on the canvas at any time, so we start by stashing the existing one 
+					OWLEntity wrappedEntity = oldCell.getEntity();
+					OWLClassImpl temporaryEntity = new OWLClassImpl(IRI.create("https://example.org/temporary/"));
+					oldCell.setEntity(temporaryEntity);
+					
+					// New cell to be added
+					InterfaceCell newCell;
+					
 					if (property.equals(oplaSlotForInterface)) {
+						// Add interface slot
 						newCell = schemaDiagram.addInterfaceSlot(wrappedEntity, oplaInterface, cell.getGeometry().getX(), cell.getGeometry().getY());
 					}
-					else if (property.equals(oplaImplementsInterface)) {
-						newCell = schemaDiagram.addInterfaceImplementation(wrappedEntity, cell.getGeometry().getX(), cell.getGeometry().getY());
-					}
 					else {
-						throw new IllegalArgumentException(String.format("Illegal annotation property %s; OPLa interface annotations must be either #slotForInterface or #implementsInterface.", property));
+						// Add interface implementation cell
+						newCell = schemaDiagram.addInterfaceImplementation(wrappedEntity, oplaInterface, cell.getGeometry().getX(), cell.getGeometry().getY());
 					}
 					
-					// Rewrite incoming edges to point to the interface slot cell instead
-					Object[] edges = schemaDiagram.getEdges(cell);
-					for (Object edgeObject: edges) {
-						mxICell edge = (mxICell)edgeObject;
-						mxICell source = edge.getTerminal(true);
-						mxICell target = edge.getTerminal(false);
-						if (source == cell) {
-							schemaDiagram.connectCell(edge, newCell, true);
-						}
-						if (target == cell) {
-							schemaDiagram.connectCell(edge, newCell, false);
-						}
+					// Move edges
+					shiftEdges(oldCell, newCell);
+					
+					// Kill the old cell (which should kill its wrapped OWL entity also, 
+					// but that is anyway a temporary and not persisted entity, see above)
+					schemaDiagram.removeCells(new Object[] {oldCell});
+					
+					// Check if, after this translation, we have a singleton slot and implementation 
+					// on canvas: if so, fill the slot with the implementation
+					Set<InterfaceImplementationCell> implementations = schemaDiagram.getInterfaceImplementations(oplaInterface);
+					Set<InterfaceSlotCell> slots = schemaDiagram.getInterfaceSlots(oplaInterface);
+					if (ComodideConfiguration.getAutoComposeInterfaces() && 
+							implementations.size() == 1 &&
+									slots.size() == 1 ) {
+						
+						// Get cells and entity out
+						InterfaceImplementationCell implementationToReplace = implementations.iterator().next();
+						InterfaceSlotCell slotToRemove = slots.iterator().next();
+						OWLEntity implementationEntity = implementationToReplace.getEntity();
+						OWLEntity slotEntity = slotToRemove.getEntity();
+						
+						// Move edges from the slot that will be removed
+						shiftEdges(slotToRemove, implementationToReplace);
+						
+						// Rename slot into implementation, essentially merging it
+						OWLEntityRenamer renamer = new OWLEntityRenamer(ontology.getOWLOntologyManager(), ontology.getImportsClosure());
+						List<OWLOntologyChange> renameChanges = renamer.changeIRI(slotEntity, implementationEntity.getIRI());
+						modelManager.applyChanges(renameChanges);
+						// TODO: remove inteface annotations and old positioning annotations from implementationEntity 
+
+						// TODO: change implementationToReplace from a InterfaceImplementationCell into a simple ClassCell
 					}
-					
-					// Kill the old cell
-					schemaDiagram.removeCells(new Object[] {cell});
-					
-				} finally {
+				}
+				finally {
 					graphModel.endUpdate();
 				}
 			}

@@ -35,6 +35,7 @@ import com.comodide.editor.changehandlers.LabelChangeHandler;
 import com.comodide.editor.model.ClassCell;
 import com.comodide.editor.model.ComodideCell;
 import com.comodide.editor.model.DatatypeCell;
+import com.comodide.editor.model.InterfaceCell;
 import com.comodide.editor.model.InterfaceImplementationCell;
 import com.comodide.editor.model.InterfaceSlotCell;
 import com.comodide.editor.model.PropertyEdgeCell;
@@ -505,12 +506,12 @@ public class SchemaDiagram extends mxGraph
 		return cell;
 	}
 	
-	public InterfaceImplementationCell addInterfaceImplementation(OWLEntity owlEntity, double positionX, double positionY) {
+	public InterfaceImplementationCell addInterfaceImplementation(OWLEntity owlEntity, IRI interfaceIri, double positionX, double positionY) {
 		log.info("[CoModIDE:SchemaDiagram] Adding OWLa interface implementation: " + owlEntity.toString());
 		if (getCell(owlEntity)!= null) {
 			return (InterfaceImplementationCell)getCell(owlEntity);
 		}
-		InterfaceImplementationCell cell = new InterfaceImplementationCell(owlEntity, positionX, positionY);
+		InterfaceImplementationCell cell = new InterfaceImplementationCell(owlEntity, interfaceIri, positionX, positionY);
 		this.addCell(cell);
 		cellSizeUpdated(cell, false);
 		return cell;
@@ -590,5 +591,40 @@ public class SchemaDiagram extends mxGraph
 				model.endUpdate();
 			}
 		}
+	}
+	
+	public Set<InterfaceCell> getInterfaceCells(IRI interfaceIri) {
+		Set<InterfaceCell> foundCells = new HashSet<InterfaceCell>();
+		Map<String, Object> cellsOnDiagram = ((mxGraphModel) model).getCells();
+		for(Object o : cellsOnDiagram.values())
+		{
+			if (o instanceof InterfaceCell) {
+				InterfaceCell candidateCell = (InterfaceCell)o;
+				if (candidateCell.getInterfaceIri().equals(interfaceIri)) {
+					foundCells.add(candidateCell);
+				}
+			}
+		}
+		return foundCells;
+	}
+
+	public Set<InterfaceImplementationCell> getInterfaceImplementations(IRI interfaceIri) {
+		Set<InterfaceImplementationCell> foundCells = new HashSet<InterfaceImplementationCell>();
+		for (InterfaceCell interfaceCell: getInterfaceCells(interfaceIri)) {
+			if (interfaceCell instanceof InterfaceImplementationCell) {
+				foundCells.add((InterfaceImplementationCell)interfaceCell);
+			}
+		}
+		return foundCells;
+	}
+	
+	public Set<InterfaceSlotCell> getInterfaceSlots(IRI interfaceIri) {
+		Set<InterfaceSlotCell> foundCells = new HashSet<InterfaceSlotCell>();
+		for (InterfaceCell interfaceCell: getInterfaceCells(interfaceIri)) {
+			if (interfaceCell instanceof InterfaceSlotCell) {
+				foundCells.add((InterfaceSlotCell)interfaceCell);
+			}
+		}
+		return foundCells;
 	}
 }
