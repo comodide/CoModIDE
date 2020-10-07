@@ -21,15 +21,18 @@ import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnnotationSubject;
 import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.comodide.axiomatization.MetadataUtils;
+import com.comodide.axiomatization.OplaAnnotationManager;
 import com.comodide.configuration.ComodideConfiguration;
 import com.comodide.patterns.PatternTransferable;
 import com.comodide.rendering.PositioningOperations;
@@ -56,7 +59,7 @@ public class SDTransferHandler extends mxGraphTransferHandler
 
 	/** For annotation locking */
 	private SchemaDiagram schemaDiagram;
-	
+
 	/** Empty Constructor */
 	public SDTransferHandler()
 	{
@@ -124,45 +127,9 @@ public class SDTransferHandler extends mxGraphTransferHandler
 				List<OWLOntologyChange> newAxioms      = new ArrayList<OWLOntologyChange>();
 				for (OWLAxiom instantiationAxiom : sortedInstantiationAxioms)
 				{
-
-					// The below code replaces positioning annotation assertions from the dropped
-					// pattern by new ones that take into account the offset caused by the drop
-					// position on the canvas
-					if (instantiationAxiom.isOfType(AxiomType.ANNOTATION_ASSERTION))
-					{
-						OWLAnnotationAssertionAxiom annotationAxiom = (OWLAnnotationAssertionAxiom) instantiationAxiom;
-						OWLAnnotationSubject        subject         = annotationAxiom.getSubject();
-						OWLAnnotationProperty       property        = annotationAxiom.getProperty();
-						OWLAnnotationValue          value           = annotationAxiom.getValue();
-						Set<OWLAnnotation>          annotations     = annotationAxiom.getAnnotations();
-
-						if (property.equals(PositioningOperations.entityPositionX)
-								|| property.equals(PositioningOperations.entityPositionY))
-						{
-							double positionOffset;
-							if (property.equals(PositioningOperations.entityPositionX))
-							{
-								positionOffset = dropLocation.getLeft();
-							}
-							else
-							{
-								positionOffset = dropLocation.getRight();
-							}
-							if (value.isLiteral())
-							{
-								OWLLiteral valueLiteral = value.asLiteral().get();
-								if (valueLiteral.isDouble())
-								{
-									double             sourcePosition = valueLiteral.parseDouble();
-									double             newPosition    = sourcePosition + positionOffset;
-									OWLAnnotationValue newValue       = new OWLLiteralImplDouble(newPosition,
-											valueLiteral.getDatatype());
-									instantiationAxiom = new OWLAnnotationAssertionAxiomImpl(subject, property,
-											newValue, annotations);
-								}
-							}
-						}
-					}
+					// There was originally code here to calculate offsets
+					// This is no longer necessary because nodes are wrapped in modules
+					// and the positioning is done relative to the module.
 					newAxioms.add(new AddAxiom(activeOntology, instantiationAxiom));
 				}
 
@@ -190,9 +157,28 @@ public class SDTransferHandler extends mxGraphTransferHandler
 					for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
 					{
 						newAxioms.add(new AddAxiom(activeOntology, modularizationAnnotationAxiom));
+
+						// This clause creates an Positioning Axiom for the newly created module
+						// This is done here because the newly created module does not exist in the
+						// pattern OWL file and this is the first place that the dropLocation is
+						// accessible.
+						if (modularizationAnnotationAxiom.isOfType(AxiomType.CLASS_ASSERTION))
+						{
+							OWLClassAssertionAxiom caa = (OWLClassAssertionAxiom) modularizationAnnotationAxiom;
+							if (caa.getClassExpression().equals(OplaAnnotationManager.module))
+							{
+								OWLNamedIndividual module = caa.getIndividual().asOWLNamedIndividual();
+
+								Double newX = dropLocation.getLeft();
+								Double newY = dropLocation.getRight();
+								PositioningOperations.updateXYCoordinateAnnotations(module, activeOntology, newX, newY);
+							}
+						}
 					}
 				}
-				// TODO all the schema diagram manipulations are a debug
+				// The annotation lock here prevents OPLa annotations from being removed
+				// due to the order in which axioms are added (see corresponding use
+				// in the renderActiveOntology method in ComodideEditor
 				this.schemaDiagram.setAnnotationLock(true);
 				modelManager.applyChanges(newAxioms);
 				this.schemaDiagram.setAnnotationLock(false);
