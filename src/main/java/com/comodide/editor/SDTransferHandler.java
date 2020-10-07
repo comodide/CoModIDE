@@ -126,6 +126,7 @@ public class SDTransferHandler extends mxGraphTransferHandler
 
 				// Depending on user configuration, add modularization axioms either to separate
 				// metadata ontology or directly to target ontology
+				OWLOntology targetOntology;
 				if (ComodideConfiguration.getModuleMetadataExternal())
 				{
 					OWLOntology metadataOntology  = MetadataUtils.findOrCreateMetadataOntology(modelManager);
@@ -136,37 +137,36 @@ public class SDTransferHandler extends mxGraphTransferHandler
 					AddImport             ai         = new AddImport(metadataOntology, importsDec);
 					newAxioms.add(ai);
 
-					// Add modularization axioms to metadata ontology
-					for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
-					{
-						newAxioms.add(new AddAxiom(metadataOntology, modularizationAnnotationAxiom));
-					}
+					targetOntology = metadataOntology;
 				}
 				else // (i.e. add directly to active ontology)
 				{
-					// Add modularization axioms to target ontology
-					for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
+					targetOntology = activeOntology;
+				}
+
+				// Add modularization axioms to target ontology
+				for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
+				{
+					newAxioms.add(new AddAxiom(targetOntology, modularizationAnnotationAxiom));
+
+					// This clause creates an Positioning Axiom for the newly created module
+					// This is done here because the newly created module does not exist in the
+					// pattern OWL file and this is the first place that the dropLocation is
+					// accessible.
+					if (modularizationAnnotationAxiom.isOfType(AxiomType.CLASS_ASSERTION))
 					{
-						newAxioms.add(new AddAxiom(activeOntology, modularizationAnnotationAxiom));
-
-						// This clause creates an Positioning Axiom for the newly created module
-						// This is done here because the newly created module does not exist in the
-						// pattern OWL file and this is the first place that the dropLocation is
-						// accessible.
-						if (modularizationAnnotationAxiom.isOfType(AxiomType.CLASS_ASSERTION))
+						OWLClassAssertionAxiom caa = (OWLClassAssertionAxiom) modularizationAnnotationAxiom;
+						if (caa.getClassExpression().equals(OplaAnnotationManager.module))
 						{
-							OWLClassAssertionAxiom caa = (OWLClassAssertionAxiom) modularizationAnnotationAxiom;
-							if (caa.getClassExpression().equals(OplaAnnotationManager.module))
-							{
-								OWLNamedIndividual module = caa.getIndividual().asOWLNamedIndividual();
+							OWLNamedIndividual module = caa.getIndividual().asOWLNamedIndividual();
 
-								Double newX = dropLocation.getLeft();
-								Double newY = dropLocation.getRight();
-								PositioningOperations.updateXYCoordinateAnnotations(module, activeOntology, newX, newY);
-							}
+							Double newX = dropLocation.getLeft();
+							Double newY = dropLocation.getRight();
+							PositioningOperations.updateXYCoordinateAnnotations(module, targetOntology, newX, newY);
 						}
 					}
 				}
+
 				// The annotation lock here prevents OPLa annotations from being removed
 				// due to the order in which axioms are added (see corresponding use
 				// in the renderActiveOntology method in ComodideEditor
