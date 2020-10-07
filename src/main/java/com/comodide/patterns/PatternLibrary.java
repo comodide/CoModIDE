@@ -257,12 +257,23 @@ public class PatternLibrary {
 	 * @return
 	 */
 	public List<Pattern> getPatternsForCategory(PatternCategory category) {
+		if (!patternCategories.containsKey(category)) {
+			return new ArrayList<Pattern>();
+		}
 		List<Pattern> returnedPatterns = patternCategories.get(category);
 		Collections.sort(returnedPatterns);
 		return returnedPatterns;
 	}
 	
+	/**
+	 * Returns all the patterns that implement a particular interface.
+	 * @param interfaceIri
+	 * @return
+	 */
 	public List<Pattern> getPatternsThatImplementInterface(IRI interfaceIri) {
+		if (!interfaceImplementations.containsKey(interfaceIri)) {
+			return new ArrayList<Pattern>();
+		}
 		List<Pattern> returnedPatterns = interfaceImplementations.get(interfaceIri);
 		Collections.sort(returnedPatterns);
 		return returnedPatterns;
