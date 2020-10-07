@@ -24,7 +24,10 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.comodide.axiomatization.OplaAnnotationManager;
 import com.comodide.configuration.ComodideConfiguration;
 import com.comodide.configuration.Namespaces;
 
@@ -40,11 +43,13 @@ import com.comodide.configuration.Namespaces;
  */
 public class PatternInstantiator
 {
+	/** Bookkeeping */
+	private static final Logger log = LoggerFactory.getLogger(PatternInstantiator.class);
 
 	private OWLOntology           pattern;
 	private final Boolean         useTargetNamespace;
 	private final String          patternLabel;
-	private final IRI             createdModuleIri;
+	private final IRI             createdModuleIRI;
 	private final OWLOntology     targetOntology;
 	private final OWLEntityFinder entityFinder;
 	private final IRI             targetOntologyIri;
@@ -52,7 +57,9 @@ public class PatternInstantiator
 
 	public PatternInstantiator(OWLOntology pattern, String patternLabel, OWLModelManager modelManager)
 	{
+		// JFrame
 		super();
+		// Assign private fields
 		this.pattern = pattern;
 		this.patternLabel = patternLabel;
 		this.useTargetNamespace = ComodideConfiguration.getUseTargetNamespace();
@@ -60,8 +67,12 @@ public class PatternInstantiator
 		this.targetOntologyIri = this.targetOntology.getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
 		this.entityFinder = modelManager.getOWLEntityFinder();
 		this.entitySeparator = EntityCreationPreferences.getDefaultSeparator();
-		String moduleName = String.format("-modules/%s", UUID.randomUUID().toString());
-		this.createdModuleIri = IRI.create(targetOntologyIri.toString(), moduleName);
+		// Create the name of the module
+//		String moduleName = String.format("-modules/%s", UUID.randomUUID().toString());
+//		this.createdModuleIri = IRI.create(targetOntologyIri.toString(), moduleName);
+		String moduleName = patternLabel + " Module";
+		moduleName = moduleName.replace(" ", "_");
+		this.createdModuleIRI = IRI.create(targetOntologyIri.toString() + "#" + moduleName);
 	}
 
 	/**
@@ -145,35 +156,33 @@ public class PatternInstantiator
 
 		// 4 define that <moduleIri> rdf:type opla:Module; rdfs:label
 		// SomethingReasonable
-		OWLClass               oplaModuleClass   = factory
-				.getOWLClass(IRI.create(String.format("%sModule", Namespaces.OPLA_CORE)));
-		OWLNamedIndividual     moduleIndividual  = factory.getOWLNamedIndividual(createdModuleIri);
-		OWLClassAssertionAxiom moduleTypingAxiom = factory.getOWLClassAssertionAxiom(oplaModuleClass, moduleIndividual);
+		OWLNamedIndividual     moduleIndividual  = factory.getOWLNamedIndividual(createdModuleIRI);
+		OWLClassAssertionAxiom moduleTypingAxiom = factory.getOWLClassAssertionAxiom(OplaAnnotationManager.module,
+				moduleIndividual);
 		moduleAnnotationAxioms.add(moduleTypingAxiom);
-		OWLAnnotationAssertionAxiom moduleLabelAxiom = factory.getOWLAnnotationAssertionAxiom(factory.getRDFSLabel(),
-				createdModuleIri, factory.getOWLLiteral(String.format("'%s' ODP Instantiation Module", patternLabel)));
-		moduleAnnotationAxioms.add(moduleLabelAxiom);
+//		OWLAnnotationAssertionAxiom moduleLabelAxiom = factory.getOWLAnnotationAssertionAxiom(factory.getRDFSLabel(),
+//				createdModuleIRI, factory.getOWLLiteral(String.format("'%s' ODP Instantiation Module", patternLabel)));
+//		moduleAnnotationAxioms.add(moduleLabelAxiom);
 
 		// 5 define that the module reusesPatternAsTemplate thePattern
 		OWLAnnotationProperty       reusesPatternAsTemplate = factory
 				.getOWLAnnotationProperty(IRI.create(String.format("%sreusesPatternAsTemplate", Namespaces.OPLA_CORE)));
 		OWLAnnotationAssertionAxiom patternReuseAxiom       = factory
-				.getOWLAnnotationAssertionAxiom(reusesPatternAsTemplate, createdModuleIri, patternIRI);
+				.getOWLAnnotationAssertionAxiom(reusesPatternAsTemplate, createdModuleIRI, patternIRI);
 		moduleAnnotationAxioms.add(patternReuseAxiom);
 
 		// 6. For each entity in instantiated pattern module: annotate that it
 		// opla:isNativeTo <moduleIRI>
-		OWLAnnotationProperty isNativeTo = factory
-				.getOWLAnnotationProperty(IRI.create(String.format("%sisNativeTo", Namespaces.OPLA_CORE)));
 		for (OWLEntity entity : pattern.getSignature())
 		{
 			if (!entity.isBuiltIn() && !entity.getIRI().toString().contains(Namespaces.OPLA_CORE))
 			{
-				OWLAnnotationAssertionAxiom entityNativeToAxiom = factory.getOWLAnnotationAssertionAxiom(isNativeTo,
-						entity.getIRI(), createdModuleIri);
+				OWLAnnotationAssertionAxiom entityNativeToAxiom = factory.getOWLAnnotationAssertionAxiom(
+						OplaAnnotationManager.isNativeTo, entity.getIRI(), createdModuleIRI);
 				moduleAnnotationAxioms.add(entityNativeToAxiom);
 			}
 		}
+		
 		return moduleAnnotationAxioms;
 	}
 }

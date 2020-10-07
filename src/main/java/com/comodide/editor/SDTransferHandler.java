@@ -54,16 +54,20 @@ public class SDTransferHandler extends mxGraphTransferHandler
 	/** OWLAPI Integration */
 	private OWLModelManager modelManager;
 
+	/** For annotation locking */
+	private SchemaDiagram schemaDiagram;
+	
 	/** Empty Constructor */
 	public SDTransferHandler()
 	{
 
 	}
 
-	public SDTransferHandler(OWLModelManager modelManager)
+	public SDTransferHandler(OWLModelManager modelManager, SchemaDiagram schemaDiagram)
 	{
 		super();
 		this.modelManager = modelManager;
+		this.schemaDiagram = schemaDiagram;
 	}
 
 	/**
@@ -188,8 +192,10 @@ public class SDTransferHandler extends mxGraphTransferHandler
 						newAxioms.add(new AddAxiom(activeOntology, modularizationAnnotationAxiom));
 					}
 				}
-
+				// TODO all the schema diagram manipulations are a debug
+				this.schemaDiagram.setAnnotationLock(true);
 				modelManager.applyChanges(newAxioms);
+				this.schemaDiagram.setAnnotationLock(false);
 				TelemetryAgent.logPatternDrop();
 				result = true;
 			}

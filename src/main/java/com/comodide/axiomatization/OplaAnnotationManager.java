@@ -52,7 +52,9 @@ public class OplaAnnotationManager
 	private static OWLDataFactory factory = new OWLDataFactoryImpl();
 	private static IRI isNativeToIRI = IRI.create(Namespaces.OPLA_CORE + "isNativeTo");
 	public static OWLAnnotationProperty isNativeTo = factory.getOWLAnnotationProperty(isNativeToIRI);
-
+	private static IRI moduleIRI = IRI.create(Namespaces.OPLA_CORE + "Module");
+	public static OWLClass module = factory.getOWLClass(moduleIRI);
+	
 	/** Bookkeeping */
 	private static final Logger log = LoggerFactory.getLogger(OplaAnnotationManager.class);
 	private static final String pf  = "[CoModIDE:OPLaAnnotationManager] ";

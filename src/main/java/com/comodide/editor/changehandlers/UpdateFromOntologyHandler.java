@@ -640,6 +640,11 @@ public class UpdateFromOntologyHandler
 		// Cast to something that is an OWLEntity
 		OWLNamedIndividual namedIndividual = axiom.getIndividual().asOWLNamedIndividual();
 
+		// Only process for ClassAssertions for OPLa Modules
+		if(!axiom.getClassExpression().equals(OplaAnnotationManager.module))
+		{
+			return;
+		}
 		
 		// Get the positioning annotations
 		Pair<Double, Double> targetPosition = PositioningOperations.getXYCoordsForEntity(namedIndividual, ontology);
