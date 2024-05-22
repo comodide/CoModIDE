@@ -37,7 +37,6 @@ public class BFOView extends AbstractOWLViewComponent implements ComodideMessage
 	private static final Logger log              = LoggerFactory.getLogger(BFOView.class);
 
 	// Private members
-	private PatternLibrary    patternLibrary = PatternLibrary.getInstance();
 	public JPanel             cellPanel      = new JPanel();
 	public JPanel             edgePanel      = new JPanel();
 	private JSplitPane        splitPane;

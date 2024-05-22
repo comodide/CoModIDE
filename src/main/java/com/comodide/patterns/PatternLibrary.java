@@ -27,12 +27,17 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
+
 /**
  * Singleton class for accessing a pre-indexed OPLa-compliant ontology pattern library.
  * @author Karl Hammar <karl@karlhammar.com>
  *
  */
 public class PatternLibrary {
+
+	// Constants
+	public static final String DEFAULT_LIBRARY_PATH = "modl/default/ModlIndex.owl";
 	
 	// Infrastructure
     private static PatternLibrary instance;
@@ -47,22 +52,26 @@ public class PatternLibrary {
     public final PatternCategory ANY_CATEGORY = new PatternCategory("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
     
     // Instance fields
-	OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	OWLDataFactory factory = manager.getOWLDataFactory();
-	OWLOntology index;
+	private OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+	private OWLDataFactory factory = manager.getOWLDataFactory();
+	private OWLOntology index;
 	private Map<PatternCategory,List<Pattern>> patternCategories = new HashMap<PatternCategory,List<Pattern>>();
     
     // Singleton access method
     public static synchronized PatternLibrary getInstance() {
         if(instance == null){
-            instance = new PatternLibrary();
+			setInstanceByFilePath("modl/default/ModlIndex.owl");
         }
         return instance;
     }
+
+	public static synchronized void setInstanceByFilePath(@Nonnull final String filePath) {
+		instance = new PatternLibrary(filePath);
+	}
 	
     // Parse index on instance creation
-	private PatternLibrary() {
-		parseIndex();
+	private PatternLibrary(@Nonnull final String filePath) {
+		parseIndex(filePath);
 	}
 	
 	// Based on pattern object, instantiate pattern from disk into OWLOntology
@@ -80,11 +89,11 @@ public class PatternLibrary {
 	/**
 	 * Parses a pattern index and updates the data structures that are needed to feed other classes.
 	 */
-    public void parseIndex() {
+    public void parseIndex(@Nonnull final String filePath) {
 		try {
 			// Set up index file (TODO: add support for an external pattern library)
 			ClassLoader classloader = this.getClass().getClassLoader();
-			InputStream is = classloader.getResourceAsStream("modl/default/ModlIndex.owl");
+			InputStream is = classloader.getResourceAsStream(filePath);
 			index = manager.loadOntologyFromOntologyDocument(is);
 			
 			// Regardless of index structure there is always the Any category

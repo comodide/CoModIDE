@@ -12,14 +12,7 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ToolTipManager;
+import javax.swing.*;
 
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.slf4j.Logger;
@@ -82,7 +75,13 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
         librarySelectorLabel.setFont(librarySelectorFont.deriveFont(librarySelectorFont.getStyle() | Font.BOLD));
         librarySelectorLabel.setAlignmentX(LEFT_ALIGNMENT);
         // This is a hack due to JComboBox misbehaving; see https://stackoverflow.com/questions/7581846/swing-boxlayout-problem-with-jcombobox-without-using-setxxxsize
-        JComboBox<PatternLibrary> libraryList = new JComboBox<PatternLibrary>(new PatternLibrary[] { patternLibrary }) {
+        JComboBox<String> libraryList = new JComboBox<String>(
+                new String[]
+                        {
+                                PatternLibrary.DEFAULT_LIBRARY_PATH,
+                                "modl/csmodl/csmodl.owl"
+                        }
+        ) {
             private static final long serialVersionUID = 3692789082261972438L;
             @Override
             public Dimension getMaximumSize() {
@@ -94,11 +93,15 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 
         // Listener for when user selects a new category, redraws the pattern table based on chosen category
         libraryList.addActionListener(event -> {
-            PatternLibrary selectedLibrary = (PatternLibrary)libraryList.getSelectedItem();
+            String selectedLibraryPath = (String)libraryList.getSelectedItem();
             PatternCategory selectedCategory = (PatternCategory)categoryList.getSelectedItem();
-            TelemetryAgent.logLibraryClick(String.format("Library: %s (%s)", "TEST", "TEST"));
-            if (selectedLibrary != null)
-                patternLibrary = selectedLibrary;
+            TelemetryAgent.logLibraryClick(String.format("Library: %s", selectedLibraryPath));
+            if (selectedLibraryPath == null)
+                return;
+            PatternLibrary.setInstanceByFilePath(selectedLibraryPath);
+            patternLibrary = PatternLibrary.getInstance();
+            DefaultComboBoxModel<PatternCategory> updatedCategoryListModel = new DefaultComboBoxModel<>(patternLibrary.getPatternCategories());
+            categoryList.setModel(updatedCategoryListModel);
             patternsTableModel.update(patternLibrary.getPatternsForCategory(selectedCategory));
         });
         libraryList.setAlignmentX(LEFT_ALIGNMENT);
