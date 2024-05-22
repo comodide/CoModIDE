@@ -1,0 +1,334 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Academic_Institution a rdfs:Class ;
+    rdfs:subClassOf kastle:Research .
+
+kastle:AreaOfResearch a rdfs:Class .
+
+kastle:Author a rdfs:Class ;
+    rdfs:subClassOf kastle:Research .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Diploma a rdfs:Class ;
+    rdfs:subClassOf kastle:Product .
+
+kastle:Field a rdfs:Class ;
+    rdfs:subClassOf kastle:Nee65374329444a1d9f62767ddcbde88ab1 .
+
+kastle:FieldOfStudy a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Field_of_Study a rdfs:Class ;
+    rdfs:subClassOf kastle:Research .
+
+kastle:Institution a rdfs:Class .
+
+kastle:Journal a rdfs:Class .
+
+kastle:Methodology a rdfs:Class ;
+    rdfs:subClassOf kastle:Research .
+
+kastle:Organization a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Product a rdfs:Class .
+
+kastle:Publication a rdfs:Class ;
+    rdfs:subClassOf kastle:Product,
+        kastle:Research .
+
+kastle:Research a rdfs:Class ;
+    rdfs:subClassOf kastle:Academicactivity,
+        kastle:Resource .
+
+kastle:ResearchField a rdfs:Class .
+
+kastle:ResearchMethod a rdfs:Class ;
+    rdfs:subClassOf kastle:Research,
+        kastle:Resource .
+
+kastle:ResearchPaper a rdfs:Class ;
+    rdfs:subClassOf kastle:Research .
+
+kastle:ResearchProject a rdfs:Class ;
+    rdfs:subClassOf kastle:Research .
+
+kastle:ResearchTopic a rdfs:Class ;
+    rdfs:subClassOf kastle:Research,
+        kastle:Topic .
+
+kastle:Researcher a rdfs:Class ;
+    rdfs:subClassOf kastle:Nee65374329444a1d9f62767ddcbde88ab3,
+        kastle:Person,
+        kastle:Resource .
+
+kastle:Subject a rdfs:Class .
+
+kastle:SubjectField a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:Topic a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Research> a owl:Ontology ;
+    opla-core:hasPatternName "Research Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:abstract a rdf:Property ;
+    rdfs:domain kastle:ResearchPaper ;
+    rdfs:range rdfs:Literal .
+
+kastle:affiliatedInstitution a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range xsd:string .
+
+kastle:affiliation a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range kastle:Organization .
+
+kastle:authorOf a rdf:Property ;
+    rdfs:domain kastle:Author ;
+    rdfs:range kastle:Research .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:FieldOfStudy .
+
+kastle:conducts a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range kastle:Research,
+        kastle:ResearchProject .
+
+kastle:conductsResearch a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range kastle:Research .
+
+kastle:contributesTo a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range kastle:ResearchField .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range xsd:string .
+
+kastle:dueDate a rdf:Property ;
+    rdfs:domain kastle:ResearchProject ;
+    rdfs:range xsd:date .
+
+kastle:employs a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Methodology .
+
+kastle:endDate a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Datetime .
+
+kastle:focusesOn a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:ResearchTopic .
+
+kastle:funding a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range xsd:string .
+
+kastle:hasAffiliation a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range xsd:string .
+
+kastle:hasAreaOfResearch a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:AreaOfResearch .
+
+kastle:hasAuthor a rdf:Property ;
+    rdfs:domain kastle:Product ;
+    rdfs:range kastle:Researcher .
+
+kastle:hasDiploma a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range kastle:Diploma .
+
+kastle:hasEndDate a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Person,
+        kastle:Researcher ;
+    rdfs:range xsd:string .
+
+kastle:hasPublication a rdf:Property ;
+    rdfs:domain kastle:Research,
+        kastle:Researcher ;
+    rdfs:range xsd:string,
+        kastle:Publication .
+
+kastle:hasPublicationDate a rdf:Property ;
+    rdfs:domain kastle:Publication ;
+    rdfs:range xsd:date .
+
+kastle:hasResearchTopic a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:ResearchTopic .
+
+kastle:hasResearcher a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Researcher .
+
+kastle:hasStartDate a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasSubject a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Subject .
+
+kastle:hasSubjectField a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:SubjectField .
+
+kastle:hasTitle a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range xsd:string .
+
+kastle:hasTopic a rdf:Property ;
+    rdfs:domain kastle:Research,
+        kastle:Subject ;
+    rdfs:range xsd:string,
+        kastle:ResearchTopic,
+        kastle:Thing,
+        kastle:Topic .
+
+kastle:has_publication a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Publication .
+
+kastle:has_researcher a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Researcher .
+
+kastle:inField a rdf:Property ;
+    rdfs:domain kastle:Research,
+        kastle:ResearchProject ;
+    rdfs:range kastle:Field,
+        kastle:FieldOfStudy,
+        kastle:ResearchField .
+
+kastle:institution a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range xsd:string .
+
+kastle:isAbout a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Topic .
+
+kastle:isProducedBy a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Researcher .
+
+kastle:isWrittenBy a rdf:Property ;
+    rdfs:domain kastle:ResearchPaper ;
+    rdfs:range kastle:Researcher .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range xsd:string .
+
+kastle:outputs a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Publication .
+
+kastle:performs a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range kastle:Research .
+
+kastle:publication a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range xsd:string .
+
+kastle:publishedIn a rdf:Property ;
+    rdfs:domain kastle:Research,
+        kastle:ResearchPaper ;
+    rdfs:range kastle:Institution,
+        kastle:Journal,
+        kastle:Publication .
+
+kastle:publishes a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range kastle:Publication,
+        kastle:ResearchPaper .
+
+kastle:researchTopic a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range xsd:string .
+
+kastle:researchedBy a rdf:Property ;
+    rdfs:domain kastle:ResearchPaper ;
+    rdfs:range kastle:Author .
+
+kastle:researcher a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range xsd:string .
+
+kastle:resultsIn a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Publication .
+
+kastle:specializesIn a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range kastle:Research .
+
+kastle:startDate a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Datetime .
+
+kastle:studies a rdf:Property ;
+    rdfs:domain kastle:Researcher ;
+    rdfs:range kastle:ResearchTopic .
+
+kastle:study a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:Field_of_Study .
+
+kastle:supports a rdf:Property ;
+    rdfs:domain kastle:Institution ;
+    rdfs:range kastle:Research .
+
+kastle:title a rdf:Property ;
+    rdfs:domain kastle:Research,
+        kastle:ResearchPaper ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:topic a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range rdfs:Literal .
+
+kastle:uses a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:ResearchMethod .
+
+kastle:usesMethod a rdf:Property ;
+    rdfs:domain kastle:Research ;
+    rdfs:range kastle:ResearchMethod .
+
+kastle:workAt a rdf:Property ;
+    rdfs:domain kastle:Author ;
+    rdfs:range kastle:Academic_Institution .
+

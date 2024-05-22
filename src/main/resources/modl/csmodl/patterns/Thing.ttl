@@ -1,0 +1,117 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:AbstractThing a rdfs:Class .
+
+kastle:ConceptualObject a rdfs:Class .
+
+kastle:Double a rdfs:Class .
+
+kastle:Event a rdfs:Class .
+
+kastle:Langstring a rdfs:Class .
+
+kastle:PhysicalObject a rdfs:Class .
+
+kastle:PhysicalThing a rdfs:Class .
+
+kastle:Property a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Thing> a owl:Ontology ;
+    opla-core:hasPatternName "Thing Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range rdfs:Literal .
+
+kastle:existsIn a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Thing .
+
+kastle:hasAbstract a rdf:Property ;
+    rdfs:domain kastle:ConceptualObject ;
+    rdfs:range xsd:string .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:PhysicalObject,
+        kastle:PhysicalThing,
+        kastle:Thing ;
+    rdfs:range xsd:string,
+        kastle:Langstring .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:AbstractThing ;
+    rdfs:range xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:AbstractThing ;
+    rdfs:range xsd:string .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Thing .
+
+kastle:hasProperty a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Property .
+
+kastle:hasShape a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range xsd:string,
+        kastle:Langstring .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:PhysicalObject,
+        kastle:PhysicalThing,
+        kastle:Thing ;
+    rdfs:range xsd:decimal,
+        xsd:string,
+        kastle:Double .
+
+kastle:hasSymbol a rdf:Property ;
+    rdfs:domain kastle:ConceptualObject ;
+    rdfs:range xsd:string .
+
+kastle:hasTexture a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Langstring .
+
+kastle:involves a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Event .
+
+kastle:isComposedOf a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Thing .
+
+kastle:isMadeOf a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Thing .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Thing .
+
+kastle:isUsedFor a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Thing .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range rdfs:Literal .
+

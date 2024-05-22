@@ -1,0 +1,169 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Country a rdfs:Class .
+
+kastle:Device a rdfs:Class .
+
+kastle:ElectricPower a rdfs:Class ;
+    rdfs:subClassOf kastle:Power .
+
+kastle:ElectricalPower a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:Individual a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Machine a rdfs:Class .
+
+kastle:Na20871d4cee24edc99d33cff0ce65d10b1 a rdfs:Class .
+
+kastle:Object a rdfs:Class .
+
+kastle:PhysicalPower a rdfs:Class ;
+    rdfs:subClassOf kastle:Power .
+
+kastle:PoliticalPower a rdfs:Class ;
+    rdfs:subClassOf kastle:Power .
+
+kastle:Power a rdfs:Class ;
+    rdfs:subClassOf kastle:Integer,
+        kastle:Physicalquantity .
+
+kastle:PowerConcept a rdfs:Class .
+
+kastle:PowerGenerator a rdfs:Class .
+
+kastle:PowerSource a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Source a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:Unit a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Power> a owl:Ontology ;
+    opla-core:hasPatternName "Power Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:affectEnvironment a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range rdfs:Literal .
+
+kastle:amount a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range kastle:Integer .
+
+kastle:amountOfPower a rdf:Property ;
+    rdfs:domain kastle:PhysicalPower,
+        kastle:Power ;
+    rdfs:range xsd:decimal,
+        kastle:Integer .
+
+kastle:calculatesPower a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range kastle:Na20871d4cee24edc99d33cff0ce65d10b1 .
+
+kastle:capacity a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range rdfs:Literal .
+
+kastle:control a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range kastle:PoliticalPower .
+
+kastle:derivedFrom a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range kastle:PowerSource .
+
+kastle:generate a rdf:Property ;
+    rdfs:domain kastle:PowerGenerator ;
+    rdfs:range kastle:ElectricPower .
+
+kastle:hasMagnitude a rdf:Property ;
+    rdfs:domain kastle:Power,
+        kastle:PowerConcept ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:hasPower a rdf:Property ;
+    rdfs:domain kastle:Device,
+        kastle:Entity,
+        kastle:Human,
+        kastle:Individual,
+        kastle:Machine,
+        kastle:Object,
+        kastle:Thing ;
+    rdfs:range kastle:ElectricalPower,
+        kastle:Power .
+
+kastle:hasPowerOver a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range kastle:Country .
+
+kastle:hasSource a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range kastle:Source .
+
+kastle:hasUnit a rdf:Property ;
+    rdfs:domain kastle:Power,
+        kastle:PowerConcept ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Unit .
+
+kastle:hasValue a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:isGeneratedBy a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range kastle:PowerSource .
+
+kastle:isMeasuredIn a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range xsd:string .
+
+kastle:isUsedIn a rdf:Property ;
+    rdfs:domain kastle:PowerConcept ;
+    rdfs:range kastle:Resource .
+
+kastle:measuredIn a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range xsd:string .
+
+kastle:powerGeneration a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range rdfs:Literal .
+
+kastle:powerMeasure a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range xsd:float .
+
+kastle:source a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range xsd:string .
+
+kastle:unit a rdf:Property ;
+    rdfs:domain kastle:Power ;
+    rdfs:range xsd:string .
+

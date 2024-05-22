@@ -1,0 +1,150 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Duration a rdfs:Class ;
+    rdfs:subClassOf kastle:Temporalentity .
+
+kastle:DurationDescription a rdfs:Class ;
+    rdfs:subClassOf kastle:N32fde1c5c0fb45e4a3ec8849897d55dcb1 .
+
+kastle:Event a rdfs:Class .
+
+kastle:Hour a rdfs:Class ;
+    rdfs:subClassOf kastle:Temporalunit,
+        kastle:Unitoftime .
+
+kastle:HourOfTime a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Interval a rdfs:Class .
+
+kastle:Minute a rdfs:Class ;
+    rdfs:subClassOf kastle:Temporalunit,
+        kastle:Time,
+        kastle:Timeperiod,
+        kastle:Unitoftime .
+
+kastle:MinuteOfTime a rdfs:Class .
+
+kastle:Second a rdfs:Class .
+
+kastle:TemporalUnit a rdfs:Class .
+
+kastle:Time a rdfs:Class .
+
+kastle:TimeEntity a rdfs:Class .
+
+kastle:TimeEvent a rdfs:Class .
+
+kastle:TimePeriod a rdfs:Class .
+
+kastle:TotalMinutes a rdfs:Class ;
+    rdfs:subClassOf kastle:Integer .
+
+kastle:Unitminute a rdfs:Class ;
+    rdfs:subClassOf kastle:Temporalunit .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Minute> a owl:Ontology ;
+    opla-core:hasPatternName "Minute Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:hasDuration a rdf:Property ;
+    rdfs:domain kastle:TimeEntity,
+        kastle:TimeEvent ;
+    rdfs:range kastle:Minute .
+
+kastle:hasMinute a rdf:Property ;
+    rdfs:domain kastle:HourOfTime,
+        kastle:Time ;
+    rdfs:range kastle:Minute,
+        kastle:MinuteOfTime .
+
+kastle:hasMinutes a rdf:Property ;
+    rdfs:domain kastle:Event,
+        kastle:Hour,
+        kastle:TimePeriod ;
+    rdfs:range kastle:Integer,
+        kastle:Minute,
+        kastle:TotalMinutes .
+
+kastle:hasNumber a rdf:Property ;
+    rdfs:domain kastle:Minute ;
+    rdfs:range kastle:Integer .
+
+kastle:hasNumberOfMinutes a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range kastle:Integer .
+
+kastle:hasNumberOfSeconds a rdf:Property ;
+    rdfs:domain kastle:Minute ;
+    rdfs:range kastle:Integer .
+
+kastle:hasNumericValue a rdf:Property ;
+    rdfs:domain kastle:Duration ;
+    rdfs:range xsd:decimal .
+
+kastle:hasSeconds a rdf:Property ;
+    rdfs:domain kastle:Minute ;
+    rdfs:range kastle:Second .
+
+kastle:hasTemporalDuration a rdf:Property ;
+    rdfs:domain kastle:Interval ;
+    rdfs:range kastle:DurationDescription .
+
+kastle:hasUnit a rdf:Property ;
+    rdfs:domain kastle:Duration ;
+    rdfs:range kastle:Unitminute .
+
+kastle:isEquivalentTo a rdf:Property ;
+    rdfs:domain kastle:Minute ;
+    rdfs:range kastle:Integer .
+
+kastle:isMinuteIn a rdf:Property ;
+    rdfs:domain kastle:Minute ;
+    rdfs:range kastle:Hour .
+
+kastle:minuteInHour a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range kastle:Minute .
+
+kastle:minuteInTime a rdf:Property ;
+    rdfs:domain kastle:Time ;
+    rdfs:range kastle:Minute .
+
+kastle:numericDuration a rdf:Property ;
+    rdfs:domain kastle:TemporalUnit ;
+    rdfs:range xsd:decimal .
+
+kastle:ofHour a rdf:Property ;
+    rdfs:domain kastle:Minute ;
+    rdfs:range kastle:Integer .
+
+kastle:partOfHour a rdf:Property ;
+    rdfs:domain kastle:MinuteOfTime ;
+    rdfs:range kastle:HourOfTime .
+
+kastle:secondInMinute a rdf:Property ;
+    rdfs:domain kastle:Minute ;
+    rdfs:range kastle:Integer .
+
+kastle:secondInTime a rdf:Property ;
+    rdfs:domain kastle:Time ;
+    rdfs:range kastle:Integer .
+
+kastle:unitMinute a rdf:Property ;
+    rdfs:domain kastle:Minute ;
+    rdfs:range xsd:decimal .
+

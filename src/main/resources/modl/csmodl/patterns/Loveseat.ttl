@@ -1,0 +1,157 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Color a rdfs:Class .
+
+kastle:Colour a rdfs:Class .
+
+kastle:Dimension a rdfs:Class .
+
+kastle:Dimensions a rdfs:Class .
+
+kastle:Furniture a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Loveseat a rdfs:Class ;
+    rdfs:subClassOf kastle:Furniture .
+
+kastle:Manufacturer a rdfs:Class .
+
+kastle:Material a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Size a rdfs:Class .
+
+kastle:Style a rdfs:Class .
+
+kastle:Upholstery a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Loveseat> a owl:Ontology ;
+    opla-core:hasPatternName "Loveseat Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:brand a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range xsd:string .
+
+kastle:color a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range xsd:string .
+
+kastle:depth a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range kastle:Integer .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Color .
+
+kastle:hasColour a rdf:Property ;
+    rdfs:domain kastle:Furniture ;
+    rdfs:range kastle:Colour .
+
+kastle:hasDimension a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range kastle:Dimension .
+
+kastle:hasDimensions a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Dimensions .
+
+kastle:hasManufacturer a rdf:Property ;
+    rdfs:domain kastle:Furniture,
+        kastle:Loveseat ;
+    rdfs:range kastle:Manufacturer .
+
+kastle:hasMaterial a rdf:Property ;
+    rdfs:domain kastle:Furniture,
+        kastle:Loveseat ;
+    rdfs:range xsd:string,
+        kastle:Material,
+        kastle:Resource .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:Furniture,
+        kastle:Loveseat ;
+    rdfs:range kastle:Size .
+
+kastle:hasStyle a rdf:Property ;
+    rdfs:domain kastle:Furniture,
+        kastle:Loveseat ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Style .
+
+kastle:hasUpholstery a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range rdfs:Literal,
+        kastle:Resource,
+        kastle:Upholstery .
+
+kastle:hasWidth a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range kastle:Integer .
+
+kastle:height a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range kastle:Integer .
+
+kastle:isPartOfCollection a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range xsd:string .
+
+kastle:isUpholstered a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range xsd:boolean .
+
+kastle:isUsedIndoors a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range xsd:boolean .
+
+kastle:isUsedOutdoors a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range xsd:boolean .
+
+kastle:material a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range xsd:string .
+
+kastle:materialUsed a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range rdfs:Literal .
+
+kastle:price a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:seatingCapacity a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range kastle:Integer .
+
+kastle:size a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range xsd:string .
+
+kastle:width a rdf:Property ;
+    rdfs:domain kastle:Loveseat ;
+    rdfs:range kastle:Integer .
+

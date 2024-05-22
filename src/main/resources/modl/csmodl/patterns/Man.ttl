@@ -1,0 +1,196 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Class a rdfs:Class .
+
+kastle:Concept a rdfs:Class .
+
+kastle:Country a rdfs:Class .
+
+kastle:Gender a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Job a rdfs:Class .
+
+kastle:Man a rdfs:Class ;
+    rdfs:subClassOf kastle:Homosapien,
+        kastle:Human,
+        kastle:Humanbeing,
+        kastle:Nd52675bb2f2f4a4fa3deed365bcd185cb1,
+        kastle:Person .
+
+kastle:Manman a rdfs:Class .
+
+kastle:Nonnegativeinteger a rdfs:Class .
+
+kastle:Occupation a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Woman a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Man> a owl:Ontology ;
+    opla-core:hasPatternName "Man Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:age a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Man ;
+    rdfs:range rdfs:Literal,
+        kastle:Integer .
+
+kastle:career a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range xsd:string .
+
+kastle:ethnicity a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range xsd:string .
+
+kastle:fatherOf a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Human .
+
+kastle:hairColor a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range xsd:string .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Man ;
+    rdfs:range xsd:int,
+        kastle:Integer,
+        kastle:Nonnegativeinteger .
+
+kastle:hasChild a rdf:Property ;
+    rdfs:domain kastle:Human ;
+    rdfs:range kastle:Human .
+
+kastle:hasChildren a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasConcept a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Concept .
+
+kastle:hasFather a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Man .
+
+kastle:hasGender a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Man ;
+    rdfs:range xsd:string,
+        kastle:Gender .
+
+kastle:hasJob a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Job .
+
+kastle:hasMother a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Man .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Man ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasNationality a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Country .
+
+kastle:hasOccupation a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Man ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Occupation .
+
+kastle:hasParent a rdf:Property ;
+    rdfs:domain kastle:Human ;
+    rdfs:range kastle:Human .
+
+kastle:hasSibling a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Man .
+
+kastle:hasSpouse a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Woman .
+
+kastle:height a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range xsd:float .
+
+kastle:isA a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Class .
+
+kastle:isMarried a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range rdfs:Literal,
+        xsd:boolean .
+
+kastle:isMarriedTo a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Man ;
+    rdfs:range kastle:Human .
+
+kastle:manhasAge a rdf:Property ;
+    rdfs:domain kastle:Manman ;
+    rdfs:range kastle:Integer .
+
+kastle:manhasName a rdf:Property ;
+    rdfs:domain kastle:Manman ;
+    rdfs:range xsd:string .
+
+kastle:manhasOccupation a rdf:Property ;
+    rdfs:domain kastle:Manman ;
+    rdfs:range xsd:string .
+
+kastle:manisMarried a rdf:Property ;
+    rdfs:domain kastle:Manman ;
+    rdfs:range xsd:boolean .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range xsd:string .
+
+kastle:nationality a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range xsd:string .
+
+kastle:profession a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range xsd:string .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range kastle:Resource .
+
+kastle:surname a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range xsd:string .
+
+kastle:weight a rdf:Property ;
+    rdfs:domain kastle:Man ;
+    rdfs:range xsd:float .
+

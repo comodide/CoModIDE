@@ -1,0 +1,229 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Author a rdfs:Class .
+
+kastle:Code a rdfs:Class .
+
+kastle:CodingLanguage a rdfs:Class .
+
+kastle:Developer a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+kastle:Duration a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Language a rdfs:Class .
+
+kastle:Library a rdfs:Class .
+
+kastle:OperatingSystem a rdfs:Class .
+
+kastle:Organization a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:PlainLiteral a rdfs:Class .
+
+kastle:Platform a rdfs:Class .
+
+kastle:Program a rdfs:Class ;
+    rdfs:subClassOf kastle:Programminglanguage .
+
+kastle:Programmer a rdfs:Class .
+
+kastle:ProgrammingLanguage a rdfs:Class .
+
+kastle:Provider a rdfs:Class .
+
+kastle:Service a rdfs:Class .
+
+kastle:SoftwareDeveloper a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Program> a owl:Ontology ;
+    opla-core:hasPatternName "Program Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:code a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string .
+
+kastle:developedBy a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Developer,
+        kastle:Organization .
+
+kastle:developer a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Person .
+
+kastle:hasAuthor a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Author,
+        kastle:Programmer,
+        kastle:SoftwareDeveloper .
+
+kastle:hasCode a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string,
+        kastle:Code .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string .
+
+kastle:hasDeveloper a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string,
+        kastle:Developer .
+
+kastle:hasDeveloperName a rdf:Property ;
+    rdfs:domain kastle:Developer ;
+    rdfs:range xsd:string .
+
+kastle:hasDuration a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Duration .
+
+kastle:hasEndDate a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:date .
+
+kastle:hasExperience a rdf:Property ;
+    rdfs:domain kastle:Developer ;
+    rdfs:range rdfs:Literal,
+        kastle:Integer .
+
+kastle:hasId a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasInput a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasLanguage a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string,
+        kastle:Language,
+        kastle:ProgrammingLanguage .
+
+kastle:hasLicense a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:PlainLiteral .
+
+kastle:hasOutput a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Program .
+
+kastle:hasPlatform a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string .
+
+kastle:hasPlatformCompatibility a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Platform .
+
+kastle:hasProgramName a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string .
+
+kastle:hasReleaseDate a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:date .
+
+kastle:hasStartDate a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:date .
+
+kastle:hasVersion a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:decimal,
+        xsd:string,
+        kastle:Integer,
+        kastle:PlainLiteral .
+
+kastle:isCreatedBy a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Programmer .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Program .
+
+kastle:isWrittenIn a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:ProgrammingLanguage .
+
+kastle:knowsLanguage a rdf:Property ;
+    rdfs:domain kastle:Developer ;
+    rdfs:range kastle:Language .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string .
+
+kastle:provide a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Service .
+
+kastle:provider a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Provider .
+
+kastle:releaseDate a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:date .
+
+kastle:runOnOperatingSystem a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:OperatingSystem .
+
+kastle:runsOn a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:OperatingSystem .
+
+kastle:usesLanguage a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:CodingLanguage,
+        kastle:ProgrammingLanguage .
+
+kastle:usesLibrary a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:Library .
+
+kastle:version a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range xsd:string .
+
+kastle:writtenIn a rdf:Property ;
+    rdfs:domain kastle:Program ;
+    rdfs:range kastle:ProgrammingLanguage .
+

@@ -1,0 +1,175 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Agent a rdfs:Class .
+
+kastle:Change a rdfs:Class .
+
+kastle:Direction a rdfs:Class ;
+    rdfs:subClassOf kastle:Physicalconcept .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Force a rdfs:Class ;
+    rdfs:subClassOf kastle:Physicalconcept,
+        kastle:Physicalphenomenon,
+        kastle:Physicalquantity .
+
+kastle:ForceType a rdfs:Class .
+
+kastle:ForceUnit a rdfs:Class .
+
+kastle:Magnitude a rdfs:Class ;
+    rdfs:subClassOf kastle:Physicalconcept .
+
+kastle:Object a rdfs:Class .
+
+kastle:PhysicalObject a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Force> a owl:Ontology ;
+    opla-core:hasPatternName "Force Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:actsOn a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:Thing .
+
+kastle:appliedBy a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:string,
+        kastle:Agent,
+        kastle:Entity .
+
+kastle:appliedOn a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:string,
+        kastle:Entity,
+        kastle:Object,
+        kastle:Thing .
+
+kastle:applied_to a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:Resource .
+
+kastle:appliesForce a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:Entity .
+
+kastle:direction a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Direction .
+
+kastle:directionOfForce a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:Direction .
+
+kastle:forceDirection a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:string .
+
+kastle:forceValue a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:decimal .
+
+kastle:hasDirection a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Direction .
+
+kastle:hasForce a rdf:Property ;
+    rdfs:domain kastle:Object,
+        kastle:PhysicalObject ;
+    rdfs:range xsd:decimal,
+        kastle:Force .
+
+kastle:hasForceDirection a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:Direction .
+
+kastle:hasForceMagnitude a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:decimal .
+
+kastle:hasForceValue a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:decimal .
+
+kastle:hasMagnitude a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range rdfs:Literal,
+        xsd:decimal,
+        kastle:Magnitude .
+
+kastle:hasStrength a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:decimal .
+
+kastle:hasUnit a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:ForceUnit .
+
+kastle:isAppliedTo a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:Object .
+
+kastle:isForceOf a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:PhysicalObject .
+
+kastle:magnitude a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:magnitudeOfForce a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:float .
+
+kastle:measuredIn a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:string .
+
+kastle:newton a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:float .
+
+kastle:resistsForce a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:Entity .
+
+kastle:resultant_effect a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range rdfs:Literal .
+
+kastle:resultsIn a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range kastle:Change .
+
+kastle:type a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range rdfs:Literal,
+        kastle:ForceType .
+
+kastle:unitOfMeasure a rdf:Property ;
+    rdfs:domain kastle:Force ;
+    rdfs:range xsd:string .
+

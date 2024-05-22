@@ -1,0 +1,265 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Continent a rdfs:Class .
+
+kastle:Country a rdfs:Class ;
+    rdfs:subClassOf kastle:Geographicalentity .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Duration a rdfs:Class .
+
+kastle:FirstLady a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:PoliticalEntity a rdfs:Class .
+
+kastle:Presidency a rdfs:Class ;
+    rdfs:subClassOf kastle:Office .
+
+kastle:President a rdfs:Class ;
+    rdfs:subClassOf kastle:Person,
+        kastle:Politicalleader,
+        kastle:Politician .
+
+kastle:PresidentialTerm a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Term a rdfs:Class .
+
+kastle:TermPeriod a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/President> a owl:Ontology ;
+    opla-core:hasPatternName "President Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongsCountry a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Country .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Country .
+
+kastle:bornOn a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+
+kastle:countryLead a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Country,
+        kastle:Resource .
+
+kastle:countryServed a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Resource .
+
+kastle:endDate a rdf:Property ;
+    rdfs:domain kastle:President,
+        kastle:PresidentialTerm,
+        kastle:TermPeriod ;
+    rdfs:range rdfs:Literal,
+        xsd:date,
+        kastle:Datetime .
+
+kastle:endOfPresidency a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+
+kastle:firstLady a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:FirstLady .
+
+kastle:hasAfter a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:President .
+
+kastle:hasBeenPresident a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:President .
+
+kastle:hasBefore a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:President .
+
+kastle:hasContinent a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range kastle:Continent .
+
+kastle:hasCountry a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:string,
+        kastle:Country .
+
+kastle:hasEndTerm a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+
+kastle:hasFirstName a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:string .
+
+kastle:hasLastName a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasNationality a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasPopulation a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range kastle:Integer .
+
+kastle:hasPresidency a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Presidency .
+
+kastle:hasPresident a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range kastle:President .
+
+kastle:hasStartTerm a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+
+kastle:hasTerm a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Integer,
+        kastle:PresidentialTerm,
+        kastle:Term .
+
+kastle:hasTermEnd a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+
+kastle:hasTermPeriod a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:TermPeriod .
+
+kastle:hasTermStart a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+
+kastle:inOfficeSince a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+
+kastle:inaugurationDate a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+
+kastle:isPresidentOf a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Country .
+
+kastle:predecessor a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:President .
+
+kastle:presidencyTerm a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Duration .
+
+kastle:presidentOf a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Country .
+
+kastle:presidesOver a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Country,
+        kastle:PoliticalEntity .
+
+kastle:servedAs a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:President .
+
+kastle:servedAsPresident a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:President .
+
+kastle:servedFrom a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:servedUntil a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:servesAs a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:President .
+
+kastle:servesAsPresident a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:President .
+
+kastle:servesIn a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Country .
+
+kastle:startDate a rdf:Property ;
+    rdfs:domain kastle:President,
+        kastle:PresidentialTerm,
+        kastle:TermPeriod ;
+    rdfs:range rdfs:Literal,
+        xsd:date,
+        kastle:Datetime .
+
+kastle:startOfPresidency a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+
+kastle:successor a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:President .
+
+kastle:termEnd a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:termStart a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:wasAffiliatedTo a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Resource .
+
+kastle:wasBornIn a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range kastle:Resource .
+
+kastle:wasBornOn a rdf:Property ;
+    rdfs:domain kastle:President ;
+    rdfs:range xsd:date .
+

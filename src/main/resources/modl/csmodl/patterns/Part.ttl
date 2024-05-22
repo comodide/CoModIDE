@@ -1,0 +1,247 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Anyuri a rdfs:Class .
+
+kastle:Assembly a rdfs:Class .
+
+kastle:Automobile a rdfs:Class .
+
+kastle:Car a rdfs:Class .
+
+kastle:Category a rdfs:Class .
+
+kastle:Component a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Engine a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Manufacturer a rdfs:Class .
+
+kastle:Material a rdfs:Class .
+
+kastle:MechanicalPart a rdfs:Class .
+
+kastle:Object a rdfs:Class .
+
+kastle:Part a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Process a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Service a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:Whole a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Part> a owl:Ontology ;
+    opla-core:hasPatternName "Part Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+<https://kastle.cs.wright.edu/csmodl#:hasPart> a rdf:Property ;
+    rdfs:domain kastle:Automobile ;
+    rdfs:range kastle:Part .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Part,
+        kastle:Resource .
+
+kastle:belongsToAssembly a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Assembly .
+
+kastle:belongs_in a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Assembly .
+
+kastle:categoryName a rdf:Property ;
+    rdfs:domain kastle:Category ;
+    rdfs:range xsd:string .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string .
+
+kastle:hasManufacturer a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Manufacturer .
+
+kastle:hasManufacturerName a rdf:Property ;
+    rdfs:domain kastle:Manufacturer ;
+    rdfs:range xsd:string .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Assembly,
+        kastle:Object,
+        kastle:Part,
+        kastle:Thing,
+        kastle:Whole ;
+    rdfs:range kastle:Part .
+
+kastle:hasPartNumber a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:decimal .
+
+kastle:hasWeight a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:decimal .
+
+kastle:has_material a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string .
+
+kastle:has_part a rdf:Property ;
+    rdfs:domain kastle:Assembly ;
+    rdfs:range kastle:Part .
+
+kastle:id a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range rdfs:Literal .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Engine,
+        kastle:Part ;
+    rdfs:range kastle:Assembly,
+        kastle:Automobile,
+        kastle:Car,
+        kastle:Part,
+        kastle:Thing,
+        kastle:Whole .
+
+kastle:madeOf a rdf:Property ;
+    rdfs:domain kastle:MechanicalPart,
+        kastle:Part ;
+    rdfs:range xsd:string,
+        kastle:Material .
+
+kastle:manufacturedBy a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Manufacturer .
+
+kastle:manufacturer a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:manufacturerName a rdf:Property ;
+    rdfs:domain kastle:Manufacturer ;
+    rdfs:range xsd:string .
+
+kastle:manufacturerWebsite a rdf:Property ;
+    rdfs:domain kastle:Manufacturer ;
+    rdfs:range kastle:Anyuri .
+
+kastle:manufacturingDate a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:date .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:objectID a rdf:Property ;
+    rdfs:domain kastle:Object ;
+    rdfs:range xsd:string .
+
+kastle:partCategory a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Category .
+
+kastle:partDescription a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string .
+
+kastle:partID a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string,
+        kastle:Integer .
+
+kastle:partId a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string .
+
+kastle:partManufactureDate a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Datetime .
+
+kastle:partManufacturer a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string,
+        kastle:Manufacturer .
+
+kastle:partModel a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string .
+
+kastle:partName a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string .
+
+kastle:partNumber a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:string,
+        kastle:Integer .
+
+kastle:partOf a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Object,
+        kastle:Part,
+        kastle:Thing .
+
+kastle:processID a rdf:Property ;
+    rdfs:domain kastle:Process ;
+    rdfs:range xsd:string .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Assembly,
+        kastle:Service .
+
+kastle:serialNumber a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range rdfs:Literal .
+
+kastle:subPart a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Component .
+
+kastle:usedIn a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range kastle:Process .
+
+kastle:usesPart a rdf:Property ;
+    rdfs:domain kastle:Process ;
+    rdfs:range kastle:Part .
+
+kastle:weight a rdf:Property ;
+    rdfs:domain kastle:Part ;
+    rdfs:range xsd:float .
+

@@ -1,0 +1,224 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Animal a rdfs:Class ;
+    rdfs:subClassOf kastle:Others .
+
+kastle:Attribute a rdfs:Class .
+
+kastle:Car a rdfs:Class .
+
+kastle:City a rdfs:Class .
+
+kastle:Color a rdfs:Class .
+
+kastle:Course a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Gender a rdfs:Class .
+
+kastle:Group a rdfs:Class .
+
+kastle:Human a rdfs:Class ;
+    rdfs:subClassOf kastle:Others .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Location a rdfs:Class .
+
+kastle:Machine a rdfs:Class ;
+    rdfs:subClassOf kastle:Others .
+
+kastle:Manufacturer a rdfs:Class .
+
+kastle:Object a rdfs:Class .
+
+kastle:Occupation a rdfs:Class .
+
+kastle:Other a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+kastle:Others a rdfs:Class .
+
+kastle:Parameter a rdfs:Class .
+
+kastle:Person a rdfs:Class ;
+    rdfs:subClassOf kastle:Others .
+
+kastle:Provider a rdfs:Class .
+
+kastle:Service a rdfs:Class .
+
+kastle:Species a rdfs:Class .
+
+kastle:Student a rdfs:Class .
+
+kastle:University a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Others> a owl:Ontology ;
+    opla-core:hasPatternName "Others Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:age a rdf:Property ;
+    rdfs:domain kastle:Others,
+        kastle:Person ;
+    rdfs:range xsd:int,
+        kastle:Integer .
+
+kastle:attends a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Course .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range xsd:string .
+
+kastle:gender a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Others ;
+    rdfs:range xsd:string,
+        kastle:Gender .
+
+kastle:groupName a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range xsd:string .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Other,
+        kastle:Others,
+        kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:hasAttribute a rdf:Property ;
+    rdfs:domain kastle:Other ;
+    rdfs:range kastle:Attribute .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range kastle:Color .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range kastle:Location .
+
+kastle:hasManufacturer a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range kastle:Manufacturer .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Other,
+        kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasNationality a rdf:Property ;
+    rdfs:domain kastle:Other ;
+    rdfs:range xsd:string .
+
+kastle:hasOccupation a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range kastle:Occupation .
+
+kastle:hasParameter a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range kastle:Parameter .
+
+kastle:hasRelationshipWith a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range kastle:Others .
+
+kastle:hasShape a rdf:Property ;
+    rdfs:domain kastle:Object ;
+    rdfs:range xsd:string .
+
+kastle:hasSpecies a rdf:Property ;
+    rdfs:domain kastle:Animal ;
+    rdfs:range xsd:string .
+
+kastle:id a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range xsd:string .
+
+kastle:interactsWith a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range kastle:Entity .
+
+kastle:isConsideredOther a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Other .
+
+kastle:isProvided a rdf:Property ;
+    rdfs:domain kastle:Service ;
+    rdfs:range kastle:Provider .
+
+kastle:livesIn a rdf:Property ;
+    rdfs:domain kastle:Other ;
+    rdfs:range kastle:City .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range xsd:string .
+
+kastle:manufacturer a rdf:Property ;
+    rdfs:domain kastle:Machine ;
+    rdfs:range xsd:string .
+
+kastle:memberOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Group .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Others,
+        kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:othersAddress a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range rdfs:Literal .
+
+kastle:othersAge a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range rdfs:Literal .
+
+kastle:othersGender a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range rdfs:Literal .
+
+kastle:othersName a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range rdfs:Literal .
+
+kastle:othersNationality a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range rdfs:Literal .
+
+kastle:othersOccupation a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range rdfs:Literal .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:Provider,
+        kastle:University ;
+    rdfs:range kastle:Course,
+        kastle:Service .
+
+kastle:relatedTo a rdf:Property ;
+    rdfs:domain kastle:Others ;
+    rdfs:range kastle:Others .
+
+kastle:species a rdf:Property ;
+    rdfs:domain kastle:Animal ;
+    rdfs:range kastle:Species .
+

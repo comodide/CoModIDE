@@ -1,0 +1,355 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Actor a rdfs:Class .
+
+kastle:Agent a rdfs:Class .
+
+kastle:Army a rdfs:Class .
+
+kastle:Battle a rdfs:Class .
+
+kastle:Battles a rdfs:Class ;
+    rdfs:subClassOf kastle:War .
+
+kastle:Belligerent a rdfs:Class .
+
+kastle:Casualties a rdfs:Class .
+
+kastle:Cause a rdfs:Class .
+
+kastle:Combatant a rdfs:Class .
+
+kastle:Conflicts a rdfs:Class ;
+    rdfs:subClassOf kastle:War .
+
+kastle:Countries a rdfs:Class .
+
+kastle:Country a rdfs:Class .
+
+kastle:DateTime a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Event a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Langstring a rdfs:Class .
+
+kastle:Location a rdfs:Class .
+
+kastle:Military a rdfs:Class .
+
+kastle:Nation a rdfs:Class .
+
+kastle:Outcome a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Place a rdfs:Class .
+
+kastle:Reason a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Result a rdfs:Class .
+
+kastle:Soldier a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:TimePeriod a rdfs:Class .
+
+kastle:Treaty a rdfs:Class .
+
+kastle:War a rdfs:Class ;
+    rdfs:subClassOf kastle:Conflict,
+        kastle:Nf2b2a9998bbe48aea39bcc4fde01a0deb1 .
+
+kastle:WarPart a rdfs:Class .
+
+kastle:Weapon a rdfs:Class ;
+    rdfs:subClassOf kastle:Object .
+
+kastle:Weapons a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/War> a owl:Ontology ;
+    opla-core:hasPatternName "War Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:beganOn a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Datetime .
+
+kastle:beginsOn a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:date .
+
+kastle:belligerent a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Country .
+
+kastle:belligerentName a rdf:Property ;
+    rdfs:domain kastle:Belligerent ;
+    rdfs:range xsd:string .
+
+kastle:casualties a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Integer .
+
+kastle:casualtiesIn a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Casualties .
+
+kastle:causeOfWar a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:string .
+
+kastle:causedBy a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Thing .
+
+kastle:commencesAt a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:date .
+
+kastle:consequence a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:string .
+
+kastle:dateEnded a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Datetime .
+
+kastle:dateStarted a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Datetime .
+
+kastle:endDate a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Datetime .
+
+kastle:endTime a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Langstring .
+
+kastle:endYear a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:date .
+
+kastle:endedOn a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Datetime .
+
+kastle:endsAt a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:date .
+
+kastle:endsOn a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:date .
+
+kastle:endsWith a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Treaty .
+
+kastle:hasBasicOutcome a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:string .
+
+kastle:hasBattle a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Battle,
+        kastle:Battles .
+
+kastle:hasBelligerent a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Belligerent,
+        kastle:Entity .
+
+kastle:hasCasualties a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range rdfs:Literal,
+        kastle:Integer,
+        kastle:Langstring .
+
+kastle:hasCause a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Cause .
+
+kastle:hasCombatant a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Combatant .
+
+kastle:hasCombatant1 a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Country .
+
+kastle:hasCombatant2 a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Country .
+
+kastle:hasConflict a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Conflicts .
+
+kastle:hasDate a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasEndDate a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:hasEndTime a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range rdfs:Literal,
+        kastle:DateTime,
+        kastle:Datetime .
+
+kastle:hasInvolved a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Army .
+
+kastle:hasInvolvedCountry a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:string .
+
+kastle:hasLeader a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range kastle:Person .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Battle,
+        kastle:Event,
+        kastle:War ;
+    rdfs:range kastle:Location,
+        kastle:Place,
+        kastle:Resource .
+
+kastle:hasMilitary a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Military .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:string .
+
+kastle:hasOutcome a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Outcome .
+
+kastle:hasParticipant a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Actor,
+        kastle:Combatant .
+
+kastle:hasParticipatingCountry a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Country .
+
+kastle:hasReason a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Reason .
+
+kastle:hasResult a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Result .
+
+kastle:hasStartDate a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:hasStartTime a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range rdfs:Literal,
+        kastle:DateTime,
+        kastle:Datetime .
+
+kastle:hasTimeframe a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:TimePeriod .
+
+kastle:hasWarPart a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:WarPart .
+
+kastle:involvedCountry a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Countries,
+        kastle:Country .
+
+kastle:involvedParty a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Thing .
+
+kastle:involves a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Nation .
+
+kastle:involvesCountry a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Country,
+        kastle:Resource .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Location .
+
+kastle:participant a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Belligerent .
+
+kastle:participatesIn a rdf:Property ;
+    rdfs:domain kastle:Agent,
+        kastle:Soldier ;
+    rdfs:range kastle:Event,
+        kastle:War .
+
+kastle:participatingCountry a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Country .
+
+kastle:resultOfWar a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:string .
+
+kastle:startDate a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Datetime .
+
+kastle:startTime a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range kastle:Langstring .
+
+kastle:startYear a rdf:Property ;
+    rdfs:domain kastle:War ;
+    rdfs:range xsd:date .
+
+kastle:uses a rdf:Property ;
+    rdfs:domain kastle:Agent ;
+    rdfs:range kastle:Weapon .
+
+kastle:usesWeapon a rdf:Property ;
+    rdfs:domain kastle:Belligerent,
+        kastle:Combatant ;
+    rdfs:range kastle:Weapon,
+        kastle:Weapons .
+

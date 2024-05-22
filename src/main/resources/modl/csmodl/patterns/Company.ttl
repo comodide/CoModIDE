@@ -1,0 +1,275 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Address a rdfs:Class .
+
+kastle:CEO a rdfs:Class ;
+    rdfs:subClassOf kastle:Employee .
+
+kastle:Company a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Employee a rdfs:Class .
+
+kastle:Gyear a rdfs:Class .
+
+kastle:Industry a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Location a rdfs:Class .
+
+kastle:Person a rdfs:Class ;
+    rdfs:subClassOf kastle:Company .
+
+kastle:PlainLiteral a rdfs:Class .
+
+kastle:Product a rdfs:Class .
+
+kastle:Role a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Company> a owl:Ontology ;
+    opla-core:hasPatternName "Company Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:address a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Address .
+
+kastle:birthDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:cEO a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Person .
+
+kastle:city a rdf:Property ;
+    rdfs:domain kastle:Address,
+        kastle:Location ;
+    rdfs:range xsd:string .
+
+kastle:companyType a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal .
+
+kastle:country a rdf:Property ;
+    rdfs:domain kastle:Location ;
+    rdfs:range xsd:string .
+
+kastle:employeeCount a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal,
+        xsd:int,
+        kastle:Integer .
+
+kastle:employeeName a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:employsPerson a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Person .
+
+kastle:firstName a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:foundedDate a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range xsd:date .
+
+kastle:foundedIn a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasAddress a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:int .
+
+kastle:hasCEO a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal,
+        kastle:CEO,
+        kastle:Person .
+
+kastle:hasCompanyName a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range xsd:string .
+
+kastle:hasCountry a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range xsd:string .
+
+kastle:hasDepartment a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasDirector a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Person .
+
+kastle:hasEmployee a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Employee,
+        kastle:Person .
+
+kastle:hasEmployeeCount a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range xsd:int,
+        kastle:Integer .
+
+kastle:hasFirstName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasFoundingDate a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range xsd:date .
+
+kastle:hasFullName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasIndustry a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range xsd:string .
+
+kastle:hasJobTitle a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasLastName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Location .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:PlainLiteral .
+
+kastle:hasPrice a rdf:Property ;
+    rdfs:domain kastle:Product ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasRevenue a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:hasRole a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Role .
+
+kastle:hasSalary a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range rdfs:Literal,
+        xsd:decimal .
+
+kastle:headquarterLocation a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range xsd:string .
+
+kastle:industry a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:isLocatedIn a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Location .
+
+kastle:lastName a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Location .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Location .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:numberOfEmployees a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Integer .
+
+kastle:offersService a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range rdfs:Literal .
+
+kastle:operatesInIndustry a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Industry .
+
+kastle:personAge a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:personName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:personNationality a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:produces a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Product .
+
+kastle:roleName a rdf:Property ;
+    rdfs:domain kastle:Role ;
+    rdfs:range xsd:string .
+
+kastle:state a rdf:Property ;
+    rdfs:domain kastle:Address ;
+    rdfs:range xsd:string .
+
+kastle:street a rdf:Property ;
+    rdfs:domain kastle:Address ;
+    rdfs:range xsd:string .
+
+kastle:yearEstablished a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Gyear .
+
+kastle:zipCode a rdf:Property ;
+    rdfs:domain kastle:Address ;
+    rdfs:range kastle:Integer .
+

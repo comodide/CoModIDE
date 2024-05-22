@@ -1,0 +1,154 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Color a rdfs:Class .
+
+kastle:Dimension a rdfs:Class .
+
+kastle:Door a rdfs:Class ;
+    rdfs:subClassOf kastle:Architectural_element,
+        kastle:Architecturalelement,
+        kastle:Buildingcomponent .
+
+kastle:DoorColor a rdfs:Class .
+
+kastle:DoorMaterial a rdfs:Class .
+
+kastle:Key a rdfs:Class .
+
+kastle:Lock a rdfs:Class .
+
+kastle:Material a rdfs:Class .
+
+kastle:Place a rdfs:Class .
+
+kastle:Room a rdfs:Class .
+
+kastle:SecurityLevel a rdfs:Class .
+
+kastle:XMLLiteral a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Door> a owl:Ontology ;
+    opla-core:hasPatternName "Door Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:color a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:dimension a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range xsd:string .
+
+kastle:doorType a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range xsd:string .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Color,
+        kastle:DoorColor .
+
+kastle:hasDimension a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range xsd:string,
+        kastle:Dimension .
+
+kastle:hasHandle a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasHeight a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range xsd:float .
+
+kastle:hasLock a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range xsd:boolean,
+        kastle:Lock .
+
+kastle:hasMaterial a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Material .
+
+kastle:hasSecurityLevel a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range kastle:SecurityLevel .
+
+kastle:hasWidth a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range xsd:float .
+
+kastle:isAccessTo a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range kastle:Room .
+
+kastle:isBarrier a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range xsd:boolean .
+
+kastle:isClosed a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range kastle:XMLLiteral .
+
+kastle:isEntranceTo a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range kastle:Place .
+
+kastle:isLocked a rdf:Property ;
+    rdfs:domain kastle:Door,
+        kastle:Lock ;
+    rdfs:range rdfs:Literal,
+        xsd:boolean .
+
+kastle:isMadeOf a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range kastle:DoorMaterial .
+
+kastle:isOpen a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range rdfs:Literal,
+        xsd:boolean .
+
+kastle:isOpenedBy a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range kastle:Key .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range kastle:Room .
+
+kastle:lockType a rdf:Property ;
+    rdfs:domain kastle:Lock ;
+    rdfs:range rdfs:Literal .
+
+kastle:madeOf a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range kastle:Material .
+
+kastle:manufacturer a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range xsd:string .
+
+kastle:material a rdf:Property ;
+    rdfs:domain kastle:Door ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+

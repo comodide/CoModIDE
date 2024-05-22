@@ -1,0 +1,147 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Adult a rdfs:Class .
+
+kastle:Education a rdfs:Class .
+
+kastle:Gender a rdfs:Class ;
+    rdfs:subClassOf kastle:Gender .
+
+kastle:Girl a rdfs:Class ;
+    rdfs:subClassOf kastle:Human,
+        kastle:Person .
+
+kastle:Hobby a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Nonnegativeinteger a rdfs:Class .
+
+kastle:Parent a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Pet a rdfs:Class .
+
+kastle:School a rdfs:Class .
+
+kastle:Toy a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Girl> a owl:Ontology ;
+    opla-core:hasPatternName "Girl Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:age a rdf:Property ;
+    rdfs:domain kastle:Girl,
+        kastle:Human,
+        kastle:Person ;
+    rdfs:range xsd:int,
+        kastle:Integer .
+
+kastle:attendsSchool a rdf:Property ;
+    rdfs:domain kastle:Girl,
+        kastle:Person ;
+    rdfs:range xsd:boolean,
+        kastle:School .
+
+kastle:child a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range kastle:Parent .
+
+kastle:female a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range kastle:Gender .
+
+kastle:girlAge a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range kastle:Integer .
+
+kastle:girlName a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range xsd:string .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Girl,
+        kastle:Human ;
+    rdfs:range xsd:int,
+        kastle:Integer,
+        kastle:Nonnegativeinteger .
+
+kastle:hasBirthday a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range xsd:date .
+
+kastle:hasGender a rdf:Property ;
+    rdfs:domain kastle:Girl,
+        kastle:Person ;
+    rdfs:range xsd:string,
+        kastle:Gender .
+
+kastle:hasHairColor a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasHobby a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range kastle:Hobby .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Girl,
+        kastle:Human,
+        kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasParent a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range kastle:Adult,
+        kastle:Human .
+
+kastle:hasPets a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range kastle:Pet .
+
+kastle:hasToys a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range kastle:Toy .
+
+kastle:isEnrolledIn a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range kastle:Education .
+
+kastle:isGirl a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Person ;
+    rdfs:range kastle:Girl .
+
+kastle:livesIn a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range xsd:string .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Human ;
+    rdfs:range xsd:string .
+
+kastle:sibling a rdf:Property ;
+    rdfs:domain kastle:Girl ;
+    rdfs:range kastle:Human .
+

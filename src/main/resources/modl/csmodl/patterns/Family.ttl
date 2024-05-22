@@ -1,0 +1,271 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Alive a rdfs:Class .
+
+kastle:BirthDate a rdfs:Class .
+
+kastle:Child a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+kastle:Family a rdfs:Class ;
+    rdfs:subClassOf kastle:Person,
+        kastle:Resource .
+
+kastle:FamilyMember a rdfs:Class .
+
+kastle:Female a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+kastle:Gender a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Male a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+kastle:Man a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+kastle:N8ca0438ee5f0405c84803fcf346123bbb1 a rdfs:Class .
+
+kastle:N8ca0438ee5f0405c84803fcf346123bbb4 a rdfs:Class .
+
+kastle:N8ca0438ee5f0405c84803fcf346123bbb7 a rdfs:Class .
+
+kastle:Parent a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+kastle:Person a rdfs:Class ;
+    rdfs:subClassOf kastle:Family,
+        kastle:Hasmember,
+        kastle:Member,
+        kastle:N151dbb48d95b4a24ab0768191aa63adfb1,
+        kastle:Resource .
+
+kastle:Woman a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Family> a owl:Ontology ;
+    opla-core:hasPatternName "Family Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:age a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Family .
+
+kastle:birthDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:birthdate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:child a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:childOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:dateOfBirth a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:deathDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:divorceDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:familyMember a rdf:Property ;
+    rdfs:domain kastle:Family ;
+    rdfs:range kastle:Person .
+
+kastle:father a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:firstName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:gender a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:hasBirthDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:BirthDate .
+
+kastle:hasChild a rdf:Property ;
+    rdfs:domain kastle:Family,
+        kastle:N8ca0438ee5f0405c84803fcf346123bbb1,
+        kastle:Parent,
+        kastle:Person ;
+    rdfs:range kastle:Child,
+        kastle:Person .
+
+kastle:hasDateOfBirth a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:hasDaughter a rdf:Property ;
+    rdfs:domain kastle:FamilyMember ;
+    rdfs:range kastle:Female .
+
+kastle:hasFather a rdf:Property ;
+    rdfs:domain kastle:Child,
+        kastle:Family,
+        kastle:FamilyMember,
+        kastle:Person ;
+    rdfs:range kastle:Male,
+        kastle:Man,
+        kastle:Person .
+
+kastle:hasFirstName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasGender a rdf:Property ;
+    rdfs:domain kastle:FamilyMember,
+        kastle:Person ;
+    rdfs:range xsd:string,
+        kastle:Gender .
+
+kastle:hasLastName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasMember a rdf:Property ;
+    rdfs:domain kastle:Family ;
+    rdfs:range kastle:Person .
+
+kastle:hasMother a rdf:Property ;
+    rdfs:domain kastle:Child,
+        kastle:Family,
+        kastle:FamilyMember,
+        kastle:Person ;
+    rdfs:range kastle:Female,
+        kastle:Person,
+        kastle:Woman .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:FamilyMember,
+        kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasParent a rdf:Property ;
+    rdfs:domain kastle:Child,
+        kastle:Family,
+        kastle:Person ;
+    rdfs:range kastle:Parent,
+        kastle:Person .
+
+kastle:hasSibling a rdf:Property ;
+    rdfs:domain kastle:Family,
+        kastle:FamilyMember,
+        kastle:Person ;
+    rdfs:range kastle:FamilyMember,
+        kastle:Person .
+
+kastle:hasSon a rdf:Property ;
+    rdfs:domain kastle:FamilyMember ;
+    rdfs:range kastle:Male .
+
+kastle:hasSpouse a rdf:Property ;
+    rdfs:domain kastle:FamilyMember,
+        kastle:N8ca0438ee5f0405c84803fcf346123bbb4,
+        kastle:Person ;
+    rdfs:range kastle:FamilyMember,
+        kastle:N8ca0438ee5f0405c84803fcf346123bbb7,
+        kastle:Person .
+
+kastle:isAlive a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Alive .
+
+kastle:isChildOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:isFemale a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:boolean .
+
+kastle:isMale a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:boolean .
+
+kastle:isMarriedTo a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:isParentOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:isSiblingOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:lastName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:marriageDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:married a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:boolean .
+
+kastle:member a rdf:Property ;
+    rdfs:domain kastle:Family ;
+    rdfs:range kastle:Person .
+
+kastle:mother a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:partOfFamily a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Family .
+
+kastle:sibling a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:spouseOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+

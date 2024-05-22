@@ -1,0 +1,202 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Action a rdfs:Class .
+
+kastle:Agent a rdfs:Class .
+
+kastle:Applicability a rdfs:Class .
+
+kastle:Author a rdfs:Class .
+
+kastle:Concept a rdfs:Class .
+
+kastle:Creator a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Event a rdfs:Class .
+
+kastle:Idea a rdfs:Class ;
+    rdfs:subClassOf kastle:Concept .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Originality a rdfs:Class .
+
+kastle:Originator a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Subject a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Idea> a owl:Ontology ;
+    opla-core:hasPatternName "Idea Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:associatedWithConcept a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Concept .
+
+kastle:dateOfIdea a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:date .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:descriptionOfIdea a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:evaluation a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Integer .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:hasAuthor a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string,
+        kastle:Author,
+        kastle:Person .
+
+kastle:hasCreationDate a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasCreator a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Creator,
+        kastle:Resource .
+
+kastle:hasDate a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasDateCreated a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:hasIdea a rdf:Property ;
+    rdfs:domain kastle:Agent,
+        kastle:Person,
+        kastle:Subject ;
+    rdfs:range kastle:Idea .
+
+kastle:hasIdeaValue a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:hasImpact a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Creator,
+        kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:hasOrigin a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:hasOriginality a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Originality .
+
+kastle:hasOriginator a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Originator .
+
+kastle:hasRelation a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Idea .
+
+kastle:hasResultingAction a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Action .
+
+kastle:hasTitle a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:ideaBelongsTo a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Person .
+
+kastle:ideaContent a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:ideaCreationDate a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:date .
+
+kastle:ideaOriginator a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Person .
+
+kastle:ideaSummary a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range rdfs:Literal .
+
+kastle:implementationStatus a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:inspirationSource a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:string .
+
+kastle:inspiredBy a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Event .
+
+kastle:isImplemented a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:boolean .
+
+kastle:isInspiredBy a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Concept .
+
+kastle:isOriginal a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range xsd:boolean .
+
+kastle:isRelatedTo a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Idea .
+
+kastle:leadTo a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Action .
+
+kastle:practicality a rdf:Property ;
+    rdfs:domain kastle:Idea ;
+    rdfs:range kastle:Applicability .
+

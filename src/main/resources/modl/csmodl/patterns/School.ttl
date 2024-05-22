@@ -1,0 +1,300 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Class a rdfs:Class .
+
+kastle:Classroom a rdfs:Class ;
+    rdfs:subClassOf kastle:N31c47115fe5c47c9bca04a884c5ab0c2b2 .
+
+kastle:Course a rdfs:Class ;
+    rdfs:subClassOf kastle:School .
+
+kastle:Department a rdfs:Class .
+
+kastle:EducationalService a rdfs:Class .
+
+kastle:FacultyMember a rdfs:Class .
+
+kastle:Grade a rdfs:Class .
+
+kastle:Homework a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Principal a rdfs:Class .
+
+kastle:School a rdfs:Class ;
+    rdfs:subClassOf kastle:Educationalinstitution,
+        kastle:Educationalorganization,
+        kastle:Institution,
+        kastle:N31c47115fe5c47c9bca04a884c5ab0c2b4 .
+
+kastle:Schoolgrade a rdfs:Class .
+
+kastle:Schoollocation a rdfs:Class .
+
+kastle:Schoolschool a rdfs:Class .
+
+kastle:Schoolstudent a rdfs:Class .
+
+kastle:Schoolsubject a rdfs:Class .
+
+kastle:Schoolteacher a rdfs:Class .
+
+kastle:Student a rdfs:Class ;
+    rdfs:subClassOf kastle:Person,
+        kastle:School .
+
+kastle:Subject a rdfs:Class .
+
+kastle:Teacher a rdfs:Class ;
+    rdfs:subClassOf kastle:N31c47115fe5c47c9bca04a884c5ab0c2b1,
+        kastle:Person,
+        kastle:School .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/School> a owl:Ontology ;
+    opla-core:hasPatternName "School Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:age a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Integer .
+
+kastle:assigns a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range kastle:Homework .
+
+kastle:attend a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:School .
+
+kastle:attends a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Class,
+        kastle:Course,
+        kastle:School .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Course ;
+    rdfs:range kastle:Department .
+
+kastle:completes a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Homework .
+
+kastle:courseName a rdf:Property ;
+    rdfs:domain kastle:Course ;
+    rdfs:range xsd:string .
+
+kastle:employs a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range kastle:Teacher .
+
+kastle:enrolledIn a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Course,
+        kastle:School .
+
+kastle:grade a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range xsd:string,
+        kastle:Integer .
+
+kastle:hasAddress a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range xsd:string .
+
+kastle:hasClass a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range kastle:Classroom .
+
+kastle:hasCourse a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range kastle:Course .
+
+kastle:hasGrade a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range xsd:int .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range xsd:string .
+
+kastle:hasPrincipal a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range kastle:Principal .
+
+kastle:hasStudent a rdf:Property ;
+    rdfs:domain kastle:Classroom,
+        kastle:School ;
+    rdfs:range kastle:Student .
+
+kastle:hasTeacher a rdf:Property ;
+    rdfs:domain kastle:Classroom,
+        kastle:School ;
+    rdfs:range kastle:Teacher .
+
+kastle:includesGrade a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range kastle:Grade .
+
+kastle:isEnrolledIn a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Course .
+
+kastle:learns a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Subject .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range xsd:string .
+
+kastle:memberOf a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:School .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:School,
+        kastle:Teacher ;
+    rdfs:range xsd:string .
+
+kastle:numberOfStudents a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range kastle:Integer .
+
+kastle:offeredAt a rdf:Property ;
+    rdfs:domain kastle:Course ;
+    rdfs:range kastle:School .
+
+kastle:offers a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range kastle:Course .
+
+kastle:offersCourse a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range kastle:Course .
+
+kastle:partOf a rdf:Property ;
+    rdfs:domain kastle:Department ;
+    rdfs:range kastle:School .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range kastle:EducationalService .
+
+kastle:schoolName a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range xsd:string .
+
+kastle:schoolhasGrade a rdf:Property ;
+    rdfs:domain kastle:Schoolstudent ;
+    rdfs:range kastle:Schoolgrade .
+
+kastle:schoolhasStudent a rdf:Property ;
+    rdfs:domain kastle:Schoolschool ;
+    rdfs:range kastle:Schoolstudent .
+
+kastle:schoolhasSubject a rdf:Property ;
+    rdfs:domain kastle:Schoolschool ;
+    rdfs:range kastle:Schoolsubject .
+
+kastle:schoolhasTeacher a rdf:Property ;
+    rdfs:domain kastle:Schoolschool ;
+    rdfs:range kastle:Schoolteacher .
+
+kastle:schoollocatedIn a rdf:Property ;
+    rdfs:domain kastle:Schoolschool ;
+    rdfs:range kastle:Schoollocation .
+
+kastle:schoolteachesSubject a rdf:Property ;
+    rdfs:domain kastle:Schoolteacher ;
+    rdfs:range kastle:Schoolsubject .
+
+kastle:student a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range kastle:Student .
+
+kastle:studentAge a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Integer .
+
+kastle:studentName a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range xsd:string .
+
+kastle:studies a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Course .
+
+kastle:studiesAt a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:School .
+
+kastle:studiesUnder a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Teacher .
+
+kastle:studyingIn a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:School .
+
+kastle:takes a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Course .
+
+kastle:takesCourse a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Course .
+
+kastle:taughtBy a rdf:Property ;
+    rdfs:domain kastle:Course ;
+    rdfs:range kastle:Teacher .
+
+kastle:teacherAge a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range kastle:Integer .
+
+kastle:teacherName a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range xsd:string .
+
+kastle:teaches a rdf:Property ;
+    rdfs:domain kastle:FacultyMember,
+        kastle:Teacher ;
+    rdfs:range kastle:Course,
+        kastle:Student,
+        kastle:Subject .
+
+kastle:teachesAt a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range kastle:School .
+
+kastle:teachesCourse a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range kastle:Course .
+
+kastle:teachesIn a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range kastle:Class .
+
+kastle:teachesSubject a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range xsd:string .
+
+kastle:worksAt a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range kastle:School .
+

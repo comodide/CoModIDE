@@ -1,0 +1,156 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Duration a rdfs:Class .
+
+kastle:Friend a rdfs:Class ;
+    rdfs:subClassOf kastle:Person,
+        kastle:Resource .
+
+kastle:Hasfriend a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Interest a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Friend> a owl:Ontology ;
+    opla-core:hasPatternName "Friend Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:age a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:commonInterest a rdf:Property ;
+    rdfs:domain kastle:Friend,
+        kastle:Hasfriend ;
+    rdfs:range xsd:string .
+
+kastle:friend a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:friendOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:hasAddress a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range kastle:Resource .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:int,
+        kastle:Integer .
+
+kastle:hasCommonInterest a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range kastle:Resource .
+
+kastle:hasDuration a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range kastle:Duration .
+
+kastle:hasFriend a rdf:Property ;
+    rdfs:domain kastle:Friend,
+        kastle:Person ;
+    rdfs:range kastle:Friend,
+        kastle:Person .
+
+kastle:hasFriendshipEndDate a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:date .
+
+kastle:hasFriendshipStartDate a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:date .
+
+kastle:hasGender a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:string .
+
+kastle:hasKnownSince a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:string .
+
+kastle:hasPhoneNumber a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:string .
+
+kastle:hasSharedExperience a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range kastle:Resource .
+
+kastle:isClose a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:boolean .
+
+kastle:isFriendOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:isFriendWith a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range kastle:Friend .
+
+kastle:knownSince a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:date .
+
+kastle:knows a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Friend .
+
+kastle:knowsSince a rdf:Property ;
+    rdfs:domain kastle:Friend,
+        kastle:Hasfriend ;
+    rdfs:range rdfs:Literal,
+        xsd:date,
+        kastle:Datetime .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:placeMet a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:string .
+
+kastle:sharedInterests a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:string .
+
+kastle:sharesInterestWith a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Interest .
+
+kastle:since a rdf:Property ;
+    rdfs:domain kastle:Friend ;
+    rdfs:range xsd:date .
+

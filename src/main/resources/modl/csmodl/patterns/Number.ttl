@@ -1,0 +1,126 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Complex a rdfs:Class ;
+    rdfs:subClassOf kastle:Number .
+
+kastle:Floatnumber a rdfs:Class ;
+    rdfs:subClassOf kastle:Number .
+
+kastle:Integer a rdfs:Class ;
+    rdfs:subClassOf kastle:Number .
+
+kastle:Integernumber a rdfs:Class ;
+    rdfs:subClassOf kastle:Number .
+
+kastle:Number a rdfs:Class .
+
+kastle:Real a rdfs:Class ;
+    rdfs:subClassOf kastle:Number .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Number> a owl:Ontology ;
+    opla-core:hasPatternName "Number Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:even a rdf:Property ;
+    rdfs:domain kastle:Integer ;
+    rdfs:range xsd:boolean .
+
+kastle:greaterThan a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range kastle:Number .
+
+kastle:hasValue a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range rdfs:Literal,
+        xsd:decimal .
+
+kastle:imaginaryPart a rdf:Property ;
+    rdfs:domain kastle:Complex ;
+    rdfs:range kastle:Real .
+
+kastle:isDivisibleBy a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range kastle:Number .
+
+kastle:isEqual a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range kastle:Number .
+
+kastle:isEven a rdf:Property ;
+    rdfs:domain kastle:Integer ;
+    rdfs:range xsd:boolean .
+
+kastle:isGreaterThan a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range kastle:Number .
+
+kastle:isImaginary a rdf:Property ;
+    rdfs:domain kastle:Complex ;
+    rdfs:range xsd:boolean .
+
+kastle:isIrrational a rdf:Property ;
+    rdfs:domain kastle:Real ;
+    rdfs:range xsd:boolean .
+
+kastle:isLessThan a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range kastle:Number .
+
+kastle:isNegative a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range xsd:boolean .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range kastle:Number .
+
+kastle:isPositive a rdf:Property ;
+    rdfs:domain kastle:Integer,
+        kastle:Number ;
+    rdfs:range xsd:boolean .
+
+kastle:lessThan a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range kastle:Number .
+
+kastle:negative a rdf:Property ;
+    rdfs:domain kastle:Integer ;
+    rdfs:range xsd:boolean .
+
+kastle:numberValue a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range xsd:decimal .
+
+kastle:numberValueFloat a rdf:Property ;
+    rdfs:domain kastle:Floatnumber ;
+    rdfs:range xsd:float .
+
+kastle:numberValueInteger a rdf:Property ;
+    rdfs:domain kastle:Integernumber ;
+    rdfs:range kastle:Integer .
+
+kastle:realPart a rdf:Property ;
+    rdfs:domain kastle:Complex ;
+    rdfs:range kastle:Real .
+
+kastle:size a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range xsd:int .
+
+kastle:value a rdf:Property ;
+    rdfs:domain kastle:Number ;
+    rdfs:range xsd:decimal .
+

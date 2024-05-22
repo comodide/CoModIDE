@@ -1,0 +1,283 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:AnyEntity a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Issue a rdfs:Class ;
+    rdfs:subClassOf kastle:Concern,
+        kastle:Entity .
+
+kastle:IssueDateCreated a rdfs:Class .
+
+kastle:IssueDescription a rdfs:Class .
+
+kastle:IssueIdentifier a rdfs:Class .
+
+kastle:IssueResolution a rdfs:Class .
+
+kastle:IssueSeverity a rdfs:Class .
+
+kastle:IssueStatus a rdfs:Class .
+
+kastle:IssueStatusEnum a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:IssueTitle a rdfs:Class .
+
+kastle:Langstring a rdfs:Class .
+
+kastle:Person a rdfs:Class ;
+    rdfs:subClassOf kastle:Entity .
+
+kastle:Priority a rdfs:Class ;
+    rdfs:subClassOf kastle:Issue .
+
+kastle:Something a rdfs:Class .
+
+kastle:Status a rdfs:Class ;
+    rdfs:subClassOf kastle:Entity,
+        kastle:Issue .
+
+kastle:Subject a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:User a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Issue> a owl:Ontology ;
+    opla-core:hasPatternName "Issue Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:assignedTo a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Person,
+        kastle:User .
+
+kastle:assignee a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:closedDate a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Datetime .
+
+kastle:createdDate a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Datetime .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:dueDate a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasCreatedDate a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:date .
+
+kastle:hasDateCreated a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasDateResolved a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:date .
+
+kastle:hasDeadline a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Langstring .
+
+kastle:hasID a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:hasId a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Integer .
+
+kastle:hasIssue a rdf:Property ;
+    rdfs:domain kastle:AnyEntity,
+        kastle:Entity,
+        kastle:Person,
+        kastle:Something,
+        kastle:Subject,
+        kastle:Thing ;
+    rdfs:range kastle:Issue .
+
+kastle:hasIssueDateCreated a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:IssueDateCreated .
+
+kastle:hasIssueDescription a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:IssueDescription .
+
+kastle:hasIssueIdentifier a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:IssueIdentifier .
+
+kastle:hasIssueStatus a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:IssueStatus .
+
+kastle:hasIssueTitle a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:IssueTitle .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Issue,
+        kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasPriority a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string,
+        kastle:Priority .
+
+kastle:hasResolutionStatus a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Status .
+
+kastle:hasResponsible a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:hasSeverity a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:hasStatus a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string,
+        kastle:IssueStatus,
+        kastle:Status .
+
+kastle:hasTitle a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:id a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string,
+        kastle:Integer .
+
+kastle:isAssignedTo a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Person .
+
+kastle:isIssueOf a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Something .
+
+kastle:isOpen a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:boolean .
+
+kastle:isRelatedTo a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Issue .
+
+kastle:issueDate a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:date .
+
+kastle:issueDescription a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:issueID a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:issuePriority a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:int,
+        xsd:string .
+
+kastle:issueResolved a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:boolean .
+
+kastle:issueSeverity a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:IssueSeverity .
+
+kastle:issueStatus a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string,
+        kastle:IssueStatusEnum .
+
+kastle:issueTitle a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:issueType a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:personEmail a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:personName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:priority a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Priority .
+
+kastle:reporter a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+
+kastle:resolvedDate a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Datetime .
+
+kastle:resolvesIssue a rdf:Property ;
+    rdfs:domain kastle:IssueResolution ;
+    rdfs:range kastle:Issue .
+
+kastle:responsibleParty a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range kastle:Person .
+
+kastle:status a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string,
+        kastle:IssueStatus,
+        kastle:Status .
+
+kastle:title a rdf:Property ;
+    rdfs:domain kastle:Issue ;
+    rdfs:range xsd:string .
+

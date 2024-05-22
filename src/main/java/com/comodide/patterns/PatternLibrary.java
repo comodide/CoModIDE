@@ -47,7 +47,7 @@ public class PatternLibrary {
     public final PatternCategory ANY_CATEGORY = new PatternCategory("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
     
     // Instance fields
-    OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+	OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	OWLDataFactory factory = manager.getOWLDataFactory();
 	OWLOntology index;
 	private Map<PatternCategory,List<Pattern>> patternCategories = new HashMap<PatternCategory,List<Pattern>>();
@@ -84,7 +84,7 @@ public class PatternLibrary {
 		try {
 			// Set up index file (TODO: add support for an external pattern library)
 			ClassLoader classloader = this.getClass().getClassLoader();
-			InputStream is = classloader.getResourceAsStream("modl/ModlIndex.owl");
+			InputStream is = classloader.getResourceAsStream("modl/default/ModlIndex.owl");
 			index = manager.loadOntologyFromOntologyDocument(is);
 			
 			// Regardless of index structure there is always the Any category
@@ -224,4 +224,5 @@ public class PatternLibrary {
 		Collections.sort(returnedPatterns);
 		return returnedPatterns;
 	}
+
 }

@@ -92,6 +92,9 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.2.0</version>
 				<configuration>
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+					</nonFilteredFileExtensions>
 					<propertiesEncoding>ISO-8859-1</propertiesEncoding>
 				</configuration>
 			</plugin>

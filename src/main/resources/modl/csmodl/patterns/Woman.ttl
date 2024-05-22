@@ -1,0 +1,153 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Age a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Daughter a rdfs:Class ;
+    rdfs:subClassOf kastle:Woman .
+
+kastle:Gender a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Man a rdfs:Class .
+
+kastle:Mother a rdfs:Class ;
+    rdfs:subClassOf kastle:Woman .
+
+kastle:Name a rdfs:Class .
+
+kastle:Nonnegativeinteger a rdfs:Class .
+
+kastle:Occupation a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:Woman a rdfs:Class ;
+    rdfs:subClassOf kastle:Human,
+        kastle:Nf85cde7178e84accb0cd4a81578c936db1 .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Woman> a owl:Ontology ;
+    opla-core:hasPatternName "Woman Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Woman ;
+    rdfs:range xsd:int,
+        kastle:Age,
+        kastle:Integer,
+        kastle:Nonnegativeinteger .
+
+kastle:hasBirthDate a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range xsd:date .
+
+kastle:hasBirthdate a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasChild a rdf:Property ;
+    rdfs:domain kastle:Mother,
+        kastle:Woman ;
+    rdfs:range kastle:Human,
+        kastle:Person,
+        kastle:Woman .
+
+kastle:hasChildren a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range kastle:Integer .
+
+kastle:hasGender a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Person,
+        kastle:Woman ;
+    rdfs:range xsd:string,
+        kastle:Gender .
+
+kastle:hasMother a rdf:Property ;
+    rdfs:domain kastle:Daughter ;
+    rdfs:range kastle:Mother .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Woman ;
+    rdfs:range xsd:string,
+        kastle:Name .
+
+kastle:hasNationality a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range xsd:string .
+
+kastle:hasOccupation a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range xsd:string,
+        kastle:Occupation .
+
+kastle:isDaughter a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range kastle:Woman .
+
+kastle:isEducatedIn a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range kastle:Thing .
+
+kastle:isEmployed a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range xsd:boolean .
+
+kastle:isMarried a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range xsd:boolean,
+        kastle:Person .
+
+kastle:isMother a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range kastle:Woman .
+
+kastle:isMotherOf a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range kastle:Person .
+
+kastle:isWifeOf a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range kastle:Man .
+
+kastle:isWoman a rdf:Property ;
+    rdfs:domain kastle:Human ;
+    rdfs:range kastle:Woman .
+
+kastle:womanhasAge a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range kastle:Integer .
+
+kastle:womanhasName a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range xsd:string .
+
+kastle:womanhasNationality a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range xsd:string .
+
+kastle:worksIn a rdf:Property ;
+    rdfs:domain kastle:Woman ;
+    rdfs:range kastle:Thing .
+

@@ -1,0 +1,123 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Kind a rdfs:Class .
+
+kastle:KindCategory a rdfs:Class ;
+    rdfs:subClassOf kastle:Kind .
+
+kastle:N2b75fc6be8804b85a49d9004567a0c2eb1 a rdfs:Class .
+
+kastle:Property a rdfs:Class .
+
+kastle:Student a rdfs:Class ;
+    rdfs:subClassOf kastle:Person .
+
+kastle:Teacher a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Kind> a owl:Ontology ;
+    opla-core:hasPatternName "Kind Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range xsd:string .
+
+kastle:example a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range xsd:string .
+
+kastle:hasCategory a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range kastle:KindCategory .
+
+kastle:hasCharacteristic a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasExample a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasInstances a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range xsd:string .
+
+kastle:hasKind a rdf:Property ;
+    rdfs:domain kastle:Entity,
+        kastle:Kind,
+        kastle:Thing ;
+    rdfs:range kastle:Kind,
+        kastle:N2b75fc6be8804b85a49d9004567a0c2eb1 .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range xsd:string .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range kastle:Kind .
+
+kastle:hasProperty a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range xsd:string,
+        kastle:Property .
+
+kastle:hasQuality a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasSubKind a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range kastle:Kind .
+
+kastle:hasSuperKind a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range kastle:Kind .
+
+kastle:hasType a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range rdfs:Literal .
+
+kastle:isKindOf a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range kastle:Kind,
+        kastle:Thing .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range xsd:string .
+
+kastle:provide a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range kastle:Kind .
+
+kastle:studiesFrom a rdf:Property ;
+    rdfs:domain kastle:Student ;
+    rdfs:range kastle:Teacher .
+
+kastle:teaches a rdf:Property ;
+    rdfs:domain kastle:Teacher ;
+    rdfs:range kastle:Student .
+
+kastle:understandOtherKind a rdf:Property ;
+    rdfs:domain kastle:Kind ;
+    rdfs:range kastle:Kind .
+

@@ -1,0 +1,252 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Anatomy a rdfs:Class .
+
+kastle:Body a rdfs:Class .
+
+kastle:BodyPart a rdfs:Class .
+
+kastle:Class a rdfs:Class .
+
+kastle:Color a rdfs:Class ;
+    rdfs:subClassOf kastle:Eye,
+        kastle:String .
+
+kastle:Cornea a rdfs:Class .
+
+kastle:Disease a rdfs:Class .
+
+kastle:Disorder a rdfs:Class .
+
+kastle:Double a rdfs:Class .
+
+kastle:Eye a rdfs:Class ;
+    rdfs:subClassOf kastle:Bodypart,
+        kastle:Humanorgan .
+
+kastle:EyeDisease a rdfs:Class .
+
+kastle:EyePart a rdfs:Class .
+
+kastle:Function a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:HumanBody a rdfs:Class .
+
+kastle:HumanEye a rdfs:Class .
+
+kastle:Iris a rdfs:Class .
+
+kastle:Lens a rdfs:Class ;
+    rdfs:subClassOf kastle:Eye .
+
+kastle:Organism a rdfs:Class .
+
+kastle:Retina a rdfs:Class .
+
+kastle:Shape a rdfs:Class ;
+    rdfs:subClassOf kastle:Eye .
+
+kastle:Size a rdfs:Class ;
+    rdfs:subClassOf kastle:Eye .
+
+kastle:Treatment a rdfs:Class .
+
+kastle:Vision a rdfs:Class ;
+    rdfs:subClassOf kastle:Eye .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Eye> a owl:Ontology ;
+    opla-core:hasPatternName "Eye Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Human,
+        kastle:HumanBody .
+
+kastle:canSee a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:boolean,
+        kastle:Class,
+        kastle:Vision .
+
+kastle:color a rdf:Property ;
+    rdfs:domain kastle:Eye,
+        kastle:HumanEye ;
+    rdfs:range xsd:string .
+
+kastle:cornea a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:disease a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:eyeCondition a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:EyeDisease .
+
+kastle:eyeShape a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:eyeVision a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Vision .
+
+kastle:function a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:hasAnatomy a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Anatomy .
+
+kastle:hasCiliaryMuscle a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:boolean .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Color .
+
+kastle:hasCornea a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Cornea .
+
+kastle:hasDisease a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Disease,
+        kastle:EyeDisease .
+
+kastle:hasDisorder a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Disorder .
+
+kastle:hasEye a rdf:Property ;
+    rdfs:domain kastle:Organism ;
+    rdfs:range kastle:Eye .
+
+kastle:hasFunction a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Function .
+
+kastle:hasIris a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Iris .
+
+kastle:hasKinesthesia a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:boolean .
+
+kastle:hasLens a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:boolean,
+        kastle:Lens .
+
+kastle:hasLensType a rdf:Property ;
+    rdfs:domain kastle:Lens ;
+    rdfs:range xsd:string .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:BodyPart,
+        kastle:EyePart .
+
+kastle:hasRetina a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Retina .
+
+kastle:hasShape a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Shape .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:float,
+        xsd:string,
+        kastle:Size .
+
+kastle:hasTreatment a rdf:Property ;
+    rdfs:domain kastle:Disease ;
+    rdfs:range kastle:Treatment .
+
+kastle:hasVision a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:boolean,
+        xsd:string,
+        kastle:Vision .
+
+kastle:hasVisualAcuity a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:iris a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range kastle:Body .
+
+kastle:lens a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:lensMaterial a rdf:Property ;
+    rdfs:domain kastle:Lens ;
+    rdfs:range xsd:string .
+
+kastle:lensShape a rdf:Property ;
+    rdfs:domain kastle:Lens ;
+    rdfs:range xsd:string .
+
+kastle:lensThickness a rdf:Property ;
+    rdfs:domain kastle:Lens ;
+    rdfs:range kastle:Double .
+
+kastle:retina a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:shape a rdf:Property ;
+    rdfs:domain kastle:Eye,
+        kastle:HumanEye ;
+    rdfs:range xsd:string .
+
+kastle:sight a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:size a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:string .
+
+kastle:vision a rdf:Property ;
+    rdfs:domain kastle:Eye ;
+    rdfs:range xsd:boolean,
+        xsd:string .
+
+kastle:vission a rdf:Property ;
+    rdfs:domain kastle:HumanEye ;
+    rdfs:range xsd:string .
+

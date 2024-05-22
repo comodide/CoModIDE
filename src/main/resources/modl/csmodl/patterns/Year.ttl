@@ -1,0 +1,140 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Date a rdfs:Class .
+
+kastle:Day a rdfs:Class ;
+    rdfs:subClassOf kastle:Month .
+
+kastle:Document a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Event a rdfs:Class ;
+    rdfs:subClassOf kastle:Day .
+
+kastle:Gday a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Month a rdfs:Class ;
+    rdfs:subClassOf kastle:Year .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Season a rdfs:Class ;
+    rdfs:subClassOf kastle:Year .
+
+kastle:Something a rdfs:Class .
+
+kastle:Year a rdfs:Class ;
+    rdfs:subClassOf kastle:Integer,
+        kastle:Timeperiod .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Year> a owl:Ontology ;
+    opla-core:hasPatternName "Year Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:beginningOfYear a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range xsd:date .
+
+kastle:endOfYear a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range xsd:date .
+
+kastle:followedBy a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range kastle:Year .
+
+kastle:hasDay a rdf:Property ;
+    rdfs:domain kastle:Month,
+        kastle:Year ;
+    rdfs:range kastle:Day,
+        kastle:Gday,
+        kastle:Integer .
+
+kastle:hasEvent a rdf:Property ;
+    rdfs:domain kastle:Day ;
+    rdfs:range kastle:Event .
+
+kastle:hasMonth a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range kastle:Integer,
+        kastle:Month .
+
+kastle:hasSeason a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range kastle:Season .
+
+kastle:hasYear a rdf:Property ;
+    rdfs:domain kastle:Date,
+        kastle:Entity,
+        kastle:Resource,
+        kastle:Something,
+        kastle:Year ;
+    rdfs:range kastle:Integer,
+        kastle:Year .
+
+kastle:inYear a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range kastle:Year .
+
+kastle:isLeap a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range xsd:boolean .
+
+kastle:isLeapYear a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range xsd:boolean .
+
+kastle:isYearOf a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range xsd:date .
+
+kastle:number a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range kastle:Integer .
+
+kastle:numberOfDay a rdf:Property ;
+    rdfs:domain kastle:Day ;
+    rdfs:range kastle:Integer .
+
+kastle:numberOfMonth a rdf:Property ;
+    rdfs:domain kastle:Month ;
+    rdfs:range kastle:Integer .
+
+kastle:numberOfYear a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range kastle:Integer .
+
+kastle:precededBy a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range kastle:Year .
+
+kastle:year a rdf:Property ;
+    rdfs:domain kastle:Document,
+        kastle:Entity ;
+    rdfs:range rdfs:Literal,
+        kastle:Year .
+
+kastle:yearID a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range xsd:string .
+
+kastle:yearNumber a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range kastle:Integer .
+

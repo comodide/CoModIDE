@@ -1,0 +1,165 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Action a rdfs:Class ;
+    rdfs:subClassOf kastle:Concept .
+
+kastle:ActionClaim a rdfs:Class .
+
+kastle:ActionEffect a rdfs:Class .
+
+kastle:Argument a rdfs:Class ;
+    rdfs:subClassOf kastle:Statement .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Event a rdfs:Class ;
+    rdfs:subClassOf kastle:Concept .
+
+kastle:IdeaOrActionOrTheory a rdfs:Class .
+
+kastle:Ned9a1f3809314a4a9e7bb4c5a3d7f240b2 a rdfs:Class .
+
+kastle:Ned9a1f3809314a4a9e7bb4c5a3d7f240b3 a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:PhenomenonFact a rdfs:Class .
+
+kastle:Reason a rdfs:Class ;
+    rdfs:subClassOf kastle:Concept,
+        kastle:Ned9a1f3809314a4a9e7bb4c5a3d7f240b1,
+        kastle:Resource,
+        kastle:Statement .
+
+kastle:ReasoningenType a rdfs:Class ;
+    rdfs:subClassOf kastle:Reason .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Reason> a owl:Ontology ;
+    opla-core:hasPatternName "Reason Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:actionName a rdf:Property ;
+    rdfs:domain kastle:Action ;
+    rdfs:range xsd:string .
+
+kastle:actionTriggeredBy a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:Ned9a1f3809314a4a9e7bb4c5a3d7f240b2 .
+
+kastle:causedBy a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range xsd:string .
+
+kastle:causes a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:ActionEffect .
+
+kastle:causesEvent a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:Ned9a1f3809314a4a9e7bb4c5a3d7f240b3 .
+
+kastle:contains a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range xsd:string .
+
+kastle:derivedFrom a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:Resource .
+
+kastle:explains a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:PhenomenonFact .
+
+kastle:hasConclusion a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasEvent a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:Event .
+
+kastle:hasEvidence a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasLogicalBasis a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:Resource .
+
+kastle:hasPremise a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasPurpose a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasReason a rdf:Property ;
+    rdfs:domain kastle:Action,
+        kastle:Entity,
+        kastle:IdeaOrActionOrTheory,
+        kastle:Resource,
+        kastle:Thing ;
+    rdfs:range kastle:Reason .
+
+kastle:justifies a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:ActionClaim .
+
+kastle:leadsTo a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range xsd:string .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range rdfs:Literal .
+
+kastle:providesReason a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range kastle:Reason .
+
+kastle:providesReasonFor a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:Argument .
+
+kastle:reason a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal .
+
+kastle:reasonFor a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:Resource .
+
+kastle:reasonText a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range xsd:string .
+
+kastle:relatedToDecision a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:Resource .
+
+kastle:relatedToEvent a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:Resource .
+
+kastle:usesReasoningType a rdf:Property ;
+    rdfs:domain kastle:Reason ;
+    rdfs:range kastle:ReasoningenType .
+

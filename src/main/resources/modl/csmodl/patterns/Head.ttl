@@ -1,0 +1,140 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:BodyPart a rdfs:Class .
+
+kastle:Class a rdfs:Class .
+
+kastle:Ear a rdfs:Class .
+
+kastle:Ears a rdfs:Class .
+
+kastle:Eye a rdfs:Class .
+
+kastle:Eyes a rdfs:Class .
+
+kastle:Face a rdfs:Class .
+
+kastle:Forehead a rdfs:Class .
+
+kastle:Hair a rdfs:Class .
+
+kastle:Head a rdfs:Class ;
+    rdfs:subClassOf kastle:Bodypart .
+
+kastle:HeadPart a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:It a rdfs:Class .
+
+kastle:Mouth a rdfs:Class .
+
+kastle:Nose a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:SensoryOrgan a rdfs:Class .
+
+kastle:Skin a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Head> a owl:Ontology ;
+    opla-core:hasPatternName "Head Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:eyeCount a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range kastle:Integer .
+
+kastle:hasEar a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range kastle:Ear .
+
+kastle:hasEars a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range rdfs:Literal,
+        kastle:Ear,
+        kastle:Ears .
+
+kastle:hasEye a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range kastle:Eye .
+
+kastle:hasEyeColor a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range xsd:string .
+
+kastle:hasEyes a rdf:Property ;
+    rdfs:domain kastle:Face,
+        kastle:Head ;
+    rdfs:range rdfs:Literal,
+        kastle:Eye,
+        kastle:Eyes .
+
+kastle:hasFace a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range kastle:Face .
+
+kastle:hasForehead a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range kastle:Forehead .
+
+kastle:hasHair a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range rdfs:Literal,
+        kastle:Hair .
+
+kastle:hasHairColor a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range xsd:string .
+
+kastle:hasHead a rdf:Property ;
+    rdfs:domain kastle:Human,
+        kastle:Person ;
+    rdfs:range kastle:Head .
+
+kastle:hasMouth a rdf:Property ;
+    rdfs:domain kastle:Face,
+        kastle:Head ;
+    rdfs:range rdfs:Literal,
+        kastle:Mouth .
+
+kastle:hasNose a rdf:Property ;
+    rdfs:domain kastle:Face,
+        kastle:Head ;
+    rdfs:range rdfs:Literal,
+        kastle:Nose .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range kastle:BodyPart,
+        kastle:Class,
+        kastle:Head,
+        kastle:HeadPart .
+
+kastle:hasSensoryOrgan a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range kastle:SensoryOrgan .
+
+kastle:hasSkin a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range kastle:Skin .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:Head ;
+    rdfs:range kastle:It .
+

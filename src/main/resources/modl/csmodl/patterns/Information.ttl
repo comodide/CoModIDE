@@ -1,0 +1,310 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Anyuri a rdfs:Class .
+
+kastle:Author a rdfs:Class .
+
+kastle:BusinessInformation a rdfs:Class ;
+    rdfs:subClassOf kastle:Information .
+
+kastle:Class a rdfs:Class .
+
+kastle:Communication a rdfs:Class ;
+    rdfs:subClassOf kastle:Info .
+
+kastle:Data a rdfs:Class ;
+    rdfs:subClassOf kastle:Info .
+
+kastle:DataType a rdfs:Class ;
+    rdfs:subClassOf kastle:Information .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:DigitalInformation a rdfs:Class ;
+    rdfs:subClassOf kastle:Information .
+
+kastle:Document a rdfs:Class ;
+    rdfs:subClassOf kastle:Information .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Fact a rdfs:Class ;
+    rdfs:subClassOf kastle:Info .
+
+kastle:Format a rdfs:Class .
+
+kastle:Info a rdfs:Class .
+
+kastle:Information a rdfs:Class ;
+    rdfs:subClassOf kastle:Data .
+
+kastle:InformationProcessing a rdfs:Class ;
+    rdfs:subClassOf kastle:Info .
+
+kastle:InformationRepresentation a rdfs:Class ;
+    rdfs:subClassOf kastle:Information .
+
+kastle:InformationSecurity a rdfs:Class ;
+    rdfs:subClassOf kastle:Information .
+
+kastle:Knowledge a rdfs:Class ;
+    rdfs:subClassOf kastle:Info,
+        kastle:Information .
+
+kastle:Media a rdfs:Class .
+
+kastle:Medium a rdfs:Class .
+
+kastle:Metadata a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:PersonalInformation a rdfs:Class ;
+    rdfs:subClassOf kastle:Information .
+
+kastle:Professor a rdfs:Class .
+
+kastle:Reference a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Source a rdfs:Class .
+
+kastle:Student a rdfs:Class .
+
+kastle:Subject a rdfs:Class .
+
+kastle:TextInfo a rdfs:Class ;
+    rdfs:subClassOf kastle:Info .
+
+kastle:Topic a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Information> a owl:Ontology ;
+    opla-core:hasPatternName "Information Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:address a rdf:Property ;
+    rdfs:domain kastle:PersonalInformation ;
+    rdfs:range xsd:string .
+
+kastle:author a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:string .
+
+kastle:businessAddress a rdf:Property ;
+    rdfs:domain kastle:BusinessInformation ;
+    rdfs:range xsd:string .
+
+kastle:businessName a rdf:Property ;
+    rdfs:domain kastle:BusinessInformation ;
+    rdfs:range xsd:string .
+
+kastle:contains a rdf:Property ;
+    rdfs:domain kastle:Info ;
+    rdfs:range kastle:Data .
+
+kastle:containsData a rdf:Property ;
+    rdfs:domain kastle:Document ;
+    rdfs:range kastle:Data .
+
+kastle:containsMetadata a rdf:Property ;
+    rdfs:domain kastle:Document ;
+    rdfs:range kastle:Metadata .
+
+kastle:content a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:string .
+
+kastle:creationDate a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Datetime .
+
+kastle:dataType a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:DataType .
+
+kastle:dateCreated a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:date .
+
+kastle:encodingMethod a rdf:Property ;
+    rdfs:domain kastle:InformationRepresentation ;
+    rdfs:range xsd:string .
+
+kastle:encryptionMethod a rdf:Property ;
+    rdfs:domain kastle:InformationSecurity ;
+    rdfs:range xsd:string .
+
+kastle:engagesIn a rdf:Property ;
+    rdfs:domain kastle:Communication ;
+    rdfs:range kastle:InformationProcessing .
+
+kastle:hasAuthor a rdf:Property ;
+    rdfs:domain kastle:Info,
+        kastle:Information ;
+    rdfs:range xsd:string,
+        kastle:Author,
+        kastle:Person .
+
+kastle:hasAvailability a rdf:Property ;
+    rdfs:domain kastle:InformationSecurity ;
+    rdfs:range xsd:boolean .
+
+kastle:hasConfidentiality a rdf:Property ;
+    rdfs:domain kastle:InformationSecurity ;
+    rdfs:range xsd:boolean .
+
+kastle:hasContent a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:string .
+
+kastle:hasDataType a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Class .
+
+kastle:hasDate a rdf:Property ;
+    rdfs:domain kastle:Info,
+        kastle:Information ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasFormat a rdf:Property ;
+    rdfs:domain kastle:Info,
+        kastle:Information ;
+    rdfs:range xsd:string,
+        kastle:Format .
+
+kastle:hasInformation a rdf:Property ;
+    rdfs:domain kastle:Document,
+        kastle:Information ;
+    rdfs:range rdfs:Literal,
+        kastle:Information .
+
+kastle:hasIntegrity a rdf:Property ;
+    rdfs:domain kastle:InformationSecurity ;
+    rdfs:range xsd:boolean .
+
+kastle:hasPublicationDate a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:date .
+
+kastle:hasReference a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Reference .
+
+kastle:hasSource a rdf:Property ;
+    rdfs:domain kastle:Info,
+        kastle:Information ;
+    rdfs:range xsd:string,
+        kastle:Resource,
+        kastle:Source .
+
+kastle:hasSubject a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Resource,
+        kastle:Subject .
+
+kastle:hasTimestamp a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasTitle a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:string .
+
+kastle:hasType a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:string .
+
+kastle:hasValue a rdf:Property ;
+    rdfs:domain kastle:Info,
+        kastle:Information ;
+    rdfs:range rdfs:Literal,
+        kastle:TextInfo .
+
+kastle:information a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range xsd:string .
+
+kastle:informationDescription a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range rdfs:Literal .
+
+kastle:informationSource a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Resource .
+
+kastle:isAbout a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Topic .
+
+kastle:isBasedOn a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Source .
+
+kastle:isBasisFor a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Knowledge .
+
+kastle:isConfidential a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:boolean .
+
+kastle:isDerivedFrom a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Data .
+
+kastle:isRelevantTo a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Resource .
+
+kastle:isStoredIn a rdf:Property ;
+    rdfs:domain kastle:Data,
+        kastle:DigitalInformation ;
+    rdfs:range kastle:Media,
+        kastle:Medium .
+
+kastle:isVerified a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:boolean .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:PersonalInformation ;
+    rdfs:range xsd:string .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:Entity,
+        kastle:Fact ;
+    rdfs:range kastle:Information,
+        kastle:Knowledge .
+
+kastle:relatedInformation a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range kastle:Information .
+
+kastle:source a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:string,
+        kastle:Anyuri .
+
+kastle:teaches a rdf:Property ;
+    rdfs:domain kastle:Professor ;
+    rdfs:range kastle:Student .
+
+kastle:title a rdf:Property ;
+    rdfs:domain kastle:Information ;
+    rdfs:range xsd:string .
+

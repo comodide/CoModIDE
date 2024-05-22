@@ -1,0 +1,163 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Color a rdfs:Class .
+
+kastle:Furniture a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Manufacturer a rdfs:Class ;
+    rdfs:subClassOf kastle:String .
+
+kastle:Material a rdfs:Class ;
+    rdfs:subClassOf kastle:String .
+
+kastle:Nonnegativeinteger a rdfs:Class .
+
+kastle:Room a rdfs:Class .
+
+kastle:Size a rdfs:Class .
+
+kastle:Sofa a rdfs:Class ;
+    rdfs:subClassOf kastle:Furniture .
+
+kastle:Style a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Sofa> a owl:Ontology ;
+    opla-core:hasPatternName "Sofa Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:brand a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:color a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:dimensions a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasBrand a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:Furniture,
+        kastle:Sofa ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Color .
+
+kastle:hasCushion a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range kastle:Integer .
+
+kastle:hasDimension a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasFabric a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasHeight a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range kastle:Integer .
+
+kastle:hasLength a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range kastle:Integer .
+
+kastle:hasManufacturer a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasMaterial a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Material .
+
+kastle:hasPrice a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasSeats a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range kastle:Integer .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range xsd:string,
+        kastle:Nonnegativeinteger,
+        kastle:Size .
+
+kastle:hasStyle a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Style .
+
+kastle:hasWidth a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range kastle:Integer .
+
+kastle:isUsedIn a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range kastle:Room .
+
+kastle:manufacturedBy a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range kastle:Manufacturer .
+
+kastle:material a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:numSeats a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range kastle:Integer .
+
+kastle:price a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range xsd:decimal .
+
+kastle:seatsNumber a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range kastle:Integer .
+
+kastle:size a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range xsd:string .
+
+kastle:style a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range xsd:string .
+
+kastle:typeOfMaterial a rdf:Property ;
+    rdfs:domain kastle:Furniture ;
+    rdfs:range xsd:string .
+
+kastle:weight a rdf:Property ;
+    rdfs:domain kastle:Sofa ;
+    rdfs:range xsd:decimal .
+

@@ -1,0 +1,178 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Address a rdfs:Class .
+
+kastle:City a rdfs:Class ;
+    rdfs:subClassOf kastle:Place .
+
+kastle:Country a rdfs:Class ;
+    rdfs:subClassOf kastle:Place .
+
+kastle:Double a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Lat a rdfs:Class .
+
+kastle:Location a rdfs:Class .
+
+kastle:Long a rdfs:Class .
+
+kastle:Park a rdfs:Class ;
+    rdfs:subClassOf kastle:Place .
+
+kastle:Place a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:PostalAddress a rdfs:Class .
+
+kastle:Type a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Place> a owl:Ontology ;
+    opla-core:hasPatternName "Place Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:addressCountry a rdf:Property ;
+    rdfs:domain kastle:PostalAddress ;
+    rdfs:range rdfs:Literal .
+
+kastle:addressLocality a rdf:Property ;
+    rdfs:domain kastle:PostalAddress ;
+    rdfs:range rdfs:Literal .
+
+kastle:city a rdf:Property ;
+    rdfs:domain kastle:Address,
+        kastle:Place ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:containedInPlace a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range kastle:Place .
+
+kastle:country a rdf:Property ;
+    rdfs:domain kastle:Address,
+        kastle:Place ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:countryOf a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country .
+
+kastle:hasAddress a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range xsd:string,
+        kastle:Address .
+
+kastle:hasArea a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range xsd:float .
+
+kastle:hasLatitude a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Location,
+        kastle:Place .
+
+kastle:hasLongitude a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasPopulation a rdf:Property ;
+    rdfs:domain kastle:City,
+        kastle:Place ;
+    rdfs:range kastle:Integer .
+
+kastle:hasPostalAddress a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range kastle:PostalAddress .
+
+kastle:hasType a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range kastle:Type .
+
+kastle:isLocatedIn a rdf:Property ;
+    rdfs:domain kastle:City,
+        kastle:Place ;
+    rdfs:range kastle:Country,
+        kastle:Place .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Park,
+        kastle:Place ;
+    rdfs:range kastle:City,
+        kastle:Place .
+
+kastle:latitude a rdf:Property ;
+    rdfs:domain kastle:Location,
+        kastle:Place ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Double,
+        kastle:Lat .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range kastle:Place .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range xsd:string .
+
+kastle:longitude a rdf:Property ;
+    rdfs:domain kastle:Location,
+        kastle:Place ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Double,
+        kastle:Long .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:placeName a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range xsd:string .
+
+kastle:population a rdf:Property ;
+    rdfs:domain kastle:Place ;
+    rdfs:range kastle:Integer .
+
+kastle:postCode a rdf:Property ;
+    rdfs:domain kastle:PostalAddress ;
+    rdfs:range rdfs:Literal .
+
+kastle:streetAddress a rdf:Property ;
+    rdfs:domain kastle:Address,
+        kastle:PostalAddress ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+

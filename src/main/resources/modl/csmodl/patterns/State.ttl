@@ -1,0 +1,122 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:City a rdfs:Class .
+
+kastle:Country a rdfs:Class ;
+    rdfs:subClassOf kastle:Feature,
+        kastle:Geographicalentity .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:State a rdfs:Class ;
+    rdfs:subClassOf kastle:Administrativeregion,
+        kastle:Feature,
+        kastle:Geographicalentity .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/State> a owl:Ontology ;
+    opla-core:hasPatternName "State Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongsCountry a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:Country .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:Country .
+
+kastle:capital a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range rdfs:Literal,
+        kastle:City .
+
+kastle:cityName a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range rdfs:Literal .
+
+kastle:containsState a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range kastle:State .
+
+kastle:hasArea a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:Integer .
+
+kastle:hasCapital a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range xsd:string,
+        kastle:City .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range xsd:string .
+
+kastle:hasPopulation a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range rdfs:Literal,
+        xsd:int,
+        kastle:Integer .
+
+kastle:hasState a rdf:Property ;
+    rdfs:domain kastle:Country,
+        kastle:Entity ;
+    rdfs:range kastle:State .
+
+kastle:hasStateCapital a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range xsd:string .
+
+kastle:isLocatedIn a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:State .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:Country .
+
+kastle:isPartOfCountry a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:Country .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:Country .
+
+kastle:locatedInCountry a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:Country .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:partOf a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:Country .
+
+kastle:population a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range rdfs:Literal,
+        kastle:Integer .
+
+kastle:stateName a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+

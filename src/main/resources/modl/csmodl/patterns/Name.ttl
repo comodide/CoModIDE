@@ -1,0 +1,136 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Name a rdfs:Class ;
+    rdfs:subClassOf kastle:Literal .
+
+kastle:NameEntity a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Name> a owl:Ontology ;
+    opla-core:hasPatternName "Name Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:entityName a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range kastle:Name .
+
+kastle:familyName a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:firstName a rdf:Property ;
+    rdfs:domain kastle:Name,
+        kastle:Person ;
+    rdfs:range xsd:string,
+        kastle:Name .
+
+kastle:fullName a rdf:Property ;
+    rdfs:domain kastle:Name,
+        kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:givenName a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:hasFirstName a rdf:Property ;
+    rdfs:domain kastle:Name,
+        kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Name .
+
+kastle:hasFullName a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasLastName a rdf:Property ;
+    rdfs:domain kastle:Name,
+        kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Name .
+
+kastle:hasMiddleName a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:NameEntity,
+        kastle:Person ;
+    rdfs:range xsd:string,
+        kastle:Name .
+
+kastle:hasNamePrefix a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasNameSuffix a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasNickName a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasPrefix a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:hasSuffix a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:hasfirstName a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:haslastName a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:hasmiddleName a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:lastName a rdf:Property ;
+    rdfs:domain kastle:Name,
+        kastle:Person ;
+    rdfs:range xsd:string,
+        kastle:Name .
+
+kastle:middleName a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:namePrefix a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:nameSuffix a rdf:Property ;
+    rdfs:domain kastle:Name ;
+    rdfs:range xsd:string .
+
+kastle:nickName a rdf:Property ;
+    rdfs:domain kastle:Name,
+        kastle:Person ;
+    rdfs:range xsd:string,
+        kastle:Name .
+

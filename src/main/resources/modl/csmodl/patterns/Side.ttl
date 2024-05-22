@@ -1,0 +1,113 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Anything a rdfs:Class .
+
+kastle:Class a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Object a rdfs:Class .
+
+kastle:Orientation a rdfs:Class .
+
+kastle:RectangularObject a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Side a rdfs:Class .
+
+kastle:SideType a rdfs:Class .
+
+kastle:String a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Side> a owl:Ontology ;
+    opla-core:hasPatternName "Side Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongsToObject a rdf:Property ;
+    rdfs:domain kastle:Side ;
+    rdfs:range kastle:Class .
+
+kastle:hasBackSide a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Side .
+
+kastle:hasFrontSide a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Side .
+
+kastle:hasLeftSide a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Side .
+
+kastle:hasLength a rdf:Property ;
+    rdfs:domain kastle:Side ;
+    rdfs:range xsd:float .
+
+kastle:hasOpponent a rdf:Property ;
+    rdfs:domain kastle:Side ;
+    rdfs:range kastle:Side .
+
+kastle:hasOrientation a rdf:Property ;
+    rdfs:domain kastle:Side ;
+    rdfs:range kastle:Orientation .
+
+kastle:hasRelatedObject a rdf:Property ;
+    rdfs:domain kastle:Side ;
+    rdfs:range kastle:Object .
+
+kastle:hasRightSide a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range kastle:Side .
+
+kastle:hasSide a rdf:Property ;
+    rdfs:domain kastle:Anything,
+        kastle:Entity,
+        kastle:Object,
+        kastle:RectangularObject,
+        kastle:Side,
+        kastle:Thing ;
+    rdfs:range xsd:string,
+        kastle:Side .
+
+kastle:hasSideType a rdf:Property ;
+    rdfs:domain kastle:Side ;
+    rdfs:range kastle:SideType .
+
+kastle:isSideOf a rdf:Property ;
+    rdfs:domain kastle:Side,
+        kastle:String ;
+    rdfs:range kastle:Side,
+        kastle:Thing .
+
+kastle:opposite a rdf:Property ;
+    rdfs:domain kastle:Side ;
+    rdfs:range kastle:Side .
+
+kastle:oppositeTo a rdf:Property ;
+    rdfs:domain kastle:Side ;
+    rdfs:range kastle:Side .
+
+kastle:relatedTo a rdf:Property ;
+    rdfs:domain kastle:Resource ;
+    rdfs:range kastle:Side .
+
+kastle:symmetricTo a rdf:Property ;
+    rdfs:domain kastle:Side ;
+    rdfs:range kastle:Side .
+

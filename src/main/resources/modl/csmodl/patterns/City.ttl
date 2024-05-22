@@ -1,0 +1,152 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:City a rdfs:Class ;
+    rdfs:subClassOf kastle:Feature,
+        kastle:Geologicalplace,
+        kastle:Geonamesfeature,
+        kastle:Resource .
+
+kastle:Country a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Nonnegativeinteger a rdfs:Class .
+
+kastle:Person a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Resource a rdfs:Class .
+
+kastle:State a rdfs:Class .
+
+kastle:TimeZone a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/City> a owl:Ontology ;
+    opla-core:hasPatternName "City Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:area a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range rdfs:Literal,
+        xsd:decimal,
+        xsd:float .
+
+kastle:areaInSqKm a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range xsd:decimal .
+
+kastle:capital a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range xsd:boolean .
+
+kastle:capitalOf a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country .
+
+kastle:cityContainedInCountry a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country .
+
+kastle:country a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Country .
+
+kastle:countryName a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range xsd:string .
+
+kastle:elevation a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range xsd:float .
+
+kastle:hasArea a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range xsd:float,
+        kastle:Integer,
+        kastle:Nonnegativeinteger .
+
+kastle:hasMayor a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Person .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasPopulation a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range rdfs:Literal,
+        xsd:int,
+        kastle:Integer,
+        kastle:Nonnegativeinteger .
+
+kastle:isCapital a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range rdfs:Literal .
+
+kastle:isCapitalOf a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country .
+
+kastle:isInCountry a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country .
+
+kastle:isLocatedIn a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country,
+        kastle:State .
+
+kastle:locatedInCountry a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:partOfCountry a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Country .
+
+kastle:population a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range rdfs:Literal,
+        xsd:int,
+        kastle:Integer,
+        kastle:Nonnegativeinteger .
+
+kastle:provide a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:Resource .
+
+kastle:timeZone a rdf:Property ;
+    rdfs:domain kastle:City ;
+    rdfs:range kastle:TimeZone .
+

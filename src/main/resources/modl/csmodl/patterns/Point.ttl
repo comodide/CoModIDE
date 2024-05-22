@@ -1,0 +1,108 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Double a rdfs:Class .
+
+kastle:Plane a rdfs:Class .
+
+kastle:Point a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Real a rdfs:Class .
+
+kastle:X_coordinate a rdfs:Class .
+
+kastle:Y_coordinate a rdfs:Class .
+
+kastle:Z_coordinate a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Point> a owl:Ontology ;
+    opla-core:hasPatternName "Point Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongs_to a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range kastle:Point .
+
+kastle:hasPoint a rdf:Property ;
+    rdfs:domain kastle:Plane ;
+    rdfs:range kastle:Point .
+
+kastle:hasX a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:float .
+
+kastle:hasXCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal,
+        kastle:Double,
+        kastle:Real,
+        kastle:X_coordinate .
+
+kastle:hasY a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:float .
+
+kastle:hasYCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal,
+        kastle:Double,
+        kastle:Real,
+        kastle:Y_coordinate .
+
+kastle:hasZ a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:float .
+
+kastle:hasZCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal,
+        kastle:Z_coordinate .
+
+kastle:isOrigin a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:boolean .
+
+kastle:locatedInPlane a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range kastle:Plane .
+
+kastle:x a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:xCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Double .
+
+kastle:y a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:yCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Double .
+
+kastle:zCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+

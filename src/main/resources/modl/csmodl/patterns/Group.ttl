@@ -1,0 +1,166 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Group a rdfs:Class ;
+    rdfs:subClassOf kastle:N5cf3df7a2b5740c48d8e01924d30125ab3,
+        kastle:N6fd89a71a44f46dab2a3aa8d52f58970b1,
+        kastle:Na02b249382f24ea1aa0683a71eb84cd7b2,
+        kastle:Ne1bda3da70704b05a03cd314f2618192b1,
+        kastle:Resource .
+
+kastle:GroupLeader a rdfs:Class ;
+    rdfs:subClassOf kastle:Groupmember .
+
+kastle:GroupMember a rdfs:Class ;
+    rdfs:subClassOf kastle:Group .
+
+kastle:GroupType a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Individual a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Member a rdfs:Class ;
+    rdfs:subClassOf kastle:N5cf3df7a2b5740c48d8e01924d30125ab1,
+        kastle:Resource .
+
+kastle:Person a rdfs:Class ;
+    rdfs:subClassOf kastle:Na02b249382f24ea1aa0683a71eb84cd7b1 .
+
+kastle:Positiveinteger a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Role a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Group> a owl:Ontology ;
+    opla-core:hasPatternName "Group Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:createdOn a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range xsd:date .
+
+kastle:creationDate a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range xsd:date .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range xsd:string .
+
+kastle:establishedDate a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range xsd:date .
+
+kastle:groupDescription a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range xsd:string .
+
+kastle:groupID a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range kastle:Integer .
+
+kastle:groupMember a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range kastle:Member .
+
+kastle:groupName a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:groupSize a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range xsd:int,
+        kastle:Integer,
+        kastle:Positiveinteger .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Member ;
+    rdfs:range kastle:Integer .
+
+kastle:hasGroupName a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range xsd:string .
+
+kastle:hasGroupSize a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range kastle:Integer .
+
+kastle:hasLeader a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range kastle:GroupLeader,
+        kastle:Resource .
+
+kastle:hasMember a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range kastle:GroupMember,
+        kastle:Individual,
+        kastle:Member,
+        kastle:Person,
+        kastle:Resource,
+        kastle:Thing .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Member ;
+    rdfs:range xsd:string .
+
+kastle:hasRole a rdf:Property ;
+    rdfs:domain kastle:Member ;
+    rdfs:range kastle:Role .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Group .
+
+kastle:leader a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range kastle:GroupLeader .
+
+kastle:member a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range kastle:GroupMember,
+        kastle:Resource .
+
+kastle:memberName a rdf:Property ;
+    rdfs:domain kastle:Member ;
+    rdfs:range xsd:string .
+
+kastle:memberOf a rdf:Property ;
+    rdfs:domain kastle:Member ;
+    rdfs:range kastle:Group .
+
+kastle:memberRole a rdf:Property ;
+    rdfs:domain kastle:Member ;
+    rdfs:range xsd:string .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Group,
+        kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:ofType a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range kastle:GroupType .
+
+kastle:size a rdf:Property ;
+    rdfs:domain kastle:Group ;
+    rdfs:range kastle:Integer .
+

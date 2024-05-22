@@ -1,0 +1,281 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Branch a rdfs:Class .
+
+kastle:Citizen a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:City a rdfs:Class ;
+    rdfs:subClassOf kastle:Government .
+
+kastle:Country a rdfs:Class ;
+    rdfs:subClassOf kastle:Government .
+
+kastle:Department a rdfs:Class .
+
+kastle:Diff a rdfs:Class ;
+    rdfs:subClassOf kastle:Department .
+
+kastle:Executive a rdfs:Class .
+
+kastle:Government a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:GovernmentPolicy a rdfs:Class .
+
+kastle:GovernmentSystem a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Law a rdfs:Class .
+
+kastle:Laws a rdfs:Class .
+
+kastle:Leader a rdfs:Class .
+
+kastle:LeadershipPosition a rdfs:Class .
+
+kastle:Legislation a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Legislative a rdfs:Class ;
+    rdfs:subClassOf kastle:Government .
+
+kastle:Member a rdfs:Class ;
+    rdfs:subClassOf kastle:Politician .
+
+kastle:Official a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Policy a rdfs:Class .
+
+kastle:PoliticalParty a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Politician a rdfs:Class .
+
+kastle:Position a rdfs:Class .
+
+kastle:Positiveinteger a rdfs:Class .
+
+kastle:PublicService a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:State a rdfs:Class ;
+    rdfs:subClassOf kastle:Government .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Government> a owl:Ontology ;
+    opla-core:hasPatternName "Government Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongs a rdf:Property ;
+    rdfs:domain kastle:Citizen ;
+    rdfs:range kastle:PoliticalParty .
+
+kastle:citizenAge a rdf:Property ;
+    rdfs:domain kastle:Citizen ;
+    rdfs:range kastle:Integer .
+
+kastle:consistsOf a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Branch .
+
+kastle:country a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range xsd:string .
+
+kastle:createsLaw a rdf:Property ;
+    rdfs:domain kastle:Legislative ;
+    rdfs:range kastle:Resource .
+
+kastle:department a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Department .
+
+kastle:departmentOf a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Department .
+
+kastle:director a rdf:Property ;
+    rdfs:domain kastle:Diff ;
+    rdfs:range kastle:Official .
+
+kastle:enforcesLaw a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Law,
+        kastle:Resource .
+
+kastle:established a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range xsd:date .
+
+kastle:governedBy a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:Government .
+
+kastle:governmentName a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range xsd:string .
+
+kastle:governmentType a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range xsd:string .
+
+kastle:governs a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Citizen,
+        kastle:Country,
+        kastle:State .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:hasBranch a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Branch .
+
+kastle:hasCitizen a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range kastle:Person .
+
+kastle:hasCity a rdf:Property ;
+    rdfs:domain kastle:State ;
+    rdfs:range kastle:City .
+
+kastle:hasDepartment a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Department .
+
+kastle:hasGovernment a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range kastle:Government .
+
+kastle:hasHead a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Person .
+
+kastle:hasHeadOfState a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Person .
+
+kastle:hasLaw a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Law .
+
+kastle:hasLaws a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Laws .
+
+kastle:hasLeader a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Leader,
+        kastle:LeadershipPosition .
+
+kastle:hasMember a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Member,
+        kastle:Person .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasPolicy a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:GovernmentPolicy,
+        kastle:Policy .
+
+kastle:hasState a rdf:Property ;
+    rdfs:domain kastle:Country ;
+    rdfs:range kastle:State .
+
+kastle:hasSystem a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:GovernmentSystem .
+
+kastle:headOf a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Executive .
+
+kastle:headOfGovernment a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Person .
+
+kastle:holdsPosition a rdf:Property ;
+    rdfs:domain kastle:Official ;
+    rdfs:range kastle:Position .
+
+kastle:implements a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Policy .
+
+kastle:isBranchOf a rdf:Property ;
+    rdfs:domain kastle:Branch ;
+    rdfs:range kastle:Government .
+
+kastle:isHeadedBy a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Resource .
+
+kastle:leaderOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Government .
+
+kastle:legislation a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Law .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:Government,
+        kastle:State ;
+    rdfs:range kastle:Country .
+
+kastle:mayorOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:City .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Resource ;
+    rdfs:range xsd:string .
+
+kastle:official a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Official .
+
+kastle:passes a rdf:Property ;
+    rdfs:domain kastle:Government,
+        kastle:Politician ;
+    rdfs:range kastle:Legislation .
+
+kastle:population a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:Positiveinteger .
+
+kastle:positionIn a rdf:Property ;
+    rdfs:domain kastle:Department ;
+    rdfs:range kastle:Position .
+
+kastle:presidentOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Government .
+
+kastle:providesService a rdf:Property ;
+    rdfs:domain kastle:Government ;
+    rdfs:range kastle:PublicService .
+

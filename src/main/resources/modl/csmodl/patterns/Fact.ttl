@@ -1,0 +1,221 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Anyuri a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Fact a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Statement .
+
+kastle:FactCategory a rdfs:Class .
+
+kastle:FactCheck a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:FactDescription a rdfs:Class .
+
+kastle:FactSource a rdfs:Class .
+
+kastle:FactTopic a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:FactType a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Reporter a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Source a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Subject a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:Truthvalue a rdfs:Class .
+
+kastle:Verification a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Fact> a owl:Ontology ;
+    opla-core:hasPatternName "Fact Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:assertedBy a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Resource .
+
+kastle:dateRecorded a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:date .
+
+kastle:dateVerified a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range rdfs:Literal .
+
+kastle:factStatement a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:string .
+
+kastle:hasCategoryName a rdf:Property ;
+    rdfs:domain kastle:FactCategory ;
+    rdfs:range xsd:string .
+
+kastle:hasDate a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:date .
+
+kastle:hasDateVerified a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:date .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:FactDescription .
+
+kastle:hasFact a rdf:Property ;
+    rdfs:domain kastle:Fact,
+        kastle:Subject ;
+    rdfs:range kastle:Fact .
+
+kastle:hasFactSource a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Thing .
+
+kastle:hasFactText a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:string .
+
+kastle:hasFactTopic a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:FactTopic .
+
+kastle:hasFactType a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:FactType .
+
+kastle:hasFactValue a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:string .
+
+kastle:hasId a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:string .
+
+kastle:hasObject a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Resource .
+
+kastle:hasPredicate a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Resource .
+
+kastle:hasReporter a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Reporter .
+
+kastle:hasSource a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:string,
+        kastle:Source .
+
+kastle:hasSourceName a rdf:Property ;
+    rdfs:domain kastle:FactSource ;
+    rdfs:range xsd:string .
+
+kastle:hasSourceUrl a rdf:Property ;
+    rdfs:domain kastle:FactSource ;
+    rdfs:range kastle:Anyuri .
+
+kastle:hasStatement a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:string .
+
+kastle:hasSubject a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Resource,
+        kastle:Subject .
+
+kastle:hasValue a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:string .
+
+kastle:hasVerification a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Verification .
+
+kastle:hasVerificationStatus a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:boolean .
+
+kastle:isAbout a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:string .
+
+kastle:isFactAbout a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Thing .
+
+kastle:isFactChecked a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:FactCheck .
+
+kastle:isFactOfCategory a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:FactCategory .
+
+kastle:isSourceVerified a rdf:Property ;
+    rdfs:domain kastle:FactSource ;
+    rdfs:range xsd:boolean .
+
+kastle:isVerified a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:boolean .
+
+kastle:relatedTo a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Resource .
+
+kastle:related_to a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Resource .
+
+kastle:source a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Resource .
+
+kastle:sourceReference a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Resource .
+
+kastle:subject a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Resource .
+
+kastle:validity a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range xsd:boolean .
+
+kastle:verified a rdf:Property ;
+    rdfs:domain kastle:Fact ;
+    rdfs:range kastle:Truthvalue .
+
