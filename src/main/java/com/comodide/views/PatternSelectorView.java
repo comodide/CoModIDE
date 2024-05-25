@@ -75,11 +75,18 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
         librarySelectorLabel.setFont(librarySelectorFont.deriveFont(librarySelectorFont.getStyle() | Font.BOLD));
         librarySelectorLabel.setAlignmentX(LEFT_ALIGNMENT);
         // This is a hack due to JComboBox misbehaving; see https://stackoverflow.com/questions/7581846/swing-boxlayout-problem-with-jcombobox-without-using-setxxxsize
-        JComboBox<String> libraryList = new JComboBox<String>(
-                new String[]
+        JComboBox<PatternLibrary.ConfigData> libraryList = new JComboBox<PatternLibrary.ConfigData>(
+                new PatternLibrary.ConfigData[]
                         {
-                                PatternLibrary.DEFAULT_LIBRARY_PATH,
-                                "modl/csmodl/csmodl.owl"
+                                PatternLibrary.DEFAULT_LIBRARY_CONFIG,
+                                new PatternLibrary.ConfigData(
+                                        "modl/csmodl/csmodl.owl",
+                                        "https://archive.org/services/purl/purl/modular_ontology_design_library#Pattern",
+                                        "https://archive.org/services/purl/purl/modular_ontology_design_library#Category",
+                                        PatternLibrary.DEFAULT_LIBRARY_CONFIG.schemaDiagramPropertyIRI.toString(),
+                                        PatternLibrary.DEFAULT_LIBRARY_CONFIG.htmlDocPropertyIRI.toString(),
+                                        PatternLibrary.DEFAULT_LIBRARY_CONFIG.owlRepPropertyIRI.toString()
+                                )
                         }
         ) {
             private static final long serialVersionUID = 3692789082261972438L;
@@ -93,12 +100,12 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 
         // Listener for when user selects a new category, redraws the pattern table based on chosen category
         libraryList.addActionListener(event -> {
-            String selectedLibraryPath = (String)libraryList.getSelectedItem();
+            PatternLibrary.ConfigData selectedLibraryConfig = (PatternLibrary.ConfigData)libraryList.getSelectedItem();
             PatternCategory selectedCategory = (PatternCategory)categoryList.getSelectedItem();
-            TelemetryAgent.logLibraryClick(String.format("Library: %s", selectedLibraryPath));
-            if (selectedLibraryPath == null)
+            TelemetryAgent.logLibraryClick(String.format("Library: %s", selectedLibraryConfig));
+            if (selectedLibraryConfig == null)
                 return;
-            PatternLibrary.setInstanceByFilePath(selectedLibraryPath);
+            PatternLibrary.setInstanceWithConfig(selectedLibraryConfig);
             patternLibrary = PatternLibrary.getInstance();
             DefaultComboBoxModel<PatternCategory> updatedCategoryListModel = new DefaultComboBoxModel<>(patternLibrary.getPatternCategories());
             categoryList.setModel(updatedCategoryListModel);
@@ -199,4 +206,5 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
             return size;
         }
     }
+
 }

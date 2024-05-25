@@ -38,18 +38,25 @@ import javax.annotation.Nonnull;
 public class PatternLibrary {
 
 	// Constants
-	public static final String DEFAULT_LIBRARY_PATH = "modl/default/ModlIndex.owl";
+	public static final ConfigData DEFAULT_LIBRARY_CONFIG = new ConfigData(
+			"modl/default/ModlIndex.owl",
+			"http://ontologydesignpatterns.org/opla#Pattern",
+			"http://ontologydesignpatterns.org/opla#categorization",
+			"http://ontologydesignpatterns.org/opla#renderedSchemaDiagram",
+			"http://ontologydesignpatterns.org/opla#htmlDocumentation",
+			"http://ontologydesignpatterns.org/opla#owlRepresentation"
+	);
 
 	// Infrastructure
     private static PatternLibrary instance;
     private static final Logger log = LoggerFactory.getLogger(PatternLibrary.class);
 
     // Configuration fields
-    private final IRI PATTERN_CLASS_IRI = IRI.create("http://ontologydesignpatterns.org/opla#Pattern");
-    private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#categorization");
-    private final IRI SCHEMADIAGRAM_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#renderedSchemaDiagram");
-    private final IRI HTMLDOC_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#htmlDocumentation");
-    private final IRI OWLREP_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#owlRepresentation");
+	private final IRI PATTERN_CLASS_IRI;
+	private final IRI CATEGORIZATION_PROPERTY_IRI;
+	private final IRI SCHEMADIAGRAM_PROPERTY_IRI;
+	private final IRI HTMLDOC_PROPERTY_IRI;
+	private final IRI OWLREP_PROPERTY_IRI;
     public final PatternCategory ANY_CATEGORY = new PatternCategory("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
 
     // Instance fields
@@ -61,18 +68,23 @@ public class PatternLibrary {
     // Singleton access method
     public static synchronized PatternLibrary getInstance() {
         if(instance == null){
-			setInstanceByFilePath(DEFAULT_LIBRARY_PATH);
+			setInstanceWithConfig(DEFAULT_LIBRARY_CONFIG);
         }
         return instance;
     }
 
-	public static synchronized void setInstanceByFilePath(@Nonnull final String filePath) {
-		instance = new PatternLibrary(filePath);
+	public static synchronized void setInstanceWithConfig(@Nonnull final ConfigData config) {
+		instance = new PatternLibrary(config);
 	}
 
     // Parse index on instance creation
-	private PatternLibrary(@Nonnull final String filePath) {
-		parseIndex(filePath);
+	private PatternLibrary(@Nonnull final ConfigData configData) {
+		PATTERN_CLASS_IRI = configData.patternClassIRI;
+		CATEGORIZATION_PROPERTY_IRI = configData.categorizationPropertyIRI;
+		SCHEMADIAGRAM_PROPERTY_IRI = configData.schemaDiagramPropertyIRI;
+		HTMLDOC_PROPERTY_IRI = configData.htmlDocPropertyIRI;
+		OWLREP_PROPERTY_IRI = configData.owlRepPropertyIRI;
+		parseIndex(configData.filePath);
 	}
 
 	// Based on pattern object, instantiate pattern from disk into OWLOntology
@@ -220,6 +232,36 @@ public class PatternLibrary {
 		List<Pattern> returnedPatterns = patternCategories.get(category);
 		Collections.sort(returnedPatterns);
 		return returnedPatterns;
+	}
+
+	public static class ConfigData {
+		public final String filePath;
+		public final IRI patternClassIRI;
+		public final IRI categorizationPropertyIRI;
+		public final IRI schemaDiagramPropertyIRI;
+		public final IRI htmlDocPropertyIRI;
+		public final IRI owlRepPropertyIRI;
+
+        public ConfigData(
+				@Nonnull final String filePath,
+				@Nonnull final String patternClassIRI,
+				@Nonnull final String categorizationPropertyIRI,
+				@Nonnull final String schemaDiagramPropertyIRI,
+				@Nonnull final String htmlDocPropertyIRI,
+				@Nonnull final String owlRepPropertyIRI
+		) {
+            this.filePath = filePath;
+            this.patternClassIRI = IRI.create(patternClassIRI);
+            this.categorizationPropertyIRI = IRI.create(categorizationPropertyIRI);
+            this.schemaDiagramPropertyIRI = IRI.create(schemaDiagramPropertyIRI);
+            this.htmlDocPropertyIRI = IRI.create(htmlDocPropertyIRI);
+            this.owlRepPropertyIRI = IRI.create(owlRepPropertyIRI);
+        }
+
+		@Override
+		public String toString() {
+			return filePath;
+		}
 	}
 
 }

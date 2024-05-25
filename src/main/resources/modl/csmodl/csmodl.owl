@@ -1,578 +1,1600 @@
 @prefix : <https://archive.org/services/purl/purl/modular_ontology_design_library#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix opla: <http://ontologydesignpatterns.org/opla#> .
 @prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
-@base <https://archive.org/services/purl/purl/modular_ontology_design_library#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+opla:htmlDocumentation a owl:DatatypeProperty ;
+    rdfs:label "Owl HTML Documentation"@en ;
+    rdfs:domain :Pattern ;
+    rdfs:range xsd:string .
+
+opla:owlRepresentation a owl:DatatypeProperty ;
+    rdfs:label "Owl Representation"@en ;
+    rdfs:domain :Pattern ;
+    rdfs:range xsd:string .
+
+opla:renderedSchemaDiagram a owl:DatatypeProperty ;
+    rdfs:label "Rendered Schema Diagram"@en ;
+    rdfs:domain :Pattern ;
+    rdfs:range xsd:string .
+
+: a owl:Ontology ;
+    opla-core:hasPatternName "Commonsense Modular Ontology Design Library" .
+
+:Air a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Air"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">1
+            </span> <a id="x1-10001"></a>Air</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Air.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Air.pdf"^^xsd:string .
+
+:Area a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Area"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">2
+            </span> <a id="x1-10001"></a>Area</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Area.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Area.pdf"^^xsd:string .
+
+:Art a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Art"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">3
+            </span> <a id="x1-10001"></a>Art</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Art.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Art.pdf"^^xsd:string .
+
+:Back a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Back"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">4
+            </span> <a id="x1-10001"></a>Back</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Back.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Back.pdf"^^xsd:string .
+
+:Body a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Body"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">5
+            </span> <a id="x1-10001"></a>Body</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Body.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Body.pdf"^^xsd:string .
+
+:Book a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Book"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">6
+            </span> <a id="x1-10001"></a>Book</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Book.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Book.pdf"^^xsd:string .
+
+:Business a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Business"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">7
+            </span> <a id="x1-10001"></a>Business</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Business.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Business.pdf"^^xsd:string .
+
+:Car a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Car"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">8
+            </span> <a id="x1-10001"></a>Car</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Car.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Car.pdf"^^xsd:string .
+
+:Case a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Case"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">9
+            </span> <a id="x1-10001"></a>Case</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Case.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Case.pdf"^^xsd:string .
+
+:Chair a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Chair"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">10
+            </span> <a id="x1-10001"></a>Chair</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Chair.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Chair.pdf"^^xsd:string .
+
+:Change a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Change"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">11
+            </span> <a id="x1-10001"></a>Change</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Change.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Change.pdf"^^xsd:string .
+
+:Child a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Child"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">12
+            </span> <a id="x1-10001"></a>Child</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Child.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Child.pdf"^^xsd:string .
+
+:City a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "City"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">13
+            </span> <a id="x1-10001"></a>City</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/City.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/City.pdf"^^xsd:string .
+
+:Community a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Community"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">14
+            </span> <a id="x1-10001"></a>Community</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Community.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Community.pdf"^^xsd:string .
+
+:Company a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Company"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">15
+            </span> <a id="x1-10001"></a>Company</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Company.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Company.pdf"^^xsd:string .
+
+:Couch a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Couch"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">16
+            </span> <a id="x1-10001"></a>Couch</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Couch.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Couch.pdf"^^xsd:string .
+
+:Country a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Country"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">17
+            </span> <a id="x1-10001"></a>Country</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Country.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Country.pdf"^^xsd:string .
+
+:Day a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Day"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">18
+            </span> <a id="x1-10001"></a>Day</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Day.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Day.pdf"^^xsd:string .
+
+:Door a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Door"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">19
+            </span> <a id="x1-10001"></a>Door</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Door.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Door.pdf"^^xsd:string .
+
+:Education a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Education"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">20
+            </span> <a id="x1-10001"></a>Education</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Education.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Education.pdf"^^xsd:string .
+
+:End a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "End"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">21
+            </span> <a id="x1-10001"></a>End</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/End.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/End.pdf"^^xsd:string .
+
+:Eye a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Eye"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">22
+            </span> <a id="x1-10001"></a>Eye</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Eye.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Eye.pdf"^^xsd:string .
+
+:Face a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Face"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">23
+            </span> <a id="x1-10001"></a>Face</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Face.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Face.pdf"^^xsd:string .
+
+:Fact a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Fact"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">24
+            </span> <a id="x1-10001"></a>Fact</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Fact.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Fact.pdf"^^xsd:string .
+
+:Family a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Family"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">25
+            </span> <a id="x1-10001"></a>Family</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Family.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Family.pdf"^^xsd:string .
+
+:Father a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Father"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">26
+            </span> <a id="x1-10001"></a>Father</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Father.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Father.pdf"^^xsd:string .
+
+:Force a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Force"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">27
+            </span> <a id="x1-10001"></a>Force</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Force.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Force.pdf"^^xsd:string .
+
+:Friend a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Friend"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">28
+            </span> <a id="x1-10001"></a>Friend</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Friend.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Friend.pdf"^^xsd:string .
+
+:Game a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Game"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">29
+            </span> <a id="x1-10001"></a>Game</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Game.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Game.pdf"^^xsd:string .
+
+:Girl a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Girl"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">30
+            </span> <a id="x1-10001"></a>Girl</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Girl.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Girl.pdf"^^xsd:string .
+
+:Government a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Government"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">31
+            </span> <a id="x1-10001"></a>Government</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Government.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Government.pdf"^^xsd:string .
+
+:Group a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Group"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">32
+            </span> <a id="x1-10001"></a>Group</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Group.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Group.pdf"^^xsd:string .
+
+:Guy a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Guy"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">33
+            </span> <a id="x1-10001"></a>Guy</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Guy.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Guy.pdf"^^xsd:string .
+
+:Hand a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Hand"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">34
+            </span> <a id="x1-10001"></a>Hand</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Hand.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Hand.pdf"^^xsd:string .
+
+:Head a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Head"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">35
+            </span> <a id="x1-10001"></a>Head</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Head.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Head.pdf"^^xsd:string .
+
+:Health a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Health"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">36
+            </span> <a id="x1-10001"></a>Health</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Health.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Health.pdf"^^xsd:string .
+
+:History a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "History"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">37
+            </span> <a id="x1-10001"></a>History</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/History.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/History.pdf"^^xsd:string .
+
+:Home a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Home"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">38
+            </span> <a id="x1-10001"></a>Home</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Home.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Home.pdf"^^xsd:string .
+
+:Hour a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Hour"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">39
+            </span> <a id="x1-10001"></a>Hour</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Hour.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Hour.pdf"^^xsd:string .
+
+:House a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "House"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">40
+            </span> <a id="x1-10001"></a>House</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/House.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/House.pdf"^^xsd:string .
+
+:Idea a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Idea"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">41
+            </span> <a id="x1-10001"></a>Idea</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Idea.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Idea.pdf"^^xsd:string .
+
+:Information a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Information"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">42
+            </span> <a id="x1-10001"></a>Information</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Information.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Information.pdf"^^xsd:string .
+
+:Issue a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Issue"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">43
+            </span> <a id="x1-10001"></a>Issue</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Issue.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Issue.pdf"^^xsd:string .
+
+:Job a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Job"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">44
+            </span> <a id="x1-10001"></a>Job</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Job.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Job.pdf"^^xsd:string .
+
+:Kid a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Kid"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">45
+            </span> <a id="x1-10001"></a>Kid</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Kid.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Kid.pdf"^^xsd:string .
+
+:Kind a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Kind"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">46
+            </span> <a id="x1-10001"></a>Kind</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Kind.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Kind.pdf"^^xsd:string .
+
+:Law a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Law"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">47
+            </span> <a id="x1-10001"></a>Law</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Law.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Law.pdf"^^xsd:string .
+
+:Level a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Level"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">48
+            </span> <a id="x1-10001"></a>Level</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Level.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Level.pdf"^^xsd:string .
+
+:Life a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Life"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">49
+            </span> <a id="x1-10001"></a>Life</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Life.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Life.pdf"^^xsd:string .
+
+:Line a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Line"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">50
+            </span> <a id="x1-10001"></a>Line</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Line.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Line.pdf"^^xsd:string .
+
+:Lot a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Lot"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">51
+            </span> <a id="x1-10001"></a>Lot</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Lot.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Lot.pdf"^^xsd:string .
+
+:Loveseat a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Loveseat"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">52
+            </span> <a id="x1-10001"></a>Loveseat</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Loveseat.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Loveseat.pdf"^^xsd:string .
+
+:Man a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Man"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">53
+            </span> <a id="x1-10001"></a>Man</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Man.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Man.pdf"^^xsd:string .
+
+:Member a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Member"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">54
+            </span> <a id="x1-10001"></a>Member</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Member.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Member.pdf"^^xsd:string .
+
+:Minute a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Minute"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">55
+            </span> <a id="x1-10001"></a>Minute</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Minute.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Minute.pdf"^^xsd:string .
+
+:Moment a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Moment"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">56
+            </span> <a id="x1-10001"></a>Moment</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Moment.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Moment.pdf"^^xsd:string .
+
+:Money a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Money"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">57
+            </span> <a id="x1-10001"></a>Money</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Money.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Money.pdf"^^xsd:string .
+
+:Month a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Month"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">58
+            </span> <a id="x1-10001"></a>Month</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Month.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Month.pdf"^^xsd:string .
+
+:Morning a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Morning"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">59
+            </span> <a id="x1-10001"></a>Morning</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Morning.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Morning.pdf"^^xsd:string .
+
+:Mother a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Mother"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">60
+            </span> <a id="x1-10001"></a>Mother</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Mother.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Mother.pdf"^^xsd:string .
+
+:Name a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Name"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">61
+            </span> <a id="x1-10001"></a>Name</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Name.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Name.pdf"^^xsd:string .
+
+:Night a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Night"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">62
+            </span> <a id="x1-10001"></a>Night</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Night.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Night.pdf"^^xsd:string .
+
+:Number a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Number"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">63
+            </span> <a id="x1-10001"></a>Number</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Number.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Number.pdf"^^xsd:string .
+
+:Office a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Office"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">64
+            </span> <a id="x1-10001"></a>Office</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Office.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Office.pdf"^^xsd:string .
+
+:Others a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Others"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">65
+            </span> <a id="x1-10001"></a>Others</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Others.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Others.pdf"^^xsd:string .
+
+:Parent a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Parent"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">66
+            </span> <a id="x1-10001"></a>Parent</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Parent.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Parent.pdf"^^xsd:string .
+
+:Part a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Part"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">67
+            </span> <a id="x1-10001"></a>Part</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Part.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Part.pdf"^^xsd:string .
+
+:Party a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Party"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">68
+            </span> <a id="x1-10001"></a>Party</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Party.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Party.pdf"^^xsd:string .
+
+:People a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "People"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">69
+            </span> <a id="x1-10001"></a>People</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/People.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/People.pdf"^^xsd:string .
+
+:Person a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Person"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">70
+            </span> <a id="x1-10001"></a>Person</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Person.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Person.pdf"^^xsd:string .
+
+:Place a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Place"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">71
+            </span> <a id="x1-10001"></a>Place</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Place.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Place.pdf"^^xsd:string .
+
+:Point a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Point"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">72
+            </span> <a id="x1-10001"></a>Point</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Point.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Point.pdf"^^xsd:string .
+
+:Power a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Power"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">73
+            </span> <a id="x1-10001"></a>Power</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Power.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Power.pdf"^^xsd:string .
+
+:President a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "President"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">74
+            </span> <a id="x1-10001"></a>President</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/President.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/President.pdf"^^xsd:string .
+
+:Problem a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Problem"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">75
+            </span> <a id="x1-10001"></a>Problem</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Problem.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Problem.pdf"^^xsd:string .
+
+:Program a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Program"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">76
+            </span> <a id="x1-10001"></a>Program</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Program.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Program.pdf"^^xsd:string .
+
+:Question a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Question"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">77
+            </span> <a id="x1-10001"></a>Question</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Question.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Question.pdf"^^xsd:string .
+
+:Reason a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Reason"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">78
+            </span> <a id="x1-10001"></a>Reason</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Reason.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Reason.pdf"^^xsd:string .
+
+:Research a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Research"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">79
+            </span> <a id="x1-10001"></a>Research</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Research.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Research.pdf"^^xsd:string .
+
+:Result a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Result"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">80
+            </span> <a id="x1-10001"></a>Result</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Result.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Result.pdf"^^xsd:string .
+
+:Right a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Right"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">81
+            </span> <a id="x1-10001"></a>Right</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Right.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Right.pdf"^^xsd:string .
+
+:Room a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Room"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">82
+            </span> <a id="x1-10001"></a>Room</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Room.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Room.pdf"^^xsd:string .
+
+:School a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "School"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">83
+            </span> <a id="x1-10001"></a>School</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/School.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/School.pdf"^^xsd:string .
+
+:Service a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Service"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">84
+            </span> <a id="x1-10001"></a>Service</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Service.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Service.pdf"^^xsd:string .
+
+:Side a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Side"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">85
+            </span> <a id="x1-10001"></a>Side</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Side.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Side.pdf"^^xsd:string .
+
+:Sofa a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Sofa"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">86
+            </span> <a id="x1-10001"></a>Sofa</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Sofa.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Sofa.pdf"^^xsd:string .
+
+:State a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "State"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">87
+            </span> <a id="x1-10001"></a>State</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/State.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/State.pdf"^^xsd:string .
+
+:Story a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Story"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">88
+            </span> <a id="x1-10001"></a>Story</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Story.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Story.pdf"^^xsd:string .
+
+:Student a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Student"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">89
+            </span> <a id="x1-10001"></a>Student</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Student.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Student.pdf"^^xsd:string .
+
+:Study a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Study"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">90
+            </span> <a id="x1-10001"></a>Study</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Study.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Study.pdf"^^xsd:string .
+
+:System a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "System"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">91
+            </span> <a id="x1-10001"></a>System</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/System.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/System.pdf"^^xsd:string .
+
+:Teacher a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Teacher"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">92
+            </span> <a id="x1-10001"></a>Teacher</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Teacher.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Teacher.pdf"^^xsd:string .
+
+:Team a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Team"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">93
+            </span> <a id="x1-10001"></a>Team</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Team.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Team.pdf"^^xsd:string .
+
+:Thing a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Thing"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">94
+            </span> <a id="x1-10001"></a>Thing</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Thing.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Thing.pdf"^^xsd:string .
+
+:Time a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Time"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">95
+            </span> <a id="x1-10001"></a>Time</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Time.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Time.pdf"^^xsd:string .
+
+:War a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "War"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">96
+            </span> <a id="x1-10001"></a>War</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/War.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/War.pdf"^^xsd:string .
+
+:Water a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Water"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">97
+            </span> <a id="x1-10001"></a>Water</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Water.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Water.pdf"^^xsd:string .
+
+:Way a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Way"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">98
+            </span> <a id="x1-10001"></a>Way</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Way.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Way.pdf"^^xsd:string .
+
+:Week a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Week"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">99
+            </span> <a id="x1-10001"></a>Week</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Week.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Week.pdf"^^xsd:string .
+
+:Woman a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Woman"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">100
+            </span> <a id="x1-10001"></a>Woman</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Woman.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Woman.pdf"^^xsd:string .
+
+:Word a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Word"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">101
+            </span> <a id="x1-10001"></a>Word</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Word.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Word.pdf"^^xsd:string .
+
+:Work a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Work"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">102
+            </span> <a id="x1-10001"></a>Work</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Work.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Work.pdf"^^xsd:string .
+
+:World a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "World"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">103
+            </span> <a id="x1-10001"></a>World</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/World.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/World.pdf"^^xsd:string .
+
+:Year a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "Year"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">104
+            </span> <a id="x1-10001"></a>Year</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Year.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Year.pdf"^^xsd:string .
+
+:chair a owl:NamedIndividual,
+        :Pattern ;
+    rdfs:label "chair"@en ;
+    opla:htmlDocumentation """
+            <html>
+            <body>
+            <h3 class="sectionHead"><span class="titlemark">105
+            </span> <a id="x1-10001"></a>chair</h3>
+
+            <body/>
+            <html/>
+        """^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/chair.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/chair.pdf"^^xsd:string .
 
-<https://archive.org/services/purl/purl/modular_ontology_design_library/> rdf:type owl:Ontology ;
-                                                                           opla-core:hasPatternName "Commonsense Modular Ontology Design Library" .
-
-#################################################################
-#    Annotation properties
-#################################################################
-
-###  http://ontologydesignpatterns.org/opla-core#hasPatternName
-opla-core:hasPatternName rdf:type owl:AnnotationProperty .
-
-
-#################################################################
-#    Object Properties
-#################################################################
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/hasMODLCategory
-:hasMODLCategory rdf:type owl:ObjectProperty .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/hasRelatedPattern
-:hasRelatedPattern rdf:type owl:ObjectProperty .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/specializationOfPattern
-:specializationOfPattern rdf:type owl:ObjectProperty .
-
-
-#################################################################
-#    Classes
-#################################################################
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Category
-:Category rdf:type owl:Class .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Pattern
-:Pattern rdf:type owl:Class .
-
-
-#################################################################
-#    Individuals
-#################################################################
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Air
-:Air rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Area
-:Area rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Art
-:Art rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Back
-:Back rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Body
-:Body rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Book
-:Book rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Business
-:Business rdf:type owl:NamedIndividual ,
-                   :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Car
-:Car rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Case
-:Case rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Chair
-:Chair rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Change
-:Change rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Child
-:Child rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/City
-:City rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Community
-:Community rdf:type owl:NamedIndividual ,
-                    :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Company
-:Company rdf:type owl:NamedIndividual ,
-                  :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Couch
-:Couch rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Country
-:Country rdf:type owl:NamedIndividual ,
-                  :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Day
-:Day rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Door
-:Door rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Education
-:Education rdf:type owl:NamedIndividual ,
-                    :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/End
-:End rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Eye
-:Eye rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Face
-:Face rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Fact
-:Fact rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Family
-:Family rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Father
-:Father rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Force
-:Force rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Friend
-:Friend rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Game
-:Game rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Girl
-:Girl rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Government
-:Government rdf:type owl:NamedIndividual ,
-                     :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Group
-:Group rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Guy
-:Guy rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Hand
-:Hand rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Head
-:Head rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Health
-:Health rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/History
-:History rdf:type owl:NamedIndividual ,
-                  :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Home
-:Home rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Hour
-:Hour rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/House
-:House rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Idea
-:Idea rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Information
-:Information rdf:type owl:NamedIndividual ,
-                      :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Issue
-:Issue rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Job
-:Job rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Kid
-:Kid rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Kind
-:Kind rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Law
-:Law rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Level
-:Level rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Life
-:Life rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Line
-:Line rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Lot
-:Lot rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Loveseat
-:Loveseat rdf:type owl:NamedIndividual ,
-                   :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Man
-:Man rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Member
-:Member rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Minute
-:Minute rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Moment
-:Moment rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Money
-:Money rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Month
-:Month rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Morning
-:Morning rdf:type owl:NamedIndividual ,
-                  :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Mother
-:Mother rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Name
-:Name rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Night
-:Night rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Number
-:Number rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Office
-:Office rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Others
-:Others rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Parent
-:Parent rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Part
-:Part rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Party
-:Party rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/People
-:People rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Person
-:Person rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Place
-:Place rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Point
-:Point rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Power
-:Power rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/President
-:President rdf:type owl:NamedIndividual ,
-                    :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Problem
-:Problem rdf:type owl:NamedIndividual ,
-                  :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Program
-:Program rdf:type owl:NamedIndividual ,
-                  :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Question
-:Question rdf:type owl:NamedIndividual ,
-                   :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Reason
-:Reason rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Research
-:Research rdf:type owl:NamedIndividual ,
-                   :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Result
-:Result rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Right
-:Right rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Room
-:Room rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/School
-:School rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Service
-:Service rdf:type owl:NamedIndividual ,
-                  :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Side
-:Side rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Sofa
-:Sofa rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/State
-:State rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Story
-:Story rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Student
-:Student rdf:type owl:NamedIndividual ,
-                  :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Study
-:Study rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/System
-:System rdf:type owl:NamedIndividual ,
-                 :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Teacher
-:Teacher rdf:type owl:NamedIndividual ,
-                  :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Team
-:Team rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Thing
-:Thing rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Time
-:Time rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/War
-:War rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Water
-:Water rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Way
-:Way rdf:type owl:NamedIndividual ,
-              :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Week
-:Week rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Woman
-:Woman rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Word
-:Word rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Work
-:Work rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/World
-:World rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/Year
-:Year rdf:type owl:NamedIndividual ,
-               :Pattern .
-
-
-###  https://archive.org/services/purl/purl/modular_ontology_design_library/chair
-:chair rdf:type owl:NamedIndividual ,
-                :Pattern .
-
-
-###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
