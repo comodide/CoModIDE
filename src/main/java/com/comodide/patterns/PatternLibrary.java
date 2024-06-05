@@ -38,25 +38,18 @@ import javax.annotation.Nonnull;
 public class PatternLibrary {
 
 	// Constants
-	public static final ConfigData DEFAULT_LIBRARY_CONFIG = new ConfigData(
-			"modl/default/ModlIndex.owl",
-			"http://ontologydesignpatterns.org/opla#Pattern",
-			"http://ontologydesignpatterns.org/opla#categorization",
-			"http://ontologydesignpatterns.org/opla#renderedSchemaDiagram",
-			"http://ontologydesignpatterns.org/opla#htmlDocumentation",
-			"http://ontologydesignpatterns.org/opla#owlRepresentation"
-	);
+	public static final String DEFAULT_LIBRARY_PATH = "modl/default/ModlIndex.owl";
 
 	// Infrastructure
     private static PatternLibrary instance;
     private static final Logger log = LoggerFactory.getLogger(PatternLibrary.class);
 
     // Configuration fields
-	private final IRI PATTERN_CLASS_IRI;
-	private final IRI CATEGORIZATION_PROPERTY_IRI;
-	private final IRI SCHEMADIAGRAM_PROPERTY_IRI;
-	private final IRI HTMLDOC_PROPERTY_IRI;
-	private final IRI OWLREP_PROPERTY_IRI;
+	private final IRI PATTERN_CLASS_IRI = IRI.create("http://ontologydesignpatterns.org/opla#Pattern");
+	private final IRI CATEGORIZATION_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#categorization");
+	private final IRI SCHEMADIAGRAM_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#renderedSchemaDiagram");
+	private final IRI HTMLDOC_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#htmlDocumentation");
+	private final IRI OWLREP_PROPERTY_IRI = IRI.create("http://ontologydesignpatterns.org/opla#owlRepresentation");
     public final PatternCategory ANY_CATEGORY = new PatternCategory("Any", IRI.create("https://w3id.org/comodide/ModlIndex#AnyCategory"));
 
     // Instance fields
@@ -68,23 +61,18 @@ public class PatternLibrary {
     // Singleton access method
     public static synchronized PatternLibrary getInstance() {
         if(instance == null){
-			setInstanceWithConfig(DEFAULT_LIBRARY_CONFIG);
+			setInstanceByPath(DEFAULT_LIBRARY_PATH);
         }
         return instance;
     }
 
-	public static synchronized void setInstanceWithConfig(@Nonnull final ConfigData config) {
-		instance = new PatternLibrary(config);
+	public static synchronized void setInstanceByPath(@Nonnull final String libraryPath) {
+		instance = new PatternLibrary(libraryPath);
 	}
 
     // Parse index on instance creation
-	private PatternLibrary(@Nonnull final ConfigData configData) {
-		PATTERN_CLASS_IRI = configData.patternClassIRI;
-		CATEGORIZATION_PROPERTY_IRI = configData.categorizationPropertyIRI;
-		SCHEMADIAGRAM_PROPERTY_IRI = configData.schemaDiagramPropertyIRI;
-		HTMLDOC_PROPERTY_IRI = configData.htmlDocPropertyIRI;
-		OWLREP_PROPERTY_IRI = configData.owlRepPropertyIRI;
-		parseIndex(configData.filePath);
+	private PatternLibrary(@Nonnull final String filePath) {
+		parseIndex(filePath);
 	}
 
 	// Based on pattern object, instantiate pattern from disk into OWLOntology
