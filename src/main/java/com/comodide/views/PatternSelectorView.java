@@ -93,7 +93,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 
         // Listener for when user selects a new category, redraws the pattern table based on chosen category
         libraryList.addActionListener(event -> {
-            String selectedLibraryPath = (String)libraryList.getSelectedItem();
+            String selectedLibraryPath = (String) libraryList.getSelectedItem();
             PatternCategory selectedCategory = (PatternCategory)categoryList.getSelectedItem();
             TelemetryAgent.logLibraryClick(String.format("Library: %s", selectedLibraryPath));
             if (selectedLibraryPath == null)

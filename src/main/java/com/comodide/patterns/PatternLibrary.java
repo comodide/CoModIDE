@@ -222,34 +222,4 @@ public class PatternLibrary {
 		return returnedPatterns;
 	}
 
-	public static class ConfigData {
-		public final String filePath;
-		public final IRI patternClassIRI;
-		public final IRI categorizationPropertyIRI;
-		public final IRI schemaDiagramPropertyIRI;
-		public final IRI htmlDocPropertyIRI;
-		public final IRI owlRepPropertyIRI;
-
-        public ConfigData(
-				@Nonnull final String filePath,
-				@Nonnull final String patternClassIRI,
-				@Nonnull final String categorizationPropertyIRI,
-				@Nonnull final String schemaDiagramPropertyIRI,
-				@Nonnull final String htmlDocPropertyIRI,
-				@Nonnull final String owlRepPropertyIRI
-		) {
-            this.filePath = filePath;
-            this.patternClassIRI = IRI.create(patternClassIRI);
-            this.categorizationPropertyIRI = IRI.create(categorizationPropertyIRI);
-            this.schemaDiagramPropertyIRI = IRI.create(schemaDiagramPropertyIRI);
-            this.htmlDocPropertyIRI = IRI.create(htmlDocPropertyIRI);
-            this.owlRepPropertyIRI = IRI.create(owlRepPropertyIRI);
-        }
-
-		@Override
-		public String toString() {
-			return filePath;
-		}
-	}
-
 }
