@@ -53,7 +53,7 @@
 	<extension id="Export"
 			   point="org.protege.editor.core.application.ViewComponent">
 		<label value="CoModIDE Graph Export " />
-		<class value="com.comodide.views.Export" />
+		<class value="com.comodide.views.GraphExportView" />
 		<headerColor value="@org.protege.ontologycolor" />
 	</extension>
 </plugin>

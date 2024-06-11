@@ -2,23 +2,23 @@ package com.comodide.helper;
 
 import com.mxgraph.swing.mxGraphComponent;
 
-public class Singleton {
+public class GraphComponentHolder {
 
-    private static Singleton singletonInstance=null;
-    mxGraphComponent component;
+    private static GraphComponentHolder componentHolder =null;
+    private mxGraphComponent component;
 
  //private constructor to prevent instance creation in other classes
-    private Singleton() {
+    private GraphComponentHolder() {
 
     }
 
-    public static Singleton getInstance()
+    public static GraphComponentHolder getInstance()
     {
-        if(singletonInstance==null)
+        if(componentHolder ==null)
             {
-                singletonInstance=new Singleton();
+                componentHolder =new GraphComponentHolder();
             }
-        return singletonInstance;
+        return componentHolder;
 
     }
 

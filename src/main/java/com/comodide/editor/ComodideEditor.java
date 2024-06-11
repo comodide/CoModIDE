@@ -26,7 +26,7 @@ import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.view.mxGraph;
-import com.comodide.helper.Singleton;
+import com.comodide.helper.GraphComponentHolder;
 
 public class ComodideEditor extends BasicGraphEditor
 {
@@ -116,8 +116,8 @@ public class ComodideEditor extends BasicGraphEditor
 					new DatatypeCell(xsdDateTime, 0.0, 0.0));
 
     //using singleton class instance to set graph component which will be used later for exporting graph to jpg/png format
-        Singleton instance=Singleton.getInstance();
-        instance.setComponent(component);
+        GraphComponentHolder obj=GraphComponentHolder.getInstance();
+        obj.setComponent(component);
 
     }
 
