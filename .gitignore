@@ -20,3 +20,6 @@ CoModIDE.iml
 
 # run script
 run.sh
+run
+runMac.sh
+runWindows.bat
