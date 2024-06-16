@@ -1,0 +1,302 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Building a rdfs:Class .
+
+kastle:Chair a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Computer a rdfs:Class ;
+    rdfs:subClassOf kastle:Desk .
+
+kastle:Department a rdfs:Class .
+
+kastle:DepartmentHead a rdfs:Class ;
+    rdfs:subClassOf kastle:Employee .
+
+kastle:Desk a rdfs:Class ;
+    rdfs:subClassOf kastle:Office,
+        kastle:Resource,
+        kastle:Room .
+
+kastle:Employee a rdfs:Class ;
+    rdfs:subClassOf kastle:Office,
+        kastle:Person,
+        kastle:Resource .
+
+kastle:Equipment a rdfs:Class .
+
+kastle:Facility a rdfs:Class .
+
+kastle:Furniture a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Manager a rdfs:Class ;
+    rdfs:subClassOf kastle:Employee .
+
+kastle:Nonnegativeinteger a rdfs:Class .
+
+kastle:Office a rdfs:Class ;
+    rdfs:subClassOf kastle:Building,
+        kastle:N9c60bb77ee764160bee8687aa0e6f628b1,
+        kastle:Nbbc8d28a00714441ab43a52128d4ba8db1,
+        kastle:Resource .
+
+kastle:OfficeEquipment a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Role a rdfs:Class .
+
+kastle:Room a rdfs:Class ;
+    rdfs:subClassOf kastle:Office .
+
+kastle:StaffMember a rdfs:Class .
+
+kastle:Task a rdfs:Class .
+
+kastle:Worker a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Office> a owl:Ontology ;
+    opla-core:hasPatternName "Office Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:address a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range xsd:string .
+
+kastle:belongsToOffice a rdf:Property ;
+    rdfs:domain kastle:Department ;
+    rdfs:range kastle:Office .
+
+kastle:computerOn a rdf:Property ;
+    rdfs:domain kastle:Computer ;
+    rdfs:range kastle:Desk .
+
+kastle:departmentName a rdf:Property ;
+    rdfs:domain kastle:Department ;
+    rdfs:range xsd:string .
+
+kastle:departmentResponsibility a rdf:Property ;
+    rdfs:domain kastle:Department ;
+    rdfs:range xsd:string .
+
+kastle:deskIn a rdf:Property ;
+    rdfs:domain kastle:Desk ;
+    rdfs:range kastle:Office .
+
+kastle:email a rdf:Property ;
+    rdfs:domain kastle:Office,
+        kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:employeeName a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:employeeRole a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:employees a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Employee .
+
+kastle:hasChair a rdf:Property ;
+    rdfs:domain kastle:Desk,
+        kastle:Office ;
+    rdfs:range kastle:Chair .
+
+kastle:hasComputer a rdf:Property ;
+    rdfs:domain kastle:Desk,
+        kastle:Office ;
+    rdfs:range kastle:Computer .
+
+kastle:hasDepartment a rdf:Property ;
+    rdfs:domain kastle:Department,
+        kastle:Office ;
+    rdfs:range kastle:Department,
+        kastle:Office .
+
+kastle:hasDesk a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Office,
+        kastle:Room ;
+    rdfs:range kastle:Desk .
+
+kastle:hasEmployee a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Office ;
+    rdfs:range kastle:Employee,
+        kastle:Office,
+        kastle:Person .
+
+kastle:hasEquipment a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Equipment .
+
+kastle:hasFurniture a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Furniture .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Office ;
+    rdfs:range xsd:string .
+
+kastle:hasOffice a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Office .
+
+kastle:hasOfficeEquipment a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:OfficeEquipment .
+
+kastle:hasOfficeNumber a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Integer .
+
+kastle:hasRole a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Role .
+
+kastle:hasRoom a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Room .
+
+kastle:hasStaffMember a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:StaffMember .
+
+kastle:hasWorkstation a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Desk .
+
+kastle:inCharge a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Person .
+
+kastle:includes a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Facility .
+
+kastle:isOccupiedBy a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Worker .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Building .
+
+kastle:leadsDepartment a rdf:Property ;
+    rdfs:domain kastle:Department ;
+    rdfs:range kastle:DepartmentHead .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:Equipment ;
+    rdfs:range kastle:Office .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range xsd:string .
+
+kastle:manages a rdf:Property ;
+    rdfs:domain kastle:Manager ;
+    rdfs:range kastle:Employee .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Office,
+        kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:numberOfEmployees a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Nonnegativeinteger .
+
+kastle:officeID a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range xsd:string .
+
+kastle:officeManager a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Person .
+
+kastle:officeNumber a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Integer .
+
+kastle:officeSize a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range kastle:Integer .
+
+kastle:partOf a rdf:Property ;
+    rdfs:domain kastle:Department ;
+    rdfs:range kastle:Office .
+
+kastle:performTask a rdf:Property ;
+    rdfs:domain kastle:Task ;
+    rdfs:range kastle:Employee .
+
+kastle:phoneNumber a rdf:Property ;
+    rdfs:domain kastle:Office ;
+    rdfs:range xsd:string .
+
+kastle:staffName a rdf:Property ;
+    rdfs:domain kastle:StaffMember ;
+    rdfs:range xsd:string .
+
+kastle:staffRole a rdf:Property ;
+    rdfs:domain kastle:StaffMember ;
+    rdfs:range xsd:string .
+
+kastle:useFurniture a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Furniture .
+
+kastle:uses a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Equipment .
+
+kastle:usesChair a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Chair .
+
+kastle:usesDesk a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Desk .
+
+kastle:usesEquipment a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Equipment .
+
+kastle:worksAt a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Office .
+
+kastle:worksIn a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Office .
+
+kastle:worksInDepartment a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Department .
+

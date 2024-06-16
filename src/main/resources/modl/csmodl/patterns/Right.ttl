@@ -1,0 +1,149 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Action a rdfs:Class .
+
+kastle:Agent a rdfs:Class .
+
+kastle:Authority a rdfs:Class .
+
+kastle:CivilRight a rdfs:Class ;
+    rdfs:subClassOf kastle:Right .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:HumanRight a rdfs:Class ;
+    rdfs:subClassOf kastle:Right .
+
+kastle:Institution a rdfs:Class .
+
+kastle:Jurisdiction a rdfs:Class .
+
+kastle:Law a rdfs:Class .
+
+kastle:LegalRight a rdfs:Class ;
+    rdfs:subClassOf kastle:N6e82713b336940008622e00652df59bfb1 .
+
+kastle:LegalSystem a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:PoliticalRight a rdfs:Class ;
+    rdfs:subClassOf kastle:Right .
+
+kastle:ReligiousRight a rdfs:Class ;
+    rdfs:subClassOf kastle:Right .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Right a rdfs:Class ;
+    rdfs:subClassOf kastle:Law,
+        kastle:Property .
+
+kastle:RightHolder a rdfs:Class .
+
+kastle:Scope a rdfs:Class .
+
+kastle:String a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Right> a owl:Ontology ;
+    opla-core:hasPatternName "Right Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:grantedBy a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range xsd:string .
+
+kastle:hasRight a rdf:Property ;
+    rdfs:domain kastle:Agent,
+        kastle:Entity,
+        kastle:Human,
+        kastle:Person,
+        kastle:RightHolder,
+        kastle:String ;
+    rdfs:range kastle:Right .
+
+kastle:hasRightHolder a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:RightHolder .
+
+kastle:hasScope a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:Scope .
+
+kastle:holder a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:Entity .
+
+kastle:isEnforcedBy a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:Authority .
+
+kastle:isGrantedBy a rdf:Property ;
+    rdfs:domain kastle:LegalRight,
+        kastle:Right ;
+    rdfs:range kastle:Institution,
+        kastle:RightHolder .
+
+kastle:isGrantedTo a rdf:Property ;
+    rdfs:domain kastle:LegalRight ;
+    rdfs:range kastle:Person .
+
+kastle:isProtectedBy a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:Law .
+
+kastle:isRightOf a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:Agent .
+
+kastle:possession a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:Resource .
+
+kastle:protectedBy a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:LegalSystem .
+
+kastle:providesRight a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range kastle:Right .
+
+kastle:rightInJurisdiction a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:Jurisdiction .
+
+kastle:rightToEquality a rdf:Property ;
+    rdfs:domain kastle:CivilRight ;
+    rdfs:range xsd:boolean .
+
+kastle:rightToLife a rdf:Property ;
+    rdfs:domain kastle:HumanRight ;
+    rdfs:range xsd:boolean .
+
+kastle:rightToReligiousFreedom a rdf:Property ;
+    rdfs:domain kastle:ReligiousRight ;
+    rdfs:range xsd:boolean .
+
+kastle:rightToVote a rdf:Property ;
+    rdfs:domain kastle:PoliticalRight ;
+    rdfs:range xsd:boolean .
+
+kastle:violatedBy a rdf:Property ;
+    rdfs:domain kastle:Right ;
+    rdfs:range kastle:Action .
+

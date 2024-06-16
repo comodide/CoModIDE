@@ -1,0 +1,204 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Building a rdfs:Class .
+
+kastle:Door a rdfs:Class .
+
+kastle:Floor a rdfs:Class .
+
+kastle:Furniture a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Langstring a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Room a rdfs:Class ;
+    rdfs:subClassOf kastle:Architecturalstructure,
+        kastle:Physicalspace .
+
+kastle:RoomFunction a rdfs:Class .
+
+kastle:RoomType a rdfs:Class ;
+    rdfs:subClassOf kastle:Room .
+
+kastle:RoomTypeEnumeration a rdfs:Class .
+
+kastle:Size a rdfs:Class .
+
+kastle:Window a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Room> a owl:Ontology ;
+    opla-core:hasPatternName "Room Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:accommodates a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range rdfs:Literal .
+
+kastle:accommodatesPerson a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Person .
+
+kastle:area a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:float .
+
+kastle:belongsInFloor a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:int .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Building .
+
+kastle:belongsToBuilding a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Building .
+
+kastle:belongsToFloor a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Floor .
+
+kastle:capacity a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Integer .
+
+kastle:color a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:string .
+
+kastle:floorArea a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Integer .
+
+kastle:hasArea a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:float .
+
+kastle:hasCapacity a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Integer .
+
+kastle:hasDoor a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:boolean,
+        kastle:Door .
+
+kastle:hasFunction a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:RoomFunction .
+
+kastle:hasFurniture a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:boolean,
+        kastle:Furniture .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:string,
+        kastle:Langstring .
+
+kastle:hasNumber a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Integer .
+
+kastle:hasOccupant a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Person .
+
+kastle:hasRoom a rdf:Property ;
+    rdfs:domain kastle:Building ;
+    rdfs:range kastle:Room .
+
+kastle:hasRoomNumber a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Integer,
+        kastle:Size .
+
+kastle:hasType a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:RoomType .
+
+kastle:hasWindow a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:boolean,
+        kastle:Window .
+
+kastle:isLocatedIn a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Building .
+
+kastle:isOccupied a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:boolean .
+
+kastle:isOfType a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:RoomType .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:Building .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:string .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:string .
+
+kastle:number a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:int .
+
+kastle:roomName a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:string .
+
+kastle:roomNumber a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:int .
+
+kastle:roomOccupancy a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:int .
+
+kastle:roomType a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range kastle:RoomTypeEnumeration .
+
+kastle:size a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Integer .
+
+kastle:type a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:string .
+
+kastle:typeOfRoom a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:string .
+

@@ -1,0 +1,331 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Art a rdfs:Class .
+
+kastle:ArtGenre a rdfs:Class .
+
+kastle:ArtPeriod a rdfs:Class .
+
+kastle:ArtStyle a rdfs:Class .
+
+kastle:ArtWork a rdfs:Class .
+
+kastle:Artist a rdfs:Class ;
+    rdfs:subClassOf kastle:Art,
+        kastle:Person .
+
+kastle:Artwork a rdfs:Class ;
+    rdfs:subClassOf kastle:Art .
+
+kastle:Creator a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Exhibition a rdfs:Class .
+
+kastle:Gallery a rdfs:Class ;
+    rdfs:subClassOf kastle:Place .
+
+kastle:Genre a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Material a rdfs:Class .
+
+kastle:Medium a rdfs:Class .
+
+kastle:Museum a rdfs:Class .
+
+kastle:Painting a rdfs:Class ;
+    rdfs:subClassOf kastle:Artwork .
+
+kastle:Period a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Sculpture a rdfs:Class ;
+    rdfs:subClassOf kastle:Artwork .
+
+kastle:Style a rdfs:Class .
+
+kastle:WorkOfArt a rdfs:Class ;
+    rdfs:subClassOf kastle:Art .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Art> a owl:Ontology ;
+    opla-core:hasPatternName "Art Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:abstract a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range rdfs:Literal .
+
+kastle:artGenre a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range kastle:ArtGenre .
+
+kastle:artist a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range kastle:Artist,
+        kastle:Person .
+
+kastle:artistName a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range xsd:string .
+
+kastle:artistNationality a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range xsd:string .
+
+kastle:artworkTitle a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range xsd:string .
+
+kastle:belongsGenre a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range kastle:ArtGenre .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:ArtStyle ;
+    rdfs:range kastle:ArtPeriod .
+
+kastle:birthDate a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:bornIn a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range rdfs:Literal .
+
+kastle:created a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range kastle:Artwork,
+        kastle:Painting .
+
+kastle:createdBy a rdf:Property ;
+    rdfs:domain kastle:ArtWork,
+        kastle:Artwork,
+        kastle:Painting,
+        kastle:WorkOfArt ;
+    rdfs:range kastle:Artist,
+        kastle:Creator .
+
+kastle:created_by a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range kastle:Artist .
+
+kastle:creates a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range kastle:Art .
+
+kastle:creationDate a rdf:Property ;
+    rdfs:domain kastle:Art,
+        kastle:Artwork ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:deathDate a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range xsd:date .
+
+kastle:display a rdf:Property ;
+    rdfs:domain kastle:Gallery ;
+    rdfs:range kastle:Art .
+
+kastle:displayed_at a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range kastle:Gallery .
+
+kastle:endDate a rdf:Property ;
+    rdfs:domain kastle:Exhibition ;
+    rdfs:range xsd:date .
+
+kastle:exhibitedIn a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range kastle:Museum .
+
+kastle:exhibits a rdf:Property ;
+    rdfs:domain kastle:Museum ;
+    rdfs:range kastle:Artwork .
+
+kastle:genre a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range xsd:string .
+
+kastle:hasArtStyle a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range kastle:ArtStyle .
+
+kastle:hasArtist a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range kastle:Artist .
+
+kastle:hasAuthor a rdf:Property ;
+    rdfs:domain kastle:Painting ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasBirthDate a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range xsd:date .
+
+kastle:hasCreated a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range kastle:Painting .
+
+kastle:hasCreator a rdf:Property ;
+    rdfs:domain kastle:Art,
+        kastle:Artwork ;
+    rdfs:range kastle:Artist .
+
+kastle:hasMedium a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Artist,
+        kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasPeriod a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range xsd:string .
+
+kastle:hasStyle a rdf:Property ;
+    rdfs:domain kastle:Art,
+        kastle:Artwork ;
+    rdfs:range xsd:string,
+        kastle:ArtStyle,
+        kastle:Style .
+
+kastle:hasTitle a rdf:Property ;
+    rdfs:domain kastle:Art,
+        kastle:Artwork,
+        kastle:WorkOfArt ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasYear a rdf:Property ;
+    rdfs:domain kastle:Art,
+        kastle:Artwork,
+        kastle:Painting ;
+    rdfs:range rdfs:Literal,
+        xsd:date,
+        kastle:Integer .
+
+kastle:has_genre a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range kastle:Genre .
+
+kastle:housesArt a rdf:Property ;
+    rdfs:domain kastle:Museum ;
+    rdfs:range kastle:Art .
+
+kastle:inPeriod a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range kastle:Period .
+
+kastle:inspiredBy a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range kastle:Art .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:Museum ;
+    rdfs:range xsd:string .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:Exhibition ;
+    rdfs:range xsd:string .
+
+kastle:madeOf a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range kastle:Material .
+
+kastle:mass a rdf:Property ;
+    rdfs:domain kastle:Sculpture ;
+    rdfs:range xsd:decimal .
+
+kastle:medium a rdf:Property ;
+    rdfs:domain kastle:Art,
+        kastle:ArtWork,
+        kastle:Artwork,
+        kastle:Painting ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:mediumName a rdf:Property ;
+    rdfs:domain kastle:Medium ;
+    rdfs:range xsd:string .
+
+kastle:modern a rdf:Property ;
+    rdfs:domain kastle:Art ;
+    rdfs:range rdfs:Literal .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Art,
+        kastle:Artist ;
+    rdfs:range xsd:string .
+
+kastle:nationality a rdf:Property ;
+    rdfs:domain kastle:Artist ;
+    rdfs:range rdfs:Literal .
+
+kastle:periodEnd a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range xsd:date .
+
+kastle:periodName a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range xsd:string .
+
+kastle:periodStart a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range xsd:date .
+
+kastle:shownAt a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range kastle:Exhibition .
+
+kastle:startDate a rdf:Property ;
+    rdfs:domain kastle:Exhibition ;
+    rdfs:range xsd:date .
+
+kastle:style a rdf:Property ;
+    rdfs:domain kastle:Art,
+        kastle:ArtWork ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:styleName a rdf:Property ;
+    rdfs:domain kastle:Style ;
+    rdfs:range xsd:string .
+
+kastle:title a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range xsd:string .
+
+kastle:usesMedium a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range kastle:Medium .
+
+kastle:uses_medium a rdf:Property ;
+    rdfs:domain kastle:Artwork ;
+    rdfs:range kastle:Medium .
+
+kastle:year a rdf:Property ;
+    rdfs:domain kastle:Painting ;
+    rdfs:range kastle:Integer .
+

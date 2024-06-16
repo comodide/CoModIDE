@@ -1,0 +1,202 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Address a rdfs:Class .
+
+kastle:Gender a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:GenderType a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Location a rdfs:Class .
+
+kastle:Nonnegativeinteger a rdfs:Class .
+
+kastle:Person a rdfs:Class ;
+    rdfs:subClassOf kastle:Person,
+        kastle:Resource .
+
+kastle:Place a rdfs:Class .
+
+kastle:PostalAddress a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Person> a owl:Ontology ;
+    opla-core:hasPatternName "Person Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:address a rdf:Property ;
+    rdfs:domain kastle:Location,
+        kastle:Person ;
+    rdfs:range xsd:string,
+        kastle:Address,
+        kastle:PostalAddress .
+
+kastle:age a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal,
+        kastle:Integer .
+
+kastle:birthDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:birthPlace a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal .
+
+kastle:birthdate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:bornIn a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Place .
+
+kastle:bornOnDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:children a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:city a rdf:Property ;
+    rdfs:domain kastle:Address,
+        kastle:Location ;
+    rdfs:range xsd:string .
+
+kastle:country a rdf:Property ;
+    rdfs:domain kastle:Address,
+        kastle:Location ;
+    rdfs:range xsd:string .
+
+kastle:email a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:gender a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string,
+        kastle:Gender,
+        kastle:GenderType .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:int,
+        kastle:Integer,
+        kastle:Nonnegativeinteger .
+
+kastle:hasChild a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:hasFirstName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasGender a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Gender .
+
+kastle:hasLastName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasOccupation a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasParent a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:hasSibling a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:hasSpouse a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:isEmployed a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:boolean .
+
+kastle:isMarried a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal .
+
+kastle:isMarriedTo a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:jobTitle a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal .
+
+kastle:livesIn a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Place .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:nationality a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:occupation a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:phone a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:postalCode a rdf:Property ;
+    rdfs:domain kastle:Location ;
+    rdfs:range xsd:string .
+
+kastle:residence a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range rdfs:Literal .
+
+kastle:residesIn a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Location .
+
+kastle:state a rdf:Property ;
+    rdfs:domain kastle:Location ;
+    rdfs:range xsd:string .
+
+kastle:street a rdf:Property ;
+    rdfs:domain kastle:Address ;
+    rdfs:range xsd:string .
+

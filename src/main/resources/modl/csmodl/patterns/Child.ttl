@@ -1,0 +1,144 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Address a rdfs:Class .
+
+kastle:Adult a rdfs:Class ;
+    rdfs:subClassOf kastle:Human .
+
+kastle:Child a rdfs:Class ;
+    rdfs:subClassOf kastle:Human,
+        kastle:Person .
+
+kastle:EducationalOrganization a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Organization a rdfs:Class .
+
+kastle:Parent a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Positiveinteger a rdfs:Class .
+
+kastle:School a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Child> a owl:Ontology ;
+    opla-core:hasPatternName "Child Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:age a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:int,
+        kastle:Integer .
+
+kastle:attendsSchool a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range kastle:School .
+
+kastle:birthdate a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:date .
+
+kastle:enrolledIn a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range kastle:EducationalOrganization .
+
+kastle:gender a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:string .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:int,
+        kastle:Integer,
+        kastle:Positiveinteger .
+
+kastle:hasChild a rdf:Property ;
+    rdfs:domain kastle:Adult,
+        kastle:Human,
+        kastle:Parent,
+        kastle:Person ;
+    rdfs:range kastle:Child .
+
+kastle:hasFirstName a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:string .
+
+kastle:hasGrade a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:string .
+
+kastle:hasLastName a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:string .
+
+kastle:hasParent a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range kastle:Adult,
+        kastle:Parent,
+        kastle:Person .
+
+kastle:hasSibling a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range kastle:Child,
+        kastle:Human .
+
+kastle:isChildOf a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range kastle:Adult,
+        kastle:Human,
+        kastle:Parent,
+        kastle:Person .
+
+kastle:isMale a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:boolean .
+
+kastle:isParentOf a rdf:Property ;
+    rdfs:domain kastle:Parent ;
+    rdfs:range kastle:Child .
+
+kastle:livesAt a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range kastle:Address .
+
+kastle:memberOf a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range kastle:Organization .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range xsd:string .
+
+kastle:parent a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range kastle:Parent .
+
+kastle:parentOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Child .
+
+kastle:school a rdf:Property ;
+    rdfs:domain kastle:Child ;
+    rdfs:range kastle:School .
+

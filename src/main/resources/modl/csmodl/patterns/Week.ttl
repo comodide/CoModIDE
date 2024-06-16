@@ -1,0 +1,118 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Class a rdfs:Class .
+
+kastle:Day a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Temporalunit,
+        kastle:Timeperiod,
+        kastle:Week .
+
+kastle:Hour a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Week a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Temporalunit,
+        kastle:Timeperiod .
+
+kastle:Year a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Week> a owl:Ontology ;
+    opla-core:hasPatternName "Week Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongsIn a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range kastle:Class .
+
+kastle:consistsOf a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range kastle:Day .
+
+kastle:contains a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range kastle:Day .
+
+kastle:dayName a rdf:Property ;
+    rdfs:domain kastle:Day ;
+    rdfs:range xsd:string .
+
+kastle:dayNumber a rdf:Property ;
+    rdfs:domain kastle:Day ;
+    rdfs:range kastle:Integer .
+
+kastle:dayOfWeek a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range rdfs:Literal,
+        kastle:Resource .
+
+kastle:hasDay a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range kastle:Day .
+
+kastle:hasDays a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range kastle:Day .
+
+kastle:hasEndDay a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:hasHours a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range kastle:Hour .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Day ;
+    rdfs:range xsd:string .
+
+kastle:hasNumber a rdf:Property ;
+    rdfs:domain kastle:Day,
+        kastle:Week ;
+    rdfs:range xsd:int,
+        kastle:Integer .
+
+kastle:hasSequence a rdf:Property ;
+    rdfs:domain kastle:Day ;
+    rdfs:range kastle:Integer .
+
+kastle:hasStartDay a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:hasWeek a rdf:Property ;
+    rdfs:domain kastle:Year ;
+    rdfs:range kastle:Week .
+
+kastle:isDayOf a rdf:Property ;
+    rdfs:domain kastle:Day ;
+    rdfs:range kastle:Week .
+
+kastle:isDayOfTheWeek a rdf:Property ;
+    rdfs:domain kastle:Day ;
+    rdfs:range xsd:string .
+
+kastle:numberOfWeek a rdf:Property ;
+    rdfs:domain kastle:Week ;
+    rdfs:range kastle:Integer .
+

@@ -1,0 +1,281 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Business a rdfs:Class .
+
+kastle:BusinessPerson a rdfs:Class .
+
+kastle:BusinessSector a rdfs:Class .
+
+kastle:Client a rdfs:Class .
+
+kastle:Company a rdfs:Class ;
+    rdfs:subClassOf kastle:Class,
+        kastle:Organisation .
+
+kastle:Customer a rdfs:Class ;
+    rdfs:subClassOf kastle:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Department a rdfs:Class .
+
+kastle:Employee a rdfs:Class ;
+    rdfs:subClassOf kastle:Class,
+        kastle:Person .
+
+kastle:Employer a rdfs:Class .
+
+kastle:Industry a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Investor a rdfs:Class .
+
+kastle:Location a rdfs:Class .
+
+kastle:Manager a rdfs:Class ;
+    rdfs:subClassOf kastle:Employee .
+
+kastle:Market a rdfs:Class ;
+    rdfs:subClassOf kastle:Class .
+
+kastle:N517a9d207453411ba145ed6669f5127ab1 a rdfs:Class .
+
+kastle:N517a9d207453411ba145ed6669f5127ab6 a rdfs:Class .
+
+kastle:Owner a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Place a rdfs:Class .
+
+kastle:Product a rdfs:Class ;
+    rdfs:subClassOf kastle:Class .
+
+kastle:Revenue a rdfs:Class .
+
+kastle:Service a rdfs:Class .
+
+kastle:ServiceOrProduct a rdfs:Class .
+
+kastle:Supplier a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Business> a owl:Ontology ;
+    opla-core:hasPatternName "Business Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:buys a rdf:Property ;
+    rdfs:domain kastle:Customer,
+        kastle:Person ;
+    rdfs:range kastle:Product .
+
+kastle:buysFrom a rdf:Property ;
+    rdfs:domain kastle:Business,
+        kastle:Customer ;
+    rdfs:range kastle:Company,
+        kastle:Supplier .
+
+kastle:empName a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:employeeOf a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Employer .
+
+kastle:employs a rdf:Property ;
+    rdfs:domain kastle:Business,
+        kastle:Company ;
+    rdfs:range kastle:Employee,
+        kastle:Person .
+
+kastle:establishedDate a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range xsd:date .
+
+kastle:generates a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Revenue .
+
+kastle:hasBusinessLocation a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Location .
+
+kastle:hasCEO a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Person .
+
+kastle:hasDepartment a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Department .
+
+kastle:hasEmployee a rdf:Property ;
+    rdfs:domain kastle:Business,
+        kastle:Company ;
+    rdfs:range kastle:Employee .
+
+kastle:hasEndTime a rdf:Property ;
+    rdfs:domain kastle:Service ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasHeadquarters a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Location .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Location .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasOwner a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:BusinessPerson,
+        kastle:Owner .
+
+kastle:hasProduct a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Product .
+
+kastle:hasRole a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:hasSector a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:BusinessSector .
+
+kastle:hasStartTime a rdf:Property ;
+    rdfs:domain kastle:Service ;
+    rdfs:range kastle:Datetime .
+
+kastle:hires a rdf:Property ;
+    rdfs:domain kastle:Manager ;
+    rdfs:range kastle:Employee .
+
+kastle:industry a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Industry .
+
+kastle:isFundedBy a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Investor .
+
+kastle:locName a rdf:Property ;
+    rdfs:domain kastle:Location ;
+    rdfs:range xsd:string .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Business,
+        kastle:N517a9d207453411ba145ed6669f5127ab1 ;
+    rdfs:range xsd:string .
+
+kastle:offers a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Service .
+
+kastle:offersProduct a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Product .
+
+kastle:offersService a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Service .
+
+kastle:operatesIn a rdf:Property ;
+    rdfs:domain kastle:Company ;
+    rdfs:range kastle:Market,
+        kastle:Place .
+
+kastle:operatesInIndustry a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Industry .
+
+kastle:owns a rdf:Property ;
+    rdfs:domain kastle:Employer,
+        kastle:Manager,
+        kastle:Person ;
+    rdfs:range kastle:Business .
+
+kastle:price a rdf:Property ;
+    rdfs:domain kastle:N517a9d207453411ba145ed6669f5127ab6,
+        kastle:Product ;
+    rdfs:range xsd:float .
+
+kastle:prodName a rdf:Property ;
+    rdfs:domain kastle:Product ;
+    rdfs:range xsd:string .
+
+kastle:produces a rdf:Property ;
+    rdfs:domain kastle:Business,
+        kastle:Company ;
+    rdfs:range kastle:Product .
+
+kastle:producesProduct a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Product .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:Business,
+        kastle:Company ;
+    rdfs:range kastle:Product,
+        kastle:Service,
+        kastle:ServiceOrProduct .
+
+kastle:providesService a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Service .
+
+kastle:revenue a rdf:Property ;
+    rdfs:domain kastle:Business,
+        kastle:Company ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Integer .
+
+kastle:salary a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:float,
+        kastle:Integer .
+
+kastle:sectorName a rdf:Property ;
+    rdfs:domain kastle:BusinessSector ;
+    rdfs:range xsd:string .
+
+kastle:sells a rdf:Property ;
+    rdfs:domain kastle:Business,
+        kastle:Product ;
+    rdfs:range kastle:Customer,
+        kastle:Product .
+
+kastle:serves a rdf:Property ;
+    rdfs:domain kastle:Business ;
+    rdfs:range kastle:Client,
+        kastle:Customer .
+
+kastle:serviceName a rdf:Property ;
+    rdfs:domain kastle:Service ;
+    rdfs:range xsd:string .
+
+kastle:supplies a rdf:Property ;
+    rdfs:domain kastle:Supplier ;
+    rdfs:range kastle:Product .
+

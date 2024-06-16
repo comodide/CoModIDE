@@ -1,0 +1,146 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Direction a rdfs:Class .
+
+kastle:Double a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Line a rdfs:Class ;
+    rdfs:subClassOf kastle:Geometricobject,
+        kastle:Shape .
+
+kastle:Point a rdfs:Class ;
+    rdfs:subClassOf kastle:Datatype,
+        kastle:N1b318c35c92a45f984edc46b58ab6237b1,
+        kastle:Shape .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Line> a owl:Ontology ;
+    opla-core:hasPatternName "Line Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:endPoint a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range kastle:Integer,
+        kastle:Point .
+
+kastle:hasCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal .
+
+kastle:hasDirection a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range kastle:Direction .
+
+kastle:hasEnd a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range xsd:float,
+        kastle:Point .
+
+kastle:hasEndPoint a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range kastle:Point .
+
+kastle:hasLength a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Double .
+
+kastle:hasPoint a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range kastle:Point .
+
+kastle:hasStart a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range xsd:float,
+        kastle:Point .
+
+kastle:hasStartPoint a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range kastle:Point .
+
+kastle:hasX a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal .
+
+kastle:hasXCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range rdfs:Literal,
+        xsd:decimal,
+        xsd:float,
+        kastle:Double .
+
+kastle:hasXYCoordinates a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:string .
+
+kastle:hasY a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:decimal .
+
+kastle:hasYCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range rdfs:Literal,
+        xsd:decimal,
+        xsd:float,
+        kastle:Double .
+
+kastle:hasZCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range kastle:Double .
+
+kastle:isParallelTo a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range kastle:Line .
+
+kastle:isPerpendicularTo a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range kastle:Line .
+
+kastle:isStraight a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range xsd:boolean .
+
+kastle:length a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range xsd:float .
+
+kastle:slope a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range xsd:float .
+
+kastle:startPoint a rdf:Property ;
+    rdfs:domain kastle:Line ;
+    rdfs:range kastle:Integer,
+        kastle:Point .
+
+kastle:x a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:float .
+
+kastle:xCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:float .
+
+kastle:y a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:float .
+
+kastle:yCoordinate a rdf:Property ;
+    rdfs:domain kastle:Point ;
+    rdfs:range xsd:float .
+

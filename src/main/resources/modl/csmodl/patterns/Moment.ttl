@@ -1,0 +1,230 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Anyuri a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Duration a rdfs:Class ;
+    rdfs:subClassOf kastle:Timestamp .
+
+kastle:Event a rdfs:Class ;
+    rdfs:subClassOf kastle:Timestamp .
+
+kastle:Hasevent a rdfs:Class .
+
+kastle:Instant a rdfs:Class ;
+    rdfs:subClassOf kastle:Timestamp .
+
+kastle:Location a rdfs:Class .
+
+kastle:Moment a rdfs:Class ;
+    rdfs:subClassOf kastle:Temporal,
+        kastle:Temporalentity,
+        kastle:Timepoint .
+
+kastle:MomentProperty a rdfs:Class .
+
+kastle:N4e8130ac0170445eae2683015c4785e3b1 a rdfs:Class .
+
+kastle:Period a rdfs:Class ;
+    rdfs:subClassOf kastle:Instant,
+        kastle:Timestamp .
+
+kastle:Person a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:Time a rdfs:Class ;
+    rdfs:subClassOf kastle:Timestamp .
+
+kastle:TimeInstant a rdfs:Class .
+
+kastle:TimePoint a rdfs:Class .
+
+kastle:TimePosition a rdfs:Class .
+
+kastle:Timestamp a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Moment> a owl:Ontology ;
+    opla-core:hasPatternName "Moment Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:Date rdfs:subClassOf kastle:Timestamp .
+
+kastle:date a rdf:Property ;
+    rdfs:domain kastle:MomentProperty ;
+    rdfs:range xsd:date .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range xsd:string .
+
+kastle:duration a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range xsd:decimal .
+
+kastle:endDate a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Instant .
+
+kastle:endTime a rdf:Property ;
+    rdfs:domain kastle:Duration ;
+    rdfs:range kastle:Datetime .
+
+kastle:eventDescription a rdf:Property ;
+    rdfs:domain kastle:Hasevent ;
+    rdfs:range xsd:string .
+
+kastle:fromEvent a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range kastle:Event .
+
+kastle:hasBegin a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Instant .
+
+kastle:hasBeginning a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Instant .
+
+kastle:hasDate a rdf:Property ;
+    rdfs:domain kastle:Anyuri,
+        kastle:Moment ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasDateTime a rdf:Property ;
+    rdfs:domain kastle:Instant ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range xsd:string .
+
+kastle:hasDuration a rdf:Property ;
+    rdfs:domain kastle:Anyuri,
+        kastle:Event,
+        kastle:Moment ;
+    rdfs:range kastle:Duration .
+
+kastle:hasEnd a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Instant .
+
+kastle:hasEndTime a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Time .
+
+kastle:hasEvent a rdf:Property ;
+    rdfs:domain kastle:Anyuri,
+        kastle:Moment ;
+    rdfs:range kastle:Event,
+        kastle:Thing .
+
+kastle:hasInstant a rdf:Property ;
+    rdfs:domain kastle:Anyuri,
+        kastle:Moment ;
+    rdfs:range kastle:Instant .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Event,
+        kastle:Moment ;
+    rdfs:range xsd:string,
+        kastle:Location .
+
+kastle:hasMoment a rdf:Property ;
+    rdfs:domain kastle:Anyuri,
+        kastle:Event,
+        kastle:Person,
+        kastle:TimePoint ;
+    rdfs:range kastle:Moment,
+        kastle:Timestamp .
+
+kastle:hasMomentProperty a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range kastle:MomentProperty .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Location ;
+    rdfs:range xsd:string .
+
+kastle:hasPeriod a rdf:Property ;
+    rdfs:domain kastle:Anyuri ;
+    rdfs:range kastle:Period .
+
+kastle:hasStartTime a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Time .
+
+kastle:hasTime a rdf:Property ;
+    rdfs:domain kastle:Anyuri,
+        kastle:Moment ;
+    rdfs:range kastle:Datetime,
+        kastle:Time .
+
+kastle:hasTimeInstant a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range kastle:TimeInstant .
+
+kastle:inLocation a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range kastle:Location .
+
+kastle:inTime a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range kastle:TimePosition .
+
+kastle:isAfter a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range kastle:Moment .
+
+kastle:isMomentOf a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range kastle:Event .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range kastle:Period,
+        kastle:Resource .
+
+kastle:isPriorTo a rdf:Property ;
+    rdfs:domain kastle:Moment ;
+    rdfs:range kastle:Moment .
+
+kastle:periodEnd a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Datetime .
+
+kastle:periodStart a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Datetime .
+
+kastle:startDate a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Instant .
+
+kastle:startTime a rdf:Property ;
+    rdfs:domain kastle:N4e8130ac0170445eae2683015c4785e3b1 ;
+    rdfs:range kastle:Datetime .
+
+kastle:time a rdf:Property ;
+    rdfs:domain kastle:Moment,
+        kastle:MomentProperty ;
+    rdfs:range rdfs:Literal,
+        kastle:Datetime .
+

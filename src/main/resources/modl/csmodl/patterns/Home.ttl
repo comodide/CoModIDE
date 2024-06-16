@@ -1,0 +1,212 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Address a rdfs:Class .
+
+kastle:Appliance a rdfs:Class .
+
+kastle:Building a rdfs:Class .
+
+kastle:City a rdfs:Class .
+
+kastle:Door a rdfs:Class .
+
+kastle:Floor a rdfs:Class .
+
+kastle:Furniture a rdfs:Class .
+
+kastle:Home a rdfs:Class ;
+    rdfs:subClassOf kastle:Physicalplace,
+        kastle:Resource .
+
+kastle:HomeOwner a rdfs:Class .
+
+kastle:HomePart a rdfs:Class ;
+    rdfs:subClassOf kastle:Home .
+
+kastle:House a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Location a rdfs:Class .
+
+kastle:Nb5db0bf0382546febdc9e57a1d782fd7b1 a rdfs:Class .
+
+kastle:Nb5db0bf0382546febdc9e57a1d782fd7b6 a rdfs:Class .
+
+kastle:Person a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Resident a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Roof a rdfs:Class .
+
+kastle:Room a rdfs:Class ;
+    rdfs:subClassOf kastle:Home .
+
+kastle:Window a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Home> a owl:Ontology ;
+    opla-core:hasPatternName "Home Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:address a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range xsd:string .
+
+kastle:city a rdf:Property ;
+    rdfs:domain kastle:Address ;
+    rdfs:range xsd:string .
+
+kastle:contains a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Furniture .
+
+kastle:containsRoom a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Room .
+
+kastle:equippedWith a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Appliance .
+
+kastle:hasAddress a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Address .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:hasArea a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasCity a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:City .
+
+kastle:hasDoor a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Door .
+
+kastle:hasFloor a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Floor .
+
+kastle:hasFurniture a rdf:Property ;
+    rdfs:domain kastle:Nb5db0bf0382546febdc9e57a1d782fd7b6,
+        kastle:Room ;
+    rdfs:range kastle:Furniture .
+
+kastle:hasHome a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Home .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Location .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasNumberOfRooms a rdf:Property ;
+    rdfs:domain kastle:Home,
+        kastle:House ;
+    rdfs:range kastle:Integer .
+
+kastle:hasOwner a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Person .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:HomePart .
+
+kastle:hasResidents a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Resident .
+
+kastle:hasRoof a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Roof .
+
+kastle:hasRoom a rdf:Property ;
+    rdfs:domain kastle:Building,
+        kastle:Home,
+        kastle:House ;
+    rdfs:range kastle:Nb5db0bf0382546febdc9e57a1d782fd7b1,
+        kastle:Resource,
+        kastle:Room .
+
+kastle:hasRooms a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Room .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:decimal .
+
+kastle:hasType a rdf:Property ;
+    rdfs:domain kastle:Room ;
+    rdfs:range xsd:string .
+
+kastle:hasWindow a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Window .
+
+kastle:inCity a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range xsd:string .
+
+kastle:isHomeOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Home .
+
+kastle:livesIn a rdf:Property ;
+    rdfs:domain kastle:Resident ;
+    rdfs:range kastle:Home .
+
+kastle:locatedIn a rdf:Property ;
+    rdfs:domain kastle:Home,
+        kastle:Room ;
+    rdfs:range kastle:Home,
+        kastle:Location .
+
+kastle:owner a rdf:Property ;
+    rdfs:domain kastle:Home ;
+    rdfs:range kastle:Person .
+
+kastle:ownerOf a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Home .
+
+kastle:owns a rdf:Property ;
+    rdfs:domain kastle:HomeOwner ;
+    rdfs:range kastle:Home .
+
+kastle:residesIn a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Home .
+
+kastle:street a rdf:Property ;
+    rdfs:domain kastle:Address ;
+    rdfs:range xsd:string .
+

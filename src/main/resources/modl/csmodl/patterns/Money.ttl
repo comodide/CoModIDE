@@ -1,0 +1,159 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Class a rdfs:Class .
+
+kastle:Coin a rdfs:Class .
+
+kastle:Country a rdfs:Class .
+
+kastle:Currency a rdfs:Class ;
+    rdfs:subClassOf kastle:Concept,
+        kastle:Money,
+        kastle:N9832494bbc394d12b54840a7f84078c4b1,
+        kastle:Resource .
+
+kastle:CurrencyCode a rdfs:Class .
+
+kastle:Double a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Money a rdfs:Class ;
+    rdfs:subClassOf kastle:Economicconcept,
+        kastle:Literal,
+        kastle:Resource .
+
+kastle:Note a rdfs:Class .
+
+kastle:Payment a rdfs:Class ;
+    rdfs:subClassOf kastle:Transaction .
+
+kastle:Person a rdfs:Class .
+
+kastle:Transaction a rdfs:Class .
+
+kastle:Transfer a rdfs:Class ;
+    rdfs:subClassOf kastle:Transaction .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Money> a owl:Ontology ;
+    opla-core:hasPatternName "Money Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:amount a rdf:Property ;
+    rdfs:domain kastle:Money ;
+    rdfs:range xsd:decimal .
+
+kastle:code a rdf:Property ;
+    rdfs:domain kastle:Currency ;
+    rdfs:range xsd:string .
+
+kastle:coinValue a rdf:Property ;
+    rdfs:domain kastle:Coin ;
+    rdfs:range xsd:decimal .
+
+kastle:country a rdf:Property ;
+    rdfs:domain kastle:Currency,
+        kastle:Money ;
+    rdfs:range xsd:string .
+
+kastle:currency a rdf:Property ;
+    rdfs:domain kastle:Money ;
+    rdfs:range xsd:string .
+
+kastle:dateIssued a rdf:Property ;
+    rdfs:domain kastle:Money ;
+    rdfs:range xsd:date .
+
+kastle:denomination a rdf:Property ;
+    rdfs:domain kastle:Currency ;
+    rdfs:range xsd:decimal .
+
+kastle:hasAmount a rdf:Property ;
+    rdfs:domain kastle:Money,
+        kastle:Transaction ;
+    rdfs:range xsd:decimal,
+        kastle:Money .
+
+kastle:hasCurrency a rdf:Property ;
+    rdfs:domain kastle:Money,
+        kastle:Person ;
+    rdfs:range xsd:string,
+        kastle:Currency .
+
+kastle:hasCurrencyCode a rdf:Property ;
+    rdfs:domain kastle:Currency ;
+    rdfs:range xsd:string,
+        kastle:CurrencyCode .
+
+kastle:hasDenomination a rdf:Property ;
+    rdfs:domain kastle:Money ;
+    rdfs:range xsd:decimal .
+
+kastle:hasMaterial a rdf:Property ;
+    rdfs:domain kastle:Money ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasValue a rdf:Property ;
+    rdfs:domain kastle:Currency,
+        kastle:Money ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Double .
+
+kastle:isCurrencyOf a rdf:Property ;
+    rdfs:domain kastle:Money ;
+    rdfs:range kastle:Country .
+
+kastle:isLegalTender a rdf:Property ;
+    rdfs:domain kastle:Money ;
+    rdfs:range xsd:boolean .
+
+kastle:isLegalTenderIn a rdf:Property ;
+    rdfs:domain kastle:Currency ;
+    rdfs:range kastle:Class .
+
+kastle:issuer a rdf:Property ;
+    rdfs:domain kastle:Money ;
+    rdfs:range xsd:string .
+
+kastle:material a rdf:Property ;
+    rdfs:domain kastle:Coin ;
+    rdfs:range xsd:string .
+
+kastle:noteValue a rdf:Property ;
+    rdfs:domain kastle:Note ;
+    rdfs:range xsd:decimal .
+
+kastle:pays a rdf:Property ;
+    rdfs:domain kastle:Payment ;
+    rdfs:range kastle:Money .
+
+kastle:performsTransaction a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Transaction .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range kastle:Money .
+
+kastle:transfers a rdf:Property ;
+    rdfs:domain kastle:Transfer ;
+    rdfs:range kastle:Money .
+
+kastle:value a rdf:Property ;
+    rdfs:domain kastle:Money ;
+    rdfs:range xsd:decimal .
+

@@ -1,0 +1,139 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Entity a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Game a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Level a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:N3abdb97a8d9d4511afd26eeee956452db1 a rdfs:Class .
+
+kastle:N3abdb97a8d9d4511afd26eeee956452db2 a rdfs:Class .
+
+kastle:Node a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Skill a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:User a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Level> a owl:Ontology ;
+    opla-core:hasPatternName "Level Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:associatedWith a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:string .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:string .
+
+kastle:hasDifficulty a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:string .
+
+kastle:hasLevel a rdf:Property ;
+    rdfs:domain kastle:Entity,
+        kastle:Game,
+        kastle:Level,
+        kastle:Node,
+        kastle:Person,
+        kastle:Resource,
+        kastle:Thing,
+        kastle:User ;
+    rdfs:range kastle:Integer,
+        kastle:Level .
+
+kastle:hasLevelName a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:string .
+
+kastle:hasLevelNumber a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:decimal .
+
+kastle:hasNextLevel a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range kastle:Level .
+
+kastle:hasNumber a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range kastle:Integer .
+
+kastle:hasReward a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:string .
+
+kastle:hasSkill a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Skill .
+
+kastle:inGame a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range kastle:Game .
+
+kastle:isLevelOf a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range kastle:Resource,
+        kastle:Thing .
+
+kastle:levelDescription a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:string .
+
+kastle:levelIndicator a rdf:Property ;
+    rdfs:domain kastle:N3abdb97a8d9d4511afd26eeee956452db2 ;
+    rdfs:range xsd:string .
+
+kastle:levelName a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:string .
+
+kastle:levelNumber a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:int,
+        kastle:Integer .
+
+kastle:levelOf a rdf:Property ;
+    rdfs:domain kastle:N3abdb97a8d9d4511afd26eeee956452db1 ;
+    rdfs:range kastle:Level .
+
+kastle:levelValue a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range xsd:string .
+
+kastle:nextLevel a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range kastle:Level .
+
+kastle:previousLevel a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range kastle:Level .
+
+kastle:understanding a rdf:Property ;
+    rdfs:domain kastle:Level ;
+    rdfs:range rdfs:Literal .
+

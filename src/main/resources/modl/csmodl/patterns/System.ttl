@@ -1,0 +1,203 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Application a rdfs:Class ;
+    rdfs:subClassOf kastle:Software .
+
+kastle:Component a rdfs:Class ;
+    rdfs:subClassOf kastle:System .
+
+kastle:ComputerSystem a rdfs:Class ;
+    rdfs:subClassOf kastle:Hardware .
+
+kastle:Configuration a rdfs:Class .
+
+kastle:Element a rdfs:Class .
+
+kastle:Function a rdfs:Class .
+
+kastle:Functionality a rdfs:Class .
+
+kastle:Hardware a rdfs:Class ;
+    rdfs:subClassOf kastle:Component .
+
+kastle:Nb264d2cc31194a64bfd5dcf9bb6bc55fb1 a rdfs:Class .
+
+kastle:Objective a rdfs:Class .
+
+kastle:OperatingSystem a rdfs:Class ;
+    rdfs:subClassOf kastle:Software,
+        kastle:System .
+
+kastle:Part a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Service a rdfs:Class .
+
+kastle:Software a rdfs:Class ;
+    rdfs:subClassOf kastle:Component .
+
+kastle:SubSystem a rdfs:Class ;
+    rdfs:subClassOf kastle:System .
+
+kastle:Subsystem a rdfs:Class ;
+    rdfs:subClassOf kastle:System .
+
+kastle:System a rdfs:Class .
+
+kastle:SystemComponent a rdfs:Class ;
+    rdfs:subClassOf kastle:System .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/System> a owl:Ontology ;
+    opla-core:hasPatternName "System Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:deliversFunction a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Function .
+
+kastle:hasApplication a rdf:Property ;
+    rdfs:domain kastle:OperatingSystem ;
+    rdfs:range kastle:Application .
+
+kastle:hasComponent a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range xsd:string,
+        kastle:Component,
+        kastle:System,
+        kastle:SystemComponent .
+
+kastle:hasConfiguration a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Configuration .
+
+kastle:hasElement a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Element .
+
+kastle:hasFunction a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range xsd:string,
+        kastle:Function .
+
+kastle:hasFunctionality a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Functionality .
+
+kastle:hasHardware a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Hardware .
+
+kastle:hasInput a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range xsd:string,
+        kastle:Resource .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range xsd:string .
+
+kastle:hasObjective a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Objective .
+
+kastle:hasOperatingSystem a rdf:Property ;
+    rdfs:domain kastle:ComputerSystem ;
+    rdfs:range kastle:OperatingSystem .
+
+kastle:hasOutput a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range xsd:string,
+        kastle:Resource .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Component,
+        kastle:Part,
+        kastle:System .
+
+kastle:hasSoftware a rdf:Property ;
+    rdfs:domain kastle:OperatingSystem,
+        kastle:System ;
+    rdfs:range kastle:Software .
+
+kastle:hasSubSystem a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:System .
+
+kastle:hasSubsystem a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Subsystem .
+
+kastle:hasVersion a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range xsd:decimal,
+        xsd:string .
+
+kastle:id a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range xsd:string .
+
+kastle:interactsWith a rdf:Property ;
+    rdfs:domain kastle:Component ;
+    rdfs:range kastle:Component .
+
+kastle:isComponentOf a rdf:Property ;
+    rdfs:domain kastle:Component ;
+    rdfs:range kastle:System .
+
+kastle:isInstalledOn a rdf:Property ;
+    rdfs:domain kastle:Software ;
+    rdfs:range kastle:Hardware .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Component,
+        kastle:SubSystem,
+        kastle:System ;
+    rdfs:range kastle:System .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Nb264d2cc31194a64bfd5dcf9bb6bc55fb1 ;
+    rdfs:range xsd:string .
+
+kastle:partOf a rdf:Property ;
+    rdfs:domain kastle:SystemComponent ;
+    rdfs:range kastle:System .
+
+kastle:partOfSystem a rdf:Property ;
+    rdfs:domain kastle:Component ;
+    rdfs:range kastle:System .
+
+kastle:performsFunction a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Function .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Service .
+
+kastle:providesService a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:Service .
+
+kastle:subSystem a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:System .
+
+kastle:subsystem_of a rdf:Property ;
+    rdfs:domain kastle:System ;
+    rdfs:range kastle:System .
+

@@ -1,0 +1,146 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Area a rdfs:Class ;
+    rdfs:subClassOf kastle:Physicalentity,
+        kastle:Physicalquantity .
+
+kastle:AreaUnit a rdfs:Class .
+
+kastle:Circle a rdfs:Class .
+
+kastle:Double a rdfs:Class .
+
+kastle:GeographicalEntity a rdfs:Class .
+
+kastle:N84af915885a24ef99a21e63c7ec3936fb1 a rdfs:Class .
+
+kastle:PhysicalEntity a rdfs:Class ;
+    rdfs:subClassOf kastle:Entity .
+
+kastle:PhysicalObject a rdfs:Class .
+
+kastle:Place a rdfs:Class .
+
+kastle:PolygonArea a rdfs:Class ;
+    rdfs:subClassOf kastle:Area .
+
+kastle:Space a rdfs:Class .
+
+kastle:SquareArea a rdfs:Class ;
+    rdfs:subClassOf kastle:Area .
+
+kastle:SquareMeters a rdfs:Class .
+
+kastle:Unit a rdfs:Class .
+
+kastle:UnitOfMeasurement a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Area> a owl:Ontology ;
+    opla-core:hasPatternName "Area Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:areaUnit a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range kastle:SquareMeters .
+
+kastle:areaValue a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range xsd:decimal .
+
+kastle:hasArea a rdf:Property ;
+    rdfs:domain kastle:Area,
+        kastle:GeographicalEntity,
+        kastle:PhysicalEntity,
+        kastle:PhysicalObject,
+        kastle:Place,
+        kastle:Space ;
+    rdfs:range xsd:decimal,
+        kastle:Area .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasType a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasUnit a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range kastle:AreaUnit,
+        kastle:N84af915885a24ef99a21e63c7ec3936fb1,
+        kastle:Unit,
+        kastle:UnitOfMeasurement .
+
+kastle:hasValue a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:inSquareMiles a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range xsd:decimal .
+
+kastle:length a rdf:Property ;
+    rdfs:domain kastle:Area,
+        kastle:SquareArea ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Double .
+
+kastle:radius a rdf:Property ;
+    rdfs:domain kastle:Circle ;
+    rdfs:range xsd:float .
+
+kastle:sideLength a rdf:Property ;
+    rdfs:domain kastle:PolygonArea ;
+    rdfs:range kastle:Double .
+
+kastle:sides a rdf:Property ;
+    rdfs:domain kastle:PolygonArea ;
+    rdfs:range xsd:decimal .
+
+kastle:unit a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range rdfs:Literal .
+
+kastle:unitOfMeasure a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range xsd:string .
+
+kastle:unitOfMeasurement a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range rdfs:Literal .
+
+kastle:value a rdf:Property ;
+    rdfs:domain kastle:Area ;
+    rdfs:range rdfs:Literal .
+
+kastle:width a rdf:Property ;
+    rdfs:domain kastle:Area,
+        kastle:SquareArea ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Double .
+

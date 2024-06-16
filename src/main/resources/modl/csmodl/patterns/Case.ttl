@@ -1,0 +1,305 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Case a rdfs:Class .
+
+kastle:CaseStatus a rdfs:Class .
+
+kastle:CaseType a rdfs:Class .
+
+kastle:CaseWorker a rdfs:Class .
+
+kastle:Client a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Description a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:EntityRole a rdfs:Class .
+
+kastle:Identifier a rdfs:Class .
+
+kastle:Investigation a rdfs:Class .
+
+kastle:Investigator a rdfs:Class .
+
+kastle:Judge a rdfs:Class .
+
+kastle:Lawyer a rdfs:Class .
+
+kastle:LegalCase a rdfs:Class ;
+    rdfs:subClassOf kastle:Case .
+
+kastle:Legalcase a rdfs:Class .
+
+kastle:Party a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Status a rdfs:Class .
+
+kastle:Subject a rdfs:Class .
+
+kastle:Title a rdfs:Class .
+
+kastle:XMLLiteral a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Case> a owl:Ontology ;
+    opla-core:hasPatternName "Case Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:assignedTo a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string .
+
+kastle:associatedWith a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Resource .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Entity .
+
+kastle:caseDescription a rdf:Property ;
+    rdfs:domain kastle:Legalcase ;
+    rdfs:range xsd:string .
+
+kastle:caseId a rdf:Property ;
+    rdfs:domain kastle:Legalcase ;
+    rdfs:range xsd:string .
+
+kastle:caseNumber a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:int .
+
+kastle:caseStatus a rdf:Property ;
+    rdfs:domain kastle:Case,
+        kastle:Legalcase ;
+    rdfs:range xsd:string .
+
+kastle:caseTitle a rdf:Property ;
+    rdfs:domain kastle:Legalcase ;
+    rdfs:range xsd:string .
+
+kastle:caseType a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range rdfs:Literal .
+
+kastle:creationDate a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:date .
+
+kastle:dateClosed a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:date .
+
+kastle:dateOpened a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:date .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string .
+
+kastle:endDate a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Datetime .
+
+kastle:handles a rdf:Property ;
+    rdfs:domain kastle:CaseWorker ;
+    rdfs:range kastle:Case .
+
+kastle:hasCaseDate a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range rdfs:Literal,
+        xsd:date .
+
+kastle:hasCaseDescription a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string,
+        kastle:Description .
+
+kastle:hasCaseID a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range rdfs:Literal,
+        kastle:XMLLiteral .
+
+kastle:hasCaseId a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string,
+        kastle:Identifier .
+
+kastle:hasCaseName a rdf:Property ;
+    rdfs:domain kastle:LegalCase ;
+    rdfs:range xsd:string .
+
+kastle:hasCaseNumber a rdf:Property ;
+    rdfs:domain kastle:Case,
+        kastle:LegalCase ;
+    rdfs:range xsd:string .
+
+kastle:hasCaseStatus a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range rdfs:Literal,
+        kastle:CaseStatus .
+
+kastle:hasCaseTitle a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Title .
+
+kastle:hasCaseType a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:CaseType .
+
+kastle:hasDateOpened a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:date .
+
+kastle:hasDefendant a rdf:Property ;
+    rdfs:domain kastle:Case,
+        kastle:Legalcase ;
+    rdfs:range kastle:Person .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string .
+
+kastle:hasEndDate a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:date .
+
+kastle:hasEntityRole a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range kastle:EntityRole .
+
+kastle:hasID a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string .
+
+kastle:hasIdentifier a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string .
+
+kastle:hasJudge a rdf:Property ;
+    rdfs:domain kastle:LegalCase ;
+    rdfs:range kastle:Judge .
+
+kastle:hasLawyer a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Lawyer .
+
+kastle:hasParties a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Party .
+
+kastle:hasParty a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Entity .
+
+kastle:hasPlaintiff a rdf:Property ;
+    rdfs:domain kastle:Case,
+        kastle:Legalcase ;
+    rdfs:range kastle:Person .
+
+kastle:hasRelatedCase a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Case .
+
+kastle:hasStartDate a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:date .
+
+kastle:hasStatus a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string,
+        kastle:CaseStatus,
+        kastle:Status .
+
+kastle:hasSubject a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Subject .
+
+kastle:hasTitle a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string .
+
+kastle:id a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string .
+
+kastle:investigation a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Investigation .
+
+kastle:investigationEndDate a rdf:Property ;
+    rdfs:domain kastle:Investigation ;
+    rdfs:range xsd:date .
+
+kastle:investigationStartDate a rdf:Property ;
+    rdfs:domain kastle:Investigation ;
+    rdfs:range xsd:date .
+
+kastle:investigator a rdf:Property ;
+    rdfs:domain kastle:Investigation ;
+    rdfs:range kastle:Investigator .
+
+kastle:involvedParties a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range rdfs:Literal .
+
+kastle:involves a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Entity .
+
+kastle:isOpen a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:boolean .
+
+kastle:isRelatedTo a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Case .
+
+kastle:judge a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range rdfs:Literal .
+
+kastle:lawyerName a rdf:Property ;
+    rdfs:domain kastle:Lawyer ;
+    rdfs:range xsd:string .
+
+kastle:personName a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:representedIn a rdf:Property ;
+    rdfs:domain kastle:Client ;
+    rdfs:range kastle:Case .
+
+kastle:startDate a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:Datetime .
+
+kastle:status a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range kastle:CaseStatus .
+
+kastle:title a rdf:Property ;
+    rdfs:domain kastle:Case ;
+    rdfs:range xsd:string .
+

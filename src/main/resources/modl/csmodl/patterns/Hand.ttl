@@ -1,0 +1,174 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Arm a rdfs:Class .
+
+kastle:Body a rdfs:Class .
+
+kastle:Finger a rdfs:Class ;
+    rdfs:subClassOf kastle:Bodypart,
+        kastle:Hand,
+        kastle:Handpart,
+        kastle:Resource .
+
+kastle:Fingers a rdfs:Class ;
+    rdfs:subClassOf kastle:Handparts .
+
+kastle:Function a rdfs:Class .
+
+kastle:Hand a rdfs:Class ;
+    rdfs:subClassOf kastle:Body_part,
+        kastle:Bodypart,
+        kastle:Class .
+
+kastle:HandPart a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:HumanBody a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Nails a rdfs:Class .
+
+kastle:Nonnegativeinteger a rdfs:Class .
+
+kastle:Object a rdfs:Class .
+
+kastle:Palm a rdfs:Class ;
+    rdfs:subClassOf kastle:Hand,
+        kastle:Handparts .
+
+kastle:Position a rdfs:Class .
+
+kastle:Skin a rdfs:Class .
+
+kastle:Thumb a rdfs:Class ;
+    rdfs:subClassOf kastle:Handparts .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Hand> a owl:Ontology ;
+    opla-core:hasPatternName "Hand Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Finger ;
+    rdfs:range kastle:Hand .
+
+kastle:canGrasp a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range xsd:boolean,
+        kastle:Object .
+
+kastle:canGrip a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range xsd:boolean .
+
+kastle:fingerCount a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Integer .
+
+kastle:fingers a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range rdfs:Literal .
+
+kastle:handHasFingers a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Fingers .
+
+kastle:handHasPalm a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Palm .
+
+kastle:handHasThumb a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Thumb .
+
+kastle:hasFingers a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range xsd:string,
+        kastle:Finger,
+        kastle:Integer,
+        kastle:Nonnegativeinteger .
+
+kastle:hasFiveFingers a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range xsd:boolean .
+
+kastle:hasFunction a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Function .
+
+kastle:hasNails a rdf:Property ;
+    rdfs:domain kastle:Finger,
+        kastle:Hand ;
+    rdfs:range xsd:boolean,
+        kastle:Nails .
+
+kastle:hasNumberOfFingers a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range xsd:int .
+
+kastle:hasPalm a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Palm .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Finger,
+        kastle:HandPart .
+
+kastle:hasParts a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Finger .
+
+kastle:hasPosition a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Position .
+
+kastle:hasSkin a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range xsd:boolean,
+        kastle:Skin .
+
+kastle:hasSkinColor a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range xsd:string .
+
+kastle:hasThumb a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range rdfs:Literal,
+        xsd:boolean .
+
+kastle:isLeft a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range xsd:boolean .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:HumanBody .
+
+kastle:isPartOfArm a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Arm .
+
+kastle:isRight a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range xsd:boolean .
+
+kastle:partOf a rdf:Property ;
+    rdfs:domain kastle:Hand ;
+    rdfs:range kastle:Body,
+        kastle:Human .
+

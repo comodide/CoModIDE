@@ -1,0 +1,169 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Cheek a rdfs:Class .
+
+kastle:Class a rdfs:Class .
+
+kastle:Expression a rdfs:Class ;
+    rdfs:subClassOf kastle:Face .
+
+kastle:Eye a rdfs:Class ;
+    rdfs:subClassOf kastle:Face .
+
+kastle:Eyes a rdfs:Class ;
+    rdfs:subClassOf kastle:Face .
+
+kastle:Face a rdfs:Class ;
+    rdfs:subClassOf kastle:Bodypart,
+        kastle:Resource .
+
+kastle:FacePart a rdfs:Class .
+
+kastle:FacialFeature a rdfs:Class .
+
+kastle:Human a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Mouth a rdfs:Class ;
+    rdfs:subClassOf kastle:Face .
+
+kastle:Nbb17d2cede1240a8adad1d8587390239b1 a rdfs:Class .
+
+kastle:Nose a rdfs:Class ;
+    rdfs:subClassOf kastle:Face .
+
+kastle:Skin a rdfs:Class ;
+    rdfs:subClassOf kastle:Face .
+
+kastle:SkinType a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Face> a owl:Ontology ;
+    opla-core:hasPatternName "Face Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:color a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range xsd:string .
+
+kastle:eyeColor a rdf:Property ;
+    rdfs:domain kastle:Eye,
+        kastle:Face ;
+    rdfs:range xsd:string .
+
+kastle:hasCheek a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range kastle:Cheek .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:Face,
+        kastle:FacePart,
+        kastle:FacialFeature ;
+    rdfs:range xsd:string .
+
+kastle:hasComponent a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range xsd:string .
+
+kastle:hasExpression a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range kastle:Expression .
+
+kastle:hasEye a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range kastle:Eye,
+        kastle:Integer .
+
+kastle:hasEyes a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range rdfs:Literal,
+        kastle:Eye,
+        kastle:Eyes .
+
+kastle:hasFace a rdf:Property ;
+    rdfs:domain kastle:Human ;
+    rdfs:range kastle:Face .
+
+kastle:hasFacialFeature a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range kastle:FacialFeature,
+        kastle:Nbb17d2cede1240a8adad1d8587390239b1 .
+
+kastle:hasFeature a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range kastle:FacialFeature .
+
+kastle:hasMouth a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range rdfs:Literal,
+        xsd:boolean,
+        kastle:Mouth .
+
+kastle:hasNose a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range rdfs:Literal,
+        xsd:boolean,
+        kastle:Nose .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range kastle:Class,
+        kastle:FacePart .
+
+kastle:hasPosition a rdf:Property ;
+    rdfs:domain kastle:FacePart ;
+    rdfs:range xsd:string .
+
+kastle:hasShape a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range xsd:string .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:FacePart ;
+    rdfs:range xsd:string .
+
+kastle:hasSkin a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range kastle:Skin .
+
+kastle:hasSkinColor a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasSkinType a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range kastle:SkinType .
+
+kastle:hasTexture a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range xsd:string .
+
+kastle:mouthSize a rdf:Property ;
+    rdfs:domain kastle:Mouth ;
+    rdfs:range xsd:string .
+
+kastle:noseSize a rdf:Property ;
+    rdfs:domain kastle:Nose ;
+    rdfs:range xsd:string .
+
+kastle:shape a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range xsd:string .
+
+kastle:skinTone a rdf:Property ;
+    rdfs:domain kastle:Face ;
+    rdfs:range xsd:string .
+

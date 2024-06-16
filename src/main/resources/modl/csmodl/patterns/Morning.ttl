@@ -1,0 +1,187 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Activity a rdfs:Class .
+
+kastle:Alarm a rdfs:Class .
+
+kastle:Breakfast a rdfs:Class .
+
+kastle:Coffee a rdfs:Class .
+
+kastle:Day a rdfs:Class ;
+    rdfs:subClassOf kastle:Timeperiod .
+
+kastle:Early a rdfs:Class .
+
+kastle:EarlyMorning a rdfs:Class ;
+    rdfs:subClassOf kastle:Morning .
+
+kastle:Exercise a rdfs:Class .
+
+kastle:MORNING a rdfs:Class .
+
+kastle:Meal a rdfs:Class .
+
+kastle:Morning a rdfs:Class ;
+    rdfs:subClassOf kastle:Daypart,
+        kastle:Daytime,
+        kastle:Temporalentity,
+        kastle:Timeofday .
+
+kastle:MorningActivity a rdfs:Class .
+
+kastle:MorningTime a rdfs:Class .
+
+kastle:Mornings a rdfs:Class .
+
+kastle:Night a rdfs:Class ;
+    rdfs:subClassOf kastle:Daypart .
+
+kastle:Person a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Routine a rdfs:Class .
+
+kastle:Siunarise a rdfs:Class .
+
+kastle:Sunrise a rdfs:Class .
+
+kastle:Time a rdfs:Class .
+
+kastle:WakeUp a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Morning> a owl:Ontology ;
+    opla-core:hasPatternName "Morning Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:breakfast a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Breakfast .
+
+kastle:breakfastTime a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Time .
+
+kastle:coffee a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Coffee .
+
+kastle:does a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:MorningTime .
+
+kastle:end_time a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Time .
+
+kastle:endsAt a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Time .
+
+kastle:exercise a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Exercise .
+
+kastle:follows a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Night .
+
+kastle:hasActivity a rdf:Property ;
+    rdfs:domain kastle:MORNING,
+        kastle:Morning ;
+    rdfs:range kastle:Activity,
+        kastle:Resource .
+
+kastle:hasAlarm a rdf:Property ;
+    rdfs:domain kastle:Routine ;
+    rdfs:range kastle:Alarm .
+
+kastle:hasBreakfast a rdf:Property ;
+    rdfs:domain kastle:Mornings ;
+    rdfs:range kastle:Breakfast .
+
+kastle:hasEndTime a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Time .
+
+kastle:hasMeal a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Meal .
+
+kastle:hasMorning a rdf:Property ;
+    rdfs:domain kastle:Day ;
+    rdfs:range kastle:Morning .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:MorningActivity .
+
+kastle:hasRoutine a rdf:Property ;
+    rdfs:domain kastle:Mornings ;
+    rdfs:range kastle:Routine .
+
+kastle:hasStartTime a rdf:Property ;
+    rdfs:domain kastle:MORNING,
+        kastle:Morning ;
+    rdfs:range kastle:Time .
+
+kastle:includes a rdf:Property ;
+    rdfs:domain kastle:MorningActivity ;
+    rdfs:range kastle:Resource .
+
+kastle:isEarly a rdf:Property ;
+    rdfs:domain kastle:Mornings ;
+    rdfs:range kastle:Early .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Day .
+
+kastle:isPartOfDay a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Day .
+
+kastle:start_time a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Time .
+
+kastle:startsAt a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Time .
+
+kastle:startsWith a rdf:Property ;
+    rdfs:domain kastle:Mornings ;
+    rdfs:range kastle:Sunrise .
+
+kastle:sunrise a rdf:Property ;
+    rdfs:domain kastle:EarlyMorning,
+        kastle:Morning ;
+    rdfs:range kastle:Siunarise,
+        kastle:Time .
+
+kastle:time a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Time .
+
+kastle:wakeup a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:WakeUp .
+
+kastle:workStart a rdf:Property ;
+    rdfs:domain kastle:Morning ;
+    rdfs:range kastle:Time .
+

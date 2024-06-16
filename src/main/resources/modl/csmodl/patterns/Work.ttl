@@ -1,0 +1,331 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Category a rdfs:Class .
+
+kastle:Company a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Duration a rdfs:Class .
+
+kastle:Employee a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Work .
+
+kastle:Employer a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Work .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Job a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Work .
+
+kastle:JobPosting a rdfs:Class ;
+    rdfs:subClassOf kastle:Work .
+
+kastle:Location a rdfs:Class .
+
+kastle:Occupation a rdfs:Class .
+
+kastle:Organization a rdfs:Class ;
+    rdfs:subClassOf kastle:Work .
+
+kastle:Person a rdfs:Class .
+
+kastle:Position a rdfs:Class ;
+    rdfs:subClassOf kastle:Work .
+
+kastle:Salary a rdfs:Class .
+
+kastle:Task a rdfs:Class ;
+    rdfs:subClassOf kastle:Work .
+
+kastle:Time a rdfs:Class .
+
+kastle:Work a rdfs:Class ;
+    rdfs:subClassOf kastle:N4e52b9b4c1e34764a08b304b2a1f71cbb1,
+        kastle:Resource .
+
+kastle:Worker a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Work> a owl:Ontology ;
+    opla-core:hasPatternName "Work Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongsInCategory a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Category .
+
+kastle:company a rdf:Property ;
+    rdfs:domain kastle:Employer ;
+    rdfs:range xsd:string .
+
+kastle:companyName a rdf:Property ;
+    rdfs:domain kastle:Employer ;
+    rdfs:range xsd:string .
+
+kastle:description a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:string .
+
+kastle:employed a rdf:Property ;
+    rdfs:domain kastle:Employer ;
+    rdfs:range kastle:Employee .
+
+kastle:employedBy a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Employer,
+        kastle:Organization .
+
+kastle:employee a rdf:Property ;
+    rdfs:domain kastle:Person,
+        kastle:Work ;
+    rdfs:range xsd:string,
+        kastle:Work .
+
+kastle:employeeID a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:int .
+
+kastle:employeeName a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:employer a rdf:Property ;
+    rdfs:domain kastle:Company,
+        kastle:Work ;
+    rdfs:range xsd:string,
+        kastle:Employer,
+        kastle:Work .
+
+kastle:employs a rdf:Property ;
+    rdfs:domain kastle:Employer ;
+    rdfs:range kastle:Employee .
+
+kastle:endDate a rdf:Property ;
+    rdfs:domain kastle:Job,
+        kastle:Work ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:fullName a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Worker ;
+    rdfs:range kastle:Integer .
+
+kastle:hasCompanyName a rdf:Property ;
+    rdfs:domain kastle:Employer ;
+    rdfs:range xsd:string .
+
+kastle:hasDeadline a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasDuration a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Duration .
+
+kastle:hasEmployee a rdf:Property ;
+    rdfs:domain kastle:Employer,
+        kastle:Job,
+        kastle:Work ;
+    rdfs:range kastle:Employee,
+        kastle:Person .
+
+kastle:hasEmployer a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Job,
+        kastle:Work ;
+    rdfs:range kastle:Employer .
+
+kastle:hasEndDate a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasEndTime a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasFullName a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range xsd:string .
+
+kastle:hasHours a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:string .
+
+kastle:hasJob a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Job,
+        kastle:Work .
+
+kastle:hasJobPosting a rdf:Property ;
+    rdfs:domain kastle:Organization ;
+    rdfs:range kastle:JobPosting .
+
+kastle:hasJobTitle a rdf:Property ;
+    rdfs:domain kastle:Position,
+        kastle:Work ;
+    rdfs:range xsd:string .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:string,
+        kastle:Location .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Worker ;
+    rdfs:range xsd:string .
+
+kastle:hasOccupation a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Occupation .
+
+kastle:hasPlace a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Location .
+
+kastle:hasPosition a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Work ;
+    rdfs:range xsd:string,
+        kastle:Position .
+
+kastle:hasSalary a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Position,
+        kastle:Work ;
+    rdfs:range xsd:decimal,
+        kastle:Salary .
+
+kastle:hasStartDate a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:hasStartTime a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasTask a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Work ;
+    rdfs:range kastle:Task .
+
+kastle:hasTime a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Time .
+
+kastle:hasTitle a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:string .
+
+kastle:hasWorkHours a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:int .
+
+kastle:hasWorker a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Person,
+        kastle:Worker .
+
+kastle:hoursPerWeek a rdf:Property ;
+    rdfs:domain kastle:Job ;
+    rdfs:range kastle:Integer .
+
+kastle:isEmployedAt a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Work .
+
+kastle:isFullTime a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:boolean .
+
+kastle:isPerformedBy a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Worker .
+
+kastle:isRemote a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:boolean .
+
+kastle:jobTitle a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Job,
+        kastle:Work ;
+    rdfs:range xsd:string .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:string .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Employer ;
+    rdfs:range xsd:string .
+
+kastle:organization a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:string .
+
+kastle:performWork a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Employer .
+
+kastle:positionTitle a rdf:Property ;
+    rdfs:domain kastle:Job ;
+    rdfs:range xsd:string .
+
+kastle:receives a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Salary .
+
+kastle:salary a rdf:Property ;
+    rdfs:domain kastle:Employee,
+        kastle:Job ;
+    rdfs:range xsd:decimal .
+
+kastle:startDate a rdf:Property ;
+    rdfs:domain kastle:Job,
+        kastle:Work ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:title a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:string .
+
+kastle:workName a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range xsd:string .
+
+kastle:worker a rdf:Property ;
+    rdfs:domain kastle:Work ;
+    rdfs:range kastle:Worker .
+
+kastle:worksFor a rdf:Property ;
+    rdfs:domain kastle:Employee ;
+    rdfs:range kastle:Employer .
+
+kastle:worksIn a rdf:Property ;
+    rdfs:domain kastle:Worker ;
+    rdfs:range kastle:Work .
+

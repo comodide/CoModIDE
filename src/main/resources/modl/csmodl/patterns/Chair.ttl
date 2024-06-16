@@ -1,0 +1,72 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Chair a rdfs:Class .
+
+kastle:Company a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Chair> a owl:Ontology ;
+    opla-core:hasPatternName "Chair Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasColour a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range xsd:string .
+
+kastle:hasDepth a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range xsd:float .
+
+kastle:hasHeight a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range xsd:float .
+
+kastle:hasMaterial a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasPrice a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasStyle a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasWeightCapacity a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range kastle:Integer .
+
+kastle:hasWidth a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range xsd:float .
+
+kastle:manufacturer a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range kastle:Company .
+
+kastle:material a rdf:Property ;
+    rdfs:domain kastle:Chair ;
+    rdfs:range rdfs:Literal .
+

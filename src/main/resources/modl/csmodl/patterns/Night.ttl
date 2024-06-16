@@ -1,0 +1,263 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Astronomy a rdfs:Class .
+
+kastle:Concept a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Day a rdfs:Class .
+
+kastle:Dream a rdfs:Class .
+
+kastle:Duration a rdfs:Class .
+
+kastle:Moon a rdfs:Class .
+
+kastle:MoonPhase a rdfs:Class .
+
+kastle:Night a rdfs:Class ;
+    rdfs:subClassOf kastle:Periodofday,
+        kastle:Timeperiod .
+
+kastle:Nighttimeactivity a rdfs:Class .
+
+kastle:Place a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Sleep a rdfs:Class .
+
+kastle:Star a rdfs:Class .
+
+kastle:Sunrise a rdfs:Class .
+
+kastle:Sunset a rdfs:Class .
+
+kastle:Temperature a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:Time a rdfs:Class .
+
+kastle:Weather a rdfs:Class .
+
+kastle:WeatherCondition a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Night> a owl:Ontology ;
+    opla-core:hasPatternName "Night Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:activities a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Sleep .
+
+kastle:conceptOfNight a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Concept .
+
+kastle:duration a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Datetime,
+        kastle:Duration .
+
+kastle:end a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Datetime .
+
+kastle:endTime a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Datetime .
+
+kastle:endsAt a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Time .
+
+kastle:experiences a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Dream .
+
+kastle:hasActivity a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Nighttimeactivity .
+
+kastle:hasAurora a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range xsd:boolean .
+
+kastle:hasDarkness a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range xsd:boolean .
+
+kastle:hasDuration a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Time .
+
+kastle:hasEnd a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range rdfs:Literal,
+        kastle:Datetime,
+        kastle:Sunrise,
+        kastle:Time .
+
+kastle:hasEndHour a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Time .
+
+kastle:hasEndTime a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Time .
+
+kastle:hasInSky a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Star .
+
+kastle:hasLength a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range rdfs:Literal,
+        xsd:float .
+
+kastle:hasMoon a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Moon,
+        kastle:Thing .
+
+kastle:hasMoonPhase a rdf:Property ;
+    rdfs:domain kastle:Moon,
+        kastle:Night ;
+    rdfs:range xsd:string,
+        kastle:MoonPhase .
+
+kastle:hasNight a rdf:Property ;
+    rdfs:domain kastle:Day,
+        kastle:Place ;
+    rdfs:range kastle:Night .
+
+kastle:hasStar a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Star .
+
+kastle:hasStarVisibility a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range xsd:boolean .
+
+kastle:hasStarsVisible a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range xsd:boolean .
+
+kastle:hasStart a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range rdfs:Literal,
+        kastle:Datetime,
+        kastle:Sunset,
+        kastle:Time .
+
+kastle:hasStartHour a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Time .
+
+kastle:hasStartTime a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Time .
+
+kastle:hasTemperature a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range rdfs:Literal,
+        xsd:float,
+        kastle:Temperature .
+
+kastle:hasWeather a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Weather,
+        kastle:WeatherCondition .
+
+kastle:isAstronomicalNight a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range xsd:boolean .
+
+kastle:isDark a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range xsd:boolean .
+
+kastle:isFollowedBy a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Day .
+
+kastle:isIlluminatedBy a rdf:Property ;
+    rdfs:domain kastle:Moon ;
+    rdfs:range kastle:Night .
+
+kastle:isNightOf a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Place .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Moon ;
+    rdfs:range kastle:Astronomy .
+
+kastle:isPartOfDay a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Day .
+
+kastle:isPresentDuring a rdf:Property ;
+    rdfs:domain kastle:Star ;
+    rdfs:range kastle:Night .
+
+kastle:isQuiet a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range xsd:boolean .
+
+kastle:moonPhase a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:nightSky a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Star .
+
+kastle:observe a rdf:Property ;
+    rdfs:domain kastle:Astronomy ;
+    rdfs:range kastle:Star .
+
+kastle:observing a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Resource .
+
+kastle:sleeping a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Resource .
+
+kastle:start a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Datetime .
+
+kastle:startTime a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Datetime .
+
+kastle:startsAt a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Time .
+
+kastle:visibleDuring a rdf:Property ;
+    rdfs:domain kastle:Star ;
+    rdfs:range kastle:Night .
+
+kastle:weather a rdf:Property ;
+    rdfs:domain kastle:Night ;
+    rdfs:range kastle:Resource .
+

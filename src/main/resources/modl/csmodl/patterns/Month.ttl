@@ -1,0 +1,56 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Date a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Month a rdfs:Class ;
+    rdfs:subClassOf kastle:Temporalentity,
+        kastle:Timeperiod .
+
+kastle:Number a rdfs:Class .
+
+kastle:Year a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Month> a owl:Ontology ;
+    opla-core:hasPatternName "Month Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:hasCalendarOrder a rdf:Property ;
+    rdfs:domain kastle:Month ;
+    rdfs:range kastle:Integer .
+
+kastle:hasDays a rdf:Property ;
+    rdfs:domain kastle:Month ;
+    rdfs:range kastle:Integer .
+
+kastle:hasMonth a rdf:Property ;
+    rdfs:domain kastle:Date,
+        kastle:Year ;
+    rdfs:range kastle:Month .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Month ;
+    rdfs:range xsd:string .
+
+kastle:hasNumberOfDays a rdf:Property ;
+    rdfs:domain kastle:Month ;
+    rdfs:range kastle:Integer .
+
+kastle:hasOrder a rdf:Property ;
+    rdfs:domain kastle:Month ;
+    rdfs:range kastle:Number .
+

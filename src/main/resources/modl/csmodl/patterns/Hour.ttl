@@ -1,0 +1,138 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Day a rdfs:Class .
+
+kastle:Duration a rdfs:Class ;
+    rdfs:subClassOf kastle:Property .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Hour a rdfs:Class ;
+    rdfs:subClassOf kastle:Instant,
+        kastle:Resource,
+        kastle:Temporalunit .
+
+kastle:Instant a rdfs:Class ;
+    rdfs:subClassOf kastle:Timeline .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Measure a rdfs:Class .
+
+kastle:Minute a rdfs:Class ;
+    rdfs:subClassOf kastle:Hour,
+        kastle:Temporalunit .
+
+kastle:PartOfDay a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Second a rdfs:Class ;
+    rdfs:subClassOf kastle:Minute .
+
+kastle:TemporalEntity a rdfs:Class .
+
+kastle:TemporalUnit a rdfs:Class .
+
+kastle:Time a rdfs:Class ;
+    rdfs:subClassOf kastle:Period .
+
+kastle:TimePeriod a rdfs:Class ;
+    rdfs:subClassOf kastle:Property .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Hour> a owl:Ontology ;
+    opla-core:hasPatternName "Hour Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:endTime a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range kastle:Instant,
+        kastle:Time,
+        kastle:TimePeriod .
+
+kastle:hasHour a rdf:Property ;
+    rdfs:domain kastle:Entity,
+        kastle:Measure,
+        kastle:TemporalEntity,
+        kastle:Time ;
+    rdfs:range kastle:Hour,
+        kastle:Integer .
+
+kastle:hasMinute a rdf:Property ;
+    rdfs:domain kastle:Hour,
+        kastle:Measure ;
+    rdfs:range kastle:Integer,
+        kastle:Minute .
+
+kastle:hasMinutes a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range kastle:Integer,
+        kastle:Minute .
+
+kastle:hasNumber a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range xsd:int .
+
+kastle:hasNumberOfHours a rdf:Property ;
+    rdfs:domain kastle:TemporalUnit ;
+    rdfs:range kastle:Integer .
+
+kastle:hasNumberOfMinutes a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range kastle:Integer .
+
+kastle:hasSecond a rdf:Property ;
+    rdfs:domain kastle:Measure,
+        kastle:Minute ;
+    rdfs:range kastle:Integer,
+        kastle:Second .
+
+kastle:hasTemporalDuration a rdf:Property ;
+    rdfs:domain kastle:TemporalEntity ;
+    rdfs:range kastle:Duration .
+
+kastle:hourOfDay a rdf:Property ;
+    rdfs:domain kastle:TemporalEntity ;
+    rdfs:range kastle:Hour .
+
+kastle:hourValue a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range kastle:Integer .
+
+kastle:hours a rdf:Property ;
+    rdfs:domain kastle:TemporalEntity ;
+    rdfs:range xsd:decimal .
+
+kastle:isInTimeZone a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range rdfs:Literal .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range kastle:Day,
+        kastle:TemporalEntity .
+
+kastle:isPartOfDay a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range rdfs:Literal,
+        kastle:Day,
+        kastle:PartOfDay .
+
+kastle:startTime a rdf:Property ;
+    rdfs:domain kastle:Hour ;
+    rdfs:range kastle:Instant,
+        kastle:Time,
+        kastle:TimePeriod .
+

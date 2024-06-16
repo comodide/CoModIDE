@@ -1,0 +1,121 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Back a rdfs:Class ;
+    rdfs:subClassOf kastle:Place .
+
+kastle:BackDisease a rdfs:Class ;
+    rdfs:subClassOf kastle:Disease .
+
+kastle:BackPain a rdfs:Class .
+
+kastle:BackPart a rdfs:Class .
+
+kastle:Back_Condition a rdfs:Class .
+
+kastle:Backpain a rdfs:Class ;
+    rdfs:subClassOf kastle:Disease .
+
+kastle:Human a rdfs:Class .
+
+kastle:HumanBody a rdfs:Class .
+
+kastle:Injury a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Pain a rdfs:Class .
+
+kastle:Place a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Something a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Back> a owl:Ontology ;
+    opla-core:hasPatternName "Back Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:affects a rdf:Property ;
+    rdfs:domain kastle:BackDisease ;
+    rdfs:range kastle:Back .
+
+kastle:associatedCondition a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range kastle:Resource .
+
+kastle:hasBack a rdf:Property ;
+    rdfs:domain kastle:Something ;
+    rdfs:range kastle:Back .
+
+kastle:hasCondition a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range kastle:Back_Condition .
+
+kastle:hasInjury a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range kastle:Injury .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range xsd:string .
+
+kastle:hasMuscle a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasPain a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range kastle:Pain .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Back,
+        kastle:HumanBody,
+        kastle:Place ;
+    rdfs:range kastle:Back,
+        kastle:BackPart .
+
+kastle:hasSpine a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasSymptom a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range kastle:BackPain .
+
+kastle:isLocationOf a rdf:Property ;
+    rdfs:domain kastle:BackPain ;
+    rdfs:range kastle:Back .
+
+kastle:isOppositeOf a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range xsd:string .
+
+kastle:painLevel a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range kastle:Integer .
+
+kastle:partOfBack a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range kastle:Back .
+
+kastle:suffersFrom a rdf:Property ;
+    rdfs:domain kastle:Human ;
+    rdfs:range kastle:Backpain .
+
+kastle:treatmentPlan a rdf:Property ;
+    rdfs:domain kastle:Back ;
+    rdfs:range kastle:Resource .
+

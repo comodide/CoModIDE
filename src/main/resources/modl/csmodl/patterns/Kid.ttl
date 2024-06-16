@@ -1,0 +1,162 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Activities a rdfs:Class .
+
+kastle:Adult a rdfs:Class .
+
+kastle:Age a rdfs:Class .
+
+kastle:Hobby a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Kid a rdfs:Class ;
+    rdfs:subClassOf kastle:Human,
+        kastle:Person .
+
+kastle:Langstring a rdfs:Class .
+
+kastle:Parent a rdfs:Class .
+
+kastle:Person a rdfs:Class .
+
+kastle:Pet a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:School a rdfs:Class ;
+    rdfs:subClassOf kastle:Educationalinstitution .
+
+kastle:Sport a rdfs:Class .
+
+kastle:Toy a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Kid> a owl:Ontology ;
+    opla-core:hasPatternName "Kid Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:age a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range rdfs:Literal,
+        kastle:Integer .
+
+kastle:attends a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:School .
+
+kastle:attendsSchool a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range xsd:string,
+        kastle:School .
+
+kastle:gender a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range rdfs:Literal .
+
+kastle:goesToSchool a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:School .
+
+kastle:grade a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:Integer .
+
+kastle:guardian a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:Resource .
+
+kastle:hasAddress a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range xsd:string .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Kid,
+        kastle:Person ;
+    rdfs:range rdfs:Literal,
+        xsd:int,
+        kastle:Age,
+        kastle:Integer .
+
+kastle:hasGender a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range xsd:string .
+
+kastle:hasHobby a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:Hobby .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasParent a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:Adult,
+        kastle:Parent,
+        kastle:Person .
+
+kastle:hasPet a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:Pet .
+
+kastle:hasSchoolName a rdf:Property ;
+    rdfs:domain kastle:School ;
+    rdfs:range xsd:string .
+
+kastle:hasSibling a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:Kid .
+
+kastle:hasToy a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:Toy .
+
+kastle:hobbies a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range rdfs:Literal .
+
+kastle:isParentOf a rdf:Property ;
+    rdfs:domain kastle:Adult ;
+    rdfs:range kastle:Kid .
+
+kastle:isStudentOf a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:School .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range xsd:string,
+        kastle:Langstring .
+
+kastle:participatesIn a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:Activities,
+        kastle:Hobby .
+
+kastle:playsSport a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:Sport .
+
+kastle:school a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range rdfs:Literal,
+        kastle:Resource .
+
+kastle:studiesAt a rdf:Property ;
+    rdfs:domain kastle:Kid ;
+    rdfs:range kastle:School .
+

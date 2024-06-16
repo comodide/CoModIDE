@@ -1,0 +1,191 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Animal a rdfs:Class ;
+    rdfs:subClassOf kastle:Life .
+
+kastle:Birth a rdfs:Class ;
+    rdfs:subClassOf kastle:Life .
+
+kastle:Cell a rdfs:Class ;
+    rdfs:subClassOf kastle:Life .
+
+kastle:Death a rdfs:Class ;
+    rdfs:subClassOf kastle:Life .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Environment a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Life a rdfs:Class ;
+    rdfs:subClassOf kastle:Entity,
+        kastle:Resource .
+
+kastle:LifeCycle a rdfs:Class ;
+    rdfs:subClassOf kastle:Life .
+
+kastle:LifeForm a rdfs:Class ;
+    rdfs:subClassOf kastle:Life .
+
+kastle:LifeSpan a rdfs:Class .
+
+kastle:LifeStage a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Organism a rdfs:Class ;
+    rdfs:subClassOf kastle:Life .
+
+kastle:Species a rdfs:Class ;
+    rdfs:subClassOf kastle:Life .
+
+kastle:TaxonomicRank a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Life> a owl:Ontology ;
+    opla-core:hasPatternName "Life Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:birthDate a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range xsd:date .
+
+kastle:breathe a rdf:Property ;
+    rdfs:domain kastle:Animal ;
+    rdfs:range rdfs:Literal .
+
+kastle:consume a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range xsd:boolean .
+
+kastle:deathDate a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range xsd:date .
+
+kastle:eat a rdf:Property ;
+    rdfs:domain kastle:Animal ;
+    rdfs:range kastle:Life .
+
+kastle:grow a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range rdfs:Literal,
+        xsd:boolean .
+
+kastle:habitat a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Organism ;
+    rdfs:range kastle:Integer .
+
+kastle:hasBeginning a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range kastle:Birth .
+
+kastle:hasBirth a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range kastle:Birth .
+
+kastle:hasCells a rdf:Property ;
+    rdfs:domain kastle:Organism ;
+    rdfs:range kastle:Cell .
+
+kastle:hasChild a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range kastle:Life .
+
+kastle:hasDeath a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range kastle:Death .
+
+kastle:hasEnd a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range kastle:Death .
+
+kastle:hasEnvironment a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range kastle:Environment .
+
+kastle:hasForm a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range kastle:LifeForm .
+
+kastle:hasLife a rdf:Property ;
+    rdfs:domain kastle:Entity,
+        kastle:Life,
+        kastle:Organism ;
+    rdfs:range kastle:Life .
+
+kastle:hasLifeCycle a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range kastle:LifeCycle .
+
+kastle:hasLifeSpan a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range rdfs:Literal,
+        kastle:LifeSpan .
+
+kastle:hasLifeStage a rdf:Property ;
+    rdfs:domain kastle:Life,
+        kastle:Organism ;
+    rdfs:range kastle:LifeStage .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasOrganism a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range kastle:Organism .
+
+kastle:hasParent a rdf:Property ;
+    rdfs:domain kastle:Life,
+        kastle:Organism ;
+    rdfs:range kastle:Life,
+        kastle:Organism .
+
+kastle:hasSibling a rdf:Property ;
+    rdfs:domain kastle:Organism ;
+    rdfs:range kastle:Organism .
+
+kastle:hasSpecies a rdf:Property ;
+    rdfs:domain kastle:Life,
+        kastle:Organism ;
+    rdfs:range xsd:string,
+        kastle:Species .
+
+kastle:hasTaxonomicRank a rdf:Property ;
+    rdfs:domain kastle:Organism ;
+    rdfs:range kastle:TaxonomicRank .
+
+kastle:lifeSpan a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range xsd:decimal .
+
+kastle:lifespan a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range rdfs:Literal .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Organism ;
+    rdfs:range xsd:string .
+
+kastle:reproduce a rdf:Property ;
+    rdfs:domain kastle:Life ;
+    rdfs:range xsd:boolean,
+        kastle:Life .
+

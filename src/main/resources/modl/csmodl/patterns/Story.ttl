@@ -1,0 +1,150 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Author a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Character a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Story .
+
+kastle:Genre a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Location a rdfs:Class .
+
+kastle:Person a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Plot a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Story .
+
+kastle:Setting a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Story .
+
+kastle:Story a rdfs:Class ;
+    rdfs:subClassOf kastle:Creativework,
+        kastle:Resource .
+
+kastle:Theme a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Story> a owl:Ontology ;
+    opla-core:hasPatternName "Story Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:author a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range xsd:string,
+        kastle:Person .
+
+kastle:character a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range xsd:string,
+        kastle:Character .
+
+kastle:characterName a rdf:Property ;
+    rdfs:domain kastle:Character ;
+    rdfs:range xsd:string .
+
+kastle:genre a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range xsd:string,
+        kastle:Genre .
+
+kastle:hasAuthor a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range xsd:string,
+        kastle:Author,
+        kastle:Person .
+
+kastle:hasCharacter a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range kastle:Character .
+
+kastle:hasCharacterName a rdf:Property ;
+    rdfs:domain kastle:Character ;
+    rdfs:range xsd:string .
+
+kastle:hasCharacters a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range kastle:Character .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range xsd:string .
+
+kastle:hasGenre a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range kastle:Genre .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Setting ;
+    rdfs:range xsd:string .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Author ;
+    rdfs:range xsd:string .
+
+kastle:hasPlot a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range xsd:string,
+        kastle:Plot .
+
+kastle:hasSetting a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range kastle:Location,
+        kastle:Setting .
+
+kastle:hasTheme a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range kastle:Theme .
+
+kastle:hasTitle a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Character ;
+    rdfs:range xsd:string .
+
+kastle:plot a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range xsd:string .
+
+kastle:publicationDate a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range xsd:date .
+
+kastle:publicationYear a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range kastle:Integer .
+
+kastle:role a rdf:Property ;
+    rdfs:domain kastle:Character ;
+    rdfs:range xsd:string .
+
+kastle:title a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range xsd:string .
+
+kastle:writtenBy a rdf:Property ;
+    rdfs:domain kastle:Story ;
+    rdfs:range kastle:Author .
+

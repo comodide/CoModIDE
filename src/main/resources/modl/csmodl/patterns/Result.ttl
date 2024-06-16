@@ -1,0 +1,172 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Action a rdfs:Class ;
+    rdfs:subClassOf kastle:Result .
+
+kastle:Activity a rdfs:Class .
+
+kastle:Agent a rdfs:Class .
+
+kastle:Course a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Event a rdfs:Class ;
+    rdfs:subClassOf kastle:Result .
+
+kastle:Experiment a rdfs:Class .
+
+kastle:Grade a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:N6575d1a5e5144dccb4939dfa85e606c9b1 a rdfs:Class .
+
+kastle:N6575d1a5e5144dccb4939dfa85e606c9b4 a rdfs:Class .
+
+kastle:Process a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Result a rdfs:Class ;
+    rdfs:subClassOf kastle:Eventoutcome,
+        kastle:N2aab17e7ce23426c91bcafb9bf128f85b1 .
+
+kastle:Student a rdfs:Class .
+
+kastle:Test a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Result> a owl:Ontology ;
+    opla-core:hasPatternName "Result Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:associatedWith a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range kastle:Resource .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:string,
+        kastle:Action,
+        kastle:Resource .
+
+kastle:causes a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range kastle:Result .
+
+kastle:hasComment a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:string .
+
+kastle:hasCourse a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range kastle:Course .
+
+kastle:hasDate a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:date .
+
+kastle:hasEndTime a rdf:Property ;
+    rdfs:domain kastle:Action ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasFinalOutcome a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:string .
+
+kastle:hasGrade a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:string,
+        kastle:Grade .
+
+kastle:hasOutcome a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:string .
+
+kastle:hasProcess a rdf:Property ;
+    rdfs:domain kastle:Agent ;
+    rdfs:range kastle:Process .
+
+kastle:hasResult a rdf:Property ;
+    rdfs:domain kastle:Action,
+        kastle:Activity,
+        kastle:Event,
+        kastle:Experiment,
+        kastle:N6575d1a5e5144dccb4939dfa85e606c9b1,
+        kastle:Process,
+        kastle:Test ;
+    rdfs:range kastle:Result .
+
+kastle:hasScore a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:float,
+        kastle:Integer .
+
+kastle:hasStartTime a rdf:Property ;
+    rdfs:domain kastle:Action ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasStudent a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range kastle:Student .
+
+kastle:hasSuccess a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:boolean .
+
+kastle:hasTime a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasTimestamp a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasUnit a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasValue a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:isResultOf a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:string,
+        kastle:N6575d1a5e5144dccb4939dfa85e606c9b4,
+        kastle:Process .
+
+kastle:isSuccess a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:boolean .
+
+kastle:outcome a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:string .
+
+kastle:score a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range kastle:Integer .
+
+kastle:timestamp a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range kastle:Datetime .
+
+kastle:wasGeneratedBy a rdf:Property ;
+    rdfs:domain kastle:Result ;
+    rdfs:range xsd:string .
+

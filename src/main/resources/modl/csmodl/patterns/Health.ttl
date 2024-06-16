@@ -1,0 +1,311 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Ailment a rdfs:Class .
+
+kastle:Diagnosis a rdfs:Class .
+
+kastle:DietRestriction a rdfs:Class .
+
+kastle:Disease a rdfs:Class ;
+    rdfs:subClassOf kastle:Health .
+
+kastle:Diseases a rdfs:Class ;
+    rdfs:subClassOf kastle:Health .
+
+kastle:Doctor a rdfs:Class .
+
+kastle:GymMembership a rdfs:Class .
+
+kastle:Health a rdfs:Class ;
+    rdfs:subClassOf kastle:Class .
+
+kastle:HealthCareProvider a rdfs:Class ;
+    rdfs:subClassOf kastle:Class .
+
+kastle:HealthCondition a rdfs:Class ;
+    rdfs:subClassOf kastle:Health .
+
+kastle:HealthRecord a rdfs:Class .
+
+kastle:Hospital a rdfs:Class .
+
+kastle:Illness a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:MedicalCondition a rdfs:Class .
+
+kastle:Medication a rdfs:Class .
+
+kastle:Medicine a rdfs:Class ;
+    rdfs:subClassOf kastle:Na6c8faa1793241568387aff63ac2d7b4b2 .
+
+kastle:MentalHealth a rdfs:Class ;
+    rdfs:subClassOf kastle:Health .
+
+kastle:MentalHealthStatus a rdfs:Class .
+
+kastle:Patient a rdfs:Class ;
+    rdfs:subClassOf kastle:Class,
+        kastle:Na6c8faa1793241568387aff63ac2d7b4b1 .
+
+kastle:Person a rdfs:Class .
+
+kastle:PhysicalHealth a rdfs:Class ;
+    rdfs:subClassOf kastle:Health .
+
+kastle:PhysicalHealthStatus a rdfs:Class .
+
+kastle:SideEffect a rdfs:Class .
+
+kastle:Symptom a rdfs:Class ;
+    rdfs:subClassOf kastle:Health .
+
+kastle:Treatment a rdfs:Class ;
+    rdfs:subClassOf kastle:Health .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Health> a owl:Ontology ;
+    opla-core:hasPatternName "Health Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:administersTreatment a rdf:Property ;
+    rdfs:domain kastle:Doctor ;
+    rdfs:range kastle:Treatment .
+
+kastle:admittedIn a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Hospital .
+
+kastle:diagnosedWith a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Disease .
+
+kastle:diagnoses a rdf:Property ;
+    rdfs:domain kastle:Doctor ;
+    rdfs:range kastle:Diseases .
+
+kastle:disease a rdf:Property ;
+    rdfs:domain kastle:Health ;
+    rdfs:range xsd:string .
+
+kastle:hasAge a rdf:Property ;
+    rdfs:domain kastle:Patient,
+        kastle:Person ;
+    rdfs:range kastle:Integer .
+
+kastle:hasAilment a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Ailment .
+
+kastle:hasCondition a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:HealthCondition,
+        kastle:MedicalCondition .
+
+kastle:hasDiagnosis a rdf:Property ;
+    rdfs:domain kastle:HealthRecord,
+        kastle:Patient ;
+    rdfs:range kastle:Diagnosis,
+        kastle:Disease .
+
+kastle:hasDietRestriction a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:DietRestriction .
+
+kastle:hasDisease a rdf:Property ;
+    rdfs:domain kastle:Patient,
+        kastle:Person ;
+    rdfs:range kastle:Disease,
+        kastle:Diseases .
+
+kastle:hasDoctor a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Doctor .
+
+kastle:hasGender a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:string .
+
+kastle:hasGymMembership a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:GymMembership .
+
+kastle:hasHealth a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Health .
+
+kastle:hasHealthRecord a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:HealthRecord .
+
+kastle:hasHealthStatus a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Health .
+
+kastle:hasHeight a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:float .
+
+kastle:hasIllness a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Illness .
+
+kastle:hasMedication a rdf:Property ;
+    rdfs:domain kastle:Health,
+        kastle:Treatment ;
+    rdfs:range kastle:Medication .
+
+kastle:hasMentalHealth a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:MentalHealth .
+
+kastle:hasMentalHealthStatus a rdf:Property ;
+    rdfs:domain kastle:Patient,
+        kastle:Person ;
+    rdfs:range kastle:MentalHealth,
+        kastle:MentalHealthStatus .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range xsd:string .
+
+kastle:hasPatient a rdf:Property ;
+    rdfs:domain kastle:Doctor ;
+    rdfs:range kastle:Patient .
+
+kastle:hasPhysicalHealth a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:PhysicalHealth .
+
+kastle:hasPhysicalHealthStatus a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:PhysicalHealth .
+
+kastle:hasPhysicalHeathStatus a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:PhysicalHealthStatus .
+
+kastle:hasSeverity a rdf:Property ;
+    rdfs:domain kastle:Symptom ;
+    rdfs:range xsd:string .
+
+kastle:hasSideEffect a rdf:Property ;
+    rdfs:domain kastle:Medication ;
+    rdfs:range kastle:SideEffect .
+
+kastle:hasSymptom a rdf:Property ;
+    rdfs:domain kastle:Disease ;
+    rdfs:range kastle:Symptom .
+
+kastle:hasTreatment a rdf:Property ;
+    rdfs:domain kastle:Ailment,
+        kastle:Disease ;
+    rdfs:range kastle:Treatment .
+
+kastle:hasWeight a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:float .
+
+kastle:includesMedication a rdf:Property ;
+    rdfs:domain kastle:Treatment ;
+    rdfs:range kastle:Medication .
+
+kastle:includesSymptom a rdf:Property ;
+    rdfs:domain kastle:Disease ;
+    rdfs:range kastle:Symptom .
+
+kastle:isDiagnosedWith a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Disease .
+
+kastle:isFollowingTreatment a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Treatment .
+
+kastle:isTreatedBy a rdf:Property ;
+    rdfs:domain kastle:Disease ;
+    rdfs:range kastle:Treatment .
+
+kastle:isTreatedWith a rdf:Property ;
+    rdfs:domain kastle:Disease ;
+    rdfs:range kastle:Treatment .
+
+kastle:manages a rdf:Property ;
+    rdfs:domain kastle:Doctor ;
+    rdfs:range kastle:Patient .
+
+kastle:medicationName a rdf:Property ;
+    rdfs:domain kastle:Medication ;
+    rdfs:range xsd:string .
+
+kastle:operatesIn a rdf:Property ;
+    rdfs:domain kastle:Doctor ;
+    rdfs:range kastle:Hospital .
+
+kastle:prescribedBy a rdf:Property ;
+    rdfs:domain kastle:Medicine ;
+    rdfs:range kastle:Doctor .
+
+kastle:prescribedFor a rdf:Property ;
+    rdfs:domain kastle:Medicine ;
+    rdfs:range kastle:Disease .
+
+kastle:prescribes a rdf:Property ;
+    rdfs:domain kastle:Doctor ;
+    rdfs:range kastle:Medication,
+        kastle:Treatment .
+
+kastle:prescribesMedication a rdf:Property ;
+    rdfs:domain kastle:Doctor ;
+    rdfs:range kastle:Medication .
+
+kastle:provides a rdf:Property ;
+    rdfs:domain kastle:HealthCareProvider ;
+    rdfs:range kastle:Health .
+
+kastle:receives a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Health,
+        kastle:Treatment .
+
+kastle:receivesTreatment a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Treatment .
+
+kastle:suffersFrom a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Disease .
+
+kastle:takesMedication a rdf:Property ;
+    rdfs:domain kastle:Patient ;
+    rdfs:range kastle:Medication .
+
+kastle:treatmentFor a rdf:Property ;
+    rdfs:domain kastle:Disease ;
+    rdfs:range kastle:Treatment .
+
+kastle:treats a rdf:Property ;
+    rdfs:domain kastle:Doctor ;
+    rdfs:range kastle:Patient .
+
+kastle:usedMedication a rdf:Property ;
+    rdfs:domain kastle:Treatment ;
+    rdfs:range kastle:Medication .
+
+kastle:worksAt a rdf:Property ;
+    rdfs:domain kastle:Doctor ;
+    rdfs:range kastle:Hospital .
+

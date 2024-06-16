@@ -1,0 +1,208 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Character a rdfs:Class ;
+    rdfs:subClassOf kastle:History .
+
+kastle:Class a rdfs:Class .
+
+kastle:Country a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Description a rdfs:Class .
+
+kastle:Era a rdfs:Class ;
+    rdfs:subClassOf kastle:History .
+
+kastle:Event a rdfs:Class ;
+    rdfs:subClassOf kastle:History,
+        kastle:Period .
+
+kastle:HistoricalArtifact a rdfs:Class .
+
+kastle:HistoricalEra a rdfs:Class .
+
+kastle:HistoricalEvent a rdfs:Class .
+
+kastle:HistoricalFigure a rdfs:Class ;
+    rdfs:subClassOf kastle:History .
+
+kastle:HistoricalPeriod a rdfs:Class .
+
+kastle:History a rdfs:Class .
+
+kastle:HistoryEvent a rdfs:Class .
+
+kastle:Location a rdfs:Class .
+
+kastle:Period a rdfs:Class ;
+    rdfs:subClassOf kastle:Era,
+        kastle:History .
+
+kastle:Person a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:TimePeriod a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/History> a owl:Ontology ;
+    opla-core:hasPatternName "History Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:HistoricalArtifact ;
+    rdfs:range kastle:HistoricalPeriod .
+
+kastle:belongsToEra a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Era .
+
+kastle:belongsToPeriod a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range kastle:Period .
+
+kastle:birthDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:content a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range xsd:string .
+
+kastle:date a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range xsd:date,
+        kastle:Datetime .
+
+kastle:deathDate a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range xsd:date .
+
+kastle:discovered a rdf:Property ;
+    rdfs:domain kastle:HistoricalFigure ;
+    rdfs:range kastle:HistoricalArtifact .
+
+kastle:hadParticipant a rdf:Property ;
+    rdfs:domain kastle:HistoryEvent ;
+    rdfs:range kastle:HistoricalFigure .
+
+kastle:hasCharacter a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range kastle:Character .
+
+kastle:hasDate a rdf:Property ;
+    rdfs:domain kastle:Event,
+        kastle:History,
+        kastle:HistoryEvent ;
+    rdfs:range rdfs:Literal,
+        xsd:date,
+        kastle:Datetime .
+
+kastle:hasDescription a rdf:Property ;
+    rdfs:domain kastle:History ;
+    rdfs:range xsd:string,
+        kastle:Description .
+
+kastle:hasEndDate a rdf:Property ;
+    rdfs:domain kastle:HistoricalPeriod ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasEvent a rdf:Property ;
+    rdfs:domain kastle:History ;
+    rdfs:range kastle:Event .
+
+kastle:hasHappenedIn a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range kastle:History .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Event,
+        kastle:History,
+        kastle:HistoryEvent ;
+    rdfs:range xsd:string,
+        kastle:Location,
+        kastle:Resource .
+
+kastle:hasName a rdf:Property ;
+    rdfs:domain kastle:Thing ;
+    rdfs:range xsd:string .
+
+kastle:hasPeriod a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range kastle:Period .
+
+kastle:hasStartDate a rdf:Property ;
+    rdfs:domain kastle:HistoricalPeriod ;
+    rdfs:range kastle:Datetime .
+
+kastle:heldIn a rdf:Property ;
+    rdfs:domain kastle:HistoricalEvent ;
+    rdfs:range kastle:Country .
+
+kastle:influentialPerson a rdf:Property ;
+    rdfs:domain kastle:Class ;
+    rdfs:range kastle:Person .
+
+kastle:involvedIn a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:HistoricalEvent .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range kastle:Period .
+
+kastle:livedDuring a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:TimePeriod .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:Event ;
+    rdfs:range xsd:string .
+
+kastle:name a rdf:Property ;
+    rdfs:domain kastle:Location ;
+    rdfs:range xsd:string .
+
+kastle:occurredAt a rdf:Property ;
+    rdfs:domain kastle:HistoricalEvent ;
+    rdfs:range kastle:HistoricalPeriod,
+        kastle:Location .
+
+kastle:occurredDuring a rdf:Property ;
+    rdfs:domain kastle:HistoricalEvent ;
+    rdfs:range kastle:TimePeriod .
+
+kastle:occurredIn a rdf:Property ;
+    rdfs:domain kastle:HistoryEvent ;
+    rdfs:range kastle:HistoricalEra .
+
+kastle:occursIn a rdf:Property ;
+    rdfs:domain kastle:Period ;
+    rdfs:range kastle:Era .
+
+kastle:participatedIn a rdf:Property ;
+    rdfs:domain kastle:HistoricalFigure,
+        kastle:Person ;
+    rdfs:range kastle:Event,
+        kastle:HistoricalEvent,
+        kastle:HistoryEvent .
+
+kastle:tookPlaceDuring a rdf:Property ;
+    rdfs:domain kastle:HistoricalEvent ;
+    rdfs:range kastle:HistoricalPeriod .
+

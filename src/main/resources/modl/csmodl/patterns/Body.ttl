@@ -1,0 +1,105 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:AnatomicalStructure a rdfs:Class .
+
+kastle:Arm a rdfs:Class ;
+    rdfs:subClassOf kastle:Body .
+
+kastle:Body a rdfs:Class ;
+    rdfs:subClassOf kastle:Anatomicalstructure,
+        kastle:Na17aa21561fa4878864ee13118c956b4b1,
+        kastle:Physicalentity,
+        kastle:Physicalobject .
+
+kastle:BodyPart a rdfs:Class ;
+    rdfs:subClassOf kastle:Body,
+        kastle:Humanbody,
+        kastle:Na17aa21561fa4878864ee13118c956b4b2,
+        kastle:Physicalentity,
+        kastle:Physicalobject .
+
+kastle:Head a rdfs:Class ;
+    rdfs:subClassOf kastle:Body .
+
+kastle:Human a rdfs:Class .
+
+kastle:HumanBody a rdfs:Class .
+
+kastle:Leg a rdfs:Class ;
+    rdfs:subClassOf kastle:Body .
+
+kastle:Limbs a rdfs:Class ;
+    rdfs:subClassOf kastle:Body .
+
+kastle:Organ a rdfs:Class ;
+    rdfs:subClassOf kastle:Bodypart,
+        kastle:Humanbody .
+
+kastle:Resource a rdfs:Class .
+
+kastle:Torso a rdfs:Class ;
+    rdfs:subClassOf kastle:Body .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Body> a owl:Ontology ;
+    opla-core:hasPatternName "Body Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:hasArm a rdf:Property ;
+    rdfs:domain kastle:Body ;
+    rdfs:range kastle:Arm .
+
+kastle:hasBodyPart a rdf:Property ;
+    rdfs:domain kastle:Body,
+        kastle:Human,
+        kastle:HumanBody ;
+    rdfs:range kastle:Body,
+        kastle:BodyPart,
+        kastle:HumanBody .
+
+kastle:hasHead a rdf:Property ;
+    rdfs:domain kastle:Body ;
+    rdfs:range kastle:Head .
+
+kastle:hasLeg a rdf:Property ;
+    rdfs:domain kastle:Body ;
+    rdfs:range kastle:Leg .
+
+kastle:hasLimbs a rdf:Property ;
+    rdfs:domain kastle:Body ;
+    rdfs:range kastle:Limbs .
+
+kastle:hasOrgan a rdf:Property ;
+    rdfs:domain kastle:Body,
+        kastle:BodyPart,
+        kastle:HumanBody ;
+    rdfs:range kastle:Organ .
+
+kastle:hasPart a rdf:Property ;
+    rdfs:domain kastle:Body,
+        kastle:HumanBody ;
+    rdfs:range kastle:AnatomicalStructure,
+        kastle:Body,
+        kastle:BodyPart,
+        kastle:Resource .
+
+kastle:hasTorso a rdf:Property ;
+    rdfs:domain kastle:Body ;
+    rdfs:range kastle:Torso .
+
+kastle:isPartOf a rdf:Property ;
+    rdfs:domain kastle:BodyPart ;
+    rdfs:range kastle:Body .
+

@@ -1,0 +1,139 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:BodyType a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource .
+
+kastle:Car a rdfs:Class ;
+    rdfs:subClassOf kastle:Resource,
+        kastle:Vehicle .
+
+kastle:CarMake a rdfs:Class .
+
+kastle:CarModel a rdfs:Class .
+
+kastle:Engine a rdfs:Class .
+
+kastle:FuelType a rdfs:Class .
+
+kastle:Gyear a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Manufacturer a rdfs:Class .
+
+kastle:Model a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Car> a owl:Ontology ;
+    opla-core:hasPatternName "Car Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:bodyType a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range kastle:BodyType .
+
+kastle:color a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:engineType a rdf:Property ;
+    rdfs:domain kastle:Engine ;
+    rdfs:range xsd:string .
+
+kastle:fuelType a rdf:Property ;
+    rdfs:domain kastle:Engine ;
+    rdfs:range kastle:FuelType .
+
+kastle:hasBrand a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range xsd:string .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range xsd:string .
+
+kastle:hasEngine a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range kastle:Engine .
+
+kastle:hasEngineSize a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range xsd:float .
+
+kastle:hasMake a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range xsd:string,
+        kastle:CarMake .
+
+kastle:hasManufacturer a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range xsd:string,
+        kastle:Manufacturer .
+
+kastle:hasModel a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:CarModel,
+        kastle:Model .
+
+kastle:hasPrice a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range xsd:decimal .
+
+kastle:hasProductionYear a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range kastle:Integer .
+
+kastle:hasRegistrationYear a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range kastle:Integer .
+
+kastle:hasVIN a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range xsd:string .
+
+kastle:hasYear a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range xsd:date,
+        xsd:int,
+        xsd:string,
+        kastle:Integer .
+
+kastle:horsePower a rdf:Property ;
+    rdfs:domain kastle:Engine ;
+    rdfs:range kastle:Integer .
+
+kastle:make a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range rdfs:Literal .
+
+kastle:manufacturer a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range xsd:string,
+        kastle:Manufacturer .
+
+kastle:model a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:year a rdf:Property ;
+    rdfs:domain kastle:Car ;
+    rdfs:range rdfs:Literal,
+        kastle:Gyear,
+        kastle:Integer .
+

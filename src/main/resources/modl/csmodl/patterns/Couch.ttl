@@ -1,0 +1,202 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Color a rdfs:Class .
+
+kastle:Colortype a rdfs:Class ;
+    rdfs:subClassOf kastle:String .
+
+kastle:Couch a rdfs:Class ;
+    rdfs:subClassOf kastle:Furniture .
+
+kastle:Cushion a rdfs:Class .
+
+kastle:Dimension a rdfs:Class ;
+    rdfs:subClassOf kastle:Seq .
+
+kastle:Dimensions a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Manufacturer a rdfs:Class .
+
+kastle:Material a rdfs:Class ;
+    rdfs:subClassOf kastle:Couch .
+
+kastle:Materialtype a rdfs:Class ;
+    rdfs:subClassOf kastle:String .
+
+kastle:Nonnegativeinteger a rdfs:Class .
+
+kastle:Size a rdfs:Class .
+
+kastle:Style a rdfs:Class .
+
+kastle:Type a rdfs:Class ;
+    rdfs:subClassOf kastle:Couch .
+
+kastle:Upholstery a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Couch> a owl:Ontology ;
+    opla-core:hasPatternName "Couch Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:brand a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:string .
+
+kastle:color a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Colortype .
+
+kastle:colour a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:string .
+
+kastle:depth a rdf:Property ;
+    rdfs:domain kastle:Dimensions ;
+    rdfs:range xsd:decimal .
+
+kastle:dimensions a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range kastle:Dimensions .
+
+kastle:hasBrand a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasColor a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Color .
+
+kastle:hasCushion a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        kastle:Cushion .
+
+kastle:hasCushions a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:boolean,
+        kastle:Integer .
+
+kastle:hasDimension a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range kastle:Dimension .
+
+kastle:hasDimensions a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:string .
+
+kastle:hasManufacturer a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        kastle:Manufacturer .
+
+kastle:hasMaterial a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Material .
+
+kastle:hasPrice a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:decimal,
+        xsd:float .
+
+kastle:hasSeatDepth a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:float .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Size .
+
+kastle:hasStyle a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Style .
+
+kastle:hasType a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range kastle:Type .
+
+kastle:hasUpholstery a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        kastle:Upholstery .
+
+kastle:hasUpholsteryMaterial a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:string .
+
+kastle:height a rdf:Property ;
+    rdfs:domain kastle:Dimension,
+        kastle:Dimensions ;
+    rdfs:range xsd:decimal .
+
+kastle:isConvertible a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:boolean .
+
+kastle:isInLivingRoom a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:boolean .
+
+kastle:isUpholstered a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:boolean .
+
+kastle:length a rdf:Property ;
+    rdfs:domain kastle:Dimension ;
+    rdfs:range xsd:decimal .
+
+kastle:manufacturer a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:string .
+
+kastle:material a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Materialtype .
+
+kastle:model a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:string .
+
+kastle:size a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range rdfs:Literal,
+        xsd:decimal,
+        xsd:string,
+        kastle:Nonnegativeinteger .
+
+kastle:style a rdf:Property ;
+    rdfs:domain kastle:Couch ;
+    rdfs:range xsd:string .
+
+kastle:width a rdf:Property ;
+    rdfs:domain kastle:Dimension,
+        kastle:Dimensions ;
+    rdfs:range xsd:decimal .
+

@@ -1,0 +1,231 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Agent a rdfs:Class .
+
+kastle:AgentCausingChange a rdfs:Class .
+
+kastle:CausalEvent a rdfs:Class .
+
+kastle:Cause a rdfs:Class .
+
+kastle:Change a rdfs:Class ;
+    rdfs:subClassOf kastle:Process,
+        kastle:Resource .
+
+kastle:ChangeAgent a rdfs:Class .
+
+kastle:ChangeType a rdfs:Class .
+
+kastle:DateTime a rdfs:Class .
+
+kastle:Datetime a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Impact a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+kastle:State a rdfs:Class .
+
+kastle:Thing a rdfs:Class .
+
+kastle:Transition a rdfs:Class .
+
+kastle:TypeOfChange a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Change> a owl:Ontology ;
+    opla-core:hasPatternName "Change Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:affectsEntity a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Entity .
+
+kastle:causedBy a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Agent,
+        kastle:CausalEvent .
+
+kastle:causes a rdf:Property ;
+    rdfs:domain kastle:Change,
+        kastle:ChangeAgent ;
+    rdfs:range kastle:Change,
+        kastle:Transition .
+
+kastle:changeCausedBy a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Thing .
+
+kastle:changeIntensity a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range xsd:int .
+
+kastle:changeOccursIn a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Thing .
+
+kastle:effects a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Change .
+
+kastle:hasAffectedObject a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Resource .
+
+kastle:hasBeginState a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Resource .
+
+kastle:hasCause a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Cause .
+
+kastle:hasChange a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range kastle:Change .
+
+kastle:hasChangeAgent a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:ChangeAgent .
+
+kastle:hasChangeDate a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range xsd:date .
+
+kastle:hasChangeEnd a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:State .
+
+kastle:hasChangeEndState a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:State .
+
+kastle:hasChangeStart a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:State .
+
+kastle:hasChangeStartState a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:State .
+
+kastle:hasChangeType a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:ChangeType .
+
+kastle:hasContext a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Resource .
+
+kastle:hasEndState a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Resource .
+
+kastle:hasEndTime a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:DateTime,
+        kastle:Datetime .
+
+kastle:hasFinalValue a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range xsd:string .
+
+kastle:hasImpact a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Impact .
+
+kastle:hasInitialValue a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range xsd:string .
+
+kastle:hasInitiator a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Resource .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range xsd:string .
+
+kastle:hasNewState a rdf:Property ;
+    rdfs:domain kastle:Transition ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasOldState a rdf:Property ;
+    rdfs:domain kastle:Transition ;
+    rdfs:range rdfs:Literal .
+
+kastle:hasResult a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Resource .
+
+kastle:hasSource a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Entity .
+
+kastle:hasStartState a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Resource .
+
+kastle:hasStartTime a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:DateTime,
+        kastle:Datetime .
+
+kastle:hasTarget a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Entity .
+
+kastle:hasTime a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Datetime .
+
+kastle:hasTypeOfChange a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:TypeOfChange .
+
+kastle:isCausedBy a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:AgentCausingChange .
+
+kastle:isChangeOf a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Entity .
+
+kastle:isTriggeredBy a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Resource .
+
+kastle:leadsTo a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Change .
+
+kastle:occurrenceTime a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Datetime .
+
+kastle:occursAt a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Datetime,
+        kastle:Resource .
+
+kastle:resultsIn a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range kastle:Resource .
+
+kastle:type a rdf:Property ;
+    rdfs:domain kastle:Change ;
+    rdfs:range rdfs:Literal .
+

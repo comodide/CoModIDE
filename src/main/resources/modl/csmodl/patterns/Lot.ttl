@@ -1,0 +1,202 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix kastle: <https://kastle.cs.wright.edu/csmodl#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+kastle:Auction a rdfs:Class .
+
+kastle:Building a rdfs:Class .
+
+kastle:Entity a rdfs:Class .
+
+kastle:Integer a rdfs:Class .
+
+kastle:Lot a rdfs:Class ;
+    rdfs:subClassOf kastle:Property,
+        kastle:Resource .
+
+kastle:ParkingLot a rdfs:Class ;
+    rdfs:subClassOf kastle:Lot .
+
+kastle:Person a rdfs:Class .
+
+kastle:Resource a rdfs:Class .
+
+<https://archive.org/services/purl/domain/modular_ontology_design_library/Lot> a owl:Ontology ;
+    opla-core:hasPatternName "Lot Pattern"^^xsd:string ;
+    dc:contributor "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string ;
+    dc:creator "Andrew Eells"^^xsd:string,
+        "Brandon Dave"^^xsd:string,
+        "Dr. Cogan Shimizu"^^xsd:string,
+        "Dr. Pascal Hitzler"^^xsd:string .
+
+kastle:address a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range rdfs:Literal .
+
+kastle:area a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range rdfs:Literal,
+        xsd:decimal .
+
+kastle:belongsTo a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range kastle:Resource .
+
+kastle:hasAddress a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range rdfs:Literal,
+        xsd:string .
+
+kastle:hasArea a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:decimal .
+
+kastle:hasAuctionDate a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:date .
+
+kastle:hasBuilding a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:hasCapacity a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range kastle:Integer .
+
+kastle:hasCity a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:hasCountry a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:hasLocation a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:hasLot a rdf:Property ;
+    rdfs:domain kastle:Entity ;
+    rdfs:range kastle:Lot .
+
+kastle:hasLotNumber a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:hasOwner a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:hasParkingLot a rdf:Property ;
+    rdfs:domain kastle:Building ;
+    rdfs:range kastle:ParkingLot .
+
+kastle:hasPrice a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:decimal .
+
+kastle:hasSize a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:decimal,
+        xsd:float,
+        kastle:Integer .
+
+kastle:hasStartingPrice a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:decimal .
+
+kastle:hasStreetAddress a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:hasStructure a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range kastle:Resource .
+
+kastle:hasZipCode a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:id a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string,
+        kastle:Integer .
+
+kastle:identifier a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:isAvailable a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:boolean .
+
+kastle:isDeveloped a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:boolean .
+
+kastle:isForSale a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:boolean .
+
+kastle:isOnSale a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:boolean .
+
+kastle:isPartOfAuction a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range kastle:Auction .
+
+kastle:isRelatedTo a rdf:Property ;
+    rdfs:domain kastle:Person ;
+    rdfs:range kastle:Person .
+
+kastle:isVacant a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:boolean .
+
+kastle:location a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range rdfs:Literal,
+        xsd:string,
+        kastle:Resource .
+
+kastle:lotNumber a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range rdfs:Literal,
+        kastle:Integer .
+
+kastle:lotSize a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range rdfs:Literal .
+
+kastle:owner a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range rdfs:Literal,
+        kastle:Resource .
+
+kastle:owners a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:string .
+
+kastle:price a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:float .
+
+kastle:salePrice a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range xsd:decimal .
+
+kastle:size a rdf:Property ;
+    rdfs:domain kastle:Lot ;
+    rdfs:range rdfs:Literal,
+        xsd:decimal,
+        xsd:float,
+        kastle:Integer .
+
