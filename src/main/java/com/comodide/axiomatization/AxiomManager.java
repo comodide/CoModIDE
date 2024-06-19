@@ -140,8 +140,8 @@ public class AxiomManager
 	{
 		OWLAxiom axiom = createOWLAxAxiom(axiomType, edgeCell);
 
-		AddAxiom add = new AddAxiom(owlOntology, axiom);
-		this.modelManager.applyChange(add);
+		OWLOntologyChange addAxiom = new AddAxiom(owlOntology, axiom);
+		this.modelManager.applyChange(addAxiom);
 	}
 
 	public void addOWLAxAxiomtoBFO(OWLEntity source, OWLEntity target)
@@ -185,8 +185,8 @@ public class AxiomManager
 	{
 		OWLAxiom axiom = createOWLAxAxiom(axiomType, edgeCell);
 
-		RemoveAxiom add = new RemoveAxiom(owlOntology, axiom);
-		this.modelManager.applyChange(add);
+		OWLOntologyChange removeAxiom = new RemoveAxiom(owlOntology, axiom);
+		this.modelManager.applyChange(removeAxiom);
 	}
 
 	public void removeOWLAxAxiomtoBFO(OWLEntity source, OWLEntity target)
