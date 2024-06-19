@@ -114,18 +114,15 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		Set<EdgeCreationAxiom> selectedEdgeCreationAxioms = ComodideConfiguration.getSelectedEdgeCreationAxioms();
 		for (ComodideConfiguration.EdgeCreationAxiom eca: ComodideConfiguration.EdgeCreationAxiom.values()) {
 			JCheckBox box = new JCheckBox(eca.toString(),selectedEdgeCreationAxioms.contains(eca));
-			box.addItemListener(new ItemListener() {
-				@Override
-				public void itemStateChanged(ItemEvent itemEvent) {
-					int state = itemEvent.getStateChange();
-					if (state == ItemEvent.SELECTED) {
-						ComodideConfiguration.addSelectedEdgeCreationAxiom(eca);
-					}
-					else {
-						ComodideConfiguration.removeSelectedEdgeCreationAxiom(eca);
-					}
-				}
-			});
+			box.addItemListener(itemEvent -> {
+                int state = itemEvent.getStateChange();
+                if (state == ItemEvent.SELECTED) {
+                    ComodideConfiguration.addSelectedEdgeCreationAxiom(eca);
+                }
+                else {
+                    ComodideConfiguration.removeSelectedEdgeCreationAxiom(eca);
+                }
+            });
 			this.add(box);
 		}
 		

@@ -81,23 +81,12 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 			// Generate the Checkbox
 			JCheckBox jcb = new JCheckBox(axiomTypeString, false);
 			// Add the item listener to the checkbox
-			jcb.addItemListener(new ItemListener()
-			{
-				@Override
-				public void itemStateChanged(ItemEvent arg0)
-				{
-					boolean checked = arg0.getStateChange() == 1;
-
-					if (checked)
-					{
-						axiomManager.addOWLAxAxiom(axiomType, currentSelectedCell);
-					}
-					else // unchecked
-					{
-						axiomManager.removeOWLAxAxiom(axiomType, currentSelectedCell);
-					}
-				}
-			});
+			jcb.addItemListener(event -> {
+                if (event.getStateChange() == ItemEvent.SELECTED)
+                    axiomManager.addOWLAxAxiom(axiomType, currentSelectedCell);
+                else // unchecked
+                    axiomManager.removeOWLAxAxiom(axiomType, currentSelectedCell);
+            });
 			this.checkboxes.add(jcb);
 			this.edgeBox.add(jcb);
 		}
