@@ -149,11 +149,8 @@ public class OWLAxAxiomFactory
 		{
 			// A structural tautology has the form
 			// source subclassof min 0 property target
-			OWLObjectMinCardinality oomc  = this.owlDataFactory.getOWLObjectMinCardinality(0, propertyExpression,
-					targetExpression);
-			OWLSubClassOfAxiom      oscoa = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oomc);
-
-			owlaxAxiom = oscoa;
+			OWLObjectMinCardinality oomc = this.owlDataFactory.getOWLObjectMinCardinality(0, propertyExpression, targetExpression);
+            owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oomc);
 		}
 		else
 		{

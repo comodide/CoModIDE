@@ -1,5 +1,9 @@
 package com.comodide.axiomatization;
 
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
+
 public enum OWLAxAxiomType
 {
 	//@formatter:off
@@ -22,6 +26,12 @@ public enum OWLAxAxiomType
 	
 	private String axiomType;
 
+	private static Map<String, OWLAxAxiomType> axiomTypeMap = new HashMap<>();
+	static {
+		for (OWLAxAxiomType axiomType : values())
+			axiomTypeMap.put(axiomType.axiomType, axiomType);
+	}
+
 	OWLAxAxiomType(String axiomType)
 	{
 		this.axiomType = axiomType;
@@ -32,14 +42,11 @@ public enum OWLAxAxiomType
 		return this.axiomType;
 	}
 
-	public static OWLAxAxiomType fromString(String owlAxAxiomType)
+	public static OWLAxAxiomType fromString(@Nonnull String owlAxAxiomType)
 	{
-		for (OWLAxAxiomType oaat : OWLAxAxiomType.values())
-		{
-			if (oaat.getAxiomType().equalsIgnoreCase(owlAxAxiomType))
-				return oaat;
-		}
-
-		throw new IllegalArgumentException("The OWLAxAxiomType was not found: " + owlAxAxiomType);
+		OWLAxAxiomType correspondingAxiomType = axiomTypeMap.get(owlAxAxiomType);
+		if (correspondingAxiomType == null)
+			throw new IllegalArgumentException("The OWLAxAxiomType was not found: " + owlAxAxiomType);
+		return correspondingAxiomType;
 	}
 }
