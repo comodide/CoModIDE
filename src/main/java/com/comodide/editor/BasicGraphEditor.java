@@ -137,17 +137,10 @@ public class BasicGraphEditor extends JPanel
 		// Creates the library pane that contains the tabs with the palettes
 		libraryPane = new JTabbedPane();
 
-		// Creates the inner split pane that contains the library with the
-		// palettes and the graph outline on the left side of the window
-		JSplitPane inner = new JSplitPane(JSplitPane.VERTICAL_SPLIT, libraryPane, graphOutline);
-		inner.setDividerLocation(320);
-		inner.setResizeWeight(1);
-		inner.setDividerSize(6);
-		inner.setBorder(null);
 
-		// Creates the outer split pane that contains the inner split pane and
+		// Creates the outer split pane that contains the library pane and
 		// the graph component on the right side of the window
-		JSplitPane outer = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, inner, graphComponent);
+		JSplitPane outer = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, libraryPane, graphComponent);
 		outer.setOneTouchExpandable(true);
 		outer.setDividerLocation(230);
 		outer.setDividerSize(6);
