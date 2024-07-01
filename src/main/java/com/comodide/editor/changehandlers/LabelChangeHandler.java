@@ -3,6 +3,7 @@ package com.comodide.editor.changehandlers;
 import java.util.List;
 import java.util.Set;
 
+import com.comodide.ComodideConfiguration;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.entity.EntityCreationPreferences;
 import org.protege.editor.owl.model.find.OWLEntityFinder;
@@ -57,7 +58,7 @@ public class LabelChangeHandler
 		IRI newIRI = IRI.create(activeOntologyIri.toString() + entitySeparator + newLabel);
 		OWLEntityFinder finder = modelManager.getOWLEntityFinder();
 		Set<OWLEntity> existingEntitiesWithName = finder.getEntities(newIRI);
-		if (existingEntitiesWithName.size() > 0) {
+		if (!existingEntitiesWithName.isEmpty() && ComodideConfiguration.getUniquePropertiesChecked()) {
 			throw new NameClashException(String.format("[CoModIDE:LabelChangeHandler] An OWL entity with the identifier '%s' already exists; unable to add another one.", newLabel));
 		}
 		

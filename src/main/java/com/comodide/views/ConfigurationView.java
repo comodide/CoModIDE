@@ -178,11 +178,22 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 					"Telemetry acceptance", 
 					JOptionPane.YES_NO_OPTION, 
 					JOptionPane.QUESTION_MESSAGE);
-			boolean sendTelemetry = sendTelemetryResponse == JOptionPane.YES_OPTION ? true : false;
+			boolean sendTelemetry = sendTelemetryResponse == JOptionPane.YES_OPTION;
 			ComodideConfiguration.setTelemetryPreferenceChecked(true);
 			sendTelemetryButton.setSelected(sendTelemetry);
 			ComodideConfiguration.setSendTelemetry(sendTelemetry);
 		}
+
+		JLabel uniquePropertiesLabel = new JLabel("Property Uniqueness:");
+		uniquePropertiesLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		this.add(uniquePropertiesLabel);
+
+		JCheckBox uniquePropertiesButton = new JCheckBox("Allow Duplicate Properties (Experimental Feature)");
+		uniquePropertiesButton.setSelected(ComodideConfiguration.getUniquePropertiesChecked());
+		uniquePropertiesButton.addItemListener(e ->
+				ComodideConfiguration.setUniquePropertiesChecked(e.getStateChange() == ItemEvent.DESELECTED)
+        );
+		this.add(uniquePropertiesButton);
 		
 		log.info("Configuration view initialized");
 	}
