@@ -50,7 +50,7 @@ public class ComodideConfiguration {
 	private static final String DELETE_PROPERTY_DECLARATIONS_KEY = "delete_property_declarations";
 	private static final String SEND_TELEMETRY_KEY = "send_telemetry";
 	private static final String TELEMETRY_PREFERENCE_CHECKED_KEY = "telemetry_preference_checked";
-	private static final String UNIQUE_PROPERTIES_CHECKED_KEY = "unique_properties_checked";
+	private static final String DUPLICATE_PROPERTIES_CHECKED_KEY = "duplicate_properties_checked";
 	
 	// Preference manager and set of preferences for the CoModIDE plugin's instantiation configuration
 	private static final PreferencesManager PREFERENCES_MANAGER = PreferencesManager.getInstance();
@@ -158,14 +158,14 @@ public class ComodideConfiguration {
 	}
 
 	/**
-	 * Whether the user has opted in for the experimental unique properties feature
+	 * Whether the user has opted in for the experimental non-unique properties feature
 	 */
-	public static Boolean getUniquePropertiesChecked() {
-		return PREFERENCES.getBoolean(UNIQUE_PROPERTIES_CHECKED_KEY, false);
+	public static Boolean getDuplicatePropertiesChecked() {
+		return PREFERENCES.getBoolean(DUPLICATE_PROPERTIES_CHECKED_KEY, false);
 	}
 
-	public static void setUniquePropertiesChecked(Boolean value) {
-		PREFERENCES.putBoolean(UNIQUE_PROPERTIES_CHECKED_KEY, value);
+	public static void setDuplicatePropertiesChecked(Boolean value) {
+		PREFERENCES.putBoolean(DUPLICATE_PROPERTIES_CHECKED_KEY, value);
 	}
 
 }

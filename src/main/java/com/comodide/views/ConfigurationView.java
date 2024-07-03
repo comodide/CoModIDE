@@ -189,9 +189,9 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		this.add(uniquePropertiesLabel);
 
 		JCheckBox uniquePropertiesButton = new JCheckBox("Allow Duplicate Properties (Experimental Feature)");
-		uniquePropertiesButton.setSelected(ComodideConfiguration.getUniquePropertiesChecked());
+		uniquePropertiesButton.setSelected(ComodideConfiguration.getDuplicatePropertiesChecked());
 		uniquePropertiesButton.addItemListener(e ->
-				ComodideConfiguration.setUniquePropertiesChecked(e.getStateChange() == ItemEvent.DESELECTED)
+				ComodideConfiguration.setDuplicatePropertiesChecked(e.getStateChange() == ItemEvent.SELECTED)
         );
 		this.add(uniquePropertiesButton);
 		

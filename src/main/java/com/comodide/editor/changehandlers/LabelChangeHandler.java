@@ -51,16 +51,22 @@ public class LabelChangeHandler
 		if (!(cell instanceof ComodideCell)) {
 			throw new ComodideException(String.format("[CoModIDE:LabelChangeHandler] The non-CoModIDE cell '%s' was found on the schema diagram. This should never happen.", cell));
 		}
-		
-		// Ensure that the IRI created by this new label is in fact new
-		IRI activeOntologyIri = modelManager.getActiveOntology().getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
-		String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
-		IRI newIRI = IRI.create(activeOntologyIri.toString() + entitySeparator + newLabel);
-		OWLEntityFinder finder = modelManager.getOWLEntityFinder();
-		Set<OWLEntity> existingEntitiesWithName = finder.getEntities(newIRI);
-		if (!existingEntitiesWithName.isEmpty() && ComodideConfiguration.getUniquePropertiesChecked()) {
-			throw new NameClashException(String.format("[CoModIDE:LabelChangeHandler] An OWL entity with the identifier '%s' already exists; unable to add another one.", newLabel));
+
+		// Skip this check if duplicate properties are allowed
+		if (!ComodideConfiguration.getDuplicatePropertiesChecked()) {
+			log.info("[CoModIDE:LabelChangeHandler] Duplicate properties are not permitted.");
+			// Ensure that the IRI created by this new label is in fact new
+			IRI activeOntologyIri = modelManager.getActiveOntology().getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());
+			String entitySeparator = EntityCreationPreferences.getDefaultSeparator();
+			IRI newIRI = IRI.create(activeOntologyIri.toString() + entitySeparator + newLabel);
+			OWLEntityFinder finder = modelManager.getOWLEntityFinder();
+			Set<OWLEntity> existingEntitiesWithName = finder.getEntities(newIRI);
+			if (!existingEntitiesWithName.isEmpty()) {
+				log.info("[CoModIDE:LabelChangeHandler] Duplicate property detected.");
+				throw new NameClashException(String.format("[CoModIDE:LabelChangeHandler] An OWL entity with the identifier '%s' already exists; unable to add another one.", newLabel));
+			}
 		}
+		else log.info("[CoModIDE:LabelChangeHandler] Duplicate properties are permitted.");
 		
 		if (cell.isEdge())
 		{
