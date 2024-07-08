@@ -25,7 +25,7 @@ import uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl;
 /**
  * This class provides static methods that map from OPLa-SD annotations to (x,y)
  * coordinate pairs, and vice versa.
- * 
+ *
  * @author Karl Hammar <karl@karlhammar.com>
  *
  */
@@ -33,7 +33,7 @@ public class PositioningOperations
 {
 	/** Logging */
 	private static final Logger log = LoggerFactory.getLogger(PositioningOperations.class);
-	
+
 	private static OWLDataFactory factory = new OWLDataFactoryImpl();
 
 	private static String                OPLA_SD_NAMESPACE = "http://ontologydesignpatterns.org/opla-sd#";
@@ -51,7 +51,7 @@ public class PositioningOperations
 	/**
 	 * Get the (x,y) coordinate pair from OPLa-SD annotations on an OWL Entity in a
 	 * given OWL ontology.
-	 * 
+	 *
 	 * @param entity   -- The OWL entity to get annotations on
 	 * @param ontology -- The OWL ontology in which the annotations are defined
 	 * @return A pair of Doubles representing (x,y) coordinates. If no coordinates
@@ -79,39 +79,65 @@ public class PositioningOperations
 		Collection<OWLAnnotation> positionAnnotations = EntitySearcher.getAnnotations(entity.getIRI(), ontology,
 				entityPosition);
 
+		// After retrieving position annotations...
+		log.debug(String.format("Found %d position annotations for entity '%s'", positionAnnotations.size(), entity.toString()));
+
 		for (OWLAnnotation positionAnnotation : positionAnnotations)
 		{
 			if (positionAnnotation.anonymousIndividualValue().isPresent())
 			{
 				OWLAnonymousIndividual positionIndividual = positionAnnotation.anonymousIndividualValue().get();
+
+				// When an anonymous individual is found...
+				log.debug(String.format("Found anonymous individual for entity '%s'", entity.toString()));
+
 				// We have found an entityPosition annotation pointing from our entity to an
 				// anonymous "wrapper" individual;
 				// now find the sought (x,y) coordinates as annotations on that wrapper
 				// individual
 				Collection<OWLAnnotation> positionXAnnotations = EntitySearcher.getAnnotations(positionIndividual,
 						ontology, entityPositionX);
+
+				// After retrieving X position annotations...
+				log.debug(String.format("Found %d X position annotations for anonymous individual of entity '%s'", positionXAnnotations.size(), entity.toString()));
+
 				for (OWLAnnotation positionXAnnotation : positionXAnnotations)
 				{
 					if (positionXAnnotation.annotationValue().asLiteral().isPresent()
 							&& positionXAnnotation.annotationValue().asLiteral().get().isDouble())
 					{
 						positionX = positionXAnnotation.annotationValue().asLiteral().get().parseDouble();
+
+						// When an X coordinate is found and set...
+						log.debug(String.format("Found X coordinate %s for entity '%s'", positionX.toString(), entity.toString()));
+
 						// One X coordinate per annotation is enough.
 						break;
 					}
 				}
 				Collection<OWLAnnotation> positionYAnnotations = EntitySearcher.getAnnotations(positionIndividual,
 						ontology, entityPositionY);
+
+				// After retrieving Y position annotations...
+				log.debug(String.format("Found %d Y position annotations for anonymous individual of entity '%s'", positionYAnnotations.size(), entity.toString()));
+
 				for (OWLAnnotation positionYAnnotation : positionYAnnotations)
 				{
 					if (positionYAnnotation.annotationValue().asLiteral().isPresent()
 							&& positionYAnnotation.annotationValue().asLiteral().get().isDouble())
 					{
 						positionY = positionYAnnotation.annotationValue().asLiteral().get().parseDouble();
+
+						//When a Y coordinate is found and set...
+						log.debug(String.format("Found Y coordinate %s for entity '%s'", positionY.toString(), entity.toString()));
+
 						// One Y coordinate per annotation is enough.
 						break;
 					}
 				}
+			}else {
+				// When no anonymous individual value is present...
+				log.debug(String.format("No anonymous individual value present for annotation of entity '%s'", entity.toString()));
 			}
 		}
 		log.debug(String.format("Coordinates for entity '%s': (%s,%s)", entity.toString(), positionX.toString(),
@@ -122,7 +148,7 @@ public class PositioningOperations
 	/**
 	 * Creates OPLa-SD positioning annotations, i.e., (x,y) on an OWL entity in an
 	 * OWL ontology (replacing any previous annotations in the process).
-	 * 
+	 *
 	 * @param entity   - The entity to annotate
 	 * @param ontology - The ontology holding the annotations
 	 * @param newX     - X coordinate of entity
@@ -176,8 +202,12 @@ public class PositioningOperations
 
 		// 4. Add the new axioms
 		manager.addAxioms(ontology, newAxioms);
+
+		// This print method is used to check weather Coordinates are updated when we move the entity on Protege.
+		// And Coordinates are updated.
+		System.out.println("entity Coordinate updated");
 	}
-	
+
 	private static double getRandomDoubleBetweenRange(double min, double max)
 	{
 		double x = (Math.random() * ((max - min) + 1)) + min;
