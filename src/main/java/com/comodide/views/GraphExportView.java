@@ -17,8 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 
-import org.apache.pdfbox.pdmodel.*;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 
 public class GraphExportView extends AbstractOWLViewComponent
