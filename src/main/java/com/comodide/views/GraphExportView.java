@@ -39,30 +39,6 @@ public class GraphExportView extends AbstractOWLViewComponent
             ImageIO.write(image, fileType, fileName);
 
     }
-    //method to export graph in pdf format
-    public static void exportToPdf(String outputFilepath, mxGraphComponent graphComponent) throws IOException
-    {
-
-        BufferedImage bufferedImage = mxCellRenderer.createBufferedImage
-                (graphComponent.getGraph(), null, 1, Color.WHITE, graphComponent.isAntiAlias(), null, graphComponent.getCanvas());
-
-        String tempFilepath="temp.png";
-        File fileName = new File(tempFilepath);
-        ImageIO.write(bufferedImage, "PNG", fileName);
-
-        PDDocument pdDocument = new PDDocument();
-        PDPage pdPage = new PDPage();
-        pdDocument.addPage(pdPage);
-        PDImageXObject pdImage = PDImageXObject.createFromFile(tempFilepath, pdDocument);
-
-        PDPageContentStream pdPageContentStream = new PDPageContentStream(pdDocument, pdPage);
-        pdPageContentStream.drawImage(pdImage, 50, 50);
-        pdPageContentStream.close();
-
-        pdDocument.save(outputFilepath);
-        pdDocument.close();
-
-    }
 
 
     //adding action listener to jpg export button for exporting graph to jpg format
@@ -116,32 +92,6 @@ public class GraphExportView extends AbstractOWLViewComponent
         }
     };
 
-    //adding action listener for pdf button
-    private  final ActionListener pdfButtonsListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JFileChooser jfc = new JFileChooser();
-            jfc.setDialogTitle("Save as pdf");
-            int userSelection = jfc.showSaveDialog(graphComponent);
-
-            if (userSelection == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = jfc.getSelectedFile();
-                String selectedFileAbsolutePath = (selectedFile.getAbsolutePath()).toLowerCase();
-
-                if (!selectedFileAbsolutePath.endsWith(".pdf")) {
-                    selectedFileAbsolutePath += "pdf";
-                }
-                try {
-                    exportToPdf(selectedFileAbsolutePath, graphComponent);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                JOptionPane.showMessageDialog(null, "Graph Exported Successfully", "Export Status", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-    };
-
-
 
     @Override
     protected void initialiseOWLView() throws Exception {
@@ -153,11 +103,10 @@ public class GraphExportView extends AbstractOWLViewComponent
 
         JButton jpgExportButton = new JButton("JPG");
         JButton pngExportButton = new JButton("PNG");
-        JButton pdfExportButton = new JButton("PDF");
+        JButton pdfExportButton = new JButton("PDF Button Under Construction");
 
         jpgExportButton.addActionListener(jpgButtonsListener);
         pngExportButton.addActionListener(pngButtonsListener);
-        pdfExportButton.addActionListener(pdfButtonsListener);
 
         this.add(jpgExportButton);
         this.add(pngExportButton);
