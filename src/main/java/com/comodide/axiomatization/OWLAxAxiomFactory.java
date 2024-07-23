@@ -136,17 +136,7 @@ public class OWLAxAxiomFactory
 
 			log.info("axiomType is "+axiomType);
 
-//			if (axiomType == OWLAxAxiomType.GLOBAL_DOMAIN) {
-//				// this is just regular domain TODO change this in the enum
-//				OWLDataSomeValuesFrom oosvfa =this.owlDataFactory.getOWLDataSomeValuesFrom(dataPropertyExpression,owlDatatype);
-//				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(oosvfa, sourceExpression);
-//				log.info("axiom is data property"+owlaxAxiom);
-//			} else if (axiomType == OWLAxAxiomType.SCOPED_DOMAIN) {
-//				OWLDataSomeValuesFrom oosvfa =this.owlDataFactory.getOWLDataSomeValuesFrom(dataPropertyExpression,owlDatatype);
-//				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(oosvfa, sourceExpression);
-//				log.info("axiom is data property"+owlaxAxiom);
-//			}
-		if (axiomType == OWLAxAxiomType.GLOBAL_RANGE) {
+		    if (axiomType == OWLAxAxiomType.GLOBAL_RANGE) {
 				OWLDataAllValuesFrom ooavf = this.owlDataFactory.getOWLDataAllValuesFrom(dataPropertyExpression,
 						owlDatatype);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, ooavf);
@@ -184,7 +174,12 @@ public class OWLAxAxiomFactory
 				owlaxAxiom = oscoa;
 			}
 			else {
-				log.error("[CoModIDE:OWLAxAxiomFactory] Unknown Axiom Type passed,please provide valid dataproperty type.");
+				//Considering GLOBAL_RANGE as default owlaxAxiom
+				OWLDataAllValuesFrom ooavf = this.owlDataFactory.getOWLDataAllValuesFrom(dataPropertyExpression,
+						owlDatatype);
+				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, ooavf);
+				log.error("[CoModIDE:OWLAxAxiomFactory] Unknown Axiom Type passed,please provide valid data property type.");
+			    log.error("Returning Default owlaxAxiom.");
 			}
 		}
 
