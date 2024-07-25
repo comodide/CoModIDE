@@ -1,7 +1,6 @@
 package com.comodide.views;
 
-import java.awt.Container;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -86,7 +85,18 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		namespaceGroup.add(keepPatternNamespaceButton);
 		keepPatternNamespaceButton.setSelected(!useTargetNamespaceButton.isSelected());
 		this.add(keepPatternNamespaceButton);
-		
+
+        JCheckBox useAndEditRDFSLableButton = new JCheckBox("Use and edit rdfs:lable");
+		useAndEditRDFSLableButton.setSelected(ComodideConfiguration.getSelectedRDFSLable());
+		useAndEditRDFSLableButton.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				boolean useAndEditRDFSLable = e.getStateChange() == ItemEvent.SELECTED;
+				ComodideConfiguration.getSelectedRDFSLable();
+			}
+		});
+		this.add(useAndEditRDFSLableButton);
+
 		JLabel moduleMetadataLabel = new JLabel("Module annotations placement:");
 		moduleMetadataLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 		this.add(moduleMetadataLabel);
