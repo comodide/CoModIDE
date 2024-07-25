@@ -86,7 +86,7 @@ public class ConfigurationView extends AbstractOWLViewComponent {
 		keepPatternNamespaceButton.setSelected(!useTargetNamespaceButton.isSelected());
 		this.add(keepPatternNamespaceButton);
 
-        JCheckBox useAndEditRDFSLableButton = new JCheckBox("Use and edit rdfs:lable");
+        JCheckBox useAndEditRDFSLableButton = new JCheckBox("Use and edit rdfs:label");
 		useAndEditRDFSLableButton.setSelected(ComodideConfiguration.getSelectedRDFSLable());
 		useAndEditRDFSLableButton.addItemListener(new ItemListener() {
 			@Override
