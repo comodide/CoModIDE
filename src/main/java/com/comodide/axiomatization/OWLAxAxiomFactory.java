@@ -52,68 +52,98 @@ public class OWLAxAxiomFactory
 		// To be returned
 		OWLAxiom owlaxAxiom=null ;
 
-		if(property.isOWLObjectProperty()) {
+		//Object Property check
+		if(property.isOWLObjectProperty())
+		{
 			propertyExpression = property.asOWLObjectProperty();
 			sourceExpression = source.asOWLClass();
 			targetExpression = target.asOWLClass();
-			if (axiomType == OWLAxAxiomType.GLOBAL_DOMAIN) {
+			if (axiomType == OWLAxAxiomType.GLOBAL_DOMAIN)
+			{
 				// this is just regular domain TODO change this in the enum
 				OWLObjectSomeValuesFrom oosvfa = this.owlDataFactory.getOWLObjectSomeValuesFrom(propertyExpression,
 						owlThing);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(oosvfa, sourceExpression);
-			} else if (axiomType == OWLAxAxiomType.SCOPED_DOMAIN) {
+			}
+			else if (axiomType == OWLAxAxiomType.SCOPED_DOMAIN)
+			{
 				OWLObjectSomeValuesFrom oosvf = this.owlDataFactory.getOWLObjectSomeValuesFrom(propertyExpression,
 						targetExpression);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(oosvf, sourceExpression);
-			} else if (axiomType == OWLAxAxiomType.GLOBAL_RANGE) {
+			}
+			else if (axiomType == OWLAxAxiomType.GLOBAL_RANGE)
+			{
 				OWLObjectAllValuesFrom ooavf = this.owlDataFactory.getOWLObjectAllValuesFrom(propertyExpression,
 						targetExpression);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, ooavf);
-			} else if (axiomType == OWLAxAxiomType.SCOPED_RANGE) {
+			}
+			else if (axiomType == OWLAxAxiomType.SCOPED_RANGE)
+			{
 				OWLObjectAllValuesFrom ooavf = this.owlDataFactory.getOWLObjectAllValuesFrom(propertyExpression,
 						targetExpression);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, ooavf);
-			} else if (axiomType == OWLAxAxiomType.EXISTENTIAL) {
+			}
+			else if (axiomType == OWLAxAxiomType.EXISTENTIAL)
+			{
 				OWLObjectSomeValuesFrom oosvf = this.owlDataFactory.getOWLObjectSomeValuesFrom(propertyExpression,
 						targetExpression);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oosvf);
-			} else if (axiomType == OWLAxAxiomType.INVERSE_EXISTENTIAL) {
+			}
+			else if (axiomType == OWLAxAxiomType.INVERSE_EXISTENTIAL)
+			{
 				OWLObjectPropertyExpression ope = this.owlDataFactory.getOWLObjectInverseOf(propertyExpression);
 				OWLObjectSomeValuesFrom oosvf = this.owlDataFactory.getOWLObjectSomeValuesFrom(ope, sourceExpression);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(targetExpression, oosvf);
-			} else if (axiomType == OWLAxAxiomType.FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.FUNCTIONAL_ROLE)
+			{
 				OWLObjectMaxCardinality oomc = this.owlDataFactory.getOWLObjectMaxCardinality(1, propertyExpression,
 						owlThing);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, oomc);
-			} else if (axiomType == OWLAxAxiomType.QUALIFIED_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.QUALIFIED_FUNCTIONAL_ROLE)
+			{
 				OWLObjectMaxCardinality oomc = this.owlDataFactory.getOWLObjectMaxCardinality(1, propertyExpression,
 						targetExpression);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, oomc);
-			} else if (axiomType == OWLAxAxiomType.SCOPED_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.SCOPED_FUNCTIONAL_ROLE)
+			{
 				OWLObjectMaxCardinality oomc = this.owlDataFactory.getOWLObjectMaxCardinality(1, propertyExpression,
 						owlThing);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oomc);
-			} else if (axiomType == OWLAxAxiomType.QUALIFIED_SCOPED_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.QUALIFIED_SCOPED_FUNCTIONAL_ROLE)
+			{
 				OWLObjectMaxCardinality oomc = this.owlDataFactory.getOWLObjectMaxCardinality(1, propertyExpression,
 						targetExpression);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oomc);
-			} else if (axiomType == OWLAxAxiomType.INVERSE_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.INVERSE_FUNCTIONAL_ROLE)
+			{
 				OWLObjectPropertyExpression ope = this.owlDataFactory.getOWLObjectInverseOf(propertyExpression);
 				OWLObjectMaxCardinality oomc = this.owlDataFactory.getOWLObjectMaxCardinality(1, ope, owlThing);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, oomc);
-			} else if (axiomType == OWLAxAxiomType.INVERSE_QUALIFIED_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.INVERSE_QUALIFIED_FUNCTIONAL_ROLE)
+			{
 				OWLObjectPropertyExpression ope = this.owlDataFactory.getOWLObjectInverseOf(propertyExpression);
 				OWLObjectMaxCardinality oomc = this.owlDataFactory.getOWLObjectMaxCardinality(1, ope, targetExpression);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, oomc);
-			} else if (axiomType == OWLAxAxiomType.INVERSE_SCOPED_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.INVERSE_SCOPED_FUNCTIONAL_ROLE)
+			{
 				OWLObjectPropertyExpression ope = this.owlDataFactory.getOWLObjectInverseOf(propertyExpression);
 				OWLObjectMaxCardinality oomc = this.owlDataFactory.getOWLObjectMaxCardinality(1, ope, owlThing);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oomc);
-			} else if (axiomType == OWLAxAxiomType.INVERSE_QUALIFIED_SCOPED_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.INVERSE_QUALIFIED_SCOPED_FUNCTIONAL_ROLE)
+			{
 				OWLObjectPropertyExpression ope = this.owlDataFactory.getOWLObjectInverseOf(propertyExpression);
 				OWLObjectMaxCardinality oomc = this.owlDataFactory.getOWLObjectMaxCardinality(1, ope, targetExpression);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oomc);
-			} else if (axiomType == OWLAxAxiomType.STRUCTURAL_TAUTOLOGY) {
+			}
+			else if (axiomType == OWLAxAxiomType.STRUCTURAL_TAUTOLOGY) {
 				// A structural tautology has the form
 				// source subclassof min 0 property target
 				OWLObjectMinCardinality oomc = this.owlDataFactory.getOWLObjectMinCardinality(0, propertyExpression,
@@ -121,50 +151,64 @@ public class OWLAxAxiomFactory
 				OWLSubClassOfAxiom oscoa = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oomc);
 
 				owlaxAxiom = oscoa;
-			} else {
+			}
+			else
+			{
 				log.error("[CoModIDE:OWLAxAxiomFactory] Unknown Axiom Type passed.");
 			}
 
 		}
 
 		//Data Property check
-		if(property.isOWLDataProperty()) {
+		if(property.isOWLDataProperty())
+		{
 			dataPropertyExpression = property.asOWLDataProperty();
-
 			sourceExpression = source.asOWLClass();
 			owlDatatype = target.asOWLDatatype();
-
-			log.info("axiomType is "+axiomType);
-
-		    if (axiomType == OWLAxAxiomType.GLOBAL_RANGE) {
+		    if (axiomType == OWLAxAxiomType.GLOBAL_RANGE)
+			{
 				OWLDataAllValuesFrom ooavf = this.owlDataFactory.getOWLDataAllValuesFrom(dataPropertyExpression,
 						owlDatatype);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, ooavf);
-			} else if (axiomType == OWLAxAxiomType.SCOPED_RANGE) {
+			}
+			else if (axiomType == OWLAxAxiomType.SCOPED_RANGE)
+			{
 				OWLDataAllValuesFrom ooavf = this.owlDataFactory.getOWLDataAllValuesFrom(dataPropertyExpression,
 						owlDatatype);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, ooavf);
-			} else if (axiomType == OWLAxAxiomType.EXISTENTIAL) {
+			}
+			else if (axiomType == OWLAxAxiomType.EXISTENTIAL)
+			{
 				OWLDataSomeValuesFrom oosvf = this.owlDataFactory.getOWLDataSomeValuesFrom(dataPropertyExpression,
 						owlDatatype);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oosvf);
-			} else if (axiomType == OWLAxAxiomType.FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.FUNCTIONAL_ROLE)
+			{
 				OWLDataMaxCardinality oomc = this.owlDataFactory.getOWLDataMaxCardinality(1, dataPropertyExpression,
 						owlDatatype);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, oomc);
-			} else if (axiomType == OWLAxAxiomType.QUALIFIED_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.QUALIFIED_FUNCTIONAL_ROLE)
+			{
 				OWLDataMaxCardinality oomc = this.owlDataFactory.getOWLDataMaxCardinality(1, dataPropertyExpression,
 						owlDatatype);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, oomc);
-			} else if (axiomType == OWLAxAxiomType.SCOPED_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.SCOPED_FUNCTIONAL_ROLE)
+			{
 				OWLDataMaxCardinality oomc = this.owlDataFactory.getOWLDataMaxCardinality(1, dataPropertyExpression,
 						owlDatatype);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oomc);
-			} else if (axiomType == OWLAxAxiomType.QUALIFIED_SCOPED_FUNCTIONAL_ROLE) {
+			}
+			else if (axiomType == OWLAxAxiomType.QUALIFIED_SCOPED_FUNCTIONAL_ROLE)
+			{
 				OWLDataMaxCardinality oomc = this.owlDataFactory.getOWLDataMaxCardinality(1, dataPropertyExpression,
 						owlDatatype);
 				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(sourceExpression, oomc);
-			}  else if (axiomType == OWLAxAxiomType.STRUCTURAL_TAUTOLOGY) {
+			}
+			else if (axiomType == OWLAxAxiomType.STRUCTURAL_TAUTOLOGY)
+			{
 				// A structural tautology has the form
 				// source subclassof min 0 property target
 				OWLDataMinCardinality oomc = this.owlDataFactory.getOWLDataMinCardinality(0, dataPropertyExpression,
@@ -173,17 +217,12 @@ public class OWLAxAxiomFactory
 
 				owlaxAxiom = oscoa;
 			}
-			else {
-				//Considering GLOBAL_RANGE as default owlaxAxiom
-				OWLDataAllValuesFrom ooavf = this.owlDataFactory.getOWLDataAllValuesFrom(dataPropertyExpression,
-						owlDatatype);
-				owlaxAxiom = this.owlDataFactory.getOWLSubClassOfAxiom(owlThing, ooavf);
-				log.error("[CoModIDE:OWLAxAxiomFactory] Unknown Axiom Type passed,please provide valid data property type.");
-			    log.error("Returning Default owlaxAxiom.");
+			else
+			{
+				log.error("[CoModIDE:OWLAxAxiomFactory] Unknown Axiom Type passed.");
+
 			}
 		}
-
-
 		// Finish
 		return owlaxAxiom;
 	}
