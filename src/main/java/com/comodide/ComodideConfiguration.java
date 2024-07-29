@@ -35,7 +35,7 @@ public class ComodideConfiguration {
 	    }
 	    
 	    public static List<String> getDefault() {
-	    	ArrayList<String> defaultSelection = new ArrayList<String>();
+	    	ArrayList<String> defaultSelection = new ArrayList<>();
 	    	defaultSelection.add("RDFS_DOMAIN_RANGE");
 	    	return defaultSelection;
 	    }
@@ -48,8 +48,9 @@ public class ComodideConfiguration {
 	private static final String USE_TARGET_NAMESPACE_KEY = "use_target_namespace";
 	private static final String MODULE_METADATA_EXTERNAL_KEY = "module_metadata_external";
 	private static final String DELETE_PROPERTY_DECLARATIONS_KEY = "delete_property_declarations";
-	private static final String SEND_TELEMETRY_KEY = "send_telemetry"; 
-	private static final String TELEMETRY_PREFERENCE_CHECKED_KEY = "telemetry_preference_checked"; 
+	private static final String SEND_TELEMETRY_KEY = "send_telemetry";
+	private static final String TELEMETRY_PREFERENCE_CHECKED_KEY = "telemetry_preference_checked";
+	private static final String DUPLICATE_PROPERTIES_CHECKED_KEY = "duplicate_properties_checked";
 	
 	// Preference manager and set of preferences for the CoModIDE plugin's instantiation configuration
 	private static final PreferencesManager PREFERENCES_MANAGER = PreferencesManager.getInstance();
@@ -155,4 +156,16 @@ public class ComodideConfiguration {
 	public static void setTelemetryPreferenceChecked(Boolean value) {
 		PREFERENCES.putBoolean(TELEMETRY_PREFERENCE_CHECKED_KEY, value);
 	}
+
+	/**
+	 * Whether the user has opted in for the experimental non-unique properties feature
+	 */
+	public static Boolean getDuplicatePropertiesChecked() {
+		return PREFERENCES.getBoolean(DUPLICATE_PROPERTIES_CHECKED_KEY, false);
+	}
+
+	public static void setDuplicatePropertiesChecked(Boolean value) {
+		PREFERENCES.putBoolean(DUPLICATE_PROPERTIES_CHECKED_KEY, value);
+	}
+
 }
