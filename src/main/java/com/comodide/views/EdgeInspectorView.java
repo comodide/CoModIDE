@@ -139,7 +139,7 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 				// Track the current selected cell
 				this.currentSelectedCell = (PropertyEdgeCell) payload;
 				// Change the title of the view
-				this.edgeLabel.setText(this.currentSelectedCell.getId());
+				this.edgeLabel.setText((String) this.currentSelectedCell.getValue());
 				// Bring up the axioms
 				this.changeVisibility("edge");
 				// Set dynamic checking for each checkbox
