@@ -1,7 +1,6 @@
 package com.comodide.views;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.swing.mxGraphComponent;
-import com.comodide.helper.GraphComponentHolder;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -24,14 +23,17 @@ import org.slf4j.LoggerFactory;
 public class GraphExportView extends AbstractOWLViewComponent
 {
     private static final Logger log              = LoggerFactory.getLogger(EdgeInspectorView.class);
-    //using singleton class instance to get graph component of BasicGraphEditor class
-    GraphComponentHolder obj=GraphComponentHolder.getInstance();
-    mxGraphComponent graphComponent=obj.getComponent();
+    private static mxGraphComponent graphComponent;
+
+    //public method to set value of private static member graphComponent
+    public static void setCurrentGraphComponent(mxGraphComponent component)
+    {
+        graphComponent=component;
+    }
 
     //method to export graph in jpg/png format
     public static void exportToFile(String outputFilepath,mxGraphComponent graphComponent,String fileType) throws IOException
     {
-
         BufferedImage image = mxCellRenderer.createBufferedImage
                 (graphComponent.getGraph(), null, 1, Color.WHITE, graphComponent.isAntiAlias(), null, graphComponent.getCanvas());
 
@@ -39,7 +41,6 @@ public class GraphExportView extends AbstractOWLViewComponent
         ImageIO.write(image, fileType, fileName);
 
     }
-
 
     //adding action listener to jpg export button for exporting graph to jpg format
     private  final ActionListener jpgButtonsListener = new ActionListener() {
