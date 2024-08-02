@@ -10,6 +10,7 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
+import com.comodide.views.GraphExportView;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDatatype;
@@ -113,9 +114,12 @@ public class ComodideEditor extends BasicGraphEditor
         xsdTypesPalette
 			.addTemplate("dateTime", new ImageIcon(ComodideEditor.class.getResource("/images/ellipse.png")), 
 					new DatatypeCell(xsdDateTime, 0.0, 0.0));
+
+        //setting the value CurrentGraphComponent which will then be used in exporting graph to png and jpg format
+        GraphExportView.setCurrentGraphComponent(graphComponent);
     }
 
-	/** For debugging purposes */
+    /** For debugging purposes */
     public static void main(String[] args)
     {
         try
