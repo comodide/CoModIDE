@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -11,6 +12,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,26 +136,59 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 			// And that it is named (i.e. we don't want to be 'inspecting'
 			// an edge that doesn't yet have a payload
 			if (payload instanceof PropertyEdgeCell && ((ComodideCell) payload).isNamed()) // || payload instanceof
-																						   // SubClassEdgeCell)
+			// SubClassEdgeCell)
 			{
 				// Track the current selected cell
 				this.currentSelectedCell = (PropertyEdgeCell) payload;
+				//get OWLEntity for currentSelectedCell
+				OWLEntity property = currentSelectedCell.getEntity();
 				// Change the title of the view
 				this.edgeLabel.setText((String) this.currentSelectedCell.getValue());
 				// Bring up the axioms
 				this.changeVisibility("edge");
 				// Set dynamic checking for each checkbox
-				for (JCheckBox jcb : this.checkboxes)
+				if(property.isOWLObjectProperty())
 				{
-					// Get axiom type string
-					String axiomTypeString = jcb.getText();
-					// Get axiom type from string
-					OWLAxAxiomType oaat = OWLAxAxiomType.fromString(axiomTypeString);
-					// Check if the axiom for the current checkbox and current selected cell exists
-					// in the ontology
-					boolean isAxiomPresent = this.axiomManager.matchOWLAxAxiomType(oaat, currentSelectedCell);
-					// set the checkbox
-					jcb.setSelected(isAxiomPresent);
+					for (JCheckBox jcb : this.checkboxes)
+					{
+						jcb.setVisible(true);
+						// Get axiom type string
+						String axiomTypeString = jcb.getText();
+						// Get axiom type from string
+						OWLAxAxiomType oaat = OWLAxAxiomType.fromString(axiomTypeString);
+						// Check if the axiom for the current checkbox and current selected cell exists
+						// in the ontology
+						boolean isAxiomPresent = this.axiomManager.matchOWLAxAxiomType(oaat, currentSelectedCell);
+						// set the checkbox
+						jcb.setSelected(isAxiomPresent);
+					}
+				}
+				else if(property.isOWLDataProperty())
+				{
+					for (JCheckBox jcb : this.checkboxes)
+					{
+						// Get axiom type from string
+						OWLAxAxiomType oaat=OWLAxAxiomType.fromString(jcb.getText());
+						//check for only valid data property axiomType
+						if((Arrays.toString(OWLAxAxiomType.getValidDataProperty())).contains(oaat.toString()))
+						{
+							// Check if the axiom for the current checkbox and current selected cell exists
+							// in the ontology
+							boolean isAxiomPresent = this.axiomManager.matchOWLAxAxiomType(oaat, currentSelectedCell);
+							// set the checkbox
+							jcb.setSelected(isAxiomPresent);
+						}
+						else
+						{
+							jcb.setVisible(false);
+						}
+
+					}
+
+				}
+				else
+				{
+					log.info("Invalid OWL Property");
 				}
 			}
 			else
