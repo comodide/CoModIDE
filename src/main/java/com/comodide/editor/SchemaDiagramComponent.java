@@ -29,7 +29,6 @@ public class SchemaDiagramComponent extends mxGraphComponent
 		super.setTransferHandler(new SDTransferHandler(modelManager));
 
 		// Sets switches typically used in an editor
-		setPageVisible(true);
 		setGridVisible(true);
 		setToolTips(true);
 		setEnterStopsCellEditing(true);

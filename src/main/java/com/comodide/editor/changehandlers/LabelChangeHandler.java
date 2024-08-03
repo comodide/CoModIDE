@@ -184,7 +184,10 @@ public class LabelChangeHandler
 			}
 			else {
 				// This is a creation operation -- pass it off to the axiom manager thing
-				return this.axiomManager.addNewClass(newLabel);
+				OWLEntity newEntity = this.axiomManager.addNewClass(newLabel);
+				OWLOntology activeOntology = modelManager.getActiveOntology();
+				PositioningOperations.updateXYCoordinateAnnotations(newEntity, activeOntology, classCell.getGeometry().getX(), classCell.getGeometry().getY());
+				return newEntity;
 			}
 		}
 		return null;
