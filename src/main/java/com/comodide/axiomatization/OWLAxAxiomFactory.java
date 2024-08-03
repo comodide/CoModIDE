@@ -60,11 +60,11 @@ public class OWLAxAxiomFactory
 	{
 		// Convert OWLEntities to Expressions (or thereabouts, technically the
 		// Expression is the super class of all three
-		OWLObjectPropertyExpression propertyExpression = null;
-		OWLClassExpression          sourceExpression    = null;
-		OWLClassExpression          targetExpression    = null;
-		OWLDataPropertyExpression dataPropertyExpression =null;
-		OWLDatatype owlDatatype =null;
+		OWLObjectPropertyExpression propertyExpression;
+		OWLClassExpression sourceExpression;
+		OWLClassExpression targetExpression;
+		OWLDataPropertyExpression dataPropertyExpression;
+		OWLDatatype owlDatatype;
 
 		// To be returned
 		OWLAxiom owlaxAxiom = null;
