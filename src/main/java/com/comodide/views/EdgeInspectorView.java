@@ -147,7 +147,7 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 				// Bring up the axioms
 				this.changeVisibility("edge");
 				// Set dynamic checking for each checkbox
-				if(property.isOWLObjectProperty())
+				if (property.isOWLObjectProperty())
 				{
 					for (JCheckBox jcb : this.checkboxes)
 					{
@@ -163,14 +163,14 @@ public class EdgeInspectorView extends AbstractOWLViewComponent implements Comod
 						jcb.setSelected(isAxiomPresent);
 					}
 				}
-				else if(property.isOWLDataProperty())
+				else if (property.isOWLDataProperty())
 				{
 					for (JCheckBox jcb : this.checkboxes)
 					{
 						// Get axiom type from string
 						OWLAxAxiomType oaat=OWLAxAxiomType.fromString(jcb.getText());
 						//check for only valid data property axiomType
-						if((Arrays.toString(OWLAxAxiomType.getValidDataProperty())).contains(oaat.toString()))
+						if((Arrays.toString(OWLAxAxiomType.getValidDataProperties())).contains(oaat.toString()))
 						{
 							// Check if the axiom for the current checkbox and current selected cell exists
 							// in the ontology
