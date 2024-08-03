@@ -23,19 +23,19 @@ public enum OWLAxAxiomType
 	//@formatter:on
 
 	private String axiomType;
-	private boolean ifObjectProperty;
-	private boolean ifDataProperty;
+	private boolean isObjectProperty;
+	private boolean isDataProperty;
 
 	OWLAxAxiomType(String axiomType)
 	{
 		this.axiomType = axiomType;
 	}
 
-	OWLAxAxiomType(String axiomType, boolean ifObjectProperty, boolean ifDataProperty)
+	OWLAxAxiomType(String axiomType, boolean isObjectProperty, boolean isDataProperty)
 	{
 		this.axiomType = axiomType;
-		this.ifObjectProperty=ifObjectProperty;
-		this.ifDataProperty=ifDataProperty;
+		this.isObjectProperty = isObjectProperty;
+		this.isDataProperty = isDataProperty;
 	}
 
 	public String getAxiomType()
@@ -43,20 +43,28 @@ public enum OWLAxAxiomType
 		return this.axiomType;
 	}
 
+	public boolean isObjectProperty() {
+		return isObjectProperty;
+	}
+
+	public boolean isDataProperty() {
+		return isDataProperty;
+	}
+
 	public static OWLAxAxiomType fromString(String owlAxAxiomType)
 	{
-		for (OWLAxAxiomType oaat : OWLAxAxiomType.values())
-		{
-			if (oaat.getAxiomType().equalsIgnoreCase(owlAxAxiomType))
-				return oaat;
-		}
+		for (OWLAxAxiomType axiomType : OWLAxAxiomType.values())
+			if (axiomType.getAxiomType().equalsIgnoreCase(owlAxAxiomType))
+				return axiomType;
 
 		throw new IllegalArgumentException("The OWLAxAxiomType was not found: " + owlAxAxiomType);
 	}
 
-	public static OWLAxAxiomType[] getValidDataProperty()
+	public static OWLAxAxiomType[] getValidDataProperties()
 	{
-		return Arrays.stream(values()).filter(owlAxAxiomType -> owlAxAxiomType.ifDataProperty).toArray(OWLAxAxiomType[]::new);
+		return Arrays.stream(values())
+				.filter(OWLAxAxiomType::isDataProperty)
+				.toArray(OWLAxAxiomType[]::new);
 
 	}
 }

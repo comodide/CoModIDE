@@ -49,8 +49,8 @@ public class OWLAxAxiomFactory
 		ComodideCell sourceCell = (ComodideCell) edgeCell.getSource();
 		ComodideCell targetCell = (ComodideCell) edgeCell.getTarget();
 		// Extract Entities
-		OWLEntity source   = sourceCell.getEntity();
-		OWLEntity target   = targetCell.getEntity();
+		OWLEntity source = sourceCell.getEntity();
+		OWLEntity target = targetCell.getEntity();
 		OWLEntity property = edgeCell.getEntity();
 		// Create Axiom For edge
 		return createAxiom(axiomType, source, property, target);
@@ -60,17 +60,17 @@ public class OWLAxAxiomFactory
 	{
 		// Convert OWLEntities to Expressions (or thereabouts, technically the
 		// Expression is the super class of all three
-		OWLObjectPropertyExpression propertyExpression = null;
-		OWLClassExpression          sourceExpression    = null;
-		OWLClassExpression          targetExpression    = null;
-		OWLDataPropertyExpression dataPropertyExpression =null;
-		OWLDatatype owlDatatype =null;
+		OWLObjectPropertyExpression propertyExpression;
+		OWLClassExpression sourceExpression;
+		OWLClassExpression targetExpression;
+		OWLDataPropertyExpression dataPropertyExpression;
+		OWLDatatype owlDatatype;
 
 		// To be returned
 		OWLAxiom owlaxAxiom = null;
 
 		//Object Property check
-		if(property.isOWLObjectProperty())
+		if (property.isOWLObjectProperty())
 		{
 			propertyExpression = property.asOWLObjectProperty();
 			sourceExpression = source.asOWLClass();
@@ -178,7 +178,7 @@ public class OWLAxAxiomFactory
 		}
 
 		//Data Property check
-		if(property.isOWLDataProperty())
+		if (property.isOWLDataProperty())
 		{
 			dataPropertyExpression = property.asOWLDataProperty();
 			sourceExpression = source.asOWLClass();
