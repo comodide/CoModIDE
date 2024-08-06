@@ -13,7 +13,8 @@ import org.protege.editor.core.prefs.PreferencesManager;
  * @author Karl Hammar <karl@karlhammar.com>
  */
 public class ComodideConfiguration {
-	
+
+
 	/**
 	 * Enumeration of the different types of ontology axioms that the user might want to create when drawing
 	 * a new edge between two nodes in the schema diagram. 
@@ -54,7 +55,13 @@ public class ComodideConfiguration {
 	// Preference manager and set of preferences for the CoModIDE plugin's instantiation configuration
 	private static final PreferencesManager PREFERENCES_MANAGER = PreferencesManager.getInstance();
 	private static final Preferences PREFERENCES = PREFERENCES_MANAGER.getPreferencesForSet(PREFERENCES_SET_ID, INSTANTIATION_PREFERENCES_KEY);
-	
+
+
+	public static boolean getSelectedRDFSLable() {
+
+        return false;
+    }
+
 	/**
 	 * A list of axioms that the user may want to create in the target ontology when drawing a new edge between 
 	 * two nodes in the schema diagram.
