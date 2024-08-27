@@ -1,0 +1,150 @@
+<h1 id="sec:2d">2d-easy-ai</h1>
+<figure id="fig:2d">
+<div class="center">
+<embed src="images/schema-diagrams/2d-elementary-pattern.pdf" />
+</div>
+<figcaption>Schema Diagram for the 2d-EASY-AI pattern. </figcaption>
+</figure>
+<h2 id="summary">Summary</h2>
+<p>Pattern 2d has a process-type transform-embed that accepts the
+InputRole of an artifact-type symbol and model-type semantic to produce
+an OutputRole of artifact-type data. <span id="sum:2d"
+label="sum:2d"></span></p>
+<h2 id="axs:2d">Axiomatization</h2>
+<p><span class="sans-serif">(Artifact or Model)</span>-<span
+class="sans-serif">performsInputRole</span>-<span
+class="sans-serif">InputRole</span>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">(𝖠𝗋𝗍𝗂𝖿𝖺𝖼𝗍 𝗈𝗋 𝖬𝗈𝖽𝖾𝗅)</mtext><mo>⊓</mo><mtext mathvariant="sans-serif">𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>⊥</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>⊤</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mo>∀</mo><mtext mathvariant="sans-serif">𝗉𝖾𝗋𝖿𝗈𝗋𝗆𝗌𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾.𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mo>∃</mo><msup><mtext mathvariant="sans-serif">𝗉𝖾𝗋𝖿𝗈𝗋𝗆𝗌𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext><mo>−</mo></msup><mtext mathvariant="sans-serif">.(𝖠𝗋𝗍𝗂𝖿𝖺𝖼𝗍 𝗈𝗋 𝖬𝗈𝖽𝖾𝗅)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">(𝖠𝗋𝗍𝗂𝖿𝖺𝖼𝗍 𝗈𝗋 𝖬𝗈𝖽𝖾𝗅)</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>≥</mi><mn>1</mn><mtext mathvariant="sans-serif">𝗉𝖾𝗋𝖿𝗈𝗋𝗆𝗌𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾.𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>≥</mi><mn>1</mn><msup><mtext mathvariant="sans-serif">𝗉𝖾𝗋𝖿𝗈𝗋𝗆𝗌𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext><mo>−</mo></msup><mtext mathvariant="sans-serif">.(𝖠𝗋𝗍𝗂𝖿𝖺𝖼𝗍 𝗈𝗋 𝖬𝗈𝖽𝖾𝗅)</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+% General 2, 5, 8, 12, 16
+\textsf{(Artifact or Model)} \sqcap \textsf{InputRole} &amp;\sqsubseteq~\bot \\ %2
+% Domain and Range Restrictions
+\textsf{$\top$} &amp;\sqsubseteq~\forall\textsf{performsInputRole.InputRole} \\ %5 
+% Existential
+\textsf{InputRole} &amp;\sqsubseteq~\exists\textsf{performsInputRole}^-\textsf{.(Artifact or Model)} \\ %8
+% Functionality
+\textsf{(Artifact or Model)} &amp;\sqsubseteq~\mathord{\geq}1\textsf{performsInputRole.InputRole} \\ %12
+% Inverses
+\textsf{InputRole} &amp;\sqsubseteq~\mathord{\geq}1\textsf{performsInputRole}^-\textsf{.(Artifact or Model)} %16
+\end{aligned}</annotation></semantics></math> <span
+class="sans-serif">Artifact</span>-<span
+class="sans-serif">performsOutputRole</span>-<span
+class="sans-serif">OutputRole</span>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖠𝗋𝗍𝗂𝖿𝖺𝖼𝗍</mtext><mo>⊓</mo><mtext mathvariant="sans-serif">𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>⊥</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>⊤</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mo>∀</mo><mtext mathvariant="sans-serif">𝗉𝖾𝗋𝖿𝗈𝗋𝗆𝗌𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾.𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mo>∃</mo><msup><mtext mathvariant="sans-serif">𝗉𝖾𝗋𝖿𝗈𝗋𝗆𝗌𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext><mo>−</mo></msup><mtext mathvariant="sans-serif">.𝖠𝗋𝗍𝗂𝖿𝖺𝖼𝗍</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖠𝗋𝗍𝗂𝖿𝖺𝖼𝗍</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>≥</mi><mn>1</mn><mtext mathvariant="sans-serif">𝗉𝖾𝗋𝖿𝗈𝗋𝗆𝗌𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾.𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>≥</mi><mn>1</mn><msup><mtext mathvariant="sans-serif">𝗉𝖾𝗋𝖿𝗈𝗋𝗆𝗌𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext><mo>−</mo></msup><mtext mathvariant="sans-serif">.𝖠𝗋𝗍𝗂𝖿𝖺𝖼𝗍</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+    % General 2, 5, 8, 12, 16
+    \textsf{Artifact} \sqcap \textsf{OutputRole} &amp;\sqsubseteq~\bot \\ %2
+    % Domain and Range Restrictions
+    \textsf{$\top$} &amp;\sqsubseteq~\forall\textsf{performsOutputRole.OutputRole} \\ %5 
+    % Existential
+    \textsf{OutputRole} &amp;\sqsubseteq~\exists\textsf{performsOutputRole}^-\textsf{.Artifact} \\ %8
+    % Functionality
+    \textsf{Artifact} &amp;\sqsubseteq~\mathord{\geq}1\textsf{performsOutputRole.OutputRole} \\ %12
+    % Inverses
+    \textsf{OutputRole} &amp;\sqsubseteq~\mathord{\geq}1\textsf{performsOutputRole}^-\textsf{.Artifact} %16
+\end{aligned}</annotation></semantics></math> <span
+class="sans-serif">Process</span>-<span
+class="sans-serif">accepts</span>-<span
+class="sans-serif">InputRole</span>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext><mo>⊓</mo><mtext mathvariant="sans-serif">𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>⊥</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mo>∃</mo><mrow><mtext mathvariant="sans-serif">𝖺𝖼𝖼𝖾𝗉𝗍𝗌.</mtext><mi>⊤</mi></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mo>∃</mo><mtext mathvariant="sans-serif">𝖺𝖼𝖼𝖾𝗉𝗍𝗌.𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>⊤</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mo>∀</mo><mtext mathvariant="sans-serif">𝖺𝖼𝖼𝖾𝗉𝗍𝗌.𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mo>∃</mo><mtext mathvariant="sans-serif">𝖺𝖼𝖼𝖾𝗉𝗍𝗌.𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>≥</mi><mspace width="0.222em"></mspace><mn>1</mn><mtext mathvariant="sans-serif">𝖺𝖼𝖼𝖾𝗉𝗍𝗌.𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖨𝗇𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>≥</mi><mn>1</mn><msup><mtext mathvariant="sans-serif">𝖺𝖼𝖼𝖾𝗉𝗍𝗌</mtext><mo>−</mo></msup><mtext mathvariant="sans-serif">.𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+    % General 2, 3, 4, 5, 7, 12, 16
+    \textsf{Process} \sqcap \textsf{InputRole} &amp;\sqsubseteq~\bot \\ %2
+    % Domain and Range Restrictions
+    \exists\textsf{accepts.$\top$} &amp;\sqsubseteq~\textsf{Process} \\ %3
+    \exists\textsf{accepts.InputRole} &amp;\sqsubseteq~\textsf{Process} \\ %4 
+    \textsf{$\top$} &amp;\sqsubseteq~\forall\textsf{accepts.InputRole} \\ %5
+    % Existential
+    \textsf{Process} &amp;\sqsubseteq~\exists\textsf{accepts.InputRole} \\ %7
+    % Functionality
+    \textsf{Process} &amp;\sqsubseteq~\mathord{\geq}~1\textsf{accepts.InputRole} \\ %12
+    % Inverses
+    \textsf{InputRole} &amp;\sqsubseteq~\mathord{\geq}1 \textsf{accepts}^-\textsf{.Process} %16
+\end{aligned}</annotation></semantics></math> <span
+class="sans-serif">Process</span>-<span
+class="sans-serif">produces</span>-<span
+class="sans-serif">OutputRole</span>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext><mo>⊓</mo><mtext mathvariant="sans-serif">𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>⊥</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mo>∃</mo><mrow><mtext mathvariant="sans-serif">𝗉𝗋𝗈𝖽𝗎𝖼𝖾𝗌.</mtext><mi>⊤</mi></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mo>∃</mo><mtext mathvariant="sans-serif">𝗉𝗋𝗈𝖽𝗎𝖼𝖾𝗌.𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>⊤</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mo>∀</mo><mtext mathvariant="sans-serif">𝗉𝗋𝗈𝖽𝗎𝖼𝖾𝗌.𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mo>∃</mo><mtext mathvariant="sans-serif">𝗉𝗋𝗈𝖽𝗎𝖼𝖾𝗌.𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>≥</mi><mn>1</mn><mtext mathvariant="sans-serif">𝗉𝗋𝗈𝖽𝗎𝖼𝖾𝗌.𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mtext mathvariant="sans-serif">𝖮𝗎𝗍𝗉𝗎𝗍𝖱𝗈𝗅𝖾</mtext></mtd><mtd columnalign="left" style="text-align: left"><mo>⊑</mo><mspace width="0.222em"></mspace><mi>≥</mi><mn>1</mn><msup><mtext mathvariant="sans-serif">𝗉𝗋𝗈𝖽𝗎𝖼𝖾𝗌</mtext><mo>−</mo></msup><mtext mathvariant="sans-serif">.𝖯𝗋𝗈𝖼𝖾𝗌𝗌</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+    % General 2, 3, 4, 5, 7, 12, 16
+    \textsf{Process} \sqcap \textsf{OutputRole} &amp;\sqsubseteq~\bot \\ %2
+    % Domain and Range Restrictions
+    \exists\textsf{produces.$\top$} &amp;\sqsubseteq~\textsf{Process} \\ %3
+    \exists\textsf{produces.OutputRole} &amp;\sqsubseteq~\textsf{Process} \\ %4 
+    \textsf{$\top$} &amp;\sqsubseteq~\forall\textsf{produces.OutputRole} \\ %5
+    % Existential
+    \textsf{Process} &amp;\sqsubseteq~\exists\textsf{produces.OutputRole} \\ %7
+    % Functionality
+    \textsf{Process} &amp;\sqsubseteq~\mathord{\geq}1\textsf{produces.OutputRole} \\ %12
+    % Inverses
+    \textsf{OutputRole} &amp;\sqsubseteq~\mathord{\geq}1\textsf{produces}^-\textsf{.Process} %16
+\end{aligned}</annotation></semantics></math></p>
+<h2 id="exp:2d">Explanations</h2>
+<ol>
+<li><p>Disjointness: <span class="sans-serif">(Artifact or Model)</span>
+is not <span class="sans-serif">InputRole</span>.</p></li>
+<li><p>Range: The range of <span
+class="sans-serif">performsInputRole</span> is <span
+class="sans-serif">InputRole</span>.</p></li>
+<li><p>Inverse Existential: For every <span
+class="sans-serif">InputRole</span>, there has to be an inverse
+R-Filler</p></li>
+<li><p>Qualified Scoped Functionality: For every <span
+class="sans-serif">(Artifact or Model)</span>, there is at most one
+R-filler in <span class="sans-serif">InputRole</span></p></li>
+<li><p>Inverse Qualified Scoped Functionality: for every <span
+class="sans-serif">InputRole</span>, there is at most one inverse
+R-filler in <span class="sans-serif">(Artifact or Model)</span></p></li>
+<li><p>Disjointness: <span class="sans-serif">Model</span> is not <span
+class="sans-serif">OutputRole</span>.</p></li>
+<li><p>Range: The range of <span
+class="sans-serif">performsOutputRole</span> is <span
+class="sans-serif">OutputRole</span>.</p></li>
+<li><p>Inverse Existential: For every <span
+class="sans-serif">OutputRole</span>, there has to be an inverse
+R-Filler</p></li>
+<li><p>Qualified Scoped Functionality: For every <span
+class="sans-serif">Model</span>, there is at most one R-filler in <span
+class="sans-serif">OutputRole</span></p></li>
+<li><p>Inverse Qualified Scoped Functionality: for every <span
+class="sans-serif">OutputRole</span>, there is at most one inverse
+R-filler in <span class="sans-serif">Model</span></p></li>
+<li><p>Disjoint: <span class="sans-serif">Process</span> is not <span
+class="sans-serif">InputRole</span></p></li>
+<li><p>Domain: Any value in <span class="sans-serif">Process</span> can
+be assigned to any variable with <span
+class="sans-serif">accepts</span></p></li>
+<li><p>Scoped Domain: The domain of <span
+class="sans-serif">accepts</span>, scoped by <span
+class="sans-serif">InputRole</span>, is <span
+class="sans-serif">Process</span></p></li>
+<li><p>Range: the range of <span class="sans-serif">accepts</span> is
+<span class="sans-serif">Process</span></p></li>
+<li><p>Existential: Every Instance of <span
+class="sans-serif">Process</span> must be related through the relation
+<span class="sans-serif">accepts</span> to some instance within class
+<span class="sans-serif">InputRole</span></p></li>
+<li><p>Qualified Scoped Domain: For every <span
+class="sans-serif">Process</span> there is at most one R-filler in <span
+class="sans-serif">InputRole</span></p></li>
+<li><p>Inverse Qualified Scoped Functionality: For every <span
+class="sans-serif">InputRole</span> there is at most one inverse
+R-filler in <span class="sans-serif">Process</span></p></li>
+<li><p>Disjoint: <span class="sans-serif">Process</span> is not <span
+class="sans-serif">OutputRole</span></p></li>
+<li><p>Domain: Any value in <span class="sans-serif">Process</span> can
+be assigned to any variable with <span
+class="sans-serif">produces</span></p></li>
+<li><p>Scoped Domain: The domain of <span
+class="sans-serif">produces</span>, scoped by <span
+class="sans-serif">OutputRole</span>, is <span
+class="sans-serif">Process</span></p></li>
+<li><p>Range: the range of <span class="sans-serif">produces</span> is
+<span class="sans-serif">Process</span></p></li>
+<li><p>Existential: Every Instance of <span
+class="sans-serif">Process</span> must be related through the relation
+<span class="sans-serif">produces</span> to some instance within class
+<span class="sans-serif">OutputRole</span></p></li>
+<li><p>Qualified Scoped Domain: For every <span
+class="sans-serif">Process</span> there is at most one R-filler in <span
+class="sans-serif">OutputRole</span></p></li>
+<li><p>Inverse Qualified Scoped Functionality: For every <span
+class="sans-serif">OutputRole</span> there is at most one inverse
+R-filler in <span class="sans-serif">Process</span></p></li>
+</ol>

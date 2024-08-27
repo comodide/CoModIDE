@@ -29,6 +29,7 @@ public class EditorKeyboardHandler extends mxKeyboardHandler
 	/**
 	 * Return minimal input map binding delete and backspace keys to ActionMapKey "delete".
 	 */
+	@Override
 	protected InputMap getInputMap(int condition)
 	{
 		InputMap map = null;
@@ -48,6 +49,7 @@ public class EditorKeyboardHandler extends mxKeyboardHandler
 	/**
 	 * Return minimal mapping between ActionMapKeys and actions.
 	 */
+	@Override
 	protected ActionMap createActionMap()
 	{
 		ActionMap map = (ActionMap) UIManager.get("ScrollPane.actionMap");
