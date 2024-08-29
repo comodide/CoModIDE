@@ -1,0 +1,165 @@
+@prefix : <https://kastle-lab.org/easyai/> .
+@prefix opla: <http://ontologydesignpatterns.org/opla#> .
+@prefix opla-core: <http://ontologydesignpatterns.org/opla-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+opla:categorization rdfs:domain opla:Pattern ;
+    rdfs:range opla:Category .
+
+opla:htmlDocumentation a owl:DatatypeProperty ;
+    rdfs:label "Owl HTML Documentation"@en ;
+    rdfs:domain opla:Pattern ;
+    rdfs:range xsd:string .
+
+opla:owlRepresentation a owl:DatatypeProperty ;
+    rdfs:label "Owl Representation"@en ;
+    rdfs:domain opla:Pattern ;
+    rdfs:range xsd:string .
+
+opla:renderedSchemaDiagram a owl:DatatypeProperty ;
+    rdfs:label "Rendered Schema Diagram"@en ;
+    rdfs:domain opla:Pattern ;
+    rdfs:range xsd:string .
+
+: a owl:Ontology ;
+    opla-core:hasPatternName "Easy-AI Modular Ontology Design Library" .
+
+:1a a opla:Pattern,
+        owl:NamedIndividual ;
+    rdfs:label "1a-easy-ai"@en ;
+    opla:htmlDocumentation """
+                <html>
+                <body>
+                <h3 class="sectionHead"><span class="titlemark">1
+                </span> <a id="x1-10001"></a>1a-easy-ai</h3>
+
+                <body/>
+                <html/>
+            """^^xsd:string ;
+    opla:owlRepresentation "schema/1a-easy-ai/1a-easy-ai-schema.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "/schema-diagrams/1a-elementary-pattern/1a-easy-ai-elementary-pattern.pdf"^^xsd:string .
+
+:1ab a opla:Pattern,
+        owl:NamedIndividual ;
+    rdfs:label "1ab-easy-ai"@en ;
+    opla:htmlDocumentation """
+                <html>
+                <body>
+                <h3 class="sectionHead"><span class="titlemark">2
+                </span> <a id="x1-10001"></a>1ab-easy-ai</h3>
+
+                <body/>
+                <html/>
+            """^^xsd:string ;
+    opla:owlRepresentation "schema/1ab-easy-ai/1ab-easy-ai-schema.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "/schema-diagrams/1ab-elementary-pattern/1ab-easy-ai-elementary-pattern.pdf"^^xsd:string .
+
+:1b a opla:Pattern,
+        owl:NamedIndividual ;
+    rdfs:label "1b-easy-ai"@en ;
+    opla:htmlDocumentation """
+                <html>
+                <body>
+                <h3 class="sectionHead"><span class="titlemark">3
+                </span> <a id="x1-10001"></a>1b-easy-ai</h3>
+
+                <body/>
+                <html/>
+            """^^xsd:string ;
+    opla:owlRepresentation "schema/1b-easy-ai/1b-easy-ai-schema.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "/schema-diagrams/1b-elementary-pattern/1b-easy-ai-elementary-pattern.pdf"^^xsd:string .
+
+:1c a opla:Pattern,
+        owl:NamedIndividual ;
+    rdfs:label "1c-easy-ai"@en ;
+    opla:htmlDocumentation """
+                <html>
+                <body>
+                <h3 class="sectionHead"><span class="titlemark">4
+                </span> <a id="x1-10001"></a>1c-easy-ai</h3>
+
+                <body/>
+                <html/>
+            """^^xsd:string ;
+    opla:owlRepresentation "schema/1c-easy-ai/1c-easy-ai-schema.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "/schema-diagrams/1c-elementary-pattern/1c-easy-ai-elementary-pattern.pdf"^^xsd:string .
+
+:1d a opla:Pattern,
+        owl:NamedIndividual ;
+    rdfs:label "1d-easy-ai"@en ;
+    opla:htmlDocumentation """
+                <html>
+                <body>
+                <h3 class="sectionHead"><span class="titlemark">5
+                </span> <a id="x1-10001"></a>1d-easy-ai</h3>
+
+                <body/>
+                <html/>
+            """^^xsd:string ;
+    opla:owlRepresentation "schema/1d-easy-ai/1d-easy-ai-schema.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "/schema-diagrams/1d-elementary-pattern/1d-easy-ai-elementary-pattern.pdf"^^xsd:string .
+
+:2a a opla:Pattern,
+        owl:NamedIndividual ;
+    rdfs:label "2a-easy-ai"@en ;
+    opla:htmlDocumentation """
+                <html>
+                <body>
+                <h3 class="sectionHead"><span class="titlemark">6
+                </span> <a id="x1-10001"></a>2a-easy-ai</h3>
+
+                <body/>
+                <html/>
+            """^^xsd:string ;
+    opla:owlRepresentation "schema/2a-easy-ai/2a-easy-ai-schema.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "/schema-diagrams/2a-elementary-pattern/2a-easy-ai-elementary-pattern.pdf"^^xsd:string .
+
+:2b a opla:Pattern,
+        owl:NamedIndividual ;
+    rdfs:label "2b-easy-ai"@en ;
+    opla:htmlDocumentation """
+                <html>
+                <body>
+                <h3 class="sectionHead"><span class="titlemark">7
+                </span> <a id="x1-10001"></a>2b-easy-ai</h3>
+
+                <body/>
+                <html/>
+            """^^xsd:string ;
+    opla:owlRepresentation "schema/2b-easy-ai/2b-easy-ai-schema.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "/schema-diagrams/2b-elementary-pattern/2b-easy-ai-elementary-pattern.pdf"^^xsd:string .
+
+:2c a opla:Pattern,
+        owl:NamedIndividual ;
+    rdfs:label "2c-easy-ai"@en ;
+    opla:htmlDocumentation """
+                <html>
+                <body>
+                <h3 class="sectionHead"><span class="titlemark">8
+                </span> <a id="x1-10001"></a>2c-easy-ai</h3>
+
+                <body/>
+                <html/>
+            """^^xsd:string ;
+    opla:owlRepresentation "schema/2c-easy-ai/2c-easy-ai-schema.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "/schema-diagrams/2c-elementary-pattern/2c-easy-ai-elementary-pattern.pdf"^^xsd:string .
+
+:2d a opla:Pattern,
+        owl:NamedIndividual ;
+    rdfs:label "2d-easy-ai"@en ;
+    opla:htmlDocumentation """
+                <html>
+                <body>
+                <h3 class="sectionHead"><span class="titlemark">9
+                </span> <a id="x1-10001"></a>2d-easy-ai</h3>
+
+                <body/>
+                <html/>
+            """^^xsd:string ;
+    opla:owlRepresentation "schema/2d-easy-ai/2d-easy-ai-schema.ttl"^^xsd:string ;
+    opla:renderedSchemaDiagram "/schema-diagrams/2d-elementary-pattern/2d-easy-ai-elementary-pattern.pdf"^^xsd:string .
+
+opla:Category a owl:Class .
+

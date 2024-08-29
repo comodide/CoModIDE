@@ -1,0 +1,342 @@
+@prefix : <https://kastle-lab.org/easy-ai2/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://kastle-lab.org/easy-ai2/> .
+
+<https://kastle-lab.org/easy-ai2> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://kastle-lab.org/easy-ai2/accepts
+:accepts rdf:type owl:ObjectProperty .
+
+
+###  https://kastle-lab.org/easy-ai2/implements
+:implements rdf:type owl:ObjectProperty .
+
+
+###  https://kastle-lab.org/easy-ai2/participatesInDataTransformation
+:participatesInDataTransformation rdf:type owl:ObjectProperty .
+
+
+###  https://kastle-lab.org/easy-ai2/participatesInProcess
+:participatesInProcess rdf:type owl:ObjectProperty .
+
+
+###  https://kastle-lab.org/easy-ai2/performsInputRole
+:performsInputRole rdf:type owl:ObjectProperty .
+
+
+###  https://kastle-lab.org/easy-ai2/performsOutputRole
+:performsOutputRole rdf:type owl:ObjectProperty .
+
+
+###  https://kastle-lab.org/easy-ai2/produces
+:produces rdf:type owl:ObjectProperty .
+
+
+###  https://kastle-lab.org/easy-ai2/providesRole
+:providesRole rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://kastle-lab.org/easy-ai2/Actor
+:Actor rdf:type owl:Class ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :performsInputRole ;
+                         owl:someValuesFrom :InputRole
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :participatesInProcess ;
+                         owl:allValuesFrom :Engineer
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :participatesInProcess ;
+                         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Engineer
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :performsInputRole ;
+                         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :InputRole
+                       ] .
+
+
+###  https://kastle-lab.org/easy-ai2/Artifact
+:Artifact rdf:type owl:Class ;
+          rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty :participatesInProcess ;
+                            owl:someValuesFrom :Deduction
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :participatesInProcess ;
+                            owl:someValuesFrom :Train
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :participatesInProcess ;
+                            owl:someValuesFrom :Transform
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :performsInputRole ;
+                            owl:someValuesFrom :InputRole
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :performsOutputRole ;
+                            owl:someValuesFrom :OutputRole
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :participatesInProcess ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :Deduction
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :participatesInProcess ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :Train
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :participatesInProcess ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :Transform
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :performsInputRole ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :InputRole
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :performsOutputRole ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :OutputRole
+                          ] .
+
+
+###  https://kastle-lab.org/easy-ai2/Data
+:Data rdf:type owl:Class ;
+      rdfs:subClassOf :Artifact .
+
+
+###  https://kastle-lab.org/easy-ai2/DataTransformation
+:DataTransformation rdf:type owl:Class ;
+                    rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                      owl:onProperty :implements ;
+                                      owl:someValuesFrom :Process
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :providesRole ;
+                                      owl:someValuesFrom :InputRole
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :providesRole ;
+                                      owl:someValuesFrom :OutputRole
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :implements ;
+                                      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :Process
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :providesRole ;
+                                      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :InputRole
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :providesRole ;
+                                      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :OutputRole
+                                    ] .
+
+
+###  https://kastle-lab.org/easy-ai2/Deduction
+:Deduction rdf:type owl:Class ;
+           rdfs:subClassOf :Infer ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :accepts ;
+                             owl:someValuesFrom :Artifact
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :accepts ;
+                             owl:someValuesFrom :Model
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :produces ;
+                             owl:someValuesFrom :Symbol
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :accepts ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass :Artifact
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :accepts ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass :Model
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :produces ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass :Symbol
+                           ] .
+
+
+###  https://kastle-lab.org/easy-ai2/Embed
+:Embed rdf:type owl:Class ;
+       rdfs:subClassOf :Transform ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :produces ;
+                         owl:allValuesFrom :Data
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :produces ;
+                         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Data
+                       ] .
+
+
+###  https://kastle-lab.org/easy-ai2/Engineer
+:Engineer rdf:type owl:Class ;
+          rdfs:subClassOf :Generate ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :accepts ;
+                            owl:allValuesFrom :Actor
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :accepts ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :Actor
+                          ] .
+
+
+###  https://kastle-lab.org/easy-ai2/Generate
+:Generate rdf:type owl:Class ;
+          rdfs:subClassOf :Process .
+
+
+###  https://kastle-lab.org/easy-ai2/Induction
+:Induction rdf:type owl:Class ;
+           rdfs:subClassOf :Infer .
+
+
+###  https://kastle-lab.org/easy-ai2/Infer
+:Infer rdf:type owl:Class ;
+       rdfs:subClassOf :Process .
+
+
+###  https://kastle-lab.org/easy-ai2/InputRole
+:InputRole rdf:type owl:Class .
+
+
+###  https://kastle-lab.org/easy-ai2/Model
+:Model rdf:type owl:Class ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :participatesInProcess ;
+                         owl:someValuesFrom :Deduction
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :participatesInProcess ;
+                         owl:someValuesFrom :Train
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :performsOutputRole ;
+                         owl:someValuesFrom :OutputRole
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :participatesInProcess ;
+                         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Deduction
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :participatesInProcess ;
+                         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Train
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :performsOutputRole ;
+                         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :OutputRole
+                       ] .
+
+
+###  https://kastle-lab.org/easy-ai2/OutputRole
+:OutputRole rdf:type owl:Class .
+
+
+###  https://kastle-lab.org/easy-ai2/Process
+:Process rdf:type owl:Class ;
+         rdfs:subClassOf :DataTransformation .
+
+
+###  https://kastle-lab.org/easy-ai2/SemanticModel
+:SemanticModel rdf:type owl:Class ;
+               rdfs:subClassOf :Model ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :participatesInProcess ;
+                                 owl:someValuesFrom :Deduction
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :participatesInProcess ;
+                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :Deduction
+                               ] .
+
+
+###  https://kastle-lab.org/easy-ai2/Symbol
+:Symbol rdf:type owl:Class ;
+        rdfs:subClassOf :Artifact ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :participatesInProcess ;
+                          owl:someValuesFrom :Embed
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :participatesInProcess ;
+                          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                          owl:onClass :Embed
+                        ] .
+
+
+###  https://kastle-lab.org/easy-ai2/Train
+:Train rdf:type owl:Class ;
+       rdfs:subClassOf :Generate ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :accepts ;
+                         owl:someValuesFrom :Artifact
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :produces ;
+                         owl:someValuesFrom :Model
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :accepts ;
+                         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Artifact
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :produces ;
+                         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Model
+                       ] .
+
+
+###  https://kastle-lab.org/easy-ai2/Transform
+:Transform rdf:type owl:Class ;
+           rdfs:subClassOf :Process ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :produces ;
+                             owl:allValuesFrom :Data
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :produces ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass :Data
+                           ] .
+
+
+###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
