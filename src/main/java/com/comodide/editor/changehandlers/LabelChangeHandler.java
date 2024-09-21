@@ -79,7 +79,7 @@ public class LabelChangeHandler
 				.create(activeOntologyIri.toString() + entitySeparator + newLabel);
 		OWLEntityFinder finder                   = modelManager.getOWLEntityFinder();
 		Set<OWLEntity>  existingEntitiesWithName = finder.getEntities(newIRI);
-		if (existingEntitiesWithName.size() > 0)
+		if (!existingEntitiesWithName.isEmpty())
 		{
 			throw new NameClashException(String.format(
 					"[CoModIDE:LabelChangeHandler] An OWL entity with the identifier '%s' already exists; unable to add another one.",

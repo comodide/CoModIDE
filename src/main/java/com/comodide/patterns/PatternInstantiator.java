@@ -132,7 +132,7 @@ public class PatternInstantiator
 		// 1. Create temporary manager, factory, and return value holder
 		OWLOntologyManager manager                = OWLManager.createOWLOntologyManager();
 		OWLDataFactory     factory                = manager.getOWLDataFactory();
-		Set<OWLAxiom>      moduleAnnotationAxioms = new HashSet<OWLAxiom>();
+		Set<OWLAxiom>      moduleAnnotationAxioms = new HashSet<>();
 
 		// 2. Get pattern IRI
 		IRI patternIRI = pattern.getOntologyID().getOntologyIRI().or(IRI.generateDocumentIRI());

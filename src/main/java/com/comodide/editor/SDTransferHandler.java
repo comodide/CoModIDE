@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.protege.editor.owl.model.OWLModelManager;
@@ -90,14 +90,13 @@ public class SDTransferHandler extends mxGraphTransferHandler
 	@Override
 	public boolean importData(JComponent c, Transferable t)
 	{
-		boolean result = false;
-
 		if (isLocalDrag())
 		{
 			// Enables visual feedback on the Mac
-			result = true;
+			return true;
 		}
-		else if (t.isDataFlavorSupported(PatternTransferable.dataFlavor))
+
+		if (t.isDataFlavorSupported(PatternTransferable.dataFlavor))
 		{
 			try
 			{
@@ -110,7 +109,7 @@ public class SDTransferHandler extends mxGraphTransferHandler
 				// Axioms should be sorted, i.e. declarations, then GCI, etc.
 				// This allows nodes to be rendered, then edges
 				// Sets are unordered, so create List first.
-				ArrayList<OWLAxiom> sortedInstantiationAxioms = new ArrayList<OWLAxiom>(instantiationAxioms);
+				ArrayList<OWLAxiom> sortedInstantiationAxioms = new ArrayList<>(instantiationAxioms);
 				Collections.sort(sortedInstantiationAxioms); // In place sorting using OWLAPI default comparators
 
 				// Clone pattern axioms into active ontology.
@@ -144,10 +143,11 @@ public class SDTransferHandler extends mxGraphTransferHandler
 					targetOntology = activeOntology;
 				}
 
+				List<OWLOntologyChange> newModularizationAxioms = new ArrayList<>();
 				// Add modularization axioms to target ontology
 				for (OWLAxiom modularizationAnnotationAxiom : modularizationAnnotationAxioms)
 				{
-					newAxioms.add(new AddAxiom(targetOntology, modularizationAnnotationAxiom));
+					newModularizationAxioms.add(new AddAxiom(targetOntology, modularizationAnnotationAxiom));
 
 					// This clause creates an Positioning Axiom for the newly created module
 					// This is done here because the newly created module does not exist in the
@@ -173,13 +173,21 @@ public class SDTransferHandler extends mxGraphTransferHandler
 				this.schemaDiagram.setAnnotationLock(true);
 				modelManager.applyChanges(newAxioms);
 				this.schemaDiagram.setAnnotationLock(false);
+
+				SwingUtilities.invokeLater(() -> {
+					this.schemaDiagram.setAnnotationLock(true);
+					modelManager.applyChanges(newModularizationAxioms);
+					this.schemaDiagram.setAnnotationLock(false);
+				});
+
 				TelemetryAgent.logPatternDrop();
-				result = true;
+				return true;
 			}
 			catch (Exception ex)
 			{
 				log.error("[CoModIDE:sdTransferHandler] Failed to import pattern.");
 				ex.printStackTrace();
+				return false;
 			}
 		}
 		else // (e.g. a cell)
@@ -199,7 +207,7 @@ public class SDTransferHandler extends mxGraphTransferHandler
 
 						if (gt.getCells() != null)
 						{
-							result = importGraphTransferable(graphComponent, gt);
+							return importGraphTransferable(graphComponent, gt);
 						}
 					}
 				}
@@ -207,10 +215,11 @@ public class SDTransferHandler extends mxGraphTransferHandler
 			catch (Exception ex)
 			{
 				log.warn("[CoModIDE:sdTransferHandler] Failed to import data", ex);
+				return true;
 			}
 		}
 
-		return result;
+		return false;
 	}
 
 	private Pair<Double, Double> getScaledDropLocation(mxGraphComponent graphComponent)
