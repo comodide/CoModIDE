@@ -87,8 +87,8 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
                 new String[]
                         {
                                 PatternLibrary.DEFAULT_LIBRARY_PATH,
-                                "modl/csmodl/csmodl.owl",
-                                "modl/easy-ai/easy-ai-index.ttl"
+                                "modls/csmodl/csmodl.owl",
+                                "modls/easy-ai/easy-ai-index.ttl"
                         }
         ) {
             private static final long serialVersionUID = 3692789082261972438L;

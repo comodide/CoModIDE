@@ -39,7 +39,7 @@ opla:renderedSchemaDiagram a owl:DatatypeProperty ;
             <body/>
             <html/>
         """^^xsd:string ;
-    opla:owlRepresentation "modl/csmodl/patterns/Air.ttl"^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Air.ttl"^^xsd:string ;
     opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Air.pdf"^^xsd:string .
 
 :Area a opla:Pattern,
@@ -54,7 +54,7 @@ opla:renderedSchemaDiagram a owl:DatatypeProperty ;
             <body/>
             <html/>
         """^^xsd:string ;
-    opla:owlRepresentation "modl/csmodl/patterns/Area.ttl"^^xsd:string ;
+    opla:owlRepresentation "csmodl/patterns/Area.ttl"^^xsd:string ;
     opla:renderedSchemaDiagram "csmodl/patterns/schema-diagrams/Area.pdf"^^xsd:string .
 
 :Art a opla:Pattern,

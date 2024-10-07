@@ -38,7 +38,7 @@ import javax.annotation.Nonnull;
 public class PatternLibrary {
 
 	// Constants
-	public static final String DEFAULT_LIBRARY_PATH = "modl/default/ModlIndex.owl";
+	public static final String DEFAULT_LIBRARY_PATH = "modls/modl/ModlIndex.owl";
 
 	// Infrastructure
     private static PatternLibrary instance;
@@ -120,7 +120,13 @@ public class PatternLibrary {
 						if (patternLabels.isEmpty() || owlRepresentations.isEmpty())
 							return;
 
-						Pattern newPattern = new Pattern(patternLabels.get(0), namedPattern.getIRI(), owlRepresentations.get(0));
+						Pattern newPattern = new Pattern(
+								patternLabels.get(0),
+								namedPattern.getIRI(),
+								// appends the parent directory path to each pattern representation.
+								// without this, the libraries can't be found or loaded.
+								"modls/" + owlRepresentations.get(0)
+						);
 
 						// The below fields are nice to have but not mandatory to be indexed.
 						getDataPropertyValues(namedPattern, schemaDiagram, index).stream()
@@ -188,6 +194,7 @@ public class PatternLibrary {
 	private List<String> getDataPropertyValues(OWLIndividual i, OWLDataProperty p, OWLOntology ontology) {
 		List<String> retVal = new ArrayList<>();
 		for(OWLLiteral literal: EntitySearcher.getDataPropertyValues(i, p, ontology)) {
+			// literal.getLiteral() sometimes includes modl/ and sometimes doesn't.
 			retVal.add(literal.getLiteral());
 		}
 		return retVal;
