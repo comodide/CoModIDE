@@ -11,6 +11,16 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -84,12 +94,7 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
         librarySelectorLabel.setAlignmentX(LEFT_ALIGNMENT);
         // This is a hack due to JComboBox misbehaving; see https://stackoverflow.com/questions/7581846/swing-boxlayout-problem-with-jcombobox-without-using-setxxxsize
         JComboBox<String> libraryList = new JComboBox<String>(
-                new String[]
-                        {
-                                PatternLibrary.DEFAULT_LIBRARY_PATH,
-                                "modl/csmodl/csmodl.owl",
-                                "modl/easy-ai/schema/easy-ai-index.ttl"
-                        }
+                gatherLibraryList()
         ) {
             private static final long serialVersionUID = 3692789082261972438L;
             @Override
@@ -164,6 +169,49 @@ public class PatternSelectorView extends AbstractOWLViewComponent {
 	protected void disposeOWLView() {
 		log.info("Pattern Selector view disposed");
 	}
+
+    private static String[] gatherLibraryList() {
+
+        // required in order to create the JarFile for the whole project
+        URL sourceJarURL = PatternSelectorView.class.getProtectionDomain().getCodeSource().getLocation();
+        if (sourceJarURL == null)
+            return null;
+
+        // This JarFile allows us to find the modls folder and get all the subfolders (libraries)
+        try (JarFile sourceJar = new JarFile(new File(sourceJarURL.toURI()))) {
+
+            // Convert the Enumeration into a List of just those entries with names that start with "modls/"
+            List<JarEntry> libraries = new ArrayList<>();
+            Enumeration<JarEntry> entries = sourceJar.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                if (entry.getName().startsWith("modls/"))
+                    libraries.add(entry);
+            }
+
+            return libraries.stream()
+                    .map(JarEntry::getName) // We are only interested in the names of the files
+                    // Only look at names with exactly two '/'s since those are modls/library-name/filename
+                    .filter(entry -> entry.chars().filter(c -> c == '/').count() == 2)
+                    .filter(entry -> entry.endsWith(".ttl") || entry.endsWith(".owl")) // Keep only possible index files
+                    .filter(entry -> {
+                        String name = entry.toLowerCase();
+                        // isolate the library name (between the slashes)
+                        String libraryName = name.substring(name.indexOf('/') + 1, name.lastIndexOf('/'));
+                        // get the potential index file name
+                        String fileName = name.substring(name.lastIndexOf('/') + 1);
+                        // return true if the file has the library name or "index" in it, else false
+                        return fileName.contains(libraryName) || fileName.contains("index");
+                    })
+                    .toArray(String[]::new);
+
+        } catch (IOException | URISyntaxException e) {
+            log.error("Error loading library list", e);
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 	
 	private static class InfoIcon implements Icon {
 
