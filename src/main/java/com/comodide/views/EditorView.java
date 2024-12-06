@@ -2,8 +2,11 @@ package com.comodide.views;
 
 import javax.swing.BoxLayout;
 
+import com.comodide.editor.model.ComodideCell;
+import com.mxgraph.view.mxGraph;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +41,32 @@ public class EditorView extends AbstractOWLViewComponent
 			SchemaDiagramComponent schemaDiagramComponent = new SchemaDiagramComponent(schemaDiagram, modelManager);
 			ComodideEditor         comodideEditor         = new ComodideEditor(schemaDiagramComponent);
 			this.add(comodideEditor);
+
+			// Listen for selection events from the other tabs in Protégé to also select cells in the editor
+			this.getOWLWorkspace().getOWLSelectionModel().addListener(() -> {
+
+				// The currently selected OWLEntity (like when the user selects an entity in Protégé)
+				OWLEntity selectedEntity = this.getOWLWorkspace().getOWLSelectionModel().getSelectedEntity();
+
+				// Get all the cells in the editor graph
+				mxGraph graph = schemaDiagramComponent.getGraph();
+				Object parent = graph.getDefaultParent();
+				Object[] cells = graph.getChildCells(parent);
+
+				// Search the graph cells to find the one corresponding to the selected entity
+                for (Object cell : cells) {
+					if (cell instanceof ComodideCell) {
+						ComodideCell comodideCell = (ComodideCell) cell;
+						// Check if the entity's cell is found
+						if (comodideCell.getEntity().equals(selectedEntity)) {
+							// Select the cell in the editor
+							schemaDiagramComponent.selectCellForEvent(cell, null);
+							return; // stop searching
+						}
+					}
+				}
+
+			});
 
 			// Finish and Log
 			log.info("[CoModIDE:RenderingView] Successfully initialized");

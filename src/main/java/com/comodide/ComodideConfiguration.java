@@ -19,7 +19,7 @@ public class ComodideConfiguration {
 	 * a new edge between two nodes in the schema diagram. 
 	 * @author Karl Hammar <karl@karlhammar.com>
 	 */
-	public static enum EdgeCreationAxiom {
+	public enum EdgeCreationAxiom {
 		RDFS_DOMAIN_RANGE("RDFS Domain/Range"),
 		SCOPED_RANGE("AllValuesFrom constraint"),
 		SCOPED_DOMAIN("SomeValuesFrom constraint");
